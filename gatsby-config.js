@@ -23,6 +23,14 @@ module.exports = {
     'gatsby-plugin-sharp',
     `gatsby-plugin-brotli`,
     `gatsby-plugin-preact`,
+  {
+    resolve: 'gatsby-plugin-react-svg',
+    options: {
+      rule: {
+        include: /\.inline\.svg$/
+      }
+    } 
+  },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
