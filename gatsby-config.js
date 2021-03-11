@@ -4,14 +4,15 @@ require('dotenv').config({
 
 module.exports = {
   siteMetadata: {
-    title:  'TITLE',
-    description: `DESCRIPTION`,
-    title_en:  'TITLE_EN',
-    title_da: 'TITLE_DA',
-    description_en: "DESCRIPTION_EN",
-    description_da: "DESCRIPTION_DA",
-    siteUrl: 'https://siteurl.com', //to be changed
+    title:  'A tribute to Bruce Willis',
+    description: `Celebrating one of Hollywood's Greatest Movie Stars`,
+    title_en:  'A tribute to Bruce Willis',
+    title_da: 'En hyldest til Bruce Willis',
+    description_en: "Celebrating one of Hollywood's Greatest Movie Stars",
+    description_dk: "Hylder en af ​​Hollywoods største filmstjerner",
+    siteUrl: 'https://bruce-willis.com', //to be changed
     author: 'Lars Ejaas',
+    logo: '/logo.png',
     right_en: 'All rights reserved Lars Ejaas. Please contact me directly to get my consent before using any content from this page',
     right_da: 'Alle rettigheder forbeholdes Lars Ejaas. Kontakt mig direkte for at få mit samtykke, inden du bruger indhold fra denne side',
   },
@@ -53,8 +54,8 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: 'NAME',
-        short_name: 'SHORTNAME',
+        name: 'Bruce Willis',
+        short_name: 'Bruce Willis',
         start_url: '/',
         background_color: '#272B35',
         theme_color: '#00d374',
