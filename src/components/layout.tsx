@@ -1,18 +1,10 @@
-/**
- * Layout component that queries for data
- * with Gatsby's useStaticQuery component
- *
- * See: https://www.gatsbyjs.com/docs/use-static-query/
- */
-
 import * as React from "react"
 import PropTypes from "prop-types"
-import styled, { createGlobalStyle } from 'styled-components'
+import "@fontsource/bowlby-one" 
+//import "fontsource-heebo/900-normal.css" 
+import { createGlobalStyle } from 'styled-components'
 import { useStaticQuery, graphql } from "gatsby"
-import useDeviceDetect from '../components/deviceDetect'
-
-import Header from "./main"
-//import "./layout.css"
+import { DeviceDetectHook } from '../components/deviceDetect'
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -21,6 +13,7 @@ const GlobalStyle = createGlobalStyle`
 
 :root {
   --background-color: #918373;
+  --icon-color1: #473F3D;
   --background-body: linear-gradient(0deg, #918373, #918373), 
                       linear-gradient(352.24deg, rgba(255, 255, 255, 0.2) 6.18%, 
                       rgba(0, 0, 0, 0) 94.71%), 
@@ -76,10 +69,18 @@ main {
     border-radius: 0;
   }
 
+a {
+  height: fit-content;
+  width: fit-content;
+  }
 `
 
-const Layout = ({ children }) => {
-  const { isMobile } = useDeviceDetect();
+type LayoutProps = {
+ mobile: 'mobile' | 'desktop';
+}
+
+const Layout = ({ children }:LayoutProps) => {
+  const isMobile = DeviceDetectHook();
   console.log(isMobile);
   const data = useStaticQuery(graphql`
     query SiteTitleQuery {
