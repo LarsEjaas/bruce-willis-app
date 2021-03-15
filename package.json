@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
-    "@fontsource/bowlby-one": "^4.2.2",
+    "@fontsource/passion-one": "^4.2.2",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.2",
     "@types/styled-components": "^5.1.8",

@@ -1,13 +1,13 @@
 import * as React from "react"
+import { ReactNode } from "react"
 import PropTypes from "prop-types"
 
 type ExternalLinkProps = {
   className: string; 
   href: string; 
   title: string; 
-  children: object;
+  children?: ReactNode;
 }
-
 
 const ExternalLink = ({ className, href, title, children }:ExternalLinkProps) => {
     return (

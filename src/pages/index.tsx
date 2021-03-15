@@ -1,25 +1,22 @@
 import * as React from "react"
-import { Link } from "gatsby"
-import { StaticImage } from "gatsby-plugin-image"
-import useDeviceDetect from '../components/deviceDetect'
-
+import { DeviceDetectHook } from '../components/deviceDetect'
 import Layout from "../components/layout"
 import { Main, MainMobile } from "../components/main"
-import SEO from "../components/seo"
 
-const IndexPage = () => {
-const { isMobile } = useDeviceDetect();
+const Index = () => {
+  const isMobile = DeviceDetectHook();
+  console.log(isMobile);
 
 return (
   <Layout>
     {isMobile==='mobile' &&
-    <MainMobile/>
+    <MainMobile isMobile={isMobile}/>
     }
     {isMobile==='desktop' &&
-    <Main/>
+    <Main isMobile={isMobile}/>
     }
   </Layout>
 )
 }
 
-export default IndexPage
+export default Index
