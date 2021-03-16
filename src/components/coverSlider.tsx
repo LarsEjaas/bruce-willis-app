@@ -7,6 +7,7 @@ interface SliderProps {
     left?: boolean;
     right?: boolean;
     isMobile?: "mobile" | "desktop" | undefined;
+    index: 1 | 2;
   }
 
 
@@ -32,11 +33,11 @@ to {
 }
 `;
 
-const Slider = styled.div<SliderProps>
-  `position: absolute;
+const Slider = styled.div<SliderProps>`
+   position: absolute;
    overflow: hidden;
    inset: 0;
-  & .sliderContainer {
+   .sliderContainer {
    transform: ${props => props.isMobile==="mobile" ? "rotate(9deg)" : "translateX(calc(8.33% * -1)) rotate(9deg)"};
    display: flex;
    flex-direction: column;
@@ -48,20 +49,25 @@ const Slider = styled.div<SliderProps>
    overflow: auto;
    overflow: -moz-scrollbars-none;
    -ms-overflow-style: none;
-   animation: ${props => props.isMobile==="mobile" ? css`${sliderFadeInMobile} 1s ease-out` : css`${sliderFadeIn} 1s ease-out`};
-  //  background-color: red;
+   }
+   .desktop.sliderContainer {
+   animation: ${sliderFadeIn} 1s ease-out;
    position:relative;
    }
-  & .sliderContainer::-webkit-scrollbar {
-    width: 0 !important;
-    display: none;
-    }
-   `
+   .mobile.sliderContainer.left {
+   animation: ${sliderFadeInMobile} 1s ease-out 0.2s;
+   animation-fill-mode: both;
+   position:relative;
+   }
+   .sliderContainer::-webkit-scrollbar {
+   width: 0 !important;
+   display: none;
+   }`
 
-const MovieCovers = ({ isMobile }:SliderProps) => {
+const MovieCovers = ({ isMobile, index }:SliderProps) => {
   return(
     <Slider isMobile={isMobile}>
-     <div className="sliderContainer">
+     <div className={index===1? `${isMobile} sliderContainer right` : `${isMobile} sliderContainer left`}>
        <Cover1 isMobile={isMobile}/>
        <Cover2 isMobile={isMobile}/>
        <Cover3 isMobile={isMobile}/>
@@ -77,11 +83,11 @@ interface CoverProps {
   isMobile: "mobile" | "desktop" | undefined;
   left?: boolean;
   right?: boolean;
-  active: boolean;
+  active?: boolean;
 }
 
-const CoverCard = styled.div<CoverProps>
-  `position: relative;
+const CoverCard = styled.div<CoverProps>`
+   position: relative;
    width:46.3%;
    height: 0;
    padding-top: 69.44%;

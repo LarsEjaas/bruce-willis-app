@@ -1,6 +1,6 @@
 import * as React from "react"
 import { useState } from "react"
-import styled, { keyframes } from 'styled-components'
+import styled, { keyframes, css } from 'styled-components'
 import { StaticImage } from "gatsby-plugin-image"
 import EjaasLogo from "../svg/ejaas_logo.inline.svg"
 import TMDBlogoVertical from "../svg/tmdb_logo_upright.inline.svg"
@@ -37,6 +37,17 @@ to {
 }
 `;
 
+const HeadlineslideIn = keyframes`
+from {
+  opacity: 0;
+  transform: translateX(-120px);
+}
+to {
+  opacity: 1;
+  transform: translateX(0);
+}
+`;
+
 const circleFadeIn = keyframes`
 from {
   opacity: 0;
@@ -52,6 +63,17 @@ const slideUp = keyframes`
 from {
   opacity: 0;
   transform: translateY(40px);
+}
+to {
+  opacity: 1;
+  transform: translateY(0);
+}
+`;
+
+const slideDown = keyframes`
+from {
+  opacity: 0;
+  transform: translateY(-40px);
 }
 to {
   opacity: 1;
@@ -78,8 +100,8 @@ to {
 }
 `;
 
-const Section = styled.section<SectionProps>
-  ` position: relative;
+const Section = styled.section<SectionProps>` 
+    position: relative;
     background: ${props => props.left ? "var(--background1)" : "var(--background2)"};
     border-radius: ${props => props.left ? "40px 0 0 40px" : "0 40px 40px 0"};
     height: ${props => props.isMobile==="mobile" ? "100vh" : "unset"};
@@ -93,90 +115,150 @@ const Section = styled.section<SectionProps>
       animation-fill-mode: both;
       border-radius: 0;
     }
-    & .BruceW {
+    .BruceW {
       z-index: 2;
       position: absolute;
-      top: ${props => props.isMobile==="mobile" ? "0" : "unset"};
-      bottom: ${props => props.isMobile==="mobile" ? "0" : "3%"};
-      left: 0; 
-      right: ${props => props.isMobile==="mobile" ? "0" : "unset"};
-      width: ${props => props.isMobile==="mobile" ? "90vw" : "103%"};
-      margin: ${props => props.isMobile==="mobile" ? "auto" : "unset"};
-      max-width: ${props => props.isMobile==="mobile" ? "549px" : "unset"};
-      max-height: ${props => props.isMobile==="mobile" ? "749px" : "unset"};
-      height: ${props => props.isMobile==="mobile" ? "127vw" : "unset"};
-      animation: ${fadeIn} 1.5s cubic-bezier(1, 0, 1, 1);
-      animation-fill-mode: both;
+      left: 0;
       }
-    & .EjaasLogo {
-      position: absolute;
-      z-index: 3;
-      bottom: ${props => props.isMobile==="mobile" ? "unset" : "24px"};
-      height: ${props => props.isMobile==="mobile" ? "43px" : "48px"};
-      right: 24px;
-      top: ${props => props.isMobile==="mobile" ? "24px" : "unset"};
-      animation: ${slideUp} 1s ease-out;
+      .BruceW.mobile {
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 90vW;
+      margin: auto;
+      max-width: 549px;
+      max-height: 749px;
+      height: 127vw;
       }
-    & SVG {
+      .BruceW.mobile.right {
+       animation: ${fadeIn} 0.8s cubic-bezier(1, 0, 1, 1) 0.4s;
+       animation-fill-mode: both; 
+      }
+      .BruceW.desktop {
+       bottom: 3%;
+       width: 103%;
+       animation: ${fadeIn} 1.5s cubic-bezier(1, 0, 1, 1);
+       animation-fill-mode: both; 
+      }
+     .grunge {
+        overflow:hidden;
+        position:absolute;
+        inset: 0;
+        border-radius: 0 40px 40px 0;
+        }
+      &.desktop .grunge {
+        animation: ${fadeIn} 1.5s cubic-bezier(1, 0, 1, 1);
+        }
+      &.mobile .grunge.left {
+        animation: ${fadeIn} 1.5s cubic-bezier(1, 0, 1, 1);
+        }
+     SVG {
        transition: all 0.2s ease-in-out;
       }
-    & SVG path {
+     SVG path {
       fill: var(--icon-color1);
       }
-    & SVG:hover path {
+     SVG:hover path {
       fill: var(--icon-hover-color1);
       }
-    & SVG:hover {
+     SVG:hover {
       transform: scale(1.1)
       }
-    & .grunge {
-      overflow:hidden;
-      position:absolute;
-      inset: 0;
-      border-radius: 0 40px 40px 0;
-      animation: ${fadeIn} 1.5s cubic-bezier(1, 0, 1, 1);;
-      }
       `
+  const StyledExternalLink = styled(ExternalLink)<SectionProps>`
+    &.EjaasLogo{
+    position: absolute;
+    z-index: 3;
+    bottom: ${props => props.isMobile==="mobile" ? "unset" : "24px"};
+    height: ${props => props.isMobile==="mobile" ? "43px" : "48px"};
+    right: 24px;
+    top: ${props => props.isMobile==="mobile" ? "24px" : "unset"};
+    }
+    &.desktop&.EjaasLogo&.left{
+    animation: ${slideUp} 1s ease-out;
+    }
+    &.mobile&.EjaasLogo&.right{
+    animation: ${slideDown} 1s ease-out 0.4s;
+    animation-fill-mode: both;
+    }
+    &.mobile&.TMDBlogo&.right{
+    animation: ${slideIn} 1s ease-out 0.6s; 
+    animation-fill-mode: both;
+    z-index: 3; 
+    top: 36px;
+    left: 24px;
+    position: absolute;
+    }
+    &.mobile&.TMDBlogo&.left{
+    z-index: 3; 
+    top: 36px;
+    left: 24px;
+    position: absolute;  
+    }
+    `
 
-  const Navigation = styled.nav<SectionProps> 
-      `z-index: 4;
+  const Navigation = styled.nav<SectionProps>`
+      z-index: 4;
       padding: 16px;
       position: absolute;
+      display: flex;
+      &.desktop{
+      animation: ${slideIn} 1s ease-out;
+      flex-direction: column;
       top: 16px;
       left: 0;
-      display: flex;
-      flex-direction: column;
-      animation: ${slideIn} 1s ease-out;
+      }
+      &.mobile.right{
+      animation: ${HeadlineslideIn} 1s ease-out 0.5s;
+      animation-fill-mode: both;
+      bottom: 13px;
+      left: 6vw;
+      }
+      &.mobile.left{
+      bottom: 13px;
+      left: 6vw;
+      }
       `
-  const Vertical = styled.h2
-      `margin: 8px 0;
-      writing-mode: vertical-rl;
+  const Vertical = styled.h2<SectionProps>`
       text-orientation: mixed;
-      transform: rotate(180deg);
       margin-block-start: 0;
       margin-block-end: 0;
       cursor: pointer;
+      &.desktop{
+      transform: rotate(180deg);
+      writing-mode: vertical-rl; 
+      margin: 8px 0;
+      }
+      &.mobile{
+      margin: 0 8px;
+      }
       & :hover {
         color: var(--icon-hover-color1);
         }
       `
        
-  const Headline = styled.h1<SectionProps>
-     `position: absolute;
+  const Headline = styled.h1<SectionProps>`
+      position: absolute;
       left: ${props => props.isMobile==="mobile" ? "10%" : "-48px"};  
       font-size: ${props => props.isMobile==="mobile" ? "88px" : "128px"};
       bottom: ${props => props.isMobile==="mobile" ? "72px" : "24px"}; 
       text-shadow: var(--text-shadow-primary);
       z-index: 3;
-      animation: ${slideIn} 1.5s ease-out;
+      &.desktop{
+      animation: ${HeadlineslideIn} 1.5s ease-out;
+      }
+      &.mobile&.right{
+      animation: ${HeadlineslideIn} 1.0s ease-out 0.7s;
+      animation-fill-mode: both;
+      }
       `
-      const CircleWrapper = styled.div
-     `overflow:hidden;
+      const CircleWrapper = styled.div`
+      overflow:hidden;
       position:absolute;
       inset: 0;
       `
-      const Circle1 = styled.div<SectionProps>
-     `height: 0;
+      const Circle1 = styled.div<SectionProps>`
+      height: 0;
       padding-top: ${props => props.isMobile==="mobile" ? "calc(280% - 12px)" : "calc(166% - 12px)"};
       border: 2px solid #ffffff1a;
       border-radius: 50%;
@@ -185,11 +267,17 @@ const Section = styled.section<SectionProps>
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
+      &.desktop{
       animation: ${circleFadeIn} 1s ease-out;
+      }
+      &.mobile&.right{
+      animation: ${circleFadeIn} 1s ease-out 0.3s;
+      animation-fill-mode: both;
+      }
       `
    
-      const Circle2 = styled.div<SectionProps>
-     `height: 0;
+      const Circle2 = styled.div<SectionProps>`
+      height: 0;
       padding-top: ${props => props.isMobile==="mobile" ? "calc(280% - 12px)" : "calc(166% - 12px)"};
       border: 2px solid #fff3;
       border-radius: 50%;
@@ -198,11 +286,17 @@ const Section = styled.section<SectionProps>
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
+      &.desktop{
       animation: ${circleFadeIn} 1s ease-out;
+      }
+      &.mobile&.left{
+      animation: ${circleFadeIn} 1s ease-out 0.3s;
+      animation-fill-mode: both;
+      }
       `
 
-      const Circle3 = styled.div<SectionProps>
-     `height: 0;
+      const Circle3 = styled.div<SectionProps>`
+      height: 0;
       padding-top: ${props => props.isMobile==="mobile" ? "calc(280% - 12px)" : "calc(200% - 12px)"};
       border: 3px solid #ffffff1a;
       border-radius: 50%;
@@ -211,11 +305,17 @@ const Section = styled.section<SectionProps>
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
+      &.desktop{
       animation: ${circleFadeIn} 1s ease-out;
+      }
+      &.mobile&.left{
+      animation: ${circleFadeIn} 1s ease-out 0.3s;
+      animation-fill-mode: both;
+      }
       `
 
-      const Circle4 = styled.div<SectionProps>
-     `height: 0;
+      const Circle4 = styled.div<SectionProps>`
+      height: 0;
       padding-top: ${props => props.isMobile==="mobile" ? "calc(280% - 12px)" : "calc(233% - 12px)"};
       border: 4px solid #ffffff0d;
       border-radius: 50%;
@@ -224,40 +324,45 @@ const Section = styled.section<SectionProps>
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
+      &.desktop{
       animation: ${circleFadeIn} 1s ease-out;
+      }
+      &.mobile&.left{
+      animation: ${circleFadeIn} 1s ease-out 0.3s;
+      animation-fill-mode: both;
+      }
       `
 
 const Section1 = ({ isMobile, index }:SectionProps) => (
   <Section left className={index===1? `${isMobile} right` : `${isMobile} left`}>
   {isMobile==="desktop" &&
-  <Navigation>
-    <ExternalLink className="TMDBlogo" href="https://www.themoviedb.org/" title="The Movie Database"><TMDBlogoVertical width="13"/></ExternalLink>
-    <Vertical>About</Vertical>
-    <Vertical>Credits</Vertical>
+  <Navigation className={index===1? "desktop right" : "desktop left"}>
+    <StyledExternalLink className="desktop TMDBlogo" href="https://www.themoviedb.org/" title="The Movie Database"><TMDBlogoVertical width="13"/></StyledExternalLink>
+    <Vertical className="desktop">About</Vertical>
+    <Vertical className="desktop">Credits</Vertical>
   </Navigation>
   }
   {isMobile==="mobile" &&
   <>
-  <ExternalLink className="TMDBlogo" href="https://www.themoviedb.org/" title="The Movie Database"><TMDBlogo height="13"/></ExternalLink>
-  <Navigation>
-    <Vertical>About</Vertical>
-    <Vertical>Credits</Vertical>
+  <StyledExternalLink className={index===1? "mobile TMDBlogo right" : "mobile TMDBlogo left"} href="https://www.themoviedb.org/" title="The Movie Database"><TMDBlogo height="16"/></StyledExternalLink>
+  <Navigation className={index===1? `mobile right` : `mobile left`}>
+    <Vertical className="mobile">About</Vertical>
+    <Vertical className="mobile">Credits</Vertical>
   </Navigation>
   </>
   }
-  <ExternalLink className="EjaasLogo" isMobile={isMobile} href="https://larsejaas.com/" title="Made by Lars Ejaas"><EjaasLogo width="64"/></ExternalLink>
+  <StyledExternalLink className={index===1? `${isMobile} EjaasLogo right` : `${isMobile} EjaasLogo left`} isMobile={isMobile} href="https://larsejaas.com/" title="Made by Lars Ejaas"><EjaasLogo width="64"/></StyledExternalLink>
   <StaticImage
-  className="BruceW"
-  isMobile={isMobile}
+  className={index===1? `BruceW ${isMobile} right` : `BruceW ${isMobile} left`}
   src="../images/Bruce_Willis.png"
   alt="portrait of Bruce Willis"
   loading="eager"
   placeholder="none"
   layout="constrained"
   />
-  <Headline isMobile={isMobile}>BRUCE<br/>WILLIS</Headline>
+  <Headline className={index===1? `${isMobile} right` : `${isMobile} left`} isMobile={isMobile}>BRUCE<br/>WILLIS</Headline>
   <CircleWrapper>
-     <Circle1 isMobile={isMobile}></Circle1>
+     <Circle1 isMobile={isMobile} className={index===1? `${isMobile} right` : `${isMobile} left`}></Circle1>
   </CircleWrapper>
   </Section> 
    )
@@ -265,8 +370,7 @@ const Section1 = ({ isMobile, index }:SectionProps) => (
 const Section2 = ({ isMobile, index }:SectionProps) => (
   <Section isMobile={isMobile} className={index===2? `${isMobile} left` : `${isMobile} right`}>
     <StaticImage 
-      className="grunge"
-      isMobile={isMobile}
+      className={index===1? "grunge right" : "grunge left"}
       src="../images/grunge-texture.png"
       alt="portrait of Bruce Willis"
       loading="eager"
@@ -274,11 +378,11 @@ const Section2 = ({ isMobile, index }:SectionProps) => (
       layout="constrained"
       />
      <CircleWrapper>
-        <Circle2></Circle2>
-        <Circle3></Circle3>
-        <Circle4></Circle4>
+        <Circle2 className={index===1? `${isMobile} right` : `${isMobile} left`}></Circle2>
+        <Circle3 className={index===1? `${isMobile} right` : `${isMobile} left`}></Circle3>
+        <Circle4 className={index===1? `${isMobile} right` : `${isMobile} left`}></Circle4>
      </CircleWrapper>
-     <MovieCovers/>
+     <MovieCovers index={index} isMobile={isMobile} />
   </Section> 
   )
 
