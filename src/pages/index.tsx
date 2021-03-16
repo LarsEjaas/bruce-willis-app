@@ -5,16 +5,10 @@ import { Main, MainMobile } from "../components/main"
 
 const Index = () => {
   const isMobile = DeviceDetectHook();
-  console.log(isMobile);
 
 return (
   <Layout>
-    {isMobile==='mobile' &&
-    <MainMobile isMobile={isMobile}/>
-    }
-    {isMobile==='desktop' &&
     <Main isMobile={isMobile}/>
-    }
   </Layout>
 )
 }

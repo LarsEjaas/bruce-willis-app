@@ -12,7 +12,9 @@ const GlobalStyle = createGlobalStyle`
 
 :root {
   --background-color: #918373;
+  --image-cover-color: #0807056b;
   --icon-color1: #473F3D;
+  --icon-hover-color1: #7c6f6c;
   --primary-font: #C0AA87;
   --background-body: linear-gradient(0deg, #918373, #918373), 
                       linear-gradient(352.24deg, rgba(255, 255, 255, 0.2) 6.18%, 
@@ -21,15 +23,25 @@ const GlobalStyle = createGlobalStyle`
                       radial-gradient(67.75% 67.75% at 47.57% 44.42%, rgba(255, 255, 255, 0.5) 0%, rgba(32, 21, 21, 0.6) 100%);
   --background1:      #080705;
   --background2:      linear-gradient(180deg, #48403E 0%, #2D2725 100%);
-  --box-shadow-primary: 0px 54px 55px 15px rgba(0, 0, 0, 0.25), 
-                        0px 4px 6px rgba(0, 0, 0, 0.12), 
-                        0px 12px 13px rgba(0, 0, 0, 0.17), 
-                        0px -3px 5px rgba(0, 0, 0, 0.09);
+  --box-shadow-primary: 0px 54px 40px rgba(0,0,0,0.35), 
+                        0px 12px 25px rgba(0,0,0,0.42), 
+                        0px 12px 32px rgba(0,0,0,0.25), 
+                        0px -11px 20px rgba(0,0,0,0.22);
   --text-shadow-primary: 0px 54px 55px rgba(0, 0, 0, 0.25), 
                         0px 4px 6px rgba(0, 0, 0, 0.12), 
                         0px 12px 13px rgba(0, 0, 0, 0.17), 
                         0px -3px 5px rgba(0, 0, 0, 0.09);
+  /* Hide scrollbar for Chrome, Safari and Opera */
+.example::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.example {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
   }
+}
 
 body {
   margin:0;
@@ -76,33 +88,28 @@ H2 {
   margin-block-end: 0.3em;
   }
 
-.vertical {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  transform: rotate(180deg);
-  margin-block-start: 0;
-  margin-block-end: 0;
-  }
-
 main {
   box-shadow: var(--box-shadow-primary);
   width: 100vw;
   height: 100vh;
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  display: inline-grid;
   }
   main.desktop{
     border-radius: 40px;
     max-height: 720px;
     max-width: 1080px;
-    display: inline-grid;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     grid-template-columns: 50% 50%;
     grid-template-rows: 100%;
   }
   main.mobile{
-    border-radius: 0;
+    width: 200vw;
+    grid-template-columns: 100vw 100vw;
+    left: 0;
+    top: 0;
   }
 
 a {
@@ -117,7 +124,6 @@ type LayoutProps = {
 
 const Layout = ({ children }:LayoutProps) => {
   const isMobile = DeviceDetectHook();
-  console.log(isMobile);
 
   return (
     <>

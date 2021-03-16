@@ -3,10 +3,11 @@ import { ReactNode } from "react"
 import PropTypes from "prop-types"
 
 type ExternalLinkProps = {
-  className: string; 
+  className?: string; 
   href: string; 
   title: string; 
   children?: ReactNode;
+  isMobile?: "mobile" | "desktop";
 }
 
 const ExternalLink = ({ className, href, title, children }:ExternalLinkProps) => {
