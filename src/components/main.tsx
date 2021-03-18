@@ -40,10 +40,12 @@ to {
 const HeadlineslideIn = keyframes`
 from {
   opacity: 0;
+  color: var(--primary-font);
   transform: translateX(-120px);
 }
 to {
   opacity: 1;
+  color: var(--primary-font-focused);
   transform: translateX(0);
 }
 `;
@@ -204,6 +206,7 @@ const Section = styled.section<SectionProps>`
       display: flex;
       &.desktop{
       animation: ${slideIn} 1s ease-out;
+      animation-fill-mode: both;
       flex-direction: column;
       top: 16px;
       left: 0;
@@ -246,6 +249,7 @@ const Section = styled.section<SectionProps>`
       z-index: 3;
       &.desktop{
       animation: ${HeadlineslideIn} 1.5s ease-out;
+      animation-fill-mode: both;
       }
       &.mobile&.right{
       animation: ${HeadlineslideIn} 1.0s ease-out 0.7s;

@@ -1,9 +1,9 @@
 import * as React from "react"
-import { ReactNode } from "react"
+import { ReactNode, createContext, useContext, useState } from "react"
 import "@fontsource/passion-one/700.css"
 import { createGlobalStyle } from 'styled-components'
 import { DeviceDetectHook } from '../components/deviceDetect'
-//import {} from 'styled-components/cssprop'
+import ModalContainer from './modal'
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -16,17 +16,25 @@ const GlobalStyle = createGlobalStyle`
   --icon-color1: #473F3D;
   --icon-hover-color1: #7c6f6c;
   --primary-font: #C0AA87;
-  --background-body: linear-gradient(0deg, #918373, #918373), 
-                      linear-gradient(352.24deg, rgba(255, 255, 255, 0.2) 6.18%, 
-                      rgba(0, 0, 0, 0) 94.71%), 
-                      linear-gradient(86.84deg, rgba(255, 255, 255, 0.25) 42.32%, rgba(255, 255, 255, 0.0025) 84.88%), 
-                      radial-gradient(67.75% 67.75% at 47.57% 44.42%, rgba(255, 255, 255, 0.5) 0%, rgba(32, 21, 21, 0.6) 100%);
+  --border-main: #36302e;
+  --primary-font-focused: #dcb577;
+  --modal-container-back: #473F3Dcc;
+  --background-body:  linear-gradient(0deg,#918373,#918373), 
+                      linear-gradient(352.24deg,rgba(255,255,255,0.2) 6.18%, rgba(0,0,0,0) 94.71%), 
+                      linear-gradient(86.84deg,rgba(255,255,255,0.25) 42.32%,rgba(255,255,255,0.0025) 84.88%), 
+                      radial-gradient(67.75% 67.75% at 47.57% 44.42%,rgba(32,21,21,0.2) 0%,rgba(32,21,21,1) 230%);
   --background1:      #080705;
   --background2:      linear-gradient(180deg, #48403E 0%, #2D2725 100%);
-  --box-shadow-primary: 0px 54px 40px rgba(0,0,0,0.35), 
-                        0px 12px 25px rgba(0,0,0,0.42), 
-                        0px 12px 32px rgba(0,0,0,0.25), 
-                        0px -11px 20px rgba(0,0,0,0.22);
+  --box-shadow-primary: 0 6.2px 3.6px rgb(17 15 13 / 12%), 
+                        0 17.4px 10px rgb(17 15 13 / 18%), 
+                        0 36.6px 24.1px rgb(17 15 13 / 23%), 
+                        0 102px 80px rgb(17 15 13 / 35%);
+
+  --box-shadow-raised:  0 6.2px 3.6px rgba(17 15 13 / 0.143),
+                        0 17.4px 10px rgba(17 15 13 / 0.205),
+                        0 36.6px 24.1px rgba(17 15 13 / 0.267),
+                        0 100px 80px rgba(17 15 13 / 0.41);
+
   --text-shadow-primary: 0px 54px 55px rgba(0, 0, 0, 0.25), 
                         0px 4px 6px rgba(0, 0, 0, 0.12), 
                         0px 12px 13px rgba(0, 0, 0, 0.17), 
@@ -90,6 +98,7 @@ H2 {
 
 main {
   box-shadow: var(--box-shadow-primary);
+  border: 1px solid var(--border-main);
   width: 100vw;
   height: 100vh;
   position: fixed;
@@ -116,6 +125,79 @@ a {
   height: fit-content;
   width: fit-content;
   }
+
+  @keyframes fadeIn{
+    0% {
+    opacity:0;
+    }
+    100% {
+    opacity:1;
+    }
+  }
+
+  @keyframes fadeOut{
+    0% {  
+    opacity:1;
+    }
+    100% {
+    opacity:0;
+    }
+  }
+
+.modal-container {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index:5000;
+    animation: fadeIn ease-out 0.4s;
+    background-color: var(--modal-container-back);
+    }
+
+.modal-content.mobile {
+    width: calc(100vw - 16px);
+    min-width: 300px;
+    min-height: calc(100vh - 16px); //to be changed to fit-content
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 40px;
+    padding:24px;
+    animation: fadeIn ease-out 0.4s; 
+    transform-origin: center center;
+    background-color: var(--background1);
+    border: 1px solid var(--border-main);
+    }
+
+.modal-content.desktop {
+    border-radius: 40px;
+    max-width: 1080px;
+    width: calc(100vw - 16px);
+    min-height: 400px; //to be changed to fit-content
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 40px;
+    padding:24px;
+    animation: fadeIn ease-out 0.4s; 
+    transform-origin: center center;
+    background-color: var(--background1);
+    border: 1px solid var(--border-main);
+    }
+
+.blur {
+  filter: blur(10px);
+  transition: all 0.4s;
+}
+
+.fadeOut {
+    animation: fadeOut ease-in 0.4s;
+    animation-fill-mode: both
+  }
+
 `
 
 type LayoutProps = {
@@ -123,19 +205,68 @@ type LayoutProps = {
 }
 
 const Layout = ({ children }:LayoutProps) => {
+  const { ModalVisibleInitial } = useContext(GlobalContext);
   const isMobile = DeviceDetectHook();
+  const device = DeviceDetectHook();
+  const [modalVisible, setModalVisible] = useState(ModalVisibleInitial);
+  const modalToggle = () => setModalVisible(!modalVisible); console.log(modalVisible);
+  const [modalType, setModalType] = useState(undefined);
+  const [clickedElement, setClickedElement] = useState(undefined);
+  const storeClickedElement = (domNode:HTMLElement) => setClickedElement(domNode); console.log(clickedElement);
+  const changeModalType = (typeOfModal: "share" | "movie" | "externLink" | "offline" | "credits" | "about" | undefined) => {setModalType(typeOfModal)};
 
   return (
     <>
-      <GlobalStyle />
+    <GlobalContext.Provider value={{
+      isMobile,
+      ModalVisibleInitial,
+      modalVisible,
+      modalToggle,
+      modalType,
+      changeModalType,
+      clickedElement,
+      storeClickedElement,
+      }}>
+      <GlobalStyle/>
         {isMobile==='mobile' &&
         <main className={isMobile}>{children}</main>
         }
         {isMobile==='desktop' &&
         <main className={isMobile}>{children}</main>
         }
+        <ModalContainer/>
+        </GlobalContext.Provider>
     </>
   )
 }
 
 export default Layout
+
+type GlobalContextProps = {
+  isMobile?: any,
+  setIsMobile: () => void,
+  ModalVisibleInitial: boolean,
+  modalVisible: boolean,
+  modalType: "share" | "movie" | "externLink" | "offline" | "credits" | "about" | undefined,
+  modalToggle: () => void,
+  changeModalType: () => "share" | "movie" | "externLink" | "offline" | "credits" | "about" | undefined,
+  clickedElement: HTMLElement | undefined,
+  storeClickedElement: () => void
+ }
+
+const ModalVisibleInitial = false;
+const modalType = undefined;
+const isMobile = undefined;
+const clickedElement = undefined;
+
+export const GlobalContext = createContext<Partial<GlobalContextProps>>({
+  isMobile,
+  setIsMobile: () => {},
+  ModalVisibleInitial,
+  modalVisible: ModalVisibleInitial,
+  modalToggle: () => {},
+  modalType,
+  changeModalType:() => {},
+  clickedElement,
+  storeClickedElement:() => {},
+  });

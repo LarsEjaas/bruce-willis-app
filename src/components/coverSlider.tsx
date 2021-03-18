@@ -1,7 +1,8 @@
 import * as React from "react"
-import { useState } from "react"
+import { useState, useContext } from "react"
 import styled, { keyframes, css } from 'styled-components'
 import { StaticImage } from "gatsby-plugin-image"
+import { GlobalContext } from "./layout"
 
 interface SliderProps {
     left?: boolean;
@@ -83,7 +84,7 @@ interface CoverProps {
   isMobile: "mobile" | "desktop" | undefined;
   left?: boolean;
   right?: boolean;
-  active?: boolean;
+  active?: boolean; 
 }
 
 const CoverCard = styled.div<CoverProps>`
@@ -95,13 +96,16 @@ const CoverCard = styled.div<CoverProps>`
    overflow:hidden;
    margin: 10px auto;
    background-color: var(--image-cover-color);
-   box-shadow: var(--text-shadow-primary);
+   box-shadow: var(--box-shadow-primary);
    cursor: pointer;
    transition: transform 0.3s ease-in-out;
    transform-origin: center;
    transform:  ${props => props.active === true? "scale(1.1)" : "scale(1)"};
+   z-index: 1;
    &:hover {
-   transform: scale(1.1); 
+   transform: scale(1.13); 
+   box-shadow: var(--box-shadow-raised);
+   z-index: 2;
    }
    & .coverImage {
    border-radius: 20px;
@@ -137,8 +141,17 @@ return(
 const Cover2 = ({ isMobile }:CoverProps) => {
   const [active, setActive] = useState(false);
 
+const { changeModalType, modalToggle, storeClickedElement } = useContext(GlobalContext);
+
+const openModal = (e) => {
+  console.log('this should open the modal')
+  changeModalType("movie");
+  modalToggle();
+  storeClickedElement(e.currentTarget);
+}
+
 return(
-<CoverCard className={active} aria-label="" title="">
+<CoverCard tabIndex="0" className={active} onClick={(e) => openModal(e)} aria-label="" title="">
 {/* <CoverCard activeState={activeState} handleActiveState={handleActiveState} label={data.tag} index={1} aria-label="" title=""> */}
 <StaticImage
  className="coverImage"
