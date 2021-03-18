@@ -14,11 +14,8 @@ type ExternalLinkProps = {
 const ExternalLink = ({ className, href, title, children }:ExternalLinkProps) => {
   const { modalToggle, changeModalType, storeClickedElement } = useContext(GlobalContext);
   const sureToLeave = (e) => {
-    console.log(e.target, e.currentTarget);
     e.preventDefault();
-    changeModalType("externLink");
-    modalToggle();
-    storeClickedElement(e.currentTarget);
+    modalToggle(e.currentTarget,"externLink");
   }
 
 

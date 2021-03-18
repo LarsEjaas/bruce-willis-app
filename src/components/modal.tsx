@@ -11,6 +11,7 @@ const Crossbutton = styled.button<CrossbuttonProps>`
   right: 24px;  
   background-color: unset;
   border: unset;
+  cursor: pointer;
   & path {
     fill: var(--icon-color1)
   }
@@ -65,6 +66,18 @@ const ModalContainer = ({ }) => {
           {modalType==="movie"&&
           <Modal.Body
           movieContent={<><h2>This is a test</h2></>}
+          />
+          }
+          }
+          {modalType==="credits"&&
+          <Modal.Body
+          credits={<><h2>This is credits</h2></>}
+          />
+          }
+          }
+          {modalType==="about"&&
+          <Modal.Body
+          about={<><h2>This is the about page</h2></>}
           />
           }
             {/* //

@@ -1,13 +1,15 @@
 import * as React from "react"
-import { useState } from "react"
+import { useState, useContext, useEffect, useRef } from "react"
 import styled, { keyframes, css } from 'styled-components'
 import { StaticImage } from "gatsby-plugin-image"
 import EjaasLogo from "../svg/ejaas_logo.inline.svg"
 import TMDBlogoVertical from "../svg/tmdb_logo_upright.inline.svg"
 import TMDBlogo from "../svg/tmdb_logo.inline.svg"
+import ShareIcon from "../svg/share-alt.inline.svg"
 import ExternalLink from './externalLink'
 import MovieCovers from './coverSlider'
 import MobileNavigation from './mobileNavigation'
+import { GlobalContext } from './layout'
 
 interface SectionProps {
     left?: boolean;
@@ -171,7 +173,7 @@ const Section = styled.section<SectionProps>`
     &.EjaasLogo{
     position: absolute;
     z-index: 3;
-    bottom: ${props => props.isMobile==="mobile" ? "unset" : "24px"};
+    bottom: ${props => props.isMobile==="mobile" ? "unset" : "26px"};
     height: ${props => props.isMobile==="mobile" ? "43px" : "48px"};
     right: 24px;
     top: ${props => props.isMobile==="mobile" ? "24px" : "unset"};
@@ -201,25 +203,45 @@ const Section = styled.section<SectionProps>`
 
   const Navigation = styled.nav<SectionProps>`
       z-index: 4;
-      padding: 16px;
       position: absolute;
       display: flex;
       &.desktop{
       animation: ${slideIn} 1s ease-out;
       animation-fill-mode: both;
       flex-direction: column;
-      top: 16px;
+      padding: 24px;
+      top: 8px;
       left: 0;
       }
       &.mobile.right{
       animation: ${HeadlineslideIn} 1s ease-out 0.5s;
       animation-fill-mode: both;
+      padding: 16px;
       bottom: 13px;
       left: 6vw;
+      @media (max-width: 360px) {
+        left: 0;
+      }
       }
       &.mobile.left{
       bottom: 13px;
+      padding: 16px;
       left: 6vw;
+      transform: translateY(5px);
+      }
+      & .ShareIcon path {
+        fill: var(--icon-color1);
+      }
+      & .ShareIcon:hover path{
+        fill: var(--icon-hover-color1);
+      }
+      & .ShareIcon.mobile{
+        padding-right: 8px;
+      }
+      &.desktopShare{
+        right: 1px;
+        cursor: pointer;
+        padding: 24px;
       }
       `
   const Vertical = styled.h2<SectionProps>`
@@ -234,6 +256,7 @@ const Section = styled.section<SectionProps>`
       }
       &.mobile{
       margin: 0 8px;
+      transform: translateY(5px);
       }
       & :hover {
         color: var(--icon-hover-color1);
@@ -337,21 +360,48 @@ const Section = styled.section<SectionProps>`
       }
       `
 
-const Section1 = ({ isMobile, index }:SectionProps) => (
+const Section1 = ({ isMobile, index }:SectionProps) => {
+  let aboutDesktop = useRef(null);
+  let creditsDesktop = useRef(null);
+  let aboutMobile = useRef(null);
+  let creditsMobile = useRef(null);
+  const { modalToggle } = useContext(GlobalContext);
+
+  const handleEnterKey = e => {
+    console.log(e)
+    e.currentTarget.click();
+    }
+
+  const keyListenersMap = new Map([[13, handleEnterKey]]);
+  function keyListener(e) {
+    console.log(e, e.keyCode)
+  // get the listener corresponding to the pressed key
+  const listener = keyListenersMap.get(e.keyCode);
+  // call the listener if it exists
+  return listener && listener(e);
+  }
+
+  return (
   <Section left className={index===1? `${isMobile} right` : `${isMobile} left`}>
   {isMobile==="desktop" &&
+  <>
   <Navigation className={index===1? "desktop right" : "desktop left"}>
     <StyledExternalLink className="desktop TMDBlogo" href="https://www.themoviedb.org/" title="The Movie Database"><TMDBlogoVertical width="13"/></StyledExternalLink>
-    <Vertical className="desktop">About</Vertical>
-    <Vertical className="desktop">Credits</Vertical>
+    <Vertical ref={(el) => (aboutDesktop = el)} tabIndex="0" onClick={(e)=>(modalToggle(e.currentTarget,"about"))} onKeyPress={(e)=>(keyListener(e))} className="desktop">About</Vertical>
+    <Vertical ref={(el) => (creditsDesktop = el)} tabIndex="0" onClick={(e)=>(modalToggle(e.currentTarget,"credits"))} onKeyPress={(e)=>(keyListener(e))} className="desktop">Credits</Vertical>
   </Navigation>
+  <Navigation className="desktopShare">
+    <ShareIcon height="32px" className="ShareIcon"/>
+  </Navigation>
+  </>
   }
   {isMobile==="mobile" &&
   <>
   <StyledExternalLink className={index===1? "mobile TMDBlogo right" : "mobile TMDBlogo left"} href="https://www.themoviedb.org/" title="The Movie Database"><TMDBlogo height="16"/></StyledExternalLink>
   <Navigation className={index===1? `mobile right` : `mobile left`}>
-    <Vertical className="mobile">About</Vertical>
-    <Vertical className="mobile">Credits</Vertical>
+    <ShareIcon height="24px" className="ShareIcon mobile" />
+    <Vertical ref={(el) => (aboutMobile = el)} tabIndex="0" onClick={(e)=>(modalToggle(e.currentTarget,"about"))} onKeyPress={(e)=>(keyListener(e))} className="mobile">About</Vertical>
+    <Vertical ref={(el) => (creditsMobile = el)} tabIndex="0" onClick={(e)=>(modalToggle(e.currentTarget,"credits"))} onKeyPress={(e)=>(keyListener(e))} className="mobile">Credits</Vertical>
   </Navigation>
   </>
   }
@@ -370,6 +420,7 @@ const Section1 = ({ isMobile, index }:SectionProps) => (
   </CircleWrapper>
   </Section> 
    )
+  }
 
 const Section2 = ({ isMobile, index }:SectionProps) => (
   <Section isMobile={isMobile} className={index===2? `${isMobile} left` : `${isMobile} right`}>

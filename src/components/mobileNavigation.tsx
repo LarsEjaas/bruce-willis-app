@@ -14,8 +14,11 @@ interface NavigationProps {
 const Navigation = styled.nav
 `z-index: 10;
  position: absolute;
- bottom: 24px;
+ bottom: 28px;
  right: calc(100vw + 24px);
+ @media (max-width: 360px) {
+ right: calc(100vw + 8px);
+}
 `
 
 const NavBtn = styled.button<NavigationProps>

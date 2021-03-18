@@ -10,6 +10,11 @@ const GlobalStyle = createGlobalStyle`
   box-sizing: border-box;
   }
 
+/*remove focus when not using keyboard*/
+*:focus:not(:focus-visible) {
+  outline: none;
+  }
+
 :root {
   --background-color: #918373;
   --image-cover-color: #0807056b;
@@ -156,7 +161,7 @@ a {
     }
 
 .modal-content.mobile {
-    width: calc(100vw - 16px);
+    width: 100vw;
     min-width: 300px;
     min-height: calc(100vh - 16px); //to be changed to fit-content
     position: absolute;
@@ -209,11 +214,9 @@ const Layout = ({ children }:LayoutProps) => {
   const isMobile = DeviceDetectHook();
   const device = DeviceDetectHook();
   const [modalVisible, setModalVisible] = useState(ModalVisibleInitial);
-  const modalToggle = () => setModalVisible(!modalVisible); console.log(modalVisible);
   const [modalType, setModalType] = useState(undefined);
   const [clickedElement, setClickedElement] = useState(undefined);
-  const storeClickedElement = (domNode:HTMLElement) => setClickedElement(domNode); console.log(clickedElement);
-  const changeModalType = (typeOfModal: "share" | "movie" | "externLink" | "offline" | "credits" | "about" | undefined) => {setModalType(typeOfModal)};
+  const modalToggle = (domNode:HTMLElement | undefined, typeOfModal: "share" | "movie" | "externLink" | "offline" | "credits" | "about" | undefined) => {setClickedElement(domNode), setModalVisible(!modalVisible), setModalType(typeOfModal)}; console.log(modalVisible);
 
   return (
     <>
@@ -223,9 +226,9 @@ const Layout = ({ children }:LayoutProps) => {
       modalVisible,
       modalToggle,
       modalType,
-      changeModalType,
+      //changeModalType,
       clickedElement,
-      storeClickedElement,
+      //storeClickedElement,
       }}>
       <GlobalStyle/>
         {isMobile==='mobile' &&
@@ -248,7 +251,7 @@ type GlobalContextProps = {
   ModalVisibleInitial: boolean,
   modalVisible: boolean,
   modalType: "share" | "movie" | "externLink" | "offline" | "credits" | "about" | undefined,
-  modalToggle: () => void,
+  modalToggle: (DOMnode:HTMLElement,modalType:"share" | "movie" | "externLink" | "offline" | "credits" | "about" | undefined) => void,
   changeModalType: () => "share" | "movie" | "externLink" | "offline" | "credits" | "about" | undefined,
   clickedElement: HTMLElement | undefined,
   storeClickedElement: () => void
@@ -266,7 +269,7 @@ export const GlobalContext = createContext<Partial<GlobalContextProps>>({
   modalVisible: ModalVisibleInitial,
   modalToggle: () => {},
   modalType,
-  changeModalType:() => {},
+  //changeModalType:() => {},
   clickedElement,
-  storeClickedElement:() => {},
+  //storeClickedElement:() => {},
   });

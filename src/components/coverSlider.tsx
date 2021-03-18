@@ -43,7 +43,7 @@ const Slider = styled.div<SliderProps>`
    display: flex;
    flex-direction: column;
    width: 100%;
-   max-width:540px;
+   max-width:900px;
    transform-origin: top right;
    padding: 16px 0;
    height: 110%;
@@ -124,7 +124,7 @@ const Cover1 = ({ isMobile }:CoverProps) => {
 
 return(
 <CoverCard className={active} aria-label="" title="">
-{/* <CoverCard activeState={activeState} handleActiveState={handleActiveState} label={data.tag} index={1} aria-label="" title=""> */}
+
 <StaticImage
   className="coverImage"
   isMobile={isMobile}
@@ -143,16 +143,23 @@ const Cover2 = ({ isMobile }:CoverProps) => {
 
 const { changeModalType, modalToggle, storeClickedElement } = useContext(GlobalContext);
 
-const openModal = (e) => {
-  console.log('this should open the modal')
-  changeModalType("movie");
-  modalToggle();
-  storeClickedElement(e.currentTarget);
+const handleEnterKey = e => {
+  console.log(e)
+  e.currentTarget.click();
+  }
+
+const keyListenersMap = new Map([[13, handleEnterKey]]);
+function keyListener(e) {
+  console.log(e, e.keyCode)
+// get the listener corresponding to the pressed key
+const listener = keyListenersMap.get(e.keyCode);
+// call the listener if it exists
+return listener && listener(e);
 }
 
 return(
-<CoverCard tabIndex="0" className={active} onClick={(e) => openModal(e)} aria-label="" title="">
-{/* <CoverCard activeState={activeState} handleActiveState={handleActiveState} label={data.tag} index={1} aria-label="" title=""> */}
+<CoverCard tabIndex="0" className={active} onClick={(e) => modalToggle(e.currentTarget, "movie")} onKeyPress={(e)=>(keyListener(e))} aria-label="" title="">
+
 <StaticImage
  className="coverImage"
  isMobile={isMobile}
