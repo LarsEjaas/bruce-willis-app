@@ -1,6 +1,7 @@
 import * as React from "react"
 import { ReactNode, createContext, useContext, useState } from "react"
 import "@fontsource/passion-one/700.css"
+import "@fontsource/open-sans/400.css"
 import { createGlobalStyle } from "styled-components"
 import { DeviceDetectHook } from "../components/deviceDetect"
 import ModalContainer from "./modal"
@@ -18,8 +19,8 @@ const GlobalStyle = createGlobalStyle`
 :root {
   --background-color: #918373;
   --image-cover-color: #0807056b;
-  --icon-color1: #473F3D;
-  --icon-hover-color1: #7c6f6c;
+  --icon-color1: #665a57;
+  --icon-hover-color1: #928481;
   --primary-font: #C0AA87;
   --border-main: #36302e;
   --primary-font-focused: #dcb577;
@@ -82,7 +83,8 @@ img, h1, h2, h3, h4, p, a, button, ul, li, figure, div {
 H1 { 
   font-family: 'Passion One', cursive;
   font-weight: 700;
-  font-size: 128px;
+  /* font-size: 128px; */
+  font-size: clamp(1rem, -0.875rem + 8.333vw, 3.5rem);
   line-height: 0.7;
   margin: 0;
   color: var(--primary-font);

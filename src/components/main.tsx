@@ -238,6 +238,7 @@ const Navigation = styled.nav<SectionProps>`
   }
   & .ShareIcon.mobile {
     padding-right: 8px;
+    cursor: pointer;
   }
   &.desktopShare {
     right: 1px;
@@ -266,14 +267,29 @@ const Vertical = styled.h2<SectionProps>`
 
 const Headline = styled.h1<SectionProps>`
   position: absolute;
-  left: ${props => (props.isMobile === "mobile" ? "10%" : "-48px")};
-  font-size: ${props => (props.isMobile === "mobile" ? "88px" : "128px")};
-  bottom: ${props => (props.isMobile === "mobile" ? "72px" : "24px")};
+  /* left: ${props => (props.isMobile === "mobile" ? "10%" : "-48px")};
+  /* font-size: ${props => (props.isMobile === "mobile" ? "88px" : "128px")}; */
+  /* font-size: ${props =>
+    props.isMobile === "mobile"
+      ? "clamp(5.5rem, 4.4655rem + 4.5977vw, 8rem)"
+      : "clamp(3.5rem, -0.7857rem + 11.4286vw, 8rem)"};
+  bottom: ${props => (props.isMobile === "mobile" ? "72px" : "24px")};  */
   text-shadow: var(--text-shadow-primary);
   z-index: 3;
   &.desktop {
+    left: -48px;
+    @media (max-width: 1200px) {
+      left: calc((1280px - 100vw) * 0.08);
+    }
+    bottom: 24px;
+    font-size: clamp(3.5rem, -0.7857rem + 11.4286vw, 8rem);
     animation: ${HeadlineslideIn} 1.5s ease-out;
     animation-fill-mode: both;
+  }
+  &.mobile {
+    left: 10%;
+    font-size: clamp(5.5rem, 4.4655rem + 4.5977vw, 8rem);
+    bottom: 72px;
   }
   &.mobile&.right {
     animation: ${HeadlineslideIn} 1s ease-out 0.7s;
@@ -439,7 +455,6 @@ const Section1 = ({ isMobile, index }: SectionProps) => {
           <Navigation className={index === 1 ? `mobile right` : `mobile left`}>
             <ShareIcon height="24px" className="ShareIcon mobile" />
             <Vertical
-              ref={el => (aboutMobile = el)}
               tabIndex="0"
               onClick={e => modalToggle(e.currentTarget, "about")}
               onKeyPress={e => keyListener(e)}
@@ -448,7 +463,6 @@ const Section1 = ({ isMobile, index }: SectionProps) => {
               About
             </Vertical>
             <Vertical
-              ref={el => (creditsMobile = el)}
               tabIndex="0"
               onClick={e => modalToggle(e.currentTarget, "credits")}
               onKeyPress={e => keyListener(e)}
@@ -540,9 +554,7 @@ export const Main = ({ isMobile }: MainProps) => {
   const [index, setIndex] = useState(1)
   const togglePage = e => {
     setIndex(parseFloat(e.currentTarget.id))
-  };
-
-  typeof window !== undefined? window.alert("this device is" + isMobile)
+  }
 
   return (
     <>

@@ -26,6 +26,7 @@ const NavBtn = styled.button<NavigationProps>`
   border-radius: 50%;
   border: 4px solid var(--icon-color1);
   margin: 0 4px;
+  cursor: pointer;
   background-color: ${props =>
     props.index === parseFloat(props.id) ? "var(--icon-color1)" : "unset"};
 `
