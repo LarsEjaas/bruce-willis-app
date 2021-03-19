@@ -195,6 +195,36 @@ a {
     border: 1px solid var(--border-main);
     }
 
+body.move section.mobile.right {
+    animation: slideRight 1s ease-in-out;
+    animation-fill-mode: both;
+    }
+
+body.move section.mobile.left {
+    animation: slideLeft 1s ease-in-out;
+    animation-fill-mode: both;
+    }
+
+@keyframes slideLeft {
+    0% {
+    transform: translateX(0);
+    }
+    100% {
+    opacity: 1;
+    transform: translateX(-100vw);
+    }
+  }
+
+@keyframes slideRight { 
+    0% {
+    transform: translateX(-100vw);
+    }
+    100% {
+    opacity: 1;
+    transform: translateX(0);
+    }
+  }
+
 .blur {
   filter: blur(10px);
   transition: all 0.4s;

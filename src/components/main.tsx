@@ -85,39 +85,13 @@ to {
 }
 `
 
-const slideLeft = keyframes`
-from {
-  transform: translateX(0);
-}
-to {
-  opacity: 1;
-  transform: translateX(-100vw);
-}
-`
-const slideRight = keyframes`
-from {
-  transform: translateX(-100vw);
-}
-to {
-  opacity: 1;
-  transform: translateX(0);
-}
-`
-
 const Section = styled.section<SectionProps>`
   position: relative;
   background: ${props =>
     props.left ? "var(--background1)" : "var(--background2)"};
   border-radius: ${props => (props.left ? "40px 0 0 40px" : "0 40px 40px 0")};
   height: ${props => (props.isMobile === "mobile" ? "100vh" : "unset")};
-  &.mobile.right {
-    animation: ${slideRight} 1s ease-in-out;
-    animation-fill-mode: both;
-    border-radius: 0;
-  }
-  &.mobile.left {
-    animation: ${slideLeft} 1s ease-in-out;
-    animation-fill-mode: both;
+  &.mobile {
     border-radius: 0;
   }
   .BruceW {
@@ -546,6 +520,10 @@ interface MainProps {
 export const Main = ({ isMobile }: MainProps) => {
   const [index, setIndex] = useState(1)
   const togglePage = e => {
+    if (typeof window !== undefined) {
+      let body = document.querySelector("body")
+      body.classList.length > 0 ? undefined : body.classList.add("move")
+    }
     setIndex(parseFloat(e.currentTarget.id))
     console.log(isMobile)
   }
