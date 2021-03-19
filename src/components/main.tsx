@@ -267,13 +267,6 @@ const Vertical = styled.h2<SectionProps>`
 
 const Headline = styled.h1<SectionProps>`
   position: absolute;
-  /* left: ${props => (props.isMobile === "mobile" ? "10%" : "-48px")};
-  /* font-size: ${props => (props.isMobile === "mobile" ? "88px" : "128px")}; */
-  /* font-size: ${props =>
-    props.isMobile === "mobile"
-      ? "clamp(5.5rem, 4.4655rem + 4.5977vw, 8rem)"
-      : "clamp(3.5rem, -0.7857rem + 11.4286vw, 8rem)"};
-  bottom: ${props => (props.isMobile === "mobile" ? "72px" : "24px")};  */
   text-shadow: var(--text-shadow-primary);
   z-index: 3;
   &.desktop {
@@ -554,6 +547,7 @@ export const Main = ({ isMobile }: MainProps) => {
   const [index, setIndex] = useState(1)
   const togglePage = e => {
     setIndex(parseFloat(e.currentTarget.id))
+    console.log(isMobile)
   }
 
   return (

@@ -18,12 +18,13 @@ const Crossbutton = styled.button<CrossbuttonProps>`
   }`
 
 const ModalContainer = ({ }) => {
-  const { modalToggle, modalVisible, modalType, isMobile, clickedElement } = useContext(GlobalContext);
+  const { modalToggle, modalVisible, modalType,isMobile, clickedElement } = useContext(GlobalContext);
   const [isModalVisible, setIsModalVisible] = useState(modalVisible);
-  console.log(isMobile);
 
   useEffect(()=>{
-    modalVisible? document.querySelector('main').classList.add("blur"): void(0);
+    if(isMobile ===undefined) return
+    // modalVisible? document.querySelector('main').classList.add("blur"): void(0);
+    modalVisible? document.querySelector('main').classList.add("blur"): undefined;
     console.log("modalVisible changed", isModalVisible, modalVisible);
     setIsModalVisible(modalVisible);
   },[modalVisible])
@@ -31,6 +32,7 @@ const ModalContainer = ({ }) => {
 
     const [state, setState] = useState({})
     useEffect(() => { 
+      if(isMobile ===undefined) return
       console.log('modal visible changed')   
       document.querySelector('.modal-body') !== null? 
         setTimeout(function(){document.querySelector('.modal-header > .cross-btn').focus()}, 400)

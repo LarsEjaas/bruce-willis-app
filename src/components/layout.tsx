@@ -214,7 +214,6 @@ type LayoutProps = {
 const Layout = ({ children }: LayoutProps) => {
   const { ModalVisibleInitial } = useContext(GlobalContext)
   const isMobile = DeviceDetectHook()
-  const device = DeviceDetectHook()
   const [modalVisible, setModalVisible] = useState(ModalVisibleInitial)
   const [modalType, setModalType] = useState(undefined)
   const [clickedElement, setClickedElement] = useState(undefined)
@@ -298,7 +297,8 @@ type GlobalContextProps = {
 
 const ModalVisibleInitial = false
 const modalType = undefined
-const isMobile = undefined
+const isMobile = "mobile"
+console.log(isMobile)
 const clickedElement = undefined
 
 export const GlobalContext = createContext<Partial<GlobalContextProps>>({

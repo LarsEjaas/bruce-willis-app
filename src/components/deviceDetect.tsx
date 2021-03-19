@@ -12,22 +12,25 @@ function debounce(fn, ms) {
 }
 
 export const DeviceDetectHook = () => {
-  const userAgent =
-    typeof window !== "undefined" ? window.navigator.userAgent : " "
-  const mobile = Boolean(
-    userAgent.match(
-      /Android|BlackBerry|iPhone|iPod|Opera Mini|IEMobile|WPDesktop/i
-    )
-  )
+  // const userAgent = ""
+  // typeof window !== "undefined" ? window.navigator.userAgent : " "
+  // const mobile = Boolean(
+  //   userAgent.match(
+  //     /Android|BlackBerry|iPhone|iPod|Opera Mini|IEMobile|WPDesktop/i
+  //   )
+  // )
 
-  const [isMobile, setMobile] = useState(mobile ? "mobile" : "desktop")
+  const [isMobile, setMobile] = useState("mobile")
 
   useEffect(() => {
+    const userAgent =
+      typeof window !== "undefined" ? window.navigator.userAgent : "Android"
     const mobile = Boolean(
       userAgent.match(
         /Android|BlackBerry|iPhone|iPod|Opera Mini|IEMobile|WPDesktop/i
       )
     )
+
     setMobile(window.innerWidth < 600 || mobile ? "mobile" : "desktop")
 
     const debouncedHandleResize = debounce(function handleResize() {
@@ -45,6 +48,8 @@ export const DeviceDetectHook = () => {
       window.removeEventListener("resize", debouncedHandleResize)
     }
   }, [])
-
+  if (typeof window !== undefined) {
+    console.log(isMobile)
+  }
   return isMobile
 }
