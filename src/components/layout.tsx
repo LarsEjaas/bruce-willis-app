@@ -1,9 +1,9 @@
 import * as React from "react"
 import { ReactNode, createContext, useContext, useState } from "react"
 import "@fontsource/passion-one/700.css"
-import { createGlobalStyle } from 'styled-components'
-import { DeviceDetectHook } from '../components/deviceDetect'
-import ModalContainer from './modal'
+import { createGlobalStyle } from "styled-components"
+import { DeviceDetectHook } from "../components/deviceDetect"
+import ModalContainer from "./modal"
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -206,39 +206,52 @@ a {
 `
 
 type LayoutProps = {
- children: ReactNode;
+  children: ReactNode
 }
 
-const Layout = ({ children }:LayoutProps) => {
-  const { ModalVisibleInitial } = useContext(GlobalContext);
-  const isMobile = DeviceDetectHook();
-  const device = DeviceDetectHook();
-  const [modalVisible, setModalVisible] = useState(ModalVisibleInitial);
-  const [modalType, setModalType] = useState(undefined);
-  const [clickedElement, setClickedElement] = useState(undefined);
-  const modalToggle = (domNode:HTMLElement | undefined, typeOfModal: "share" | "movie" | "externLink" | "offline" | "credits" | "about" | undefined) => {setClickedElement(domNode), setModalVisible(!modalVisible), setModalType(typeOfModal)}; console.log(modalVisible);
+const Layout = ({ children }: LayoutProps) => {
+  const { ModalVisibleInitial } = useContext(GlobalContext)
+  const isMobile = DeviceDetectHook()
+  const device = DeviceDetectHook()
+  const [modalVisible, setModalVisible] = useState(ModalVisibleInitial)
+  const [modalType, setModalType] = useState(undefined)
+  const [clickedElement, setClickedElement] = useState(undefined)
+  const modalToggle = (
+    domNode: HTMLElement | undefined,
+    typeOfModal:
+      | "share"
+      | "movie"
+      | "externLink"
+      | "offline"
+      | "credits"
+      | "about"
+      | undefined
+  ) => {
+    setClickedElement(domNode),
+      setModalVisible(!modalVisible),
+      setModalType(typeOfModal)
+  }
+  console.log(modalVisible)
 
   return (
     <>
-    <GlobalContext.Provider value={{
-      isMobile,
-      ModalVisibleInitial,
-      modalVisible,
-      modalToggle,
-      modalType,
-      //changeModalType,
-      clickedElement,
-      //storeClickedElement,
-      }}>
-      <GlobalStyle/>
-        {isMobile==='mobile' &&
-        <main className={isMobile}>{children}</main>
-        }
-        {isMobile==='desktop' &&
-        <main className={isMobile}>{children}</main>
-        }
-        <ModalContainer/>
-        </GlobalContext.Provider>
+      <GlobalContext.Provider
+        value={{
+          isMobile,
+          ModalVisibleInitial,
+          modalVisible,
+          modalToggle,
+          modalType,
+          //changeModalType,
+          clickedElement,
+          //storeClickedElement,
+        }}
+      >
+        <GlobalStyle />
+        {isMobile === "mobile" && <main className={isMobile}>{children}</main>}
+        {isMobile === "desktop" && <main className={isMobile}>{children}</main>}
+        <ModalContainer />
+      </GlobalContext.Provider>
     </>
   )
 }
@@ -246,21 +259,45 @@ const Layout = ({ children }:LayoutProps) => {
 export default Layout
 
 type GlobalContextProps = {
-  isMobile?: any,
-  setIsMobile: () => void,
-  ModalVisibleInitial: boolean,
-  modalVisible: boolean,
-  modalType: "share" | "movie" | "externLink" | "offline" | "credits" | "about" | undefined,
-  modalToggle: (DOMnode:HTMLElement,modalType:"share" | "movie" | "externLink" | "offline" | "credits" | "about" | undefined) => void,
-  changeModalType: () => "share" | "movie" | "externLink" | "offline" | "credits" | "about" | undefined,
-  clickedElement: HTMLElement | undefined,
+  isMobile?: any
+  setIsMobile: () => void
+  ModalVisibleInitial: boolean
+  modalVisible: boolean
+  modalType:
+    | "share"
+    | "movie"
+    | "externLink"
+    | "offline"
+    | "credits"
+    | "about"
+    | undefined
+  modalToggle: (
+    DOMnode: HTMLElement,
+    modalType:
+      | "share"
+      | "movie"
+      | "externLink"
+      | "offline"
+      | "credits"
+      | "about"
+      | undefined
+  ) => void
+  changeModalType: () =>
+    | "share"
+    | "movie"
+    | "externLink"
+    | "offline"
+    | "credits"
+    | "about"
+    | undefined
+  clickedElement: HTMLElement | undefined
   storeClickedElement: () => void
- }
+}
 
-const ModalVisibleInitial = false;
-const modalType = undefined;
-const isMobile = undefined;
-const clickedElement = undefined;
+const ModalVisibleInitial = false
+const modalType = undefined
+const isMobile = undefined
+const clickedElement = undefined
 
 export const GlobalContext = createContext<Partial<GlobalContextProps>>({
   isMobile,
@@ -272,4 +309,4 @@ export const GlobalContext = createContext<Partial<GlobalContextProps>>({
   //changeModalType:() => {},
   clickedElement,
   //storeClickedElement:() => {},
-  });
+})

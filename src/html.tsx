@@ -1,16 +1,15 @@
-import * as React from "react";
-import Helmet from "react-helmet";
+import * as React from "react"
+import Helmet from "react-helmet"
 
-const config = require("../gatsby-config.js");
+const config = require("../gatsby-config.js")
 
 interface HtmlProps {
-  body: any;
-  postBodyComponents: any;
-  headComponents: any;
+  body: any
+  postBodyComponents: any
+  headComponents: any
 }
 
 export default (props: HtmlProps) => {
-  const head = Helmet.rewind();
   return (
     <html lang="en">
       <head>
@@ -21,18 +20,16 @@ export default (props: HtmlProps) => {
           content="width=device-width, initial-scale=1, viewport-fit=cover"
         />
         {props.headComponents}
-        <style dangerouslySetInnerHTML={{ __html: 
-        `html{background-color: #080705}`}}></style>
-        </head>
-        <body>
-        <div
-          id="___gatsby"
-          dangerouslySetInnerHTML={{ __html: props.body }}
-        />
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `html{background-color: #080705}`,
+          }}
+        ></style>
+      </head>
+      <body>
+        <div id="___gatsby" dangerouslySetInnerHTML={{ __html: props.body }} />
         {props.postBodyComponents}
       </body>
     </html>
   )
 }
-
-
