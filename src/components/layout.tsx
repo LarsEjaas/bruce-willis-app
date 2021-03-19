@@ -45,6 +45,9 @@ const GlobalStyle = createGlobalStyle`
                         0px 4px 6px rgba(0, 0, 0, 0.12), 
                         0px 12px 13px rgba(0, 0, 0, 0.17), 
                         0px -3px 5px rgba(0, 0, 0, 0.09);
+
+/*Auto adjust height on chrome Android*/
+height: 100%; 
   /* Hide scrollbar for Chrome, Safari and Opera */
 .example::-webkit-scrollbar {
   display: none;
@@ -62,7 +65,7 @@ body {
   background-color: var(--background-color);
   background: var(--background-body);
   background-blend-mode: multiply;
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 .tl-wrapper {
@@ -154,7 +157,7 @@ a {
 .modal-container {
     position: fixed;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     top: 0;
     left: 0;
     z-index:5000;
@@ -165,7 +168,7 @@ a {
 .modal-content.mobile {
     width: 100vw;
     min-width: 300px;
-    min-height: calc(100vh - 16px); //to be changed to fit-content
+    min-height: calc(100% - 16px); //to be changed to fit-content
     position: absolute;
     left: 50%;
     top: 50%;
