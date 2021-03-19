@@ -107,7 +107,7 @@ main {
   box-shadow: var(--box-shadow-primary);
   border: 1px solid var(--border-main);
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   position: fixed;
   display: inline-grid;
   }
