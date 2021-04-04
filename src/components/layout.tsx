@@ -21,6 +21,7 @@ const GlobalStyle = createGlobalStyle`
   --image-cover-color: #0807056b;
   --icon-color1: #665a57;
   --icon-hover-color1: #928481;
+  --icon-hover-color2: #b2aaa9;
   --primary-font: #C0AA87;
   --border-main: #36302e;
   --primary-font-focused: #dcb577;
@@ -45,6 +46,9 @@ const GlobalStyle = createGlobalStyle`
                         0px 4px 6px rgba(0, 0, 0, 0.12), 
                         0px 12px 13px rgba(0, 0, 0, 0.17), 
                         0px -3px 5px rgba(0, 0, 0, 0.09);
+  --icon-shadow: 0px 4px 6px rgb(0 0 0 / 12%), 
+                 0px 12px 13px rgb(0 0 0 / 17%), 
+                 0px -3px 5px rgb(0 0 0 / 9%);
 
 /*Auto adjust height on chrome Android*/
 height: 100%; 
@@ -106,6 +110,20 @@ H2 {
   margin-block-end: 0.3em;
   }
 
+.modal-content H2 {
+  color: var(--icon-hover-color1);
+  text-transform: uppercase;
+  line-height: 0.8;
+  margin-block-start: 0;
+  max-width: 88%;
+  text-align: center;
+  }
+
+p {
+  font-family: 'Open Sans', sans-serif;
+  color: var(--icon-hover-color1);
+}
+
 main {
   box-shadow: var(--box-shadow-primary);
   border: 1px solid var(--border-main);
@@ -113,6 +131,7 @@ main {
   height: 100%;
   position: fixed;
   display: inline-grid;
+  transition: all 0.4s;
   }
   main.desktop{
     border-radius: 40px;
@@ -123,12 +142,15 @@ main {
     transform: translate(-50%, -50%);
     grid-template-columns: 50% 50%;
     grid-template-rows: 100%;
+    will-change: filter;
+    transition: all 0.4s;
   }
   main.mobile{
     width: 200vw;
     grid-template-columns: 100vw 100vw;
     left: 0;
     top: 0;
+    will-change: filter;
   }
 
 a {
@@ -162,40 +184,33 @@ a {
     left: 0;
     z-index:5000;
     animation: fadeIn ease-out 0.4s;
-    background-color: var(--modal-container-back);
+    //background-color: var(--modal-container-back);
+    will-change: opacity;
+    }
+
+.modal-content {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 40px;
+    padding:24px;
+    animation: fadeIn ease-out 0.4s; 
+    transform-origin: center center;
+    background: var(--background2);
+    border: 2px solid var(--icon-hover-color1);
+    will-change: opacity;
+    overflow:hidden;
     }
 
 .modal-content.mobile {
-    width: 100vw;
+    width: calc(100vw - 8px);
     min-width: 300px;
-    min-height: calc(100% - 16px); //to be changed to fit-content
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 40px;
-    padding:24px;
-    animation: fadeIn ease-out 0.4s; 
-    transform-origin: center center;
-    background-color: var(--background1);
-    border: 1px solid var(--border-main);
     }
 
 .modal-content.desktop {
-    border-radius: 40px;
     max-width: 1080px;
     width: calc(100vw - 16px);
-    min-height: 400px; //to be changed to fit-content
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 40px;
-    padding:24px;
-    animation: fadeIn ease-out 0.4s; 
-    transform-origin: center center;
-    background-color: var(--background1);
-    border: 1px solid var(--border-main);
     }
 
 body.move section.mobile.right {
@@ -229,7 +244,7 @@ body.move section.mobile.left {
   }
 
 .blur {
-  filter: blur(10px);
+  filter: blur(20px);
   transition: all 0.4s;
 }
 

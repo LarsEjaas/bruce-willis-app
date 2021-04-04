@@ -6,15 +6,10 @@ module.exports = {
   siteMetadata: {
     title:  'A tribute to Bruce Willis',
     description: `Celebrating one of Hollywood's Greatest Movie Stars`,
-    title_en:  'A tribute to Bruce Willis',
-    title_da: 'En hyldest til Bruce Willis',
-    description_en: "Celebrating one of Hollywood's Greatest Movie Stars",
-    description_dk: "Hylder en af ​​Hollywoods største filmstjerner",
     siteUrl: 'https://bruce-willis.com', //to be changed
     author: 'Lars Ejaas',
     logo: '/logo.png',
-    right_en: 'All rights reserved Lars Ejaas. Please contact me directly to get my consent before using any content from this page',
-    right_da: 'Alle rettigheder forbeholdes Lars Ejaas. Kontakt mig direkte for at få mit samtykke, inden du bruger indhold fra denne side',
+    right: 'All rights reserved Lars Ejaas. Please contact me directly to get my consent before using any content from this page',
   },
   plugins: [
     'gatsby-plugin-react-helmet',
@@ -42,16 +37,15 @@ module.exports = {
     {
       resolve: 'gatsby-source-tmdb',
       options: {
-        apiKey: process.env.GATSBY_API_KEY,
+        apiKey: process.env.TMDB_API_KEY,
         sessionID: process.env.SESSION_ID,
+        language: 'en-US',
         region: 'DK',
         modules: {
           account: {
             activate: true,
             endpoints: {
-              tvs: ['accountFavoriteTv', 'accountTvWatchlist'],
-              movies: ['accountFavoriteMovies', 'accountMovieWatchlist'],
-              list: 'accountLists',
+              person: ['67'],
             },
           },
         },
@@ -59,6 +53,8 @@ module.exports = {
         reqPerTenSeconds: 32,
       },
     },
+    //generate new request token: https://api.themoviedb.org/3/authentication/token/new?api_key=process.env.GATSBY_API_KEY
+    //https://api.themoviedb.org/3/person/62?api_key=8551b13d1962564c7342bfbbb9e3c5d7&language=en-US
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
@@ -123,14 +119,5 @@ module.exports = {
         cache_busting_mode: 'none'
       },
     },
-    {
-      resolve: 'gatsby-plugin-offline',
-      options: {
-         precachePages: [`/*`],
-         workboxConfig: {
-            globPatterns: ['**/icon-*']
-         }
-      }
-   }
   ],
 }

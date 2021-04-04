@@ -224,9 +224,10 @@ const Vertical = styled.h2<SectionProps>`
   text-orientation: mixed;
   margin-block-start: 0;
   margin-block-end: 0;
+  transition: all 0.2s ease-in-out;
   cursor: pointer;
   &.desktop {
-    transform: rotate(180deg);
+    transform: translateX(-4px) rotate(180deg);
     writing-mode: vertical-rl;
     margin: 8px 0;
   }
@@ -236,6 +237,7 @@ const Vertical = styled.h2<SectionProps>`
   }
   & :hover {
     color: var(--icon-hover-color1);
+    transform: translateX(-4px) rotate(180deg) scale(1.1);
   }
 `
 
@@ -356,7 +358,7 @@ const Section1 = ({ isMobile, index }: SectionProps) => {
   const { modalToggle } = useContext(GlobalContext)
 
   const handleEnterKey = e => {
-    console.log(e)
+    console.log(e.currentTarget)
     e.currentTarget.click()
   }
 
@@ -395,7 +397,7 @@ const Section1 = ({ isMobile, index }: SectionProps) => {
               About
             </Vertical>
             <Vertical
-              tabIndex="0"
+              tabindex="0"
               onClick={e => modalToggle(e.currentTarget, "credits")}
               onKeyPress={e => keyListener(e)}
               className="desktop"
@@ -404,7 +406,13 @@ const Section1 = ({ isMobile, index }: SectionProps) => {
             </Vertical>
           </Navigation>
           <Navigation className="desktopShare">
-            <ShareIcon height="32px" className="ShareIcon" />
+            <ShareIcon
+              tabindex="0"
+              height="32px"
+              className="ShareIcon"
+              onClick={e => modalToggle(e.currentTarget, "share")}
+              onKeyPress={e => keyListener(e)}
+            />
           </Navigation>
         </>
       )}
@@ -420,7 +428,13 @@ const Section1 = ({ isMobile, index }: SectionProps) => {
             <TMDBlogo height="16" />
           </StyledExternalLink>
           <Navigation className={index === 1 ? `mobile right` : `mobile left`}>
-            <ShareIcon height="24px" className="ShareIcon mobile" />
+            <ShareIcon
+              tabindex="0"
+              height="24px"
+              className="ShareIcon mobile"
+              onClick={e => modalToggle(e.currentTarget, "share")}
+              onKeyPress={e => keyListener(e)}
+            />
             <Vertical
               tabIndex="0"
               onClick={e => modalToggle(e.currentTarget, "about")}

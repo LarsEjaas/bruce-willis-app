@@ -12,14 +12,6 @@ function debounce(fn, ms) {
 }
 
 export const DeviceDetectHook = () => {
-  // const userAgent = ""
-  // typeof window !== "undefined" ? window.navigator.userAgent : " "
-  // const mobile = Boolean(
-  //   userAgent.match(
-  //     /Android|BlackBerry|iPhone|iPod|Opera Mini|IEMobile|WPDesktop/i
-  //   )
-  // )
-
   const [isMobile, setMobile] = useState("mobile")
 
   useEffect(() => {
