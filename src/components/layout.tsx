@@ -1,6 +1,7 @@
 import * as React from "react"
 import { ReactNode, createContext, useContext, useState } from "react"
 import "@fontsource/passion-one/700.css"
+import "@fontsource/passion-one/400.css"
 import "@fontsource/open-sans/400.css"
 import { createGlobalStyle } from "styled-components"
 import { DeviceDetectHook } from "../components/deviceDetect"
@@ -191,18 +192,18 @@ a {
     }
 
 @media (min-height: 720px) {
-.modal-content.desktop.about {
+.modal-content.desktop.about, .modal-content.desktop.movie {
   top: calc((100vh - 720px) / 2 );
   transform: translate(-50%,0);
   }
 }
 @media (max-height: 719px) {
-.modal-content.desktop.about {
+.modal-content.desktop.about, .modal-content.desktop.movie {
   top: 4px;
   transform: translate(-50%,0);
   }
 } 
-.modal-content.mobile.about {
+.modal-content.mobile.about, .modal-content.mobile.movie {
   top: 4px;
   transform: translate(-50%,0);
   }
