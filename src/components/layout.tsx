@@ -184,8 +184,8 @@ a {
     left: 0;
     z-index:5000;
     animation: fadeIn ease-out 0.4s;
-    //background-color: var(--modal-container-back);
     will-change: opacity;
+    overflow: scroll;
     }
 
 .modal-content {
@@ -210,8 +210,24 @@ a {
 
 .modal-content.desktop {
     max-width: 1080px;
-    width: calc(100vw - 16px);
     }
+
+@media (min-height: 720px) {
+.modal-content.desktop.about {
+  top: calc((100vh - 720px) / 2 );
+  transform: translate(-50%,0);
+  }
+}
+@media (max-height: 719px) {
+.modal-content.desktop.about {
+  top: 4px;
+  transform: translate(-50%,0);
+  }
+} 
+.modal-content.mobile.about {
+  top: 4px;
+  transform: translate(-50%,0);
+  }
 
 body.move section.mobile.right {
     animation: slideRight 1s ease-in-out;
@@ -244,7 +260,7 @@ body.move section.mobile.left {
   }
 
 .blur {
-  filter: blur(20px);
+  filter: blur(30px);
   transition: all 0.4s;
 }
 

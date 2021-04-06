@@ -14,6 +14,7 @@ import { GoExtern } from "./externalLink"
 import AboutView from "./about"
 import ShareButtons from "./share"
 import { StaticImage } from "gatsby-plugin-image"
+import MovieDetails from "./movieDetails"
 
 const Crossbutton = styled.button<CrossbuttonProps>`
   position: absolute;
@@ -103,7 +104,7 @@ const ModalContainer = ({}) => {
   return (
     <>
       {isModalVisible && (
-        <Modal onModalClose={() => closeModal()}>
+        <Modal modalType={modalType} onModalClose={() => closeModal()}>
           <FilmRoll
             src="../images/filmroll.png"
             alt="roll of film"
@@ -117,7 +118,7 @@ const ModalContainer = ({}) => {
             <Modal.Body
               movieContent={
                 <>
-                  <h2>This is a test</h2>
+                  <MovieDetails />
                 </>
               }
             />
@@ -158,7 +159,7 @@ const ModalContainer = ({}) => {
 
 const modalContext = createContext()
 
-function Modal({ children, onModalClose }) {
+function Modal({ children, onModalClose, modalType }) {
   const { isMobile, clickedElement } = useContext(GlobalContext)
   console.log(clickedElement)
   useEffect(() => {
@@ -222,7 +223,7 @@ function Modal({ children, onModalClose }) {
       aria-modal="true"
       ref={modalContainerRef}
     >
-      <div className={`${isMobile} modal-content`} ref={modalRef}>
+      <div className={`${isMobile} modal-content ${modalType}`} ref={modalRef}>
         <modalContext.Provider value={{ onModalClose }}>
           {children}
         </modalContext.Provider>

@@ -1,7 +1,7 @@
 import * as React from "react"
 import { useState } from "react"
 import Skeleton from "react-loading-skeleton"
-import { useFetch } from "./sourceData"
+import { useFetchAbout } from "./sourceData"
 import styled from "styled-components"
 
 const BruceImage = styled.picture<BruceImageProps>`
@@ -10,6 +10,10 @@ const BruceImage = styled.picture<BruceImageProps>`
   & img {
     border-radius: 22px;
   }
+`
+
+const Paragraph = styled.p<ParagraphProps>`
+  white-space: break-spaces;
 `
 
 //Bruce Willis has id: 62
@@ -21,8 +25,13 @@ const type = "person"
 
 const AboutView = () => {
   console.log(id, type)
-  const [data, isLoading] = useFetch({ type, id })
+  const [data, isLoading] = useFetchAbout({ type, id })
   const [imgIsLoading, setImgIsLoading] = useState(false)
+
+  let biographyText =
+    data !== null ? data.biography.match(/[^\s.!?]+[^.!?\r\n]+[.!?]*/g) : null
+  biographyText = data !== null ? biographyText.join("\n") : null
+  console.log(data !== null ? data.biography : null, biographyText)
 
   return (
     <>
@@ -45,7 +54,7 @@ const AboutView = () => {
             />
           </BruceImage>
           <h2>{data.name}</h2>
-          <p>{data.biography}</p>
+          <Paragraph>{biographyText}</Paragraph>
         </>
       )}
     </>

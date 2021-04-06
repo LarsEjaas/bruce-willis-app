@@ -66,11 +66,17 @@ const NavigateButton = styled.button<NavigateButtonProps>`
   background-color: transparent;
   font-family: "Passion One", cursive;
   font-weight: 700;
+  cursor: pointer;
   font-size: 20px;
   color: var(--icon-hover-color1);
   &:hover {
     color: var(--icon-hover-color2);
     border-color: var(--icon-hover-color1);
+    transform: scale(1.1);
+  }
+  &:nth-child(1) {
+    color: var(--icon-color1);
+    background-color: #ffffff08;
   }
 `
 
@@ -93,7 +99,7 @@ export const GoExtern = ({}) => {
         <h2>Are you sure?</h2>
         <p>You are about to navigate away from this page!</p>
         <ButtonContainer>
-          <NavigateButton onClick={closeModal}>No thanks</NavigateButton>
+          <NavigateButton onClick={closeModal}>No Thanks</NavigateButton>
           <NavigateButton onClick={openUrl}>Yes Please</NavigateButton>
         </ButtonContainer>
       </div>

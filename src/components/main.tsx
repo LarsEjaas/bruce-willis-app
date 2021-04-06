@@ -141,9 +141,10 @@ const Section = styled.section<SectionProps>`
     fill: var(--icon-hover-color1);
   }
   SVG:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
   }
 `
+
 const StyledExternalLink = styled(ExternalLink)<SectionProps>`
   &.EjaasLogo {
     position: absolute;
@@ -181,7 +182,7 @@ const Navigation = styled.nav<SectionProps>`
   position: absolute;
   display: flex;
   &.desktop {
-    animation: ${slideIn} 1s ease-out;
+    animation: ${slideIn} 0.7s ease-out;
     animation-fill-mode: both;
     flex-direction: column;
     padding: 24px;
@@ -189,7 +190,7 @@ const Navigation = styled.nav<SectionProps>`
     left: 0;
   }
   &.mobile.right {
-    animation: ${HeadlineslideIn} 1s ease-out 0.5s;
+    animation: ${HeadlineslideIn} 0.7s ease-out 0.5s;
     animation-fill-mode: both;
     padding: 16px;
     bottom: 13px;
@@ -235,9 +236,14 @@ const Vertical = styled.h2<SectionProps>`
     margin: 0 8px;
     transform: translateY(5px);
   }
-  & :hover {
+  &:hover {
     color: var(--icon-hover-color1);
-    transform: translateX(-4px) rotate(180deg) scale(1.1);
+  }
+  &.desktop:hover {
+    transform: translateX(-4px) rotate(180deg) scale(1.2);
+  }
+  &.mobile:hover {
+    transform: translateY(5px) scale(1.2);
   }
 `
 
@@ -386,7 +392,7 @@ const Section1 = ({ isMobile, index }: SectionProps) => {
               href="https://www.themoviedb.org/"
               title="The Movie Database"
             >
-              <TMDBlogoVertical width="13" />
+              <TMDBlogoVertical width="13" style={{ margin: "8px 0" }} />
             </StyledExternalLink>
             <Vertical
               tabIndex="0"
@@ -461,7 +467,7 @@ const Section1 = ({ isMobile, index }: SectionProps) => {
             : `${isMobile} EjaasLogo left`
         }
         isMobile={isMobile}
-        href="https://larsejaas.com/"
+        href="https://larsejaas.com/en/"
         title="Made by Lars Ejaas"
       >
         <EjaasLogo width="64" />

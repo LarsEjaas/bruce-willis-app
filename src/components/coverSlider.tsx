@@ -1,15 +1,18 @@
 import * as React from "react"
 import { useState, useContext } from "react"
-import styled, { keyframes, css } from "styled-components"
-import { StaticImage } from "gatsby-plugin-image"
+import styled, { keyframes } from "styled-components"
 import { GlobalContext } from "./layout"
+import { useFetchMovieCredits } from "./sourceData"
 
 interface SliderProps {
   left?: boolean
   right?: boolean
   isMobile?: "mobile" | "desktop" | undefined
   index: 1 | 2
+  movieData: Array | null
 }
+
+interface SliderPropsArray extends Array<SliderProps> {}
 
 const sliderFadeIn = keyframes`
 from {
@@ -41,7 +44,7 @@ const Slider = styled.div<SliderProps>`
     transform: ${props =>
       props.isMobile === "mobile"
         ? "rotate(9deg)"
-        : "translateX(calc(8.33% * -1)) rotate(9deg)"};
+        : "translateX(calc(6.33% * -1)) rotate(9deg)"};
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -68,7 +71,36 @@ const Slider = styled.div<SliderProps>`
   }
 `
 
+//Bruce Willis has id: 62
+const id = "62/movie_credits"
+const type = "person"
+
 const MovieCovers = ({ isMobile, index }: SliderProps) => {
+  console.log(id, type)
+  const [movieData, isLoading] = useFetchMovieCredits({ type, id })
+  const [imgIsLoading, setImgIsLoading] = useState(false)
+
+  console.log(movieData !== null ? movieData.movies : null)
+  const movies =
+    movieData !== null
+      ? movieData.movies.sort((a, b) => b.release_date - a.release_date)
+      : null
+  console.log(movies !== null ? movies : null)
+
+  //===
+  const movieList =
+    movies !== null
+      ? movies.map(listMovie => (
+          <Cover
+            poster_path={listMovie.poster_path}
+            original_title={listMovie.original_title}
+            isMobile={isMobile}
+          />
+        ))
+      : null
+  console.log(movieList)
+  //===
+
   return (
     <Slider isMobile={isMobile}>
       <div
@@ -78,10 +110,7 @@ const MovieCovers = ({ isMobile, index }: SliderProps) => {
             : `${isMobile} sliderContainer left`
         }
       >
-        <Cover1 isMobile={isMobile} />
-        <Cover2 isMobile={isMobile} />
-        <Cover3 isMobile={isMobile} />
-        {/* {covers} */}
+        {movieList}
       </div>
     </Slider>
   )
@@ -116,37 +145,21 @@ const CoverCard = styled.div<CoverProps>`
     box-shadow: var(--box-shadow-raised);
     z-index: 2;
   }
-  & .coverImage {
+  & img {
     border-radius: 20px;
     filter: sepia(1);
     transition: filter 0.3s ease-in-out;
     position: absolute;
+    height: 100%;
+    width: 100%;
     top: 0;
   }
-  &:hover .coverImage {
+  &:hover img {
     filter: unset;
   }
 `
 
-const Cover1 = ({ isMobile }: CoverProps) => {
-  const [active, setActive] = useState(false)
-
-  return (
-    <CoverCard className={active} aria-label="" title="">
-      <StaticImage
-        className="coverImage"
-        isMobile={isMobile}
-        src="../images/cover1.jpg"
-        alt="portrait of Bruce Willis"
-        loading="eager"
-        placeholder="none"
-        layout="constrained"
-      />
-    </CoverCard>
-  )
-}
-
-const Cover2 = ({ isMobile }: CoverProps) => {
+const Cover = ({ poster_path, original_title, isMobile }: CoverProps) => {
   const [active, setActive] = useState(false)
 
   const { modalToggle } = useContext(GlobalContext)
@@ -174,34 +187,43 @@ const Cover2 = ({ isMobile }: CoverProps) => {
       aria-label=""
       title=""
     >
-      <StaticImage
-        className="coverImage"
-        isMobile={isMobile}
-        src="../images/cover2.jpg"
-        alt="portrait of Bruce Willis"
-        loading="eager"
-        placeholder="none"
-        layout="constrained"
-      />
-    </CoverCard>
-  )
-}
-
-const Cover3 = ({ isMobile }: CoverProps) => {
-  const [active, setActive] = useState(false)
-
-  return (
-    <CoverCard className={active} aria-label="" title="">
-      {/* <CoverCard activeState={activeState} handleActiveState={handleActiveState} label={data.tag} index={1} aria-label="" title=""> */}
-      <StaticImage
-        className="coverImage"
-        isMobile={isMobile}
-        src="../images/cover3.jpg"
-        alt="portrait of Bruce Willis"
-        loading="eager"
-        placeholder="none"
-        layout="constrained"
-      />
+      <picture className={isMobile}>
+        <source
+          media={
+            isMobile === "mobile" ? "(max-width: 432px)" : "(max-width: 865px)"
+          }
+          srcSet={`https://image.tmdb.org/t/p/w200${poster_path}`}
+          loading="lazy"
+        />
+        <source
+          media={
+            isMobile === "mobile"
+              ? "(min-width: 433px) and (max-width: 648px)"
+              : "(min-width: 866px)"
+          }
+          srcSet={`https://image.tmdb.org/t/p/w300${poster_path}`}
+          loading="lazy"
+        />
+        {isMobile === "mobile" && (
+          <>
+            <source
+              media="(min-width: 649px) and (max-width: 864px)"
+              srcSet={`https://image.tmdb.org/t/p/w400${poster_path}`}
+              loading="lazy"
+            />
+            <source
+              media="(min-width: 865px)"
+              srcSet={`https://image.tmdb.org/t/p/w500${poster_path}`}
+              loading="lazy"
+            />
+          </>
+        )}
+        <img
+          src={`https://image.tmdb.org/t/p/w300${poster_path}`}
+          alt={`Movie poster from ${original_title}`}
+          loading="lazy"
+        />
+      </picture>
     </CoverCard>
   )
 }
