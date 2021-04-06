@@ -48,7 +48,7 @@ const Slider = styled.div<SliderProps>`
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 900px;
+    max-width: 1200px;
     transform-origin: top right;
     padding: 16px 0;
     height: 110%;
@@ -86,7 +86,9 @@ const MovieCovers = ({ isMobile, index }: SliderProps) => {
       ? movieData.movies.sort((a, b) => b.release_date - a.release_date)
       : null
   console.log(movies !== null ? movies : null)
-
+  if (movies !== null) {
+    localStorage.setItem("movieStorageData", JSON.stringify(movies))
+  }
   //===
   const movieList =
     movies !== null
@@ -95,6 +97,7 @@ const MovieCovers = ({ isMobile, index }: SliderProps) => {
             poster_path={listMovie.poster_path}
             original_title={listMovie.original_title}
             isMobile={isMobile}
+            id={listMovie.id}
           />
         ))
       : null
@@ -159,11 +162,10 @@ const CoverCard = styled.div<CoverProps>`
   }
 `
 
-const Cover = ({ poster_path, original_title, isMobile }: CoverProps) => {
+const Cover = ({ poster_path, original_title, isMobile, id }: CoverProps) => {
   const [active, setActive] = useState(false)
 
   const { modalToggle } = useContext(GlobalContext)
-
   const handleEnterKey = e => {
     console.log(e)
     e.currentTarget.click()
@@ -186,6 +188,7 @@ const Cover = ({ poster_path, original_title, isMobile }: CoverProps) => {
       onKeyPress={e => keyListener(e)}
       aria-label=""
       title=""
+      id={id}
     >
       <picture className={isMobile}>
         <source

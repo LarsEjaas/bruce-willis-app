@@ -22,6 +22,8 @@ const GlobalStyle = createGlobalStyle`
   --icon-color1: #665a57;
   --icon-hover-color1: #928481;
   --icon-hover-color2: #b2aaa9;
+  --movie-header1-color: #f5f5f5;
+  --movie-paragraph-color: #d3cfcf;
   --primary-font: #C0AA87;
   --border-main: #36302e;
   --primary-font-focused: #dcb577;
@@ -186,30 +188,6 @@ a {
     animation: fadeIn ease-out 0.4s;
     will-change: opacity;
     overflow: scroll;
-    }
-
-.modal-content {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 40px;
-    padding:24px;
-    animation: fadeIn ease-out 0.4s; 
-    transform-origin: center center;
-    background: var(--background2);
-    border: 2px solid var(--icon-hover-color1);
-    will-change: opacity;
-    overflow:hidden;
-    }
-
-.modal-content.mobile {
-    width: calc(100vw - 8px);
-    min-width: 300px;
-    }
-
-.modal-content.desktop {
-    max-width: 1080px;
     }
 
 @media (min-height: 720px) {

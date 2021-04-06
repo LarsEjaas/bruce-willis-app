@@ -19,20 +19,32 @@ import MovieDetails from "./movieDetails"
 const Crossbutton = styled.button<CrossbuttonProps>`
   position: absolute;
   right: 24px;
+  top: ${props => (props.modalType === "movie" ? "24px" : "unset")};
+  filter: ${props =>
+    props.modalType === "movie"
+      ? "drop-shadow(3px 3px 2px var(--border-main))"
+      : "unset"};
   background-color: unset;
   border: unset;
   cursor: pointer;
   transition: all 0.2s ease-in;
   padding: 0;
+  z-index: 3;
   &:hover {
     transition: 0.3s ease-out;
     transform: scale(1.2);
   }
   & path {
-    fill: var(--icon-hover-color1);
+    fill: ${props =>
+      props.modalType === "movie"
+        ? "var(--movie-paragraph-color)"
+        : "var(--icon-hover-color1)"};
   }
   &:hover path {
-    fill: var(--icon-hover-color2);
+    fill: ${props =>
+      props.modalType === "movie"
+        ? "var(--movie-header1-color)"
+        : "var(--icon-hover-color2)"};
   }
 `
 
@@ -104,7 +116,11 @@ const ModalContainer = ({}) => {
   return (
     <>
       {isModalVisible && (
-        <Modal modalType={modalType} onModalClose={() => closeModal()}>
+        <Modal
+          modalType={modalType}
+          movieId={Number(clickedElement.id)}
+          onModalClose={() => closeModal()}
+        >
           <FilmRoll
             src="../images/filmroll.png"
             alt="roll of film"
@@ -112,19 +128,27 @@ const ModalContainer = ({}) => {
             placeholder="none"
             layout="constrained"
           />
-          <Modal.Header></Modal.Header>
-          {modalType === "externLink" && <Modal.Body goExtern={<GoExtern />} />}
+          <Modal.Header modalType={modalType} />
+          {modalType === "externLink" && (
+            <Modal.Body type={modalType} goExtern={<GoExtern />} />
+          )}
           {modalType === "movie" && (
             <Modal.Body
+              type={modalType}
+              movieId={Number(clickedElement.id)}
               movieContent={
                 <>
-                  <MovieDetails />
+                  <MovieDetails
+                    isMobile={isMobile}
+                    movieId={Number(clickedElement.id)}
+                  />
                 </>
               }
             />
           )}
           {modalType === "credits" && (
             <Modal.Body
+              type={modalType}
               credits={
                 <>
                   <h2>This is credits</h2>
@@ -134,6 +158,7 @@ const ModalContainer = ({}) => {
           )}
           {modalType === "about" && (
             <Modal.Body
+              type={modalType}
               about={
                 <>
                   <AboutView />
@@ -143,6 +168,7 @@ const ModalContainer = ({}) => {
           )}
           {modalType === "share" && (
             <Modal.Body
+              type={modalType}
               share={
                 <>
                   <h2>Share This Page on Social Media</h2>
@@ -157,9 +183,43 @@ const ModalContainer = ({}) => {
   )
 }
 
+interface ModalContentFrameProps {
+  position: string
+  width: number
+  left: number
+  top: number
+  opacity: number
+  zIndex: number
+}
+
+const ModalContentFrame = styled.div<ModalContentFrameProps>`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 40px;
+  padding: ${props => (props.modalType === "movie" ? "0" : "24px")};
+  animation: fadeIn ease-out 0.4s;
+  transform-origin: center center;
+  background: var(--background2);
+  border: 2px solid var(--icon-hover-color1);
+  will-change: opacity;
+  overflow: hidden;
+  &.mobile {
+    width: calc(100vw - 8px);
+    min-width: 300px;
+  }
+  &.desktop {
+    max-width: 1080px;
+  }
+  &.movie {
+    border-color: var(--icon-hover-color2);
+  }
+`
+
 const modalContext = createContext()
 
-function Modal({ children, onModalClose, modalType }) {
+function Modal({ children, onModalClose, modalType, movieId }) {
   const { isMobile, clickedElement } = useContext(GlobalContext)
   console.log(clickedElement)
   useEffect(() => {
@@ -222,27 +282,33 @@ function Modal({ children, onModalClose, modalType }) {
       role="dialog"
       aria-modal="true"
       ref={modalContainerRef}
+      style={{ movieId }}
     >
-      <div className={`${isMobile} modal-content ${modalType}`} ref={modalRef}>
+      <ModalContentFrame
+        className={`${isMobile} modal-content ${modalType}`}
+        ref={modalRef}
+        modalType={modalType}
+      >
         <modalContext.Provider value={{ onModalClose }}>
           {children}
         </modalContext.Provider>
-      </div>
+      </ModalContentFrame>
     </div>,
     document.body
   )
 }
 
-Modal.Header = function ModalHeader(props) {
+Modal.Header = function ModalHeader({ modalType }) {
   const { onModalClose } = useContext(modalContext)
+  console.log(modalType)
   return (
     <div className="modal-header">
-      {props.children}
       <Crossbutton
         className="cross-btn"
         title="Close window"
         aria-label="Close window"
         onClick={onModalClose}
+        modalType={modalType}
       >
         <Cross className="cross" width="22" />
       </Crossbutton>
@@ -257,9 +323,14 @@ Modal.Body = function ModalBody({
   offline,
   credits,
   about,
+  type,
+  movieId,
 }) {
   return (
-    <div className="modal-body">
+    <div
+      className={`modal-body ${type}`}
+      style={{ padding: movieId !== undefined ? "24px" : "unset" }}
+    >
       {share}
       {movieContent}
       {goExtern}

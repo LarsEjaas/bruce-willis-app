@@ -35,6 +35,14 @@ module.exports = {
     },
     'gatsby-plugin-styled-components',
     {
+      resolve: "gatsby-plugin-react-svg",
+      options: {
+        rule: {
+          include: /\.inline\.svg$/,
+        },
+      },
+    },
+    {
       resolve: 'gatsby-source-tmdb',
       options: {
         apiKey: process.env.TMDB_API_KEY,
