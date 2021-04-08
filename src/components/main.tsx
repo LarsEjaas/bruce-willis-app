@@ -11,14 +11,6 @@ import MovieCovers from "./coverSlider"
 import MobileNavigation from "./mobileNavigation"
 import { GlobalContext } from "./layout"
 
-interface SectionProps {
-  left?: boolean
-  right?: boolean
-  isMobile?: "mobile" | "desktop" | undefined
-  className?: string
-  index: 1 | 2
-}
-
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -84,6 +76,10 @@ to {
   transform: translateY(0);
 }
 `
+interface SectionProps {
+  readonly left?: boolean
+  readonly isMobile?: "mobile" | "desktop" | undefined
+}
 
 const Section = styled.section<SectionProps>`
   position: relative;
@@ -144,8 +140,11 @@ const Section = styled.section<SectionProps>`
     transform: scale(1.2);
   }
 `
+interface ExternalLinkProps {
+  readonly isMobile: "mobile" | "desktop" | undefined
+}
 
-const StyledExternalLink = styled(ExternalLink)<SectionProps>`
+const StyledExternalLink = styled(ExternalLink)<ExternalLinkProps>`
   &.EjaasLogo {
     position: absolute;
     z-index: 3;
@@ -177,7 +176,7 @@ const StyledExternalLink = styled(ExternalLink)<SectionProps>`
   }
 `
 
-const Navigation = styled.nav<SectionProps>`
+const Navigation = styled.nav`
   z-index: 4;
   position: absolute;
   display: flex;
@@ -221,7 +220,7 @@ const Navigation = styled.nav<SectionProps>`
     padding: 24px;
   }
 `
-const Vertical = styled.h2<SectionProps>`
+const Vertical = styled.h2`
   text-orientation: mixed;
   margin-block-start: 0;
   margin-block-end: 0;
@@ -247,7 +246,7 @@ const Vertical = styled.h2<SectionProps>`
   }
 `
 
-const Headline = styled.h1<SectionProps>`
+const Headline = styled.h1`
   position: absolute;
   text-shadow: var(--text-shadow-primary);
   z-index: 3;
@@ -276,7 +275,12 @@ const CircleWrapper = styled.div`
   position: absolute;
   inset: 0;
 `
-const Circle1 = styled.div<SectionProps>`
+
+interface Circle1Props {
+  readonly isMobile: "mobile" | "desktop" | undefined
+}
+
+const Circle1 = styled.div<Circle1Props>`
   height: 0;
   padding-top: ${props =>
     props.isMobile === "mobile" ? "calc(280% - 12px)" : "calc(166% - 12px)"};
@@ -297,7 +301,11 @@ const Circle1 = styled.div<SectionProps>`
   }
 `
 
-const Circle2 = styled.div<SectionProps>`
+interface Circle2Props {
+  readonly isMobile: "mobile" | "desktop" | undefined
+}
+
+const Circle2 = styled.div<Circle2Props>`
   height: 0;
   padding-top: ${props =>
     props.isMobile === "mobile" ? "calc(280% - 12px)" : "calc(166% - 12px)"};
@@ -318,7 +326,11 @@ const Circle2 = styled.div<SectionProps>`
   }
 `
 
-const Circle3 = styled.div<SectionProps>`
+interface Circle3Props {
+  readonly isMobile: "mobile" | "desktop" | undefined
+}
+
+const Circle3 = styled.div<Circle3Props>`
   height: 0;
   padding-top: ${props =>
     props.isMobile === "mobile" ? "calc(280% - 12px)" : "calc(200% - 12px)"};
@@ -339,7 +351,11 @@ const Circle3 = styled.div<SectionProps>`
   }
 `
 
-const Circle4 = styled.div<SectionProps>`
+interface Circle4Props {
+  readonly isMobile: "mobile" | "desktop" | undefined
+}
+
+const Circle4 = styled.div<Circle4Props>`
   height: 0;
   padding-top: ${props =>
     props.isMobile === "mobile" ? "calc(280% - 12px)" : "calc(233% - 12px)"};
@@ -359,6 +375,10 @@ const Circle4 = styled.div<SectionProps>`
     animation-fill-mode: both;
   }
 `
+interface SectionProps {
+  isMobile?: "mobile" | "desktop" | undefined
+  index: 1 | 2
+}
 
 const Section1 = ({ isMobile, index }: SectionProps) => {
   const { modalToggle } = useContext(GlobalContext)

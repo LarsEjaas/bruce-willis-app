@@ -5,16 +5,6 @@ import { GlobalContext } from "./layout"
 import { useFetchMovieCredits } from "./sourceData"
 import Cover from "./moviecover"
 
-interface SliderProps {
-  left?: boolean
-  right?: boolean
-  isMobile?: "mobile" | "desktop" | undefined
-  index: 1 | 2
-  movieData: Array | null
-}
-
-interface SliderPropsArray extends Array<SliderProps> {}
-
 const sliderFadeIn = keyframes`
 from {
   opacity: 0;
@@ -36,6 +26,9 @@ to {
   transform: rotate(9deg);
 }
 `
+interface SliderProps {
+  readonly isMobile: boolean
+}
 
 const Slider = styled.div<SliderProps>`
   position: absolute;
@@ -76,16 +69,15 @@ const Slider = styled.div<SliderProps>`
 const id = "62/movie_credits"
 const type = "person"
 
-const MovieCovers = ({ isMobile, index }: SliderProps) => {
+interface MovieCoverProps {
+  isMobile: boolean
+  index: string
+}
+
+const MovieCovers = ({ isMobile, index }: MovieCoverProps) => {
   console.log(id, type)
   const [movieData, isLoading] = useFetchMovieCredits({ type, id })
   const language = "da"
-
-  // console.log(movieData !== null ? (movieData, movieData.[2]) : null)
-
-  // if (movieData !== null) {console.log(movieData.[2])}
-
-  // console.log(movieData !== null ? movieData : null)
 
   if (movieData !== null) {
     localStorage.setItem(
@@ -93,7 +85,7 @@ const MovieCovers = ({ isMobile, index }: SliderProps) => {
       JSON.stringify(movieData)
     )
   }
-  //===
+
   const movieList =
     movieData !== null
       ? movieData.map(listMovie =>
@@ -108,7 +100,6 @@ const MovieCovers = ({ isMobile, index }: SliderProps) => {
         )
       : null
   console.log(movieList)
-  //===
 
   return (
     <Slider isMobile={isMobile}>

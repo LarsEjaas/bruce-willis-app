@@ -16,6 +16,16 @@ import ShareButtons from "./share"
 import { StaticImage } from "gatsby-plugin-image"
 import MovieDetails from "./movieDetails"
 
+interface CrossbuttonProps {
+  readonly modalType:
+    | "share"
+    | "movieContent"
+    | "goExtern"
+    | "offline"
+    | "credits"
+    | "about"
+}
+
 const Crossbutton = styled.button<CrossbuttonProps>`
   position: absolute;
   right: 24px;
@@ -48,16 +58,7 @@ const Crossbutton = styled.button<CrossbuttonProps>`
   }
 `
 
-interface FilmRollProps {
-  position: string
-  width: number
-  left: number
-  top: number
-  opacity: number
-  zIndex: number
-}
-
-const FilmRoll = styled(StaticImage)<FilmRollProps>`
+const FilmRoll = styled(StaticImage)`
   position: absolute;
   width: 100%;
   left: 0;
@@ -103,6 +104,12 @@ const ModalContainer = ({}) => {
   }
 
   const closeModal = e => {
+    if (
+      e.currentTarget === document.querySelector(".modal-container") &&
+      e.target !== e.currentTarget
+    )
+      return
+
     document.querySelector(".modal-container").classList.add("fadeOut")
     document.querySelector(".modal-content").classList.add("fadeOut")
     document.querySelector("main").classList.remove("blur")
@@ -119,7 +126,7 @@ const ModalContainer = ({}) => {
         <Modal
           modalType={modalType}
           movieId={Number(clickedElement.id)}
-          onModalClose={() => closeModal()}
+          onModalClose={e => closeModal(e)}
         >
           <FilmRoll
             src="../images/filmroll.png"
@@ -184,12 +191,13 @@ const ModalContainer = ({}) => {
 }
 
 interface ModalContentFrameProps {
-  position: string
-  width: number
-  left: number
-  top: number
-  opacity: number
-  zIndex: number
+  readonly modalType:
+    | "share"
+    | "movieContent"
+    | "goExtern"
+    | "offline"
+    | "credits"
+    | "about"
 }
 
 const ModalContentFrame = styled.div<ModalContentFrameProps>`
@@ -219,7 +227,20 @@ const ModalContentFrame = styled.div<ModalContentFrameProps>`
 
 const modalContext = createContext()
 
-function Modal({ children, onModalClose, modalType, movieId }) {
+interface ModalProps {
+  readonly modalType:
+    | "share"
+    | "movieContent"
+    | "goExtern"
+    | "offline"
+    | "credits"
+    | "about"
+  children: JSX.Element
+  onModalClose: (e: Event) => void
+  movieId: number
+}
+
+function Modal({ children, onModalClose, modalType, movieId }: ModalProps) {
   const { isMobile, clickedElement } = useContext(GlobalContext)
   console.log(clickedElement)
   useEffect(() => {
@@ -283,6 +304,7 @@ function Modal({ children, onModalClose, modalType, movieId }) {
       aria-modal="true"
       ref={modalContainerRef}
       style={{ movieId }}
+      onClick={onModalClose}
     >
       <ModalContentFrame
         className={`${isMobile} modal-content ${modalType}`}
@@ -298,7 +320,17 @@ function Modal({ children, onModalClose, modalType, movieId }) {
   )
 }
 
-Modal.Header = function ModalHeader({ modalType }) {
+interface ModalHeaderProps {
+  modalType:
+    | "share"
+    | "movieContent"
+    | "goExtern"
+    | "offline"
+    | "credits"
+    | "about"
+}
+
+Modal.Header = function ModalHeader({ modalType }: ModalHeaderProps) {
   const { onModalClose } = useContext(modalContext)
   console.log(modalType)
   return (
@@ -316,6 +348,17 @@ Modal.Header = function ModalHeader({ modalType }) {
   )
 }
 
+interface ModalBodyProps {
+  share: JSX.Element
+  movieContent: JSX.Element
+  goExtern: JSX.Element
+  offline: JSX.Element
+  credits: JSX.Element
+  about: JSX.Element
+  type: string
+  movieId: number
+}
+
 Modal.Body = function ModalBody({
   share,
   movieContent,
@@ -325,7 +368,7 @@ Modal.Body = function ModalBody({
   about,
   type,
   movieId,
-}) {
+}: ModalBodyProps) {
   return (
     <div
       className={`modal-body ${type}`}
@@ -343,20 +386,29 @@ Modal.Body = function ModalBody({
 
 export default ModalContainer
 
-const ModalContent = ({
-  share,
-  movieContent,
-  goExtern,
-  offline,
-  credits,
-  about,
-}) => (
-  <>
-    {share}
-    {movieContent}
-    {goExtern}
-    {offline}
-    {credits}
-    {about}
-  </>
-)
+interface ModalContentProps {
+  share: JSX.Element
+  movieContent: JSX.Element
+  goExtern: JSX.Element
+  offline: JSX.Element
+  credits: JSX.Element
+  about: JSX.Element
+}
+
+// const ModalContent = ({
+//   share,
+//   movieContent,
+//   goExtern,
+//   offline,
+//   credits,
+//   about,
+// }: ModalContentProps) => (
+//   <>
+//     {share}
+//     {movieContent}
+//     {goExtern}
+//     {offline}
+//     {credits}
+//     {about}
+//   </>
+// )

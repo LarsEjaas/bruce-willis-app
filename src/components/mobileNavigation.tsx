@@ -1,14 +1,6 @@
 import * as React from "react"
 import { useEffect } from "react"
-import styled, { keyframes } from "styled-components"
-
-interface NavigationProps {
-  togglePage: Function
-  onClick(event: React.MouseEvent<HTMLButtonElement>): void
-  index: 1 | 2
-  className: string
-  id: "1" | "2"
-}
+import styled from "styled-components"
 
 const Navigation = styled.nav`
   z-index: 10;
@@ -20,7 +12,12 @@ const Navigation = styled.nav`
   }
 `
 
-const NavBtn = styled.button<NavigationProps>`
+interface NavBtnProps {
+  readonly index: 1 | 2
+  readonly id: "1" | "2"
+}
+
+const NavBtn = styled.button<NavBtnProps>`
   height: 24px;
   width: 24px;
   border-radius: 50%;
@@ -31,6 +28,14 @@ const NavBtn = styled.button<NavigationProps>`
   background-color: ${props =>
     props.index === parseFloat(props.id) ? "var(--icon-color1)" : "unset"};
 `
+
+interface NavigationProps {
+  togglePage: Function
+  onClick(event: React.MouseEvent<HTMLButtonElement>): void
+  index: 1 | 2
+  className: string
+  id: "1" | "2"
+}
 
 const MobileNavigation = ({ togglePage, index }: NavigationProps) => {
   useEffect(() => {}, [index])

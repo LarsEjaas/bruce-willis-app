@@ -40,21 +40,13 @@ const ExternalLink = ({
 
 export default ExternalLink
 
-type ButtonContainerProps = {
-  borderRadius: number
-}
-
 const ButtonContainer = styled.div<ButtonContainerProps>`
   display: flex;
   justify-content: flex-end;
   width: 100%;
 `
 
-type NavigateButtonProps = {
-  borderRadius: number
-}
-
-const NavigateButton = styled.button<NavigateButtonProps>`
+const NavigateButton = styled.button`
   border-radius: 30px;
   transition: 0.2s ease-in;
   padding: 14px;

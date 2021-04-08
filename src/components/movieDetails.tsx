@@ -5,10 +5,12 @@ import { useFetchAbout } from "./sourceData"
 import styled from "styled-components"
 import FemaleMale from "../images/female_male.inline.svg"
 import CinemaFilm from "../images/cinema_film.inline.svg"
+import ChairDirector from "../images/chair_director.inline.svg"
 import { useFetchMovieDetails } from "./sourceData"
 import { getGenre } from "./genres"
+import ExternalLink from "./externalLink"
 
-const BackDrop = styled.picture<BackDropProps>`
+const BackDrop = styled.picture`
   position: absolute;
   width: 100%;
   top: 0;
@@ -22,7 +24,7 @@ const BackDrop = styled.picture<BackDropProps>`
   }
 `
 
-const PosterCover = styled.img<PosterCoverProps>`
+const PosterCover = styled.img`
   border-radius: 10px;
   position: inline;
   float: left;
@@ -39,7 +41,7 @@ const PosterCover = styled.img<PosterCoverProps>`
   transform-origin: center center;
 `
 
-const GenreArray = styled.div<GenreArrayProps>`
+const GenreArray = styled.div`
   display: inline-flex;
   & h3 {
     font-family: "Passion One", cursive;
@@ -66,7 +68,7 @@ const GenreArray = styled.div<GenreArrayProps>`
   }
 `
 
-const Header1 = styled.h1<Header1Props>`
+const Header1 = styled.h1`
   text-shadow: 4px 4px 4px var(--border-main);
   color: var(--movie-header1-color);
   margin: 0;
@@ -78,16 +80,16 @@ const Header1 = styled.h1<Header1Props>`
   font-size: clamp(2.5rem, 1.2273rem + 6.3636vw, 6rem);
 `
 
-const HeadlineDetails = styled.div<HeadlineDetailsProps>`
+const HeadlineDetails = styled.div`
   display: inline-flex;
   width: 100%;
   justify-content: space-around;
 `
-const Year = styled.h3<YearProps>`
+const Year = styled.h3`
   font-family: "Passion One", cursive;
   font-weight: 400;
   line-height: 0.8;
-  margin: 0;
+  margin-bottom: 0.2em;
   margin-block-start: 0;
   margin-inline-end: 0;
   padding: 4px 8px;
@@ -99,7 +101,7 @@ const Year = styled.h3<YearProps>`
   transform: rotate(-4deg);
 `
 
-const StarringAs = styled.h3<StarringAsProps>`
+const StarringAs = styled.h3`
   font-family: "Passion One", cursive;
   font-weight: 400;
   font-size: clamp(1rem, 0.6364rem + 1.8182vw, 2rem);
@@ -111,7 +113,7 @@ const StarringAs = styled.h3<StarringAsProps>`
   text-shadow: 4px 4px 4px var(--border-main);
 `
 
-const Paragraph = styled.p<ParagraphProps>`
+const Paragraph = styled.p`
   white-space: break-spaces;
   color: var(--movie-paragraph-color);
   text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
@@ -133,7 +135,8 @@ const Paragraph = styled.p<ParagraphProps>`
   }
 `
 
-const Cast = styled.div<CastProps>`
+const IconHeadline = styled.div`
+  display: inline-table;
   white-space: break-spaces;
   color: var(--movie-paragraph-color);
   text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
@@ -148,25 +151,74 @@ const Cast = styled.div<CastProps>`
     margin: 0 8px;
     height: 1.8em;
     width: 1.8em;
-    top: 1em;
+    top: 0.5em;
     position: relative;
     filter: drop-shadow(4px 4px 4px var(--border-main));
   }
+  & p {
+    white-space: break-spaces;
+    color: var(--movie-paragraph-color);
+    text-shadow: 6px 6px 6px var(--border-main),
+      -6px -6px 6px var(--border-main);
+    position: inline;
+    line-height: 0.5;
+    font-size: 16px;
+    margin-block-start: 0;
+    margin-block-end: 1em;
+    margin-left: 3em;
+  }
+`
+const CastlistWrapper = styled.div`
+  display: inline-flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-evenly;
 `
 
-const Headline3 = styled.h3<Headline3Props>`
+const Headline3 = styled.h3`
   font-family: "Passion One", cursive;
   font-weight: 400;
   font-size: 1.8em;
   margin: 0;
   margin-block-start: 1em;
-  margin-inline-end: 0;
+  margin-block-end: 0.5em;
   line-height: 1;
   color: var(--movie-paragraph-color);
   text-shadow: 4px 4px 4px var(--border-main);
 `
 
-const MovieDetails = ({ movieId, isMobile }) => {
+interface CastCardProps {
+  readonly movieId: number
+  readonly isMobile: "mobile" | "desktop" | undefined
+}
+
+const CastCard = styled.div<CastCardProps>`
+  height: fit-content;
+  width: 20%;
+  min-width: 70px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 12px;
+  & img {
+    box-shadow: 8px 8px 6px var(--border-main);
+    border-radius: 50%;
+    border: ${props =>
+      props.isMobile === "mobile"
+        ? "4px solid var(--movie-paragraph-color)"
+        : "8px solid var(--movie-paragraph-color)"};
+    width: 100%;
+    min-width: 80px;
+    max-width: 180px;
+  }
+`
+
+interface MovieDetailsProps {
+  readonly movieId: number
+  readonly isMobile: "mobile" | "desktop" | undefined
+}
+
+const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
+  console.log(isMobile)
   const language = "da"
   const movieData = JSON.parse(
     localStorage.getItem(`movieStorageData-${language}`)
@@ -200,20 +252,42 @@ const MovieDetails = ({ movieId, isMobile }) => {
 
   const genreTypes = genreList.map(genre => <h3>{genre}</h3>)
 
+  let keys =
+    movieDetailedData !== null
+      ? movieDetailedData.data.crew.map((crew, index) =>
+          crew.job === "Director" ? crew.name : null
+        )
+      : null
+  const Director =
+    movieDetailedData !== null ? keys.find(element => element !== null) : null
+
   const castListData =
     movieDetailedData !== null ? movieDetailedData.data.cast : null
   console.log(castListData)
 
   const castList =
     movieDetailedData !== null
-      ? castListData.map(cast =>
-          castListData.name !== "Bruce Willis" ? (
-            <>
-              <img
-                src={`https://www.themoviedb.org/t/p/w180_and_h180_face${castListData.profile_path}`}
-              />
-              <h3>{castListData.name}</h3>
-            </>
+      ? castListData.map((cast, index) =>
+          cast.original_name !== "Bruce Willis" ? (
+            index < 7 ? (
+              cast.profile_path !== null ? (
+                <>
+                  <CastCard isMobile={isMobile}>
+                    <ExternalLink
+                      href={`https://www.themoviedb.org/person/${cast.id}`}
+                      title={`Details about ${cast.original_name}`} //skal oversættes
+                    >
+                      <img
+                        src={`https://www.themoviedb.org/t/p/w180_and_h180_face${cast.profile_path}`}
+                      />
+                    </ExternalLink>
+                    <h2>{cast.original_name}</h2>
+                    <p>as</p>
+                    <h3>{cast.character}</h3>
+                  </CastCard>
+                </>
+              ) : null
+            ) : null
           ) : null
         )
       : null
@@ -272,13 +346,20 @@ const MovieDetails = ({ movieId, isMobile }) => {
         loading="lazy"
       />
       <Paragraph>{movieDetails.overview}</Paragraph>
-      <Cast>
+      <IconHeadline>
+        <span>
+          <ChairDirector />
+          <Headline3>Director</Headline3>
+        </span>
+        <p>{Director}</p>
+      </IconHeadline>
+      <IconHeadline>
         <span>
           <FemaleMale />
           <Headline3>Also Starring</Headline3>
         </span>
-        <div>{castList}</div>
-      </Cast>
+        <CastlistWrapper>{castList}</CastlistWrapper>
+      </IconHeadline>
     </>
   )
 }

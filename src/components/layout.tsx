@@ -286,9 +286,7 @@ const Layout = ({ children }: LayoutProps) => {
           modalVisible,
           modalToggle,
           modalType,
-          //changeModalType,
           clickedElement,
-          //storeClickedElement,
         }}
       >
         <GlobalStyle />
@@ -351,7 +349,5 @@ export const GlobalContext = createContext<Partial<GlobalContextProps>>({
   modalVisible: ModalVisibleInitial,
   modalToggle: () => {},
   modalType,
-  //changeModalType:() => {},
   clickedElement,
-  //storeClickedElement:() => {},
 })

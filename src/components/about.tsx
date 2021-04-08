@@ -4,7 +4,7 @@ import Skeleton from "react-loading-skeleton"
 import { useFetchAbout } from "./sourceData"
 import styled from "styled-components"
 
-const BruceImage = styled.picture<BruceImageProps>`
+const BruceImage = styled.picture`
   position: relative;
   }
   & img {
@@ -12,7 +12,7 @@ const BruceImage = styled.picture<BruceImageProps>`
   }
 `
 
-const Paragraph = styled.p<ParagraphProps>`
+const Paragraph = styled.p`
   white-space: break-spaces;
 `
 
