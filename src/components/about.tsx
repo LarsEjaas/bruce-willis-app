@@ -4,6 +4,11 @@ import Skeleton from "react-loading-skeleton"
 import { useFetchAbout } from "./sourceData"
 import styled from "styled-components"
 
+//images
+//https://api.themoviedb.org/3/person/62/tagged_images?api_key=8551b13d1962564c7342bfbbb9e3c5d7&language=en-US&page=1
+
+//https://image.tmdb.org/t/p/w500/w7RDIgQM6bLT7JXtH4iUQd3Iwxm.jpg
+
 const BruceImage = styled.picture`
   position: relative;
   }

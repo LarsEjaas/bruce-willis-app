@@ -8,6 +8,8 @@ import CinemaFilm from "../images/cinema_film.inline.svg"
 import ChairDirector from "../images/chair_director.inline.svg"
 import PlayTrailer from "../images/play_trailer.inline.svg"
 import SandTime from "../images/sand_time.inline.svg"
+import Television from "../images/television.inline.svg"
+import Books from "../images/books.inline.svg"
 import { useFetchMovieDetails } from "./sourceData"
 import { getGenre } from "./genres"
 import ExternalLink from "./externalLink"
@@ -171,7 +173,7 @@ const IconHeadline = styled.div<IconHeadlineProps>`
     line-height: 0.5;
     font-size: 16px;
     margin-block-start: 0;
-    margin-block-end: 1em;
+    margin-block-end: 2em;
     margin-left: 3em;
   }
   & iframe {
@@ -222,6 +224,36 @@ const CastCard = styled.div<CastCardProps>`
     width: 100%;
     min-width: 80px;
     max-width: 180px;
+  }
+  & h2 {
+    font-family: "Passion One", cursive;
+    font-weight: 700;
+    font-size: 1.2em;
+    margin: 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    line-height: 0.9;
+    color: var(--movie-paragraph-color);
+    text-shadow: 4px 4px 4px var(--border-main);
+    text-align: center;
+  }
+  & h3 {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 700;
+    font-size: 1em;
+    margin: 0;
+    margin-block-start: 0;
+    margin-block-end: 0.4em;
+    line-height: 1.1;
+    color: var(--movie-paragraph-color);
+    text-shadow: 4px 4px 4px var(--border-main);
+    text-align: center;
+  }
+  & p {
+    text-align: center;
+    margin-block-start: 0.2em;
+    margin-block-end: 0.4em;
+    margin-left: 0;
   }
 `
 
@@ -329,6 +361,16 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
         )
       : null
 
+  const buyLinks =
+    movieDetailedData !== null
+      ? movieDetailedData.data.["watch/providers"].results.DK.buy
+      : null
+  const streamLink =
+  movieDetailedData !== null
+      ? movieDetailedData.data.["watch/providers"].results.DK.link
+      : null
+  console.log(buyLinks, streamLink)
+
   return (
     <>
       <BackDrop>
@@ -403,7 +445,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
         </span>
         <CastlistWrapper>{castList}</CastlistWrapper>
       </IconHeadline>
-      {trailerLink !== null && (
+      {trailerLink && (
         <IconHeadline fullWidth>
           <span>
             <PlayTrailer />
@@ -415,6 +457,21 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
           <IframeMovie trailerLink={trailerLink} />
         </IconHeadline>
       )}
+      {language === "da" && (
+        <IconHeadline fullWidth>
+          <span>
+            <Television style={{ top: "0" }} />
+            <Headline3>Lej eller stream denne film</Headline3>
+          </span>
+        </IconHeadline>
+        )}
+        <IconHeadline fullWidth>
+        <span>
+          <Books />
+          <Headline3>Læs mere</Headline3>
+        </span>
+      </IconHeadline>
+      
     </>
   )
 }

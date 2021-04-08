@@ -113,14 +113,14 @@ H2 {
   margin-block-end: 0.3em;
   }
 
-.modal-content H2 {
+/* .modal-content H2 {
   color: var(--icon-hover-color1);
   text-transform: uppercase;
   line-height: 0.8;
   margin-block-start: 0;
   max-width: 88%;
   text-align: center;
-  }
+  } */
 
 p {
   font-family: 'Open Sans', sans-serif;
