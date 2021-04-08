@@ -6,9 +6,12 @@ import styled from "styled-components"
 import FemaleMale from "../images/female_male.inline.svg"
 import CinemaFilm from "../images/cinema_film.inline.svg"
 import ChairDirector from "../images/chair_director.inline.svg"
+import PlayTrailer from "../images/play_trailer.inline.svg"
+import SandTime from "../images/sand_time.inline.svg"
 import { useFetchMovieDetails } from "./sourceData"
 import { getGenre } from "./genres"
 import ExternalLink from "./externalLink"
+import IframeMovie from "./youtubeVideo"
 
 const BackDrop = styled.picture`
   position: absolute;
@@ -134,14 +137,18 @@ const Paragraph = styled.p`
     text-shadow: 6px 6px 6px var(--border-main);
   }
 `
+interface IconHeadlineProps {
+  readonly fullWidth?: boolean | undefined
+}
 
-const IconHeadline = styled.div`
+const IconHeadline = styled.div<IconHeadlineProps>`
   display: inline-table;
   white-space: break-spaces;
   color: var(--movie-paragraph-color);
   text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
   position: inline;
   line-height: 1.5;
+  width: ${props => (props.fullWidth ? "100%" : "60%")};
   & span {
     display: inline-flex;
   }
@@ -151,7 +158,7 @@ const IconHeadline = styled.div`
     margin: 0 8px;
     height: 1.8em;
     width: 1.8em;
-    top: 0.5em;
+    top: 0.3em;
     position: relative;
     filter: drop-shadow(4px 4px 4px var(--border-main));
   }
@@ -167,6 +174,12 @@ const IconHeadline = styled.div`
     margin-block-end: 1em;
     margin-left: 3em;
   }
+  & iframe {
+    display: block;
+    margin: 0.5em auto 0.5em auto;
+    border-radius: 12px;
+    filter: drop-shadow(12px 12px 6px var(--image-cover-color));
+  }
 `
 const CastlistWrapper = styled.div`
   display: inline-flex;
@@ -180,7 +193,7 @@ const Headline3 = styled.h3`
   font-weight: 400;
   font-size: 1.8em;
   margin: 0;
-  margin-block-start: 1em;
+  margin-block-start: 0.8em;
   margin-block-end: 0.5em;
   line-height: 1;
   color: var(--movie-paragraph-color);
@@ -232,7 +245,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
   const movieDetails = movieData.find(findMovie)
   console.log(movieDetails)
 
-  const id = `${movieId}/credits`
+  const id = `${movieId}`
   const type = "movie"
   const [movieDetailedData, isLoading] = useFetchMovieDetails({ type, id })
   console.log(movieDetailedData !== null ? movieDetailedData : null)
@@ -240,30 +253,54 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
   const movieYear = movieDetails.release_date.split("-")[0]
 
   const genreList = movieDetails.genre_ids
-  console.log(genreList)
 
   genreList.forEach((genre_id, index) => {
-    console.log(genre_id, typeof genre_id)
     let genre = getGenre(language, genre_id.toString())
     genreList[index] = genre
   })
-
-  console.log(genreList)
 
   const genreTypes = genreList.map(genre => <h3>{genre}</h3>)
 
   let keys =
     movieDetailedData !== null
-      ? movieDetailedData.data.crew.map((crew, index) =>
+      ? movieDetailedData.data.credits.crew.map((crew, index) =>
           crew.job === "Director" ? crew.name : null
         )
       : null
   const Director =
     movieDetailedData !== null ? keys.find(element => element !== null) : null
 
+  const hours =
+    movieDetailedData !== null
+      ? Math.floor(Number(movieDetailedData.data.runtime) / 60)
+      : null
+  const minutes =
+    movieDetailedData !== null
+      ? Number(movieDetailedData.data.runtime) % 60
+      : null
+
+  //console.log(`${hours}h ${minutes}m`)
   const castListData =
-    movieDetailedData !== null ? movieDetailedData.data.cast : null
-  console.log(castListData)
+    movieDetailedData !== null ? movieDetailedData.data.credits.cast : null
+  //console.log(castListData)
+
+  const trailerLinkID =
+    movieDetailedData !== null
+      ? movieDetailedData.data.videos.results.map(movie =>
+          movie.iso_639_1 === "en"
+            ? movie.site === "YouTube"
+              ? movie.key
+              : null
+            : null
+        )
+      : null
+
+  const trailerLink =
+    movieDetailedData !== null
+      ? trailerLinkID.find(element => element !== null)
+      : null
+
+  console.log(trailerLink)
 
   const castList =
     movieDetailedData !== null
@@ -355,11 +392,29 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
       </IconHeadline>
       <IconHeadline>
         <span>
+          <SandTime />
+          <Headline3>{`${hours}h ${minutes}m`}</Headline3>
+        </span>
+      </IconHeadline>
+      <IconHeadline>
+        <span>
           <FemaleMale />
           <Headline3>Also Starring</Headline3>
         </span>
         <CastlistWrapper>{castList}</CastlistWrapper>
       </IconHeadline>
+      {trailerLink !== null && (
+        <IconHeadline fullWidth>
+          <span>
+            <PlayTrailer />
+            <Headline3>Trailer</Headline3>
+          </span>
+          {language === "da" && (
+            <p>Traileren er desværre kun tilgængelig på engelsk</p>
+          )}
+          <IframeMovie trailerLink={trailerLink} />
+        </IconHeadline>
+      )}
     </>
   )
 }

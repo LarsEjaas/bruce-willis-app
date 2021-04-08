@@ -129,6 +129,8 @@ export const useFetchMovieCredits = ({ type, id }: useFetchProps) => {
   return [data, isLoading]
 }
 
+const translationDetails = "en-US"
+
 export const useFetchMovieDetails = ({ type, id }: useFetchProps) => {
   const [data, setData] = useState(null)
   const [isLoading, setLoading] = useState(true)
@@ -137,7 +139,8 @@ export const useFetchMovieDetails = ({ type, id }: useFetchProps) => {
     setLoading(true)
     try {
       const response = await axios.get(
-        `${BASE_URL}${type}/${id}?api_key=${process.env.TMDB_API_KEY}&language=${translation}`
+        //681887?api_key=8551b13d1962564c7342bfbbb9e3c5d7&language=en-US&append_to_response=credits,images,videos
+        `${BASE_URL}${type}/${id}?api_key=${process.env.TMDB_API_KEY}&language=${translationDetails}&append_to_response=credits,videos,watch/providers`
       )
       const APIdata = await response
       console.log(APIdata), setData(APIdata)
