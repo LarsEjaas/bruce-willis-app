@@ -30,7 +30,8 @@ const AboutView = () => {
 
   let biographyText =
     data !== null ? data.biography.match(/[^\s.!?]+[^.!?\r\n]+[.!?]*/g) : null
-  biographyText = data !== null ? biographyText.join("\n") : null
+  console.log(biographyText)
+  biographyText = biographyText !== null ? biographyText.join("\n") : null
   console.log(data !== null ? data.biography : null, biographyText)
 
   return (

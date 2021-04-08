@@ -4,18 +4,22 @@ import { Helmet } from "react-helmet"
 import { globalHistory as history } from "@reach/router"
 
 const removeBackSlashEnd = path => {
+  if (path === undefined) return
   return path.endsWith("/") ? path.slice(0, path.length - 1) : path
 }
 
 const removeBackSlashStart = path => {
+  if (path === undefined) return
   return path.startsWith("/") ? path.slice(1, path.length) : path
 }
 
 const httpsTohttp = path => {
+  if (path === undefined) return
   return path.replace(/^https:\/\//i, "http://")
 }
 
 const getImageType = path => {
+  if (path === undefined) return
   let regexp = /jpeg|png?/gi
   return path.match(regexp)
 }
@@ -60,7 +64,7 @@ const SEO = props => {
   const twitter = props.twitter
   const author = props.author || `${siteMetadata.author}`
   const rights = `${siteMetadata.right}`
-  const imageType = `image/${getImageType(props.image)}`
+  const imageType = `image/${getImageType(props.image)}` || `image/png`
   const imageWidth = "1200"
   const imageHeight = "630"
   const createUrlWithLang = lng => {

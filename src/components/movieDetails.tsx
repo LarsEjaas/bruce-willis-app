@@ -3,8 +3,10 @@ import { useState } from "react"
 import Skeleton from "react-loading-skeleton"
 import { useFetchAbout } from "./sourceData"
 import styled from "styled-components"
-import Calendar from "../images/calendar.inline.svg"
+import FemaleMale from "../images/female_male.inline.svg"
+import CinemaFilm from "../images/cinema_film.inline.svg"
 import { useFetchMovieDetails } from "./sourceData"
+import { getGenre } from "./genres"
 
 const BackDrop = styled.picture<BackDropProps>`
   position: absolute;
@@ -35,6 +37,33 @@ const PosterCover = styled.img<PosterCoverProps>`
   margin-right: 30px;
   margin-bottom: 8%;
   transform-origin: center center;
+`
+
+const GenreArray = styled.div<GenreArrayProps>`
+  display: inline-flex;
+  & h3 {
+    font-family: "Passion One", cursive;
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0 12px;
+    margin-block-start: 0.5em;
+    margin-inline-end: 0;
+    line-height: 1;
+    color: var(--movie-header1-color);
+    text-shadow: 4px 4px 4px var(--border-main);
+  }
+  & h3:nth-child(2) {
+    margin-left: 6px;
+  }
+  & svg {
+    display: inline-flex;
+    align-self: center;
+    margin-bottom: 5px;
+    height: 20px;
+    top: 0.5em;
+    position: relative;
+    filter: drop-shadow(4px 4px 4px var(--border-main));
+  }
 `
 
 const Header1 = styled.h1<Header1Props>`
@@ -70,9 +99,10 @@ const Year = styled.h3<YearProps>`
   transform: rotate(-4deg);
 `
 
-const Headline3 = styled.h3<Headline3Props>`
+const StarringAs = styled.h3<StarringAsProps>`
   font-family: "Passion One", cursive;
   font-weight: 400;
+  font-size: clamp(1rem, 0.6364rem + 1.8182vw, 2rem);
   margin: 0;
   margin-block-start: 0.5em;
   margin-inline-end: 0;
@@ -109,10 +139,38 @@ const Cast = styled.div<CastProps>`
   text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
   position: inline;
   line-height: 1.5;
+  & span {
+    display: inline-flex;
+  }
+  & svg {
+    display: inline-flex;
+    align-self: center;
+    margin: 0 8px;
+    height: 1.8em;
+    width: 1.8em;
+    top: 1em;
+    position: relative;
+    filter: drop-shadow(4px 4px 4px var(--border-main));
+  }
+`
+
+const Headline3 = styled.h3<Headline3Props>`
+  font-family: "Passion One", cursive;
+  font-weight: 400;
+  font-size: 1.8em;
+  margin: 0;
+  margin-block-start: 1em;
+  margin-inline-end: 0;
+  line-height: 1;
+  color: var(--movie-paragraph-color);
+  text-shadow: 4px 4px 4px var(--border-main);
 `
 
 const MovieDetails = ({ movieId, isMobile }) => {
-  const movieData = JSON.parse(localStorage.getItem("movieStorageData"))
+  const language = "da"
+  const movieData = JSON.parse(
+    localStorage.getItem(`movieStorageData-${language}`)
+  )
   console.log(movieData)
   console.log(movieId)
 
@@ -128,6 +186,37 @@ const MovieDetails = ({ movieId, isMobile }) => {
   console.log(movieDetailedData !== null ? movieDetailedData : null)
 
   const movieYear = movieDetails.release_date.split("-")[0]
+
+  const genreList = movieDetails.genre_ids
+  console.log(genreList)
+
+  genreList.forEach((genre_id, index) => {
+    console.log(genre_id, typeof genre_id)
+    let genre = getGenre(language, genre_id.toString())
+    genreList[index] = genre
+  })
+
+  console.log(genreList)
+
+  const genreTypes = genreList.map(genre => <h3>{genre}</h3>)
+
+  const castListData =
+    movieDetailedData !== null ? movieDetailedData.data.cast : null
+  console.log(castListData)
+
+  const castList =
+    movieDetailedData !== null
+      ? castListData.map(cast =>
+          castListData.name !== "Bruce Willis" ? (
+            <>
+              <img
+                src={`https://www.themoviedb.org/t/p/w180_and_h180_face${castListData.profile_path}`}
+              />
+              <h3>{castListData.name}</h3>
+            </>
+          ) : null
+        )
+      : null
 
   return (
     <>
@@ -166,9 +255,15 @@ const MovieDetails = ({ movieId, isMobile }) => {
           loading="lazy"
         />
       </BackDrop>
+      {genreList !== null && (
+        <GenreArray>
+          <CinemaFilm />
+          {genreTypes}
+        </GenreArray>
+      )}
       <Header1>{movieDetails.title}</Header1>
       <HeadlineDetails>
-        <Headline3>Som&nbsp;"{movieDetails.character}"</Headline3>
+        <StarringAs>Som&nbsp;"{movieDetails.character}"</StarringAs>
         <Year>({movieYear})</Year>
       </HeadlineDetails>
       <PosterCover
@@ -177,7 +272,13 @@ const MovieDetails = ({ movieId, isMobile }) => {
         loading="lazy"
       />
       <Paragraph>{movieDetails.overview}</Paragraph>
-      <Cast></Cast>
+      <Cast>
+        <span>
+          <FemaleMale />
+          <Headline3>Also Starring</Headline3>
+        </span>
+        <div>{castList}</div>
+      </Cast>
     </>
   )
 }
