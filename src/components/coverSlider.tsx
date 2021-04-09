@@ -33,6 +33,12 @@ interface SliderProps {
 const Slider = styled.div<SliderProps>`
   position: absolute;
   overflow: hidden;
+  @media (max-height: 720px) {
+    height: ${props => (props.isMobile === "mobile" ? "100%" : "100vh")};
+  }
+  @media (min-height: 721px) {
+    height: ${props => (props.isMobile === "mobile" ? "100%" : "717px")};
+  }
   inset: 0;
   .sliderContainer {
     transform: ${props =>
@@ -45,7 +51,12 @@ const Slider = styled.div<SliderProps>`
     max-width: 1200px;
     transform-origin: top right;
     padding: 16px 0;
-    height: 110%;
+    @media (max-height: 450px) {
+      height: 130%;
+    }
+    @media (min-height: 451px) {
+      height: 110%;
+    }
     overflow: auto;
     overflow: -moz-scrollbars-none;
     -ms-overflow-style: none;

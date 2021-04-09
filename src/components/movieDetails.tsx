@@ -214,6 +214,9 @@ const CastCard = styled.div<CastCardProps>`
   display: flex;
   flex-direction: column;
   margin-right: 12px;
+  & a {
+    margin: 0 auto;
+  }
   & img {
     box-shadow: 8px 8px 6px var(--border-main);
     border-radius: 50%;
@@ -227,7 +230,7 @@ const CastCard = styled.div<CastCardProps>`
   }
   & h2 {
     font-family: "Passion One", cursive;
-    font-weight: 700;
+    font-weight: 400;
     font-size: 1.2em;
     margin: 0;
     margin-block-start: 0;
@@ -438,7 +441,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
           <Headline3>{`${hours}h ${minutes}m`}</Headline3>
         </span>
       </IconHeadline>
-      <IconHeadline>
+      <IconHeadline fullWidth>
         <span>
           <FemaleMale />
           <Headline3>Also Starring</Headline3>
@@ -454,7 +457,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
           {language === "da" && (
             <p>Traileren er desværre kun tilgængelig på engelsk</p>
           )}
-          <IframeMovie trailerLink={trailerLink} />
+          <IframeMovie trailerLink={trailerLink} width="320"/>
         </IconHeadline>
       )}
       {language === "da" && (

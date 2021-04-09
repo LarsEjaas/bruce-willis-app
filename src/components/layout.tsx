@@ -55,17 +55,18 @@ const GlobalStyle = createGlobalStyle`
 
 /*Auto adjust height on chrome Android*/
 height: 100%; 
+}
   /* Hide scrollbar for Chrome, Safari and Opera */
-.example::-webkit-scrollbar {
+/* .example::-webkit-scrollbar {
   display: none;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
-.example {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+/* .example { */
+  /* -ms-overflow-style: none;  IE and Edge */
+  /* scrollbar-width: none;   Firefox 
   }
-}
+}  */
 
 body {
   margin:0;
@@ -188,7 +189,8 @@ a {
     z-index:5000;
     animation: fadeIn ease-out 0.4s;
     will-change: opacity;
-    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: scroll;
     }
 
 @media (min-height: 720px) {

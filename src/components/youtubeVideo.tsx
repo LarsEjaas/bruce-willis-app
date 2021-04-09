@@ -2,13 +2,15 @@ import * as React from "react"
 
 interface IframeMovieProps {
   trailerLink: string
+  width: string
 }
 
-const IframeMovie = ({ trailerLink }: IframeMovieProps) => {
+const IframeMovie = ({ trailerLink, width }: IframeMovieProps) => {
+  const height = width * 0.5625
   return (
     <iframe
-      width="560"
-      height="315"
+      width={width}
+      height={height}
       controls="0"
       fs="1"
       src={`https://www.youtube.com/embed/${trailerLink}?controls=0`}
