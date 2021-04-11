@@ -83,9 +83,17 @@ const ExternModalContainer = ({}) => {
   }
 
   const closeExternModal = e => {
+    console.log(
+      "closeExternModal running",
+      e.currentTarget,
+      e.target,
+      clickedExternLink
+    )
     if (
       e.currentTarget === document.querySelector(".extern.modal-container") &&
-      e.target !== e.currentTarget
+      e.target !== e.currentTarget &&
+      e.target !==
+        document.querySelector("[class*=externalLink__NavigateButton]")
     )
       return
 
@@ -248,7 +256,7 @@ interface ModalBodyProps {
   linkDescription: string
 }
 
-Modal.Body = function ModalBody({ linkDescription, children }: ModalBodyProps) {
+Modal.Body = function ModalBody({ children }: ModalBodyProps) {
   return (
     <div className="modal-body extern" style={{ padding: "24px" }}>
       {children}

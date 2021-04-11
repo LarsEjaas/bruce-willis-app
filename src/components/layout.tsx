@@ -279,7 +279,7 @@ const Layout = ({ children }: LayoutProps) => {
       setModalType(typeOfModal)
   }
   const externModalToggle = (domNode: HTMLElement | undefined) => {
-    console.log("externModalToggle running"),
+    console.log("externModalToggle running", domNode, externModalVisible),
       setclickedExternLink(domNode),
       setExternModalVisible(!externModalVisible)
   }

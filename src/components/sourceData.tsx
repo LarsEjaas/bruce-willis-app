@@ -71,9 +71,10 @@ export const useFetchMovieCredits = ({ type, id }: useFetchProps) => {
       } else if (entry[1]?.genre_ids.find(element => element === 99) === 99) {
         //console.log(`${index}: ${entry[1].genre_ids}`)
         obj[index] = undefined
+      } else if (new Date(entry[1].release_date) > new Date(Date.now())) {
+        console.log("this is a future release", entry[1].original_title)
+        obj[index] = undefined
       } else {
-        //keep year only of release date
-        entry[1].release_date = entry[1].release_date.split("-")[0]
         //clean up character field:
         if (entry[1]?.character.indexOf("(uncredited)") !== -1) {
           entry[1].character = entry[1].character.replace("(uncredited)", "")
@@ -97,7 +98,27 @@ export const useFetchMovieCredits = ({ type, id }: useFetchProps) => {
         }
       }
     })
-    const sortedObj = obj.sort((a, b) => b.release_date - a.release_date)
+    // arr.sort(function(a, b) {
+    //   da = new Date(a);
+    //   db = new Date(b);
+    //   if (da == db) {
+    //     return 0;
+    //   }
+    //   return da > db ? 1 : -1;
+    // });
+
+    // console.log(arr);
+    const sortedObj = obj.sort(function (a, b) {
+      a.release_date = new Date(a.release_date)
+      b.release_date = new Date(b.release_date)
+      if (a.release_date == b.release_date) {
+        return 0
+      }
+      return a.release_date < b.release_date ? 1 : -1
+    })
+
+    console.log(sortedObj)
+    // const sortedObj = obj.sort((a, b) => b.release_date - a.release_date)
     return sortedObj
   }
 
@@ -106,7 +127,7 @@ export const useFetchMovieCredits = ({ type, id }: useFetchProps) => {
     setLoading(true)
     try {
       const response = await axios.get(
-        `${BASE_URL}${type}/${id}?api_key=${process.env.TMDB_API_KEY}&language=${translation}&append_to_response=release_dates`
+        `${BASE_URL}${type}/${id}?api_key=${process.env.TMDB_API_KEY}&language=${translation}&append_to_response=details`
       )
       const APIdata = await response
       console.log(response)

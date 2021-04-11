@@ -72,11 +72,12 @@ const NavigateButton = styled.button`
   }
 `
 
-export const GoExtern = ({}) => {
+export const GoExtern = () => {
   const { externModalToggle, clickedExternLink } = useContext(GlobalContext)
 
-  const closeExternModal = e => {
-    externModalToggle(e.target)
+  const closeExternModal = () => {
+    console.log(clickedExternLink)
+    externModalToggle(clickedExternLink)
     clickedExternLink ? clickedExternLink.focus() : undefined
   }
 
@@ -85,19 +86,20 @@ export const GoExtern = ({}) => {
       ? window.open(`${clickedExternLink.href}`, "_blank")
       : undefined
   }
+
+  let domain = new URL(`${clickedExternLink.href}`)
+  domain = domain.hostname
+
   return (
     <>
       <div>
         <h2>Are you sure?</h2>
-        <p>You are about to navigate away from this page!</p>
+        <p>
+          You are about to navigate away from this page to {domain} and '
+          {clickedExternLink.title}'.
+        </p>
         <ButtonContainer>
-          <NavigateButton
-            onClick={e => {
-              closeExternModal(e)
-            }}
-          >
-            No Thanks
-          </NavigateButton>
+          <NavigateButton onClick={closeExternModal}>No Thanks</NavigateButton>
           <NavigateButton onClick={openUrl}>Yes Please</NavigateButton>
         </ButtonContainer>
       </div>
