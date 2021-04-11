@@ -2,7 +2,6 @@ import * as React from "react"
 import { useState, useContext } from "react"
 import styled, { keyframes } from "styled-components"
 import { GlobalContext } from "./layout"
-import { useFetchMovieCredits } from "./sourceData"
 import Cover from "./moviecover"
 
 const sliderFadeIn = keyframes`
@@ -76,20 +75,13 @@ const Slider = styled.div<SliderProps>`
   }
 `
 
-//Bruce Willis has id: 62
-const id = "62/movie_credits"
-const type = "person"
-
 interface MovieCoverProps {
   isMobile: boolean
   index: string
 }
 
-const MovieCovers = ({ isMobile, index }: MovieCoverProps) => {
-  console.log(id, type)
-  const [movieData, isLoading] = useFetchMovieCredits({ type, id })
+const MovieCovers = ({ isMobile, index, movieData }: MovieCoverProps) => {
   const language = "da"
-
   if (movieData !== null) {
     localStorage.setItem(
       `movieStorageData-${language}`,
@@ -106,6 +98,7 @@ const MovieCovers = ({ isMobile, index }: MovieCoverProps) => {
               original_title={listMovie.original_title}
               isMobile={isMobile}
               id={listMovie.id}
+              movieData={movieData}
             />
           ) : null
         )

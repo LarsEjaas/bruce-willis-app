@@ -1,5 +1,5 @@
 import * as React from "react"
-import { useState } from "react"
+import { useState, useRef } from "react"
 import Skeleton from "react-loading-skeleton"
 import { useFetchAbout } from "./sourceData"
 import styled from "styled-components"
@@ -150,7 +150,8 @@ const IconHeadline = styled.div<IconHeadlineProps>`
   text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
   position: inline;
   line-height: 1.5;
-  width: ${props => (props.fullWidth ? "100%" : "60%")};
+  width: ${props => (props.fullWidth ? "100%" : "unset")};
+  min-width: ${props => (props.fullWidth ? "unset" : "30%")};
   & span {
     display: inline-flex;
   }
@@ -173,16 +174,29 @@ const IconHeadline = styled.div<IconHeadlineProps>`
     line-height: 0.5;
     font-size: 16px;
     margin-block-start: 0;
-    margin-block-end: 2em;
+    margin-block-end: 0.5em;
     margin-left: 3em;
-  }
-  & iframe {
-    display: block;
-    margin: 0.5em auto 0.5em auto;
+  } 
+`
+
+const MovieWrapper = styled.div`
+width: 100%;
+padding-top: 56.25%;
+display: block;
+position: relative;
+& iframe {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    top: 0;
     border-radius: 12px;
     filter: drop-shadow(12px 12px 6px var(--image-cover-color));
+    margin: 0.5em 0;
+    transform: translateX(-50%);
+    left: 50%;
   }
 `
+
 const CastlistWrapper = styled.div`
   display: inline-flex;
   flex-wrap: wrap;
@@ -266,23 +280,28 @@ interface MovieDetailsProps {
 }
 
 const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
+  const backDropRef = useRef(null);
+  const id = movieId !== 0? movieId : Number(backDropRef.current.id);
+  console.log(id, backDropRef)
+  const type = "movie"
+  const [movieDetailedData, isLoading] = useFetchMovieDetails({ type, id })
   console.log(isMobile)
   const language = "da"
+  
   const movieData = JSON.parse(
     localStorage.getItem(`movieStorageData-${language}`)
   )
   console.log(movieData)
-  console.log(movieId)
-
+  const movieDetails = (movieData)? movieData.find(findMovie) : null
+  console.log(movieId, id)
+  
   function findMovie(movie) {
-    return movie.id === movieId
+    console.log(movie.id, id)
+    return movie.id === id
   }
-  const movieDetails = movieData.find(findMovie)
-  console.log(movieDetails)
 
-  const id = `${movieId}`
-  const type = "movie"
-  const [movieDetailedData, isLoading] = useFetchMovieDetails({ type, id })
+  console.log(movieDetails)
+  
   console.log(movieDetailedData !== null ? movieDetailedData : null)
 
   const movieYear = movieDetails.release_date.split("-")[0]
@@ -376,7 +395,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
 
   return (
     <>
-      <BackDrop>
+      <BackDrop id={id} ref={backDropRef}>
         <source
           media={
             isMobile === "mobile" ? "(max-width: 400px)" : "(max-width: 865px)"
@@ -457,7 +476,9 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
           {language === "da" && (
             <p>Traileren er desværre kun tilgængelig på engelsk</p>
           )}
-          <IframeMovie trailerLink={trailerLink} width="320"/>
+          <MovieWrapper>
+            <IframeMovie trailerLink={trailerLink}/>
+            </MovieWrapper>
         </IconHeadline>
       )}
       {language === "da" && (

@@ -6,6 +6,7 @@ import "@fontsource/open-sans/400.css"
 import { createGlobalStyle } from "styled-components"
 import { DeviceDetectHook } from "../components/deviceDetect"
 import ModalContainer from "./modal"
+import ExternModalContainer from "./externModal"
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -94,7 +95,6 @@ img, h1, h2, h3, h4, p, a, button, ul, li, figure, div {
 H1 { 
   font-family: 'Passion One', cursive;
   font-weight: 700;
-  /* font-size: 128px; */
   font-size: clamp(1rem, -0.875rem + 8.333vw, 3.5rem);
   line-height: 0.7;
   margin: 0;
@@ -113,15 +113,6 @@ H2 {
   margin-block-start: 0.83em;
   margin-block-end: 0.3em;
   }
-
-/* .modal-content H2 {
-  color: var(--icon-hover-color1);
-  text-transform: uppercase;
-  line-height: 0.8;
-  margin-block-start: 0;
-  max-width: 88%;
-  text-align: center;
-  } */
 
 p {
   font-family: 'Open Sans', sans-serif;
@@ -193,6 +184,10 @@ a {
     overflow-y: scroll;
     }
 
+.extern.modal-container {
+    z-index:6000;
+    }
+
 @media (min-height: 720px) {
 .modal-content.desktop.about, .modal-content.desktop.movie {
   top: calc((100vh - 720px) / 2 );
@@ -257,11 +252,17 @@ type LayoutProps = {
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const { ModalVisibleInitial } = useContext(GlobalContext)
+  const { ModalVisibleInitial, externModalVisibleInitial } = useContext(
+    GlobalContext
+  )
   const isMobile = DeviceDetectHook()
   const [modalVisible, setModalVisible] = useState(ModalVisibleInitial)
+  const [externModalVisible, setExternModalVisible] = useState(
+    externModalVisibleInitial
+  )
   const [modalType, setModalType] = useState(undefined)
   const [clickedElement, setClickedElement] = useState(undefined)
+  const [clickedExternLink, setclickedExternLink] = useState(undefined)
   const modalToggle = (
     domNode: HTMLElement | undefined,
     typeOfModal:
@@ -277,6 +278,11 @@ const Layout = ({ children }: LayoutProps) => {
       setModalVisible(!modalVisible),
       setModalType(typeOfModal)
   }
+  const externModalToggle = (domNode: HTMLElement | undefined) => {
+    console.log("externModalToggle running"),
+      setclickedExternLink(domNode),
+      setExternModalVisible(!externModalVisible)
+  }
   console.log(modalVisible)
 
   return (
@@ -285,16 +291,21 @@ const Layout = ({ children }: LayoutProps) => {
         value={{
           isMobile,
           ModalVisibleInitial,
+          externModalVisibleInitial,
           modalVisible,
           modalToggle,
+          externModalVisible,
+          externModalToggle,
           modalType,
           clickedElement,
+          clickedExternLink,
         }}
       >
         <GlobalStyle />
         {isMobile === "mobile" && <main className={isMobile}>{children}</main>}
         {isMobile === "desktop" && <main className={isMobile}>{children}</main>}
         <ModalContainer />
+        <ExternModalContainer />
       </GlobalContext.Provider>
     </>
   )
@@ -326,6 +337,9 @@ type GlobalContextProps = {
       | "about"
       | undefined
   ) => void
+  externModalVisible: boolean
+  externModalVisibleInitial: boolean
+  externModalToggle: (DOMnode: HTMLElement) => void
   changeModalType: () =>
     | "share"
     | "movie"
@@ -335,21 +349,28 @@ type GlobalContextProps = {
     | "about"
     | undefined
   clickedElement: HTMLElement | undefined
+  clickedExternLink: HTMLElement | undefined
   storeClickedElement: () => void
 }
 
 const ModalVisibleInitial = false
+const externModalVisibleInitial = false
 const modalType = undefined
 const isMobile = "mobile"
 console.log(isMobile)
 const clickedElement = undefined
+const clickedExternLink = undefined
 
 export const GlobalContext = createContext<Partial<GlobalContextProps>>({
   isMobile,
   setIsMobile: () => {},
   ModalVisibleInitial,
+  externModalVisibleInitial,
   modalVisible: ModalVisibleInitial,
   modalToggle: () => {},
+  externModalVisible: externModalVisibleInitial,
+  externModalToggle: () => {},
   modalType,
   clickedElement,
+  clickedExternLink,
 })

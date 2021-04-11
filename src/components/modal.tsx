@@ -10,20 +10,12 @@ import styled from "styled-components"
 import ReactDOM from "react-dom"
 import Cross from "../svg/cross.inline.svg"
 import { GlobalContext } from "./layout"
-import { GoExtern } from "./externalLink"
 import AboutView from "./about"
 import ShareButtons from "./share"
-import { StaticImage } from "gatsby-plugin-image"
 import MovieDetails from "./movieDetails"
 
 interface CrossbuttonProps {
-  readonly modalType:
-    | "share"
-    | "movieContent"
-    | "goExtern"
-    | "offline"
-    | "credits"
-    | "about"
+  readonly modalType: "share" | "movieContent" | "offline" | "credits" | "about"
 }
 
 const Crossbutton = styled.button<CrossbuttonProps>`
@@ -58,16 +50,6 @@ const Crossbutton = styled.button<CrossbuttonProps>`
   }
 `
 
-const FilmRoll = styled(StaticImage)`
-  position: absolute;
-  width: 100%;
-  left: 0;
-  top: 0;
-  opacity: 0.1;
-  z-index: -1;
-  src: "../images/filmroll.png";
-`
-
 const ModalContainer = ({}) => {
   const {
     modalToggle,
@@ -80,7 +62,6 @@ const ModalContainer = ({}) => {
 
   useEffect(() => {
     if (isMobile === undefined) return
-    // modalVisible? document.querySelector('main').classList.add("blur"): void(0);
     modalVisible
       ? document.querySelector("main").classList.add("blur")
       : undefined
@@ -104,12 +85,17 @@ const ModalContainer = ({}) => {
   }
 
   const closeModal = e => {
+    console.log(
+      "closemodal running (not externModal",
+      document.querySelector(".extern.modal-container")
+    )
     if (
       e.currentTarget === document.querySelector(".modal-container") &&
       e.target !== e.currentTarget
     )
       return
 
+    //FIND A WAY TO PREVENT THIS WHEN CLOSING EXTERN MODAL!
     document.querySelector(".modal-container").classList.add("fadeOut")
     document.querySelector(".modal-content").classList.add("fadeOut")
     document.querySelector("main").classList.remove("blur")
@@ -123,22 +109,8 @@ const ModalContainer = ({}) => {
   return (
     <>
       {isModalVisible && (
-        <Modal
-          modalType={modalType}
-          movieId={Number(clickedElement.id)}
-          onModalClose={e => closeModal(e)}
-        >
-          <FilmRoll
-            src="../images/filmroll.png"
-            alt="roll of film"
-            loading="eager"
-            placeholder="none"
-            layout="constrained"
-          />
+        <Modal modalType={modalType} onModalClose={e => closeModal(e)}>
           <Modal.Header modalType={modalType} />
-          {modalType === "externLink" && (
-            <Modal.Body type={modalType} goExtern={<GoExtern />} />
-          )}
           {modalType === "movie" && (
             <Modal.Body
               type={modalType}
@@ -191,13 +163,7 @@ const ModalContainer = ({}) => {
 }
 
 interface ModalContentFrameProps {
-  readonly modalType:
-    | "share"
-    | "movieContent"
-    | "goExtern"
-    | "offline"
-    | "credits"
-    | "about"
+  readonly modalType: "share" | "movieContent" | "offline" | "credits" | "about"
 }
 
 const ModalContentFrame = styled.div<ModalContentFrameProps>`
@@ -212,7 +178,9 @@ const ModalContentFrame = styled.div<ModalContentFrameProps>`
   background: var(--background2);
   border: 2px solid var(--icon-hover-color1);
   will-change: opacity;
+  will-change: filter;
   overflow: hidden;
+  transition: all 0.4s;
   &.mobile {
     width: calc(100vw - 8px);
     min-width: 300px;
@@ -225,38 +193,32 @@ const ModalContentFrame = styled.div<ModalContentFrameProps>`
   }
 `
 
-const modalContext = createContext()
+const modalContext = createContext(null)
 
 interface ModalProps {
-  readonly modalType:
-    | "share"
-    | "movieContent"
-    | "goExtern"
-    | "offline"
-    | "credits"
-    | "about"
+  readonly modalType: "share" | "movieContent" | "offline" | "credits" | "about"
   children: JSX.Element
   onModalClose: (e: Event) => void
-  movieId: number
 }
 
-function Modal({ children, onModalClose, modalType, movieId }: ModalProps) {
+function Modal({ children, onModalClose, modalType }: ModalProps) {
   const { isMobile, clickedElement } = useContext(GlobalContext)
+  const modalRef = createRef()
+  const modalContainerRef = createRef()
+
   console.log(clickedElement)
   useEffect(() => {
     function keyListener(e) {
       if (e.keyCode === 27) {
-        onModalClose()
+        onModalClose(e)
       }
     }
 
     document.addEventListener("keydown", keyListener)
 
     return () => document.removeEventListener("keydown", keyListener)
-  })
+  }, [])
 
-  const modalRef = createRef()
-  const modalContainerRef = createRef()
   const handleTabKey = e => {
     let focusableModalElements = []
     const allFocusableModalElements = modalRef.current.querySelectorAll(
@@ -303,7 +265,6 @@ function Modal({ children, onModalClose, modalType, movieId }: ModalProps) {
       role="dialog"
       aria-modal="true"
       ref={modalContainerRef}
-      style={{ movieId }}
       onClick={onModalClose}
     >
       <ModalContentFrame
@@ -321,13 +282,7 @@ function Modal({ children, onModalClose, modalType, movieId }: ModalProps) {
 }
 
 interface ModalHeaderProps {
-  modalType:
-    | "share"
-    | "movieContent"
-    | "goExtern"
-    | "offline"
-    | "credits"
-    | "about"
+  modalType: "share" | "movieContent" | "offline" | "credits" | "about"
 }
 
 Modal.Header = function ModalHeader({ modalType }: ModalHeaderProps) {
@@ -351,7 +306,6 @@ Modal.Header = function ModalHeader({ modalType }: ModalHeaderProps) {
 interface ModalBodyProps {
   share: JSX.Element
   movieContent: JSX.Element
-  goExtern: JSX.Element
   offline: JSX.Element
   credits: JSX.Element
   about: JSX.Element
@@ -362,7 +316,6 @@ interface ModalBodyProps {
 Modal.Body = function ModalBody({
   share,
   movieContent,
-  goExtern,
   offline,
   credits,
   about,
@@ -376,7 +329,6 @@ Modal.Body = function ModalBody({
     >
       {share}
       {movieContent}
-      {goExtern}
       {offline}
       {credits}
       {about}
@@ -385,30 +337,3 @@ Modal.Body = function ModalBody({
 }
 
 export default ModalContainer
-
-interface ModalContentProps {
-  share: JSX.Element
-  movieContent: JSX.Element
-  goExtern: JSX.Element
-  offline: JSX.Element
-  credits: JSX.Element
-  about: JSX.Element
-}
-
-// const ModalContent = ({
-//   share,
-//   movieContent,
-//   goExtern,
-//   offline,
-//   credits,
-//   about,
-// }: ModalContentProps) => (
-//   <>
-//     {share}
-//     {movieContent}
-//     {goExtern}
-//     {offline}
-//     {credits}
-//     {about}
-//   </>
-// )

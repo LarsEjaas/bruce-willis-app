@@ -520,7 +520,7 @@ const Section1 = ({ isMobile, index }: SectionProps) => {
   )
 }
 
-const Section2 = ({ isMobile, index }: SectionProps) => (
+const Section2 = ({ isMobile, index, movieData, isLoading }: SectionProps) => (
   <Section
     isMobile={isMobile}
     className={index === 2 ? `${isMobile} left` : `${isMobile} right`}
@@ -528,7 +528,7 @@ const Section2 = ({ isMobile, index }: SectionProps) => (
     <StaticImage
       className={index === 1 ? "grunge right" : "grunge left"}
       src="../images/grunge-texture.png"
-      alt="portrait of Bruce Willis"
+      alt="grunge background-texture"
       loading="eager"
       placeholder="none"
       layout="constrained"
@@ -544,7 +544,12 @@ const Section2 = ({ isMobile, index }: SectionProps) => (
         className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
       ></Circle4>
     </CircleWrapper>
-    <MovieCovers index={index} isMobile={isMobile} />
+    <MovieCovers
+      movieData={movieData}
+      isLoading={isLoading}
+      index={index}
+      isMobile={isMobile}
+    />
   </Section>
 )
 
@@ -557,7 +562,7 @@ interface MainProps {
   isMobile: "mobile" | "desktop" | undefined
 }
 
-export const Main = ({ isMobile }: MainProps) => {
+export const Main = ({ isMobile, movieData, isLoading }: MainProps) => {
   const [index, setIndex] = useState(1)
   const togglePage = e => {
     if (typeof window !== undefined) {
@@ -582,13 +587,19 @@ export const Main = ({ isMobile }: MainProps) => {
             className={`${index} two`}
             index={index}
             isMobile={isMobile}
+            movieData={movieData}
+            isLoading={isLoading}
           />
         </>
       )}
       {isMobile === "desktop" && (
         <>
           <Section1 isMobile={isMobile} />
-          <Section2 isMobile={isMobile} />
+          <Section2
+            isMobile={isMobile}
+            movieData={movieData}
+            isLoading={isLoading}
+          />
         </>
       )}
     </>

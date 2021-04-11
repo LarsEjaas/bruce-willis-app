@@ -17,10 +17,10 @@ const ExternalLink = ({
   title,
   children,
 }: ExternalLinkProps) => {
-  const { modalToggle } = useContext(GlobalContext)
+  const { externModalToggle } = useContext(GlobalContext)
   const sureToLeave = e => {
     e.preventDefault()
-    modalToggle(e.currentTarget, "externLink")
+    externModalToggle(e.currentTarget, "externLink")
   }
 
   return (
@@ -73,16 +73,16 @@ const NavigateButton = styled.button`
 `
 
 export const GoExtern = ({}) => {
-  const { modalToggle, clickedElement } = useContext(GlobalContext)
+  const { externModalToggle, clickedExternLink } = useContext(GlobalContext)
 
-  const closeModal = () => {
-    modalToggle()
-    clickedElement ? clickedElement.focus() : undefined
+  const closeExternModal = e => {
+    externModalToggle(e.target)
+    clickedExternLink ? clickedExternLink.focus() : undefined
   }
 
   const openUrl = () => {
-    clickedElement.href
-      ? window.open(`${clickedElement.href}`, "_blank")
+    clickedExternLink.href
+      ? window.open(`${clickedExternLink.href}`, "_blank")
       : undefined
   }
   return (
@@ -91,7 +91,13 @@ export const GoExtern = ({}) => {
         <h2>Are you sure?</h2>
         <p>You are about to navigate away from this page!</p>
         <ButtonContainer>
-          <NavigateButton onClick={closeModal}>No Thanks</NavigateButton>
+          <NavigateButton
+            onClick={e => {
+              closeExternModal(e)
+            }}
+          >
+            No Thanks
+          </NavigateButton>
           <NavigateButton onClick={openUrl}>Yes Please</NavigateButton>
         </ButtonContainer>
       </div>
