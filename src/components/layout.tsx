@@ -56,6 +56,7 @@ const GlobalStyle = createGlobalStyle`
 
 /*Auto adjust height on chrome Android*/
 height: 100%; 
+scroll-behavior: smooth;
 }
   /* Hide scrollbar for Chrome, Safari and Opera */
 /* .example::-webkit-scrollbar {

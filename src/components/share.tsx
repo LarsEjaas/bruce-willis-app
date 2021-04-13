@@ -17,12 +17,13 @@ const ShareButtonLink = styled.a`
     transition: 0.2s ease-in;
     padding: 14px;
     box-shadow: var(--icon-shadow);
-    border: 2px solid var(--icon-color1);
+    border: 2px solid var(--icon-hover-color2);
+    background: var(--background2);
   }
   & .resp_sharing_button:hover {
     transition: all 0.3s ease-out;
     transform: scale(1.3);
-    border-color: var(--icon-hover-color1);
+    border-color: var(--movie-paragraph-color);
   }
   & .resp_sharing_button__icon svg {
     width: 24px;
@@ -35,24 +36,24 @@ const ShareButtonLink = styled.a`
     vertical-align: middle;
   }
   & .resp_sharing_button__icon {
-    stroke: var(--icon-hover-color1);
+    stroke: var(--icon-hover-color2);
     fill: none;
     transition: all 0.2s ease-in;
   }
   &:hover .resp_sharing_button__icon {
-    stroke: var(--icon-hover-color2);
+    stroke: var(--movie-paragraph-color);
     fill: none;
     transition: all 0.3s ease-out;
   }
   & .resp_sharing_button__icon__solid,
   .resp_sharing_button__icon__solidcircle {
-    fill: var(--icon-hover-color1);
+    fill: var(--icon-hover-color2);
     stroke: none;
     transition: all 0.2s ease-in;
   }
   &:hover .resp_sharing_button__icon__solid,
   .resp_sharing_button__icon__solidcircle {
-    fill: var(--icon-hover-color2);
+    fill: var(--movie-paragraph-color);
     stroke: none;
     transition: all 0.3s ease-out;
   }

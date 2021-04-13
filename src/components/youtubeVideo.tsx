@@ -15,7 +15,7 @@ const IframeMovie = ({ trailerLink }: IframeMovieProps) => {
       frameborder="0"
       allow="accelerometer; encrypted-media; gyroscope"
       iv_load_policy="3"
-      modestbranding="1"
+      modestbranding="0" //<-- has to be 0 to allow for accessible keyboard nav
       allowfullscreen
       rel="0"
       widget_referrer="path" //set path!!!

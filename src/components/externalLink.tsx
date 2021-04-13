@@ -72,16 +72,39 @@ const NavigateButton = styled.button`
   }
 `
 
-export const GoExtern = () => {
-  const { externModalToggle, clickedExternLink } = useContext(GlobalContext)
+const Headline2 = styled.h2`
+  font-family: "Passion One", cursive;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 0.8rem + 4vw, 3.5rem);
+  margin: 0;
+  margin-block-start: 0;
+  margin-block-end: 0.4em;
+  line-height: 1.1;
+  color: var(--movie-header1-color);
+  text-shadow: 4px 4px 4px var(--border-main);
+  text-align: center;
+`
 
-  const closeExternModal = () => {
-    console.log(clickedExternLink)
-    externModalToggle(clickedExternLink)
-    clickedExternLink ? clickedExternLink.focus() : undefined
-  }
+const Paragraph = styled.p`
+  white-space: break-spaces;
+  color: var(--movie-paragraph-color);
+  text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
+  position: inline;
+  line-height: 1.5;
+  font-size: 16px;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+`
 
-  const openUrl = () => {
+interface closeExternModalProps {
+  closeExternModal: (e: any) => void
+}
+
+export const GoExtern = ({ closeExternModal }: closeExternModalProps) => {
+  const { clickedExternLink } = useContext(GlobalContext)
+
+  const openUrl = e => {
+    closeExternModal(e)
     clickedExternLink.href
       ? window.open(`${clickedExternLink.href}`, "_blank")
       : undefined
@@ -93,11 +116,11 @@ export const GoExtern = () => {
   return (
     <>
       <div>
-        <h2>Are you sure?</h2>
-        <p>
+        <Headline2>Are you sure?</Headline2>
+        <Paragraph>
           You are about to navigate away from this page to {domain} and '
           {clickedExternLink.title}'.
-        </p>
+        </Paragraph>
         <ButtonContainer>
           <NavigateButton onClick={closeExternModal}>No Thanks</NavigateButton>
           <NavigateButton onClick={openUrl}>Yes Please</NavigateButton>

@@ -10,6 +10,8 @@ import PlayTrailer from "../images/play_trailer.inline.svg"
 import SandTime from "../images/sand_time.inline.svg"
 import Television from "../images/television.inline.svg"
 import Books from "../images/books.inline.svg"
+import TmdbLogo from "../images/tmdb.inline.svg"
+import ImdbLogo from "../images/IMDB.inline.svg"
 import { useFetchMovieDetails } from "./sourceData"
 import { getGenre } from "./genres"
 import ExternalLink from "./externalLink"
@@ -85,6 +87,18 @@ const Header1 = styled.h1`
   font-size: clamp(2.5rem, 1.2273rem + 6.3636vw, 6rem);
 `
 
+const Note = styled.p`
+  white-space: break-spaces;
+  color: var(--icon-hover-color2);
+  text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
+  position: inline;
+  line-height: 1.5;
+  font-size: 16px;
+  margin-block-start: 3em;
+  margin-block-end: -2em;
+  margin-left: 3em;
+`
+
 const HeadlineDetails = styled.div`
   display: inline-flex;
   width: 100%;
@@ -154,6 +168,7 @@ const IconHeadline = styled.div<IconHeadlineProps>`
   min-width: ${props => (props.fullWidth ? "unset" : "30%")};
   & span {
     display: inline-flex;
+    width: 100%;
   }
   & svg {
     display: inline-flex;
@@ -171,20 +186,24 @@ const IconHeadline = styled.div<IconHeadlineProps>`
     text-shadow: 6px 6px 6px var(--border-main),
       -6px -6px 6px var(--border-main);
     position: inline;
-    line-height: 0.5;
+    line-height: 1.5;
     font-size: 16px;
     margin-block-start: 0;
     margin-block-end: 0.5em;
     margin-left: 3em;
-  } 
+    flex-basis: 500px;
+  }
+  & .FullHeight {
+    margin: auto;
+  }
 `
 
 const MovieWrapper = styled.div`
-width: 100%;
-padding-top: 56.25%;
-display: block;
-position: relative;
-& iframe {
+  width: 100%;
+  padding-top: 56.25%;
+  display: block;
+  position: relative;
+  & iframe {
     position: absolute;
     width: 90%;
     height: 90%;
@@ -238,9 +257,10 @@ const CastCard = styled.div<CastCardProps>`
       props.isMobile === "mobile"
         ? "4px solid var(--movie-paragraph-color)"
         : "8px solid var(--movie-paragraph-color)"};
-    width: 100%;
-    min-width: 80px;
-    max-width: 180px;
+    width: ${props =>
+      props.isMobile === "mobile" ? "calc(100% + 8px)" : "calc(100% + 16px)"};
+    min-width: 72px;
+    max-width: ${props => (props.isMobile === "mobile" ? "188px" : "196px")};
   }
   & h2 {
     font-family: "Passion One", cursive;
@@ -271,7 +291,18 @@ const CastCard = styled.div<CastCardProps>`
     margin-block-start: 0.2em;
     margin-block-end: 0.4em;
     margin-left: 0;
+    flex-basis: 20px;
   }
+`
+
+const StyledTmdbLogo = styled(TmdbLogo)`
+  width: 100px !important;
+  transform: translateY(-7px);
+`
+
+const StyledImdbLogo = styled(ImdbLogo)`
+  width: 100px !important;
+  transform: translateY(-7px);
 `
 
 interface MovieDetailsProps {
@@ -280,28 +311,28 @@ interface MovieDetailsProps {
 }
 
 const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
-  const backDropRef = useRef(null);
-  const id = movieId !== 0? movieId : Number(backDropRef.current.id);
+  const backDropRef = useRef(null)
+  const id = movieId !== 0 ? movieId : Number(backDropRef.current.id)
   console.log(id, backDropRef)
   const type = "movie"
   const [movieDetailedData, isLoading] = useFetchMovieDetails({ type, id })
   console.log(isMobile)
   const language = "da"
-  
+
   const movieData = JSON.parse(
     localStorage.getItem(`movieStorageData-${language}`)
   )
   console.log(movieData)
-  const movieDetails = (movieData)? movieData.find(findMovie) : null
+  const movieDetails = movieData ? movieData.find(findMovie) : null
   console.log(movieId, id)
-  
+
   function findMovie(movie) {
     console.log(movie.id, id)
     return movie.id === id
   }
 
   console.log(movieDetails)
-  
+
   console.log(movieDetailedData !== null ? movieDetailedData : null)
 
   const movieYear = movieDetails.release_date.split("-")[0]
@@ -335,7 +366,11 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
 
   //console.log(`${hours}h ${minutes}m`)
   const castListData =
-    movieDetailedData !== null ? movieDetailedData.data.credits.cast : null
+    movieDetailedData !== null
+      ? movieDetailedData.data.credits.cast.length > 1
+        ? movieDetailedData.data.credits.cast
+        : null
+      : null
   //console.log(castListData)
 
   const trailerLinkID =
@@ -356,8 +391,15 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
 
   console.log(trailerLink)
 
+  const enDescription =
+    language === "da"
+      ? movieDetailedData !== null
+        ? movieDetailedData.data.overview
+        : null
+      : null
+
   const castList =
-    movieDetailedData !== null
+    castListData !== null
       ? castListData.map((cast, index) =>
           cast.original_name !== "Bruce Willis" ? (
             index < 7 ? (
@@ -383,53 +425,60 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
         )
       : null
 
-  const buyLinks =
-    movieDetailedData !== null
-      ? movieDetailedData.data.["watch/providers"].results.DK.buy
-      : null
-  const streamLink =
-  movieDetailedData !== null
-      ? movieDetailedData.data.["watch/providers"].results.DK.link
-      : null
-  console.log(buyLinks, streamLink)
+  console.log(castList !== null && castList.length === 1)
+
+  // const buyLinks =
+  //   movieDetailedData !== null
+  //     ? movieDetailedData.data.["watch/providers"].results.DK.buy
+  //     : null
+  // const streamLink =
+  // movieDetailedData !== null
+  //     ? movieDetailedData.data.["watch/providers"].results.DK.link
+  //     : null
+  // console.log(buyLinks, streamLink,  movieDetailedData !== null
+  //   ? movieDetailedData.data : null)
 
   return (
     <>
-      <BackDrop id={id} ref={backDropRef}>
-        <source
-          media={
-            isMobile === "mobile" ? "(max-width: 400px)" : "(max-width: 865px)"
-          }
-          srcSet={`https://image.tmdb.org/t/p/w400${movieDetails.backdrop_path}`}
-          loading="lazy"
-        />
-        <source
-          media={
-            isMobile === "mobile"
-              ? "(min-width: 401px) and (max-width: 500px)"
-              : "(min-width: 866px) and (max-width: 1065px)"
-          }
-          srcSet={`https://image.tmdb.org/t/p/w500${movieDetails.backdrop_path}`}
-          loading="lazy"
-        />
-        <>
+      {movieDetails.backdrop_path && (
+        <BackDrop id={id} ref={backDropRef}>
           <source
             media={
               isMobile === "mobile"
-                ? "(min-width: 501px)"
-                : "(min-width: 1066px)"
+                ? "(max-width: 400px)"
+                : "(max-width: 865px)"
             }
-            srcSet={`https://www.themoviedb.org/t/p/w1000_and_h450_multi_faces${movieDetails.backdrop_path}`}
+            srcSet={`https://image.tmdb.org/t/p/w400${movieDetails.backdrop_path}`}
             loading="lazy"
           />
-        </>
+          <source
+            media={
+              isMobile === "mobile"
+                ? "(min-width: 401px) and (max-width: 500px)"
+                : "(min-width: 866px) and (max-width: 1065px)"
+            }
+            srcSet={`https://image.tmdb.org/t/p/w500${movieDetails.backdrop_path}`}
+            loading="lazy"
+          />
+          <>
+            <source
+              media={
+                isMobile === "mobile"
+                  ? "(min-width: 501px)"
+                  : "(min-width: 1066px)"
+              }
+              srcSet={`https://www.themoviedb.org/t/p/w1000_and_h450_multi_faces${movieDetails.backdrop_path}`}
+              loading="lazy"
+            />
+          </>
 
-        <img
-          src={`https://image.tmdb.org/t/p/w500${movieDetails.backdrop_path}`}
-          alt={`Background image from the movie "${movieDetails.original_title}"`}
-          loading="lazy"
-        />
-      </BackDrop>
+          <img
+            src={`https://image.tmdb.org/t/p/w500${movieDetails.backdrop_path}`}
+            alt={`Background image from the movie "${movieDetails.original_title}"`}
+            loading="lazy"
+          />
+        </BackDrop>
+      )}
       {genreList !== null && (
         <GenreArray>
           <CinemaFilm />
@@ -446,27 +495,36 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
         alt={`Movie poster from ${movieDetails.original_title}`}
         loading="lazy"
       />
-      <Paragraph>{movieDetails.overview}</Paragraph>
-      <IconHeadline>
-        <span>
-          <ChairDirector />
-          <Headline3>Director</Headline3>
-        </span>
-        <p>{Director}</p>
-      </IconHeadline>
+      {!movieDetails.overview && language === "da" && (
+        <Note>Beskrivelsen er desværre kun tilgængelig på engelsk</Note>
+      )}
+      <Paragraph>
+        {movieDetails.overview ? movieDetails.overview : enDescription}
+      </Paragraph>
+      {Director && (
+        <IconHeadline>
+          <span>
+            <ChairDirector />
+            <Headline3>Director</Headline3>
+          </span>
+          <p>{Director}</p>
+        </IconHeadline>
+      )}
       <IconHeadline>
         <span>
           <SandTime />
           <Headline3>{`${hours}h ${minutes}m`}</Headline3>
         </span>
       </IconHeadline>
-      <IconHeadline fullWidth>
-        <span>
-          <FemaleMale />
-          <Headline3>Also Starring</Headline3>
-        </span>
-        <CastlistWrapper>{castList}</CastlistWrapper>
-      </IconHeadline>
+      {castList && (
+        <IconHeadline fullWidth>
+          <span>
+            <FemaleMale />
+            <Headline3>Also Starring</Headline3>
+          </span>
+          <CastlistWrapper>{castList}</CastlistWrapper>
+        </IconHeadline>
+      )}
       {trailerLink && (
         <IconHeadline fullWidth>
           <span>
@@ -477,8 +535,8 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
             <p>Traileren er desværre kun tilgængelig på engelsk</p>
           )}
           <MovieWrapper>
-            <IframeMovie trailerLink={trailerLink}/>
-            </MovieWrapper>
+            <IframeMovie trailerLink={trailerLink} />
+          </MovieWrapper>
         </IconHeadline>
       )}
       {language === "da" && (
@@ -488,14 +546,33 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
             <Headline3>Lej eller stream denne film</Headline3>
           </span>
         </IconHeadline>
-        )}
-        <IconHeadline fullWidth>
+      )}
+      <IconHeadline fullWidth>
         <span>
           <Books />
           <Headline3>Læs mere</Headline3>
         </span>
+        <span>
+          <p>Læs mere om denne titel hos "IMDB":&nbsp;</p>
+          <ExternalLink
+            href={`https://www.imdb.com/title/${id}/${language}`}
+            title={`Read about ${movieDetails.title} at TMDb`}
+            className="FullHeight"
+          >
+            <StyledImdbLogo />
+          </ExternalLink>
+        </span>
+        <span>
+          <p>Læs mere om denne titel hos "The Movie Database (TMDb)":&nbsp;</p>
+          <ExternalLink
+            href={`https://www.themoviedb.org/movie/${id}/${language}`}
+            title={`Read about ${movieDetails.title} at TMDB`}
+            className="FullHeight"
+          >
+            <StyledTmdbLogo />
+          </ExternalLink>
+        </span>
       </IconHeadline>
-      
     </>
   )
 }

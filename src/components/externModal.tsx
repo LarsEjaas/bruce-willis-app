@@ -26,10 +26,10 @@ const Crossbutton = styled.button`
     transform: scale(1.2);
   }
   & path {
-    fill: var(--icon-hover-color1);
+    fill: var(--movie-paragraph-color);
   }
   &:hover path {
-    fill: var(--icon-hover-color2);
+    fill: var(--movie-header1-color);
   }
 `
 
@@ -117,7 +117,7 @@ const ExternModalContainer = ({}) => {
         <Modal onModalExternClose={e => closeExternModal(e)}>
           <Modal.Header />
           <Modal.Body>
-            <GoExtern />
+            <GoExtern closeExternModal={e => closeExternModal(e)} />
           </Modal.Body>
         </Modal>
       )}
@@ -135,7 +135,7 @@ const ModalContentFrame = styled.div`
   animation: fadeIn ease-out 0.4s;
   transform-origin: center center;
   background: var(--background2);
-  border: 2px solid var(--icon-hover-color1);
+  border: 2px solid var(--icon-hover-color2);
   will-change: opacity;
   overflow: hidden;
   &.mobile {
@@ -144,9 +144,6 @@ const ModalContentFrame = styled.div`
   }
   &.desktop {
     max-width: 1080px;
-  }
-  &.movie {
-    border-color: var(--icon-hover-color2);
   }
 `
 

@@ -6,26 +6,20 @@ import {
   useContext,
   createRef,
 } from "react"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import ReactDOM from "react-dom"
 import Cross from "../svg/cross.inline.svg"
 import { GlobalContext } from "./layout"
 import AboutView from "./about"
 import ShareButtons from "./share"
 import MovieDetails from "./movieDetails"
+import { StaticImage } from "gatsby-plugin-image"
 
-interface CrossbuttonProps {
-  readonly modalType: "share" | "movieContent" | "offline" | "credits" | "about"
-}
-
-const Crossbutton = styled.button<CrossbuttonProps>`
+const Crossbutton = styled.button`
   position: absolute;
   right: 24px;
-  top: ${props => (props.modalType === "movie" ? "24px" : "unset")};
-  filter: ${props =>
-    props.modalType === "movie"
-      ? "drop-shadow(3px 3px 2px var(--border-main))"
-      : "unset"};
+  top: 24px;
+  filter: drop-shadow(3px 3px 2px var(--border-main));
   background-color: unset;
   border: unset;
   cursor: pointer;
@@ -37,17 +31,25 @@ const Crossbutton = styled.button<CrossbuttonProps>`
     transform: scale(1.2);
   }
   & path {
-    fill: ${props =>
-      props.modalType === "movie"
-        ? "var(--movie-paragraph-color)"
-        : "var(--icon-hover-color1)"};
+    fill: var(--movie-paragraph-color);
   }
   &:hover path {
-    fill: ${props =>
-      props.modalType === "movie"
-        ? "var(--movie-header1-color)"
-        : "var(--icon-hover-color2)"};
+    fill: var(--movie-header1-color);
   }
+`
+
+const Headline2 = styled.h2`
+  font-family: "Passion One", cursive;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 0.8rem + 4vw, 3.5rem);
+  margin: 0;
+  margin-block-start: 0;
+  margin-block-end: 0.4em;
+  line-height: 1.1;
+  color: var(--movie-header1-color);
+  text-shadow: 4px 4px 4px var(--border-main);
+  text-align: center;
+  width: 80%;
 `
 
 const ModalContainer = ({}) => {
@@ -130,7 +132,7 @@ const ModalContainer = ({}) => {
               type={modalType}
               credits={
                 <>
-                  <h2>This is credits</h2>
+                  <Headline2>This is credits</Headline2>
                 </>
               }
             />
@@ -150,7 +152,14 @@ const ModalContainer = ({}) => {
               type={modalType}
               share={
                 <>
-                  <h2>Share This Page on Social Media</h2>
+                  <StaticImage
+                    src="../images/SocialShare.jpg"
+                    alt="Social share background"
+                    loading="eager"
+                    placeholder="none"
+                    layout="constrained"
+                  />
+                  <Headline2>Share on Social Media</Headline2>
                   <ShareButtons />
                 </>
               }
@@ -172,11 +181,11 @@ const ModalContentFrame = styled.div<ModalContentFrameProps>`
   top: 50%;
   transform: translate(-50%, -50%);
   border-radius: 40px;
-  padding: ${props => (props.modalType === "movie" ? "0" : "24px")};
+  padding: 0;
   animation: fadeIn ease-out 0.4s;
   transform-origin: center center;
   background: var(--background2);
-  border: 2px solid var(--icon-hover-color1);
+  border: 2px solid var(--icon-hover-color2);
   will-change: opacity;
   will-change: filter;
   overflow: hidden;
@@ -188,9 +197,22 @@ const ModalContentFrame = styled.div<ModalContentFrameProps>`
   &.desktop {
     max-width: 1080px;
   }
-  &.movie {
-    border-color: var(--icon-hover-color2);
+  &.movie.desktop {
+    width: calc(100% - 8px);
   }
+  & .gatsby-image-wrapper {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    opacity: 0.7;
+    -mask-image: linear-gradient(to top, transparent 12%, black 100%);
+    -webkit-mask-image: linear-gradient(to top, transparent 12%, black 100%);
+  }
+`
+const ModalBodyContent = styled.div`
+  padding: 24px;
 `
 
 const modalContext = createContext(null)
@@ -323,16 +345,13 @@ Modal.Body = function ModalBody({
   movieId,
 }: ModalBodyProps) {
   return (
-    <div
-      className={`modal-body ${type}`}
-      style={{ padding: movieId !== undefined ? "24px" : "unset" }}
-    >
+    <ModalBodyContent className={`modal-body ${type}`}>
       {share}
       {movieContent}
       {offline}
       {credits}
       {about}
-    </div>
+    </ModalBodyContent>
   )
 }
 
