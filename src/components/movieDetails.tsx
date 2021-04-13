@@ -4,7 +4,7 @@ import Skeleton from "react-loading-skeleton"
 import { useFetchAbout } from "./sourceData"
 import styled from "styled-components"
 import FemaleMale from "../images/female_male.inline.svg"
-import CinemaFilm from "../images/cinema_film.inline.svg"
+import FilmStrip from "../images/filmStrip.inline.svg"
 import ChairDirector from "../images/chair_director.inline.svg"
 import PlayTrailer from "../images/play_trailer.inline.svg"
 import SandTime from "../images/sand_time.inline.svg"
@@ -67,8 +67,8 @@ const GenreArray = styled.div`
   & svg {
     display: inline-flex;
     align-self: center;
-    margin-bottom: 5px;
-    height: 20px;
+    margin: 0 4px 6px 0;
+    height: 24px;
     top: 0.5em;
     position: relative;
     filter: drop-shadow(4px 4px 4px var(--border-main));
@@ -89,14 +89,15 @@ const Header1 = styled.h1`
 
 const Note = styled.p`
   white-space: break-spaces;
-  color: var(--icon-hover-color2);
+  color: var(--icon-hover-color1) !important;
   text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
   position: inline;
   line-height: 1.5;
-  font-size: 16px;
+  font-size: 14px !important;
   margin-block-start: 3em;
   margin-block-end: -2em;
   margin-left: 3em;
+  font-style: italic;
 `
 
 const HeadlineDetails = styled.div`
@@ -169,6 +170,7 @@ const IconHeadline = styled.div<IconHeadlineProps>`
   & span {
     display: inline-flex;
     width: 100%;
+    margin-right: 1em;
   }
   & svg {
     display: inline-flex;
@@ -305,6 +307,28 @@ const StyledImdbLogo = styled(ImdbLogo)`
   transform: translateY(-7px);
 `
 
+const StreamName = styled.p `
+white-space: break-spaces;
+    color: var(--movie-paragraph-color);
+    text-shadow: 6px 6px 6px var(--border-main),
+      -6px -6px 6px var(--border-main);
+    position: inline;
+    line-height: 1.5;
+    font-size: 16px;
+    margin: auto 0 auto 3em;
+    margin-block-start: auto !important;
+    margin-block-end: auto !important;
+    margin-left: 3em;
+    flex-basis: 300px;
+`
+
+const StreamLogo = styled.img `
+border-radius: 14px;
+width: 50px;
+height: 50px;
+margin: 0.5em 0;
+`
+
 interface MovieDetailsProps {
   readonly movieId: number
   readonly isMobile: "mobile" | "desktop" | undefined
@@ -378,7 +402,9 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
       ? movieDetailedData.data.videos.results.map(movie =>
           movie.iso_639_1 === "en"
             ? movie.site === "YouTube"
-              ? movie.key
+              ? movie.type === "Trailer"
+                ? movie.key
+                : null
               : null
             : null
         )
@@ -390,6 +416,15 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
       : null
 
   console.log(trailerLink)
+
+  const imdbId =
+    movieDetailedData !== null ? movieDetailedData.data.imdb_id : null
+
+  console.log(
+    movieDetailedData !== null ? movieDetailedData : null,
+    movieDetailedData !== null ? movieDetailedData.data.imdb_id : null,
+    imdbId
+  )
 
   const enDescription =
     language === "da"
@@ -427,16 +462,25 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
 
   console.log(castList !== null && castList.length === 1)
 
-  // const buyLinks =
-  //   movieDetailedData !== null
-  //     ? movieDetailedData.data.["watch/providers"].results.DK.buy
-  //     : null
-  // const streamLink =
-  // movieDetailedData !== null
-  //     ? movieDetailedData.data.["watch/providers"].results.DK.link
-  //     : null
-  // console.log(buyLinks, streamLink,  movieDetailedData !== null
-  //   ? movieDetailedData.data : null)
+  const buyLinks =
+    movieDetailedData !== null
+      ? movieDetailedData.data.["watch/providers"].results.DK.buy
+      : null
+  
+      const buyList = buyLinks !== null? buyLinks.map(link =>
+<span><StreamName><b>{link.provider_name}</b></StreamName><StreamLogo src={`https://www.themoviedb.org/t/p/original${link.logo_path}`} alt={`${link.provider_name} logo`}></StreamLogo></span>
+  ): null
+
+  const streamLink =
+  movieDetailedData !== null
+      ? movieDetailedData.data.["watch/providers"].results.DK.link
+      : null
+
+  
+  console.log(movieDetailedData !== null
+    ? buyLinks: null, movieDetailedData !== null
+    ? streamLink: null,  movieDetailedData !== null
+    ? movieDetailedData.data : null)
 
   return (
     <>
@@ -481,7 +525,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
       )}
       {genreList !== null && (
         <GenreArray>
-          <CinemaFilm />
+          <FilmStrip />
           {genreTypes}
         </GenreArray>
       )}
@@ -532,19 +576,21 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
             <Headline3>Trailer</Headline3>
           </span>
           {language === "da" && (
-            <p>Traileren er desværre kun tilgængelig på engelsk</p>
+            <Note>Traileren er desværre kun tilgængelig på engelsk</Note>
           )}
           <MovieWrapper>
             <IframeMovie trailerLink={trailerLink} />
           </MovieWrapper>
         </IconHeadline>
       )}
-      {language === "da" && (
+      {language === "da" && buyList && (
         <IconHeadline fullWidth>
           <span>
             <Television style={{ top: "0" }} />
             <Headline3>Lej eller stream denne film</Headline3>
           </span>
+          <p>Du kan i øjeblikket leje filmen med danske undertekster her:</p>
+          {buyList}
         </IconHeadline>
       )}
       <IconHeadline fullWidth>
@@ -552,18 +598,30 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
           <Books />
           <Headline3>Læs mere</Headline3>
         </span>
+        {imdbId && (
+          <>
+            <span>
+              <p>
+                Læs mere om denne titel hos <b>IMDB</b>:&nbsp;
+              </p>
+              <ExternalLink
+                href={`https://www.imdb.com/title/${imdbId}/`}
+                title={`Read about ${movieDetails.title} at TMDb`}
+                className="FullHeight"
+              >
+                <StyledImdbLogo />
+              </ExternalLink>
+            </span>
+            {language === "da" && (
+              <Note>OBS: IMDb er kun tilgængelig på engelsk</Note>
+            )}
+          </>
+        )}
+        <Note>&nbsp;</Note>
         <span>
-          <p>Læs mere om denne titel hos "IMDB":&nbsp;</p>
-          <ExternalLink
-            href={`https://www.imdb.com/title/${id}/${language}`}
-            title={`Read about ${movieDetails.title} at TMDb`}
-            className="FullHeight"
-          >
-            <StyledImdbLogo />
-          </ExternalLink>
-        </span>
-        <span>
-          <p>Læs mere om denne titel hos "The Movie Database (TMDb)":&nbsp;</p>
+          <p>
+            Læs mere om denne titel hos <b>The Movie Database (TMDb)</b>:&nbsp;
+          </p>
           <ExternalLink
             href={`https://www.themoviedb.org/movie/${id}/${language}`}
             title={`Read about ${movieDetails.title} at TMDB`}

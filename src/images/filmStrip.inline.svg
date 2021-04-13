@@ -1,0 +1,5 @@
+<svg viewBox="0 0 32 32">
+    <path
+        d="M31,4H1C0.4,4,0,4.4,0,5v22c0,0.6,0.4,1,1,1h30c0.6,0,1-0.4,1-1V5C32,4.4,31.6,4,31,4z M10,23v3H7v-3H10z M12,23h3v3h-3V23z   M17,23h3v3h-3V23z M22,23h3v3h-3V23z M22,9V6h3v3H22z M20,9h-3V6h3V9z M15,9h-3V6h3V9z M10,9H7V6h3V9z M30,9h-3V6h3V9z M5,6v3H2V6  H5z M2,23h3v3H2V23z M27,26v-3h3v3H27z"
+        fill="var(--movie-header1-color)" />
+</svg>
