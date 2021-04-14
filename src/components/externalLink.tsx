@@ -51,8 +51,9 @@ const NavigateButton = styled.button`
   transition: 0.2s ease-in;
   padding: 14px;
   box-shadow: var(--icon-shadow);
-  border: 2px solid var(--icon-color1);
+  border: 2px solid var(--icon-hover-color2);
   display: inline-block;
+  -webkit-text-decoration: none;
   text-decoration: none;
   margin: 0.5em;
   background-color: transparent;
@@ -60,15 +61,22 @@ const NavigateButton = styled.button`
   font-weight: 700;
   cursor: pointer;
   font-size: 20px;
-  color: var(--icon-hover-color1);
-  &:hover {
+  color: var(--movie-paragraph-color);
+  &:nth-child(1) {
     color: var(--icon-hover-color2);
+    background-color: #ffffff08;
     border-color: var(--icon-hover-color1);
+  }
+  &:hover {
+    color: var(--movie-header1-color);
+    border-color: var(--movie-paragraph-color);
     transform: scale(1.1);
   }
-  &:nth-child(1) {
-    color: var(--icon-color1);
-    background-color: #ffffff08;
+
+  &:nth-child(1):hover {
+    color: var(--movie-paragraph-color);
+    border-color: var(--icon-hover-color2);
+    transform: scale(1.1);
   }
 `
 

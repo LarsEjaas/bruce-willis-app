@@ -142,7 +142,7 @@ const ModalContainer = ({}) => {
               type={modalType}
               about={
                 <>
-                  <AboutView />
+                  <AboutView isMobile={isMobile} />
                 </>
               }
             />
@@ -160,7 +160,7 @@ const ModalContainer = ({}) => {
                     layout="constrained"
                   />
                   <Headline2>Share on Social Media</Headline2>
-                  <ShareButtons />
+                  <ShareButtons isMobile={isMobile} />
                 </>
               }
             />
@@ -176,14 +176,14 @@ interface ModalContentFrameProps {
 }
 
 const ModalContentFrame = styled.div<ModalContentFrameProps>`
-  position: absolute;
+  position: relative;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   border-radius: 40px;
   padding: 0;
   animation: fadeIn ease-out 0.4s;
-  transform-origin: center center;
+  /* transform-origin: center center; */
   background: var(--background2);
   border: 2px solid var(--icon-hover-color2);
   will-change: opacity;
@@ -197,8 +197,9 @@ const ModalContentFrame = styled.div<ModalContentFrameProps>`
   &.desktop {
     max-width: 1080px;
   }
-  &.movie.desktop {
+  &.desktop.movie {
     width: calc(100% - 8px);
+    margin-bottom: 200px;
   }
   & .gatsby-image-wrapper {
     position: absolute;

@@ -3,6 +3,10 @@ import styled from "styled-components"
 import { globalHistory as history } from "@reach/router"
 import { graphql, useStaticQuery } from "gatsby"
 
+const removeBackSlashEnd = (path: string) => {
+  return path.endsWith("/") ? path.slice(0, path.length - 1) : path
+}
+
 const ButtonContainer = styled.div`
   margin: 24px auto;
   width: fit-content;
@@ -59,7 +63,7 @@ const ShareButtonLink = styled.a`
   }
 `
 
-const ShareButtons = () => {
+const ShareButtons = ({ isMobile }) => {
   const data = useStaticQuery(
     graphql`
       query {
@@ -74,10 +78,6 @@ const ShareButtons = () => {
       }
     `
   )
-
-  const removeBackSlashEnd = path => {
-    return path.endsWith("/") ? path.slice(0, path.length - 1) : path
-  }
 
   const siteMetadata = data.site.siteMetadata
 
@@ -130,6 +130,8 @@ const ShareButtons = () => {
     thisURL.concat("&text=", descriptionURL)
   )
 
+  console.log(isMobile)
+
   return (
     <ButtonContainer>
       <ShareButtonLink
@@ -156,34 +158,34 @@ const ShareButtons = () => {
           </div>
         </div>
       </ShareButtonLink>
-
-      <ShareButtonLink
-        id="Messenger"
-        className="resp_sharing_button__link"
-        href={messengerURL}
-        target="_blank"
-        rel="noopener"
-        aria-label="Share this page on Messenger"
-        title="Share this page on Messenger"
-      >
-        <div className="resp_sharing_button resp_sharing_button__messenger resp_sharing_button__small">
-          <div
-            aria-hidden="true"
-            className="resp_sharing_button__icon resp_sharing_button__icon__solid"
-          >
-            <svg
-              width="1em"
-              height="1em"
-              version="1.1"
-              viewBox="5 5 66 75"
-              xmlns="http://www.w3.org/2000/svg"
+      {isMobile === "mobile" && (
+        <ShareButtonLink
+          id="Messenger"
+          className="resp_sharing_button__link"
+          href={messengerURL}
+          target="_blank"
+          rel="noopener"
+          aria-label="Share this page on Messenger"
+          title="Share this page on Messenger"
+        >
+          <div className="resp_sharing_button resp_sharing_button__messenger resp_sharing_button__small">
+            <div
+              aria-hidden="true"
+              className="resp_sharing_button__icon resp_sharing_button__icon__solid"
             >
-              <path d="m1 58 18-29c3-5 9-6 13-2l14 11c1 1 3 1 4-0.02l19-15c3-2 6 1 4 4l-18 29c-3 5-9 6-13 2l-14-11c-1-1-3-1-4 0.02l-19 15c-3 2-6-1-4-4z" />
-            </svg>
+              <svg
+                width="1em"
+                height="1em"
+                version="1.1"
+                viewBox="5 5 66 75"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="m1 58 18-29c3-5 9-6 13-2l14 11c1 1 3 1 4-0.02l19-15c3-2 6 1 4 4l-18 29c-3 5-9 6-13 2l-14-11c-1-1-3-1-4 0.02l-19 15c-3 2-6-1-4-4z" />
+              </svg>
+            </div>
           </div>
-        </div>
-      </ShareButtonLink>
-
+        </ShareButtonLink>
+      )}
       <ShareButtonLink
         className="resp_sharing_button__link"
         href={twitterURL}
@@ -308,59 +310,61 @@ const ShareButtons = () => {
           </div>
         </div>
       </ShareButtonLink>
-
-      <ShareButtonLink
-        id="whatsApp"
-        className="resp_sharing_button__link"
-        href={whatsAppURL}
-        target="_blank"
-        rel="noopener"
-        aria-label="Share this page in WhatsApp"
-        title="Share this page in WhatsApp"
-      >
-        <div className="resp_sharing_button resp_sharing_button__whatsapp resp_sharing_button__small">
-          <div
-            aria-hidden="true"
-            className="resp_sharing_button__icon resp_sharing_button__icon__solid"
+      {isMobile === "mobile" && (
+        <>
+          <ShareButtonLink
+            id="whatsApp"
+            className="resp_sharing_button__link"
+            href={whatsAppURL}
+            target="_blank"
+            rel="noopener"
+            aria-label="Share this page in WhatsApp"
+            title="Share this page in WhatsApp"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="1em"
-              hight="1em"
-              viewBox="0 0 24 24"
-            >
-              <path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3 0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7 0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1 0-5.2 4.2-9.4 9.4-9.4 2.5 0 4.9 1 6.7 2.8 1.8 1.8 2.8 4.2 2.8 6.7-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6s.3-.3.4-.5c.2-.1.3-.3.4-.5.1-.2 0-.4 0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z" />
-            </svg>
-          </div>
-        </div>
-      </ShareButtonLink>
-
-      <ShareButtonLink
-        id="telegram"
-        className="resp_sharing_button__link"
-        href={telegramURL}
-        target="_blank"
-        rel="noopener"
-        aria-label="Share this page on Telegram"
-        title="Share this page on Telegram"
-      >
-        <div className="resp_sharing_button resp_sharing_button__telegram resp_sharing_button__small">
-          <div
-            aria-hidden="true"
-            className="resp_sharing_button__icon resp_sharing_button__icon__solid"
+            <div className="resp_sharing_button resp_sharing_button__whatsapp resp_sharing_button__small">
+              <div
+                aria-hidden="true"
+                className="resp_sharing_button__icon resp_sharing_button__icon__solid"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1em"
+                  hight="1em"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M20.1 3.9C17.9 1.7 15 .5 12 .5 5.8.5.7 5.6.7 11.9c0 2 .5 3.9 1.5 5.6L.6 23.4l6-1.6c1.6.9 3.5 1.3 5.4 1.3 6.3 0 11.4-5.1 11.4-11.4-.1-2.8-1.2-5.7-3.3-7.8zM12 21.4c-1.7 0-3.3-.5-4.8-1.3l-.4-.2-3.5 1 1-3.4L4 17c-1-1.5-1.4-3.2-1.4-5.1 0-5.2 4.2-9.4 9.4-9.4 2.5 0 4.9 1 6.7 2.8 1.8 1.8 2.8 4.2 2.8 6.7-.1 5.2-4.3 9.4-9.5 9.4zm5.1-7.1c-.3-.1-1.7-.9-1.9-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1s-1.2-.5-2.3-1.4c-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6s.3-.3.4-.5c.2-.1.3-.3.4-.5.1-.2 0-.4 0-.5C10 9 9.3 7.6 9 7c-.1-.4-.4-.3-.5-.3h-.6s-.4.1-.7.3c-.3.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.3-.3-.4-.6-.5z" />
+                </svg>
+              </div>
+            </div>
+          </ShareButtonLink>
+          <ShareButtonLink
+            id="telegram"
+            className="resp_sharing_button__link"
+            href={telegramURL}
+            target="_blank"
+            rel="noopener"
+            aria-label="Share this page on Telegram"
+            title="Share this page on Telegram"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="1em"
-              height="1em"
-              viewBox="0 -6 69.5 69.5"
-              style={{ transform: "translateX(-2px)" }}
-            >
-              <path d="M4.8 24.8C23.4 16.7 35.9 11.3 42.1 8.7 59.9 1.3 63.6 0 66 0 66.5 0 67.7 0.1 68.5 0.7c0.6 0.5 0.8 1.2 0.9 1.7 0.1 0.5 0.2 1.6 0.1 2.5-1 10.1-5.1 34.7-7.3 46-0.9 4.8-2.7 6.4-4.4 6.6C54.1 57.9 51.3 55.1 47.7 52.8 42.1 49.1 38.9 46.8 33.4 43.2 27.1 39 31.2 36.7 34.8 33 35.7 32 52.1 17.1 52.4 15.7c0-0.2 0.1-0.8-0.3-1.1-0.4-0.3-0.9-0.2-1.3-0.1-0.6 0.1-9.6 6.1-27 17.8-2.6 1.8-4.9 2.6-6.9 2.6-2.3 0-6.7-1.3-9.9-2.4C2.9 31.2-0.3 30.5 0 28.3 0.2 27.2 1.7 26 4.8 24.8Z" />
-            </svg>
-          </div>
-        </div>
-      </ShareButtonLink>
+            <div className="resp_sharing_button resp_sharing_button__telegram resp_sharing_button__small">
+              <div
+                aria-hidden="true"
+                className="resp_sharing_button__icon resp_sharing_button__icon__solid"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1em"
+                  height="1em"
+                  viewBox="0 -6 69.5 69.5"
+                  style={{ transform: "translateX(-2px)" }}
+                >
+                  <path d="M4.8 24.8C23.4 16.7 35.9 11.3 42.1 8.7 59.9 1.3 63.6 0 66 0 66.5 0 67.7 0.1 68.5 0.7c0.6 0.5 0.8 1.2 0.9 1.7 0.1 0.5 0.2 1.6 0.1 2.5-1 10.1-5.1 34.7-7.3 46-0.9 4.8-2.7 6.4-4.4 6.6C54.1 57.9 51.3 55.1 47.7 52.8 42.1 49.1 38.9 46.8 33.4 43.2 27.1 39 31.2 36.7 34.8 33 35.7 32 52.1 17.1 52.4 15.7c0-0.2 0.1-0.8-0.3-1.1-0.4-0.3-0.9-0.2-1.3-0.1-0.6 0.1-9.6 6.1-27 17.8-2.6 1.8-4.9 2.6-6.9 2.6-2.3 0-6.7-1.3-9.9-2.4C2.9 31.2-0.3 30.5 0 28.3 0.2 27.2 1.7 26 4.8 24.8Z" />
+                </svg>
+              </div>
+            </div>
+          </ShareButtonLink>
+        </>
+      )}
     </ButtonContainer>
   )
 }

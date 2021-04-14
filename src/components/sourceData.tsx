@@ -98,16 +98,6 @@ export const useFetchMovieCredits = ({ type, id }: useFetchProps) => {
         }
       }
     })
-    // arr.sort(function(a, b) {
-    //   da = new Date(a);
-    //   db = new Date(b);
-    //   if (da == db) {
-    //     return 0;
-    //   }
-    //   return da > db ? 1 : -1;
-    // });
-
-    // console.log(arr);
     const sortedObj = obj.sort(function (a, b) {
       a.release_date = new Date(a.release_date)
       b.release_date = new Date(b.release_date)
@@ -118,7 +108,7 @@ export const useFetchMovieCredits = ({ type, id }: useFetchProps) => {
     })
 
     console.log(sortedObj)
-    // const sortedObj = obj.sort((a, b) => b.release_date - a.release_date)
+
     return sortedObj
   }
 

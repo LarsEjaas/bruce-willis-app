@@ -1,5 +1,5 @@
 import * as React from "react"
-import { useState, useRef } from "react"
+import { useState } from "react"
 import Skeleton from "react-loading-skeleton"
 import { useFetchAbout } from "./sourceData"
 import styled from "styled-components"
@@ -16,6 +16,7 @@ import { useFetchMovieDetails } from "./sourceData"
 import { getGenre } from "./genres"
 import ExternalLink from "./externalLink"
 import IframeMovie from "./youtubeVideo"
+import StreamLinks from "./streamingLinks"
 
 const BackDrop = styled.picture`
   position: absolute;
@@ -158,7 +159,7 @@ interface IconHeadlineProps {
   readonly fullWidth?: boolean | undefined
 }
 
-const IconHeadline = styled.div<IconHeadlineProps>`
+export const IconHeadline = styled.div<IconHeadlineProps>`
   display: inline-table;
   white-space: break-spaces;
   color: var(--movie-paragraph-color);
@@ -225,7 +226,7 @@ const CastlistWrapper = styled.div`
   justify-content: space-evenly;
 `
 
-const Headline3 = styled.h3`
+export const Headline3 = styled.h3`
   font-family: "Passion One", cursive;
   font-weight: 400;
   font-size: 1.8em;
@@ -297,7 +298,7 @@ const CastCard = styled.div<CastCardProps>`
   }
 `
 
-const StyledTmdbLogo = styled(TmdbLogo)`
+export const StyledTmdbLogo = styled(TmdbLogo)`
   width: 100px !important;
   transform: translateY(-7px);
 `
@@ -307,26 +308,25 @@ const StyledImdbLogo = styled(ImdbLogo)`
   transform: translateY(-7px);
 `
 
-const StreamName = styled.p `
-white-space: break-spaces;
-    color: var(--movie-paragraph-color);
-    text-shadow: 6px 6px 6px var(--border-main),
-      -6px -6px 6px var(--border-main);
-    position: inline;
-    line-height: 1.5;
-    font-size: 16px;
-    margin: auto 0 auto 3em;
-    margin-block-start: auto !important;
-    margin-block-end: auto !important;
-    margin-left: 3em;
-    flex-basis: 300px;
+const StreamName = styled.p`
+  white-space: break-spaces;
+  color: var(--movie-paragraph-color);
+  text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
+  position: inline;
+  line-height: 1.5;
+  font-size: 16px;
+  margin: auto 0 auto 3em;
+  margin-block-start: auto !important;
+  margin-block-end: auto !important;
+  margin-left: 3em;
+  flex-basis: 300px;
 `
 
-const StreamLogo = styled.img `
-border-radius: 14px;
-width: 50px;
-height: 50px;
-margin: 0.5em 0;
+const StreamLogo = styled.img`
+  border-radius: 14px;
+  width: 50px;
+  height: 50px;
+  margin: 0.5em 0;
 `
 
 interface MovieDetailsProps {
@@ -335,7 +335,6 @@ interface MovieDetailsProps {
 }
 
 const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
-  const backDropRef = useRef(null)
   const id = movieId !== 0 ? movieId : Number(backDropRef.current.id)
   console.log(id, backDropRef)
   const type = "movie"
@@ -462,30 +461,36 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
 
   console.log(castList !== null && castList.length === 1)
 
-  const buyLinks =
-    movieDetailedData !== null
-      ? movieDetailedData.data.["watch/providers"].results.DK.buy
-      : null
-  
-      const buyList = buyLinks !== null? buyLinks.map(link =>
-<span><StreamName><b>{link.provider_name}</b></StreamName><StreamLogo src={`https://www.themoviedb.org/t/p/original${link.logo_path}`} alt={`${link.provider_name} logo`}></StreamLogo></span>
-  ): null
+  const languageCode = language === "da" ? "DK" : "US"
 
-  const streamLink =
-  movieDetailedData !== null
-      ? movieDetailedData.data.["watch/providers"].results.DK.link
-      : null
+  //   const buyLinks =
+  //     movieDetailedData !== null?
+  //     (movieDetailedData.data.["watch/providers"].results.[languageCode] !== undefined
+  //       ? movieDetailedData.data.["watch/providers"].results.[languageCode].buy : null)
+  //       : null
 
-  
-  console.log(movieDetailedData !== null
-    ? buyLinks: null, movieDetailedData !== null
-    ? streamLink: null,  movieDetailedData !== null
-    ? movieDetailedData.data : null)
+  //       console.log(buyLinks, movieDetailedData !== null? movieDetailedData.data.["watch/providers"]:null, movieDetailedData !== null? movieDetailedData.data.["watch/providers"].results.[languageCode] : null)
+
+  //       const buyList = buyLinks !== null? buyLinks.map(link =>
+  // <span><StreamName><b>{link.provider_name}</b></StreamName><StreamLogo src={`https://www.themoviedb.org/t/p/original${link.logo_path}`} alt={`${link.provider_name} logo`}></StreamLogo></span>)
+  //   : null
+
+  //   console.log(buyList);
+
+  //   const streamLink =
+  //   movieDetailedData !== null
+  //       ? (movieDetailedData.data.["watch/providers"].results.[languageCode] !== undefined? movieDetailedData.data.["watch/providers"].results.[languageCode].link: null)
+  //       : null
+
+  //   console.log(movieDetailedData !== null
+  //     ? buyLinks: null, movieDetailedData !== null
+  //     ? streamLink: null,  movieDetailedData !== null
+  //     ? movieDetailedData.data : null)
 
   return (
     <>
       {movieDetails.backdrop_path && (
-        <BackDrop id={id} ref={backDropRef}>
+        <BackDrop id={id}>
           <source
             media={
               isMobile === "mobile"
@@ -583,16 +588,13 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
           </MovieWrapper>
         </IconHeadline>
       )}
-      {language === "da" && buyList && (
-        <IconHeadline fullWidth>
-          <span>
-            <Television style={{ top: "0" }} />
-            <Headline3>Lej eller stream denne film</Headline3>
-          </span>
-          <p>Du kan i øjeblikket leje filmen med danske undertekster her:</p>
-          {buyList}
-        </IconHeadline>
-      )}
+      <StreamLinks
+        movieDetailedData={movieDetailedData}
+        movieDetails={movieDetails}
+        movieYear={movieYear}
+        language={language}
+        languageCode={languageCode}
+      />
       <IconHeadline fullWidth>
         <span>
           <Books />
