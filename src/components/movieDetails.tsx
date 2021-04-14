@@ -17,20 +17,21 @@ import { getGenre } from "./genres"
 import ExternalLink from "./externalLink"
 import IframeMovie from "./youtubeVideo"
 import StreamLinks from "./streamingLinks"
+import Backdrop from "./backdrop"
 
-const BackDrop = styled.picture`
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  opacity: 0.7;
-  -webkit-mask-image: linear-gradient(to top, transparent 12%, black 100%);
-  -mask-image: linear-gradient(to top, transparent 12%, black 100%);
-  & img {
-    width: 100%;
-  }
-`
+// const BackDrop = styled.picture`
+//   position: absolute;
+//   width: 100%;
+//   top: 0;
+//   left: 0;
+//   z-index: -1;
+//   opacity: 0.7;
+//   -webkit-mask-image: linear-gradient(to top, transparent 12%, black 100%);
+//   -mask-image: linear-gradient(to top, transparent 12%, black 100%);
+//   & img {
+//     width: 100%;
+//   }
+// `
 
 const PosterCover = styled.img`
   border-radius: 10px;
@@ -336,7 +337,6 @@ interface MovieDetailsProps {
 
 const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
   const id = movieId !== 0 ? movieId : Number(backDropRef.current.id)
-  console.log(id, backDropRef)
   const type = "movie"
   const [movieDetailedData, isLoading] = useFetchMovieDetails({ type, id })
   console.log(isMobile)
@@ -463,70 +463,51 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
 
   const languageCode = language === "da" ? "DK" : "US"
 
-  //   const buyLinks =
-  //     movieDetailedData !== null?
-  //     (movieDetailedData.data.["watch/providers"].results.[languageCode] !== undefined
-  //       ? movieDetailedData.data.["watch/providers"].results.[languageCode].buy : null)
-  //       : null
-
-  //       console.log(buyLinks, movieDetailedData !== null? movieDetailedData.data.["watch/providers"]:null, movieDetailedData !== null? movieDetailedData.data.["watch/providers"].results.[languageCode] : null)
-
-  //       const buyList = buyLinks !== null? buyLinks.map(link =>
-  // <span><StreamName><b>{link.provider_name}</b></StreamName><StreamLogo src={`https://www.themoviedb.org/t/p/original${link.logo_path}`} alt={`${link.provider_name} logo`}></StreamLogo></span>)
-  //   : null
-
-  //   console.log(buyList);
-
-  //   const streamLink =
-  //   movieDetailedData !== null
-  //       ? (movieDetailedData.data.["watch/providers"].results.[languageCode] !== undefined? movieDetailedData.data.["watch/providers"].results.[languageCode].link: null)
-  //       : null
-
-  //   console.log(movieDetailedData !== null
-  //     ? buyLinks: null, movieDetailedData !== null
-  //     ? streamLink: null,  movieDetailedData !== null
-  //     ? movieDetailedData.data : null)
-
   return (
     <>
       {movieDetails.backdrop_path && (
-        <BackDrop id={id}>
-          <source
-            media={
-              isMobile === "mobile"
-                ? "(max-width: 400px)"
-                : "(max-width: 865px)"
-            }
-            srcSet={`https://image.tmdb.org/t/p/w400${movieDetails.backdrop_path}`}
-            loading="lazy"
-          />
-          <source
-            media={
-              isMobile === "mobile"
-                ? "(min-width: 401px) and (max-width: 500px)"
-                : "(min-width: 866px) and (max-width: 1065px)"
-            }
-            srcSet={`https://image.tmdb.org/t/p/w500${movieDetails.backdrop_path}`}
-            loading="lazy"
-          />
-          <>
-            <source
-              media={
-                isMobile === "mobile"
-                  ? "(min-width: 501px)"
-                  : "(min-width: 1066px)"
-              }
-              srcSet={`https://www.themoviedb.org/t/p/w1000_and_h450_multi_faces${movieDetails.backdrop_path}`}
-              loading="lazy"
-            />
-          </>
+        <Backdrop
+          isMobile={isMobile}
+          backdrop_path={movieDetails ? movieDetails.backdrop_path : null}
+          original_title={movieDetails ? movieDetails.original_title : null}
+        />
+        // <BackDrop>
+        //   <source
+        //     media={
+        //       isMobile === "mobile"
+        //         ? "(max-width: 400px)"
+        //         : "(max-width: 865px)"
+        //     }
+        //     srcSet={`https://image.tmdb.org/t/p/w400${movieDetails.backdrop_path}`}
+        //     loading="lazy"
+        //   />
+        //   <source
+        //     media={
+        //       isMobile === "mobile"
+        //         ? "(min-width: 401px) and (max-width: 500px)"
+        //         : "(min-width: 866px) and (max-width: 1065px)"
+        //     }
+        //     srcSet={`https://image.tmdb.org/t/p/w500${movieDetails.backdrop_path}`}
+        //     loading="lazy"
+        //   />
+        //   <>
+        //     <source
+        //       media={
+        //         isMobile === "mobile"
+        //           ? "(min-width: 501px)"
+        //           : "(min-width: 1066px)"
+        //       }
+        //       srcSet={`https://www.themoviedb.org/t/p/w1000_and_h450_multi_faces${movieDetails.backdrop_path}`}
+        //       loading="lazy"
+        //     />
+        //   </>
 
-          <img
-            src={`https://image.tmdb.org/t/p/w500${movieDetails.backdrop_path}`}
-            alt={`Background image from the movie "${movieDetails.original_title}"`}
-            loading="lazy"
-          />
-        </BackDrop>
+        //   <img
+        //     src={`https://image.tmdb.org/t/p/w500${movieDetails.backdrop_path}`}
+        //     alt={`Background image from the movie "${movieDetails.original_title}"`}
+        //     loading="lazy"
+        //   />
+        // </BackDrop>
       )}
       {genreList !== null && (
         <GenreArray>

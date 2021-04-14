@@ -2,6 +2,7 @@ import * as React from "react"
 import { ReactNode, useContext } from "react"
 import { GlobalContext } from "./layout"
 import styled from "styled-components"
+import { StaticImage } from "gatsby-plugin-image"
 
 type ExternalLinkProps = {
   className?: string
@@ -121,9 +122,23 @@ export const GoExtern = ({ closeExternModal }: closeExternModalProps) => {
   let domain = new URL(`${clickedExternLink.href}`)
   domain = domain.hostname
 
+  console.log(domain)
+
+  const backdrop_path =
+    domain === "larsejaas.com" ? "../images/ejaas_logo.png" : null
+
+  const backdrop_alt = domain === "larsejaas.com" ? "Ejaas logo" : null
+
   return (
     <>
       <div>
+        <StaticImage
+          src={backdrop_path}
+          alt={backdrop_alt}
+          loading="eager"
+          placeholder="none"
+          layout="constrained"
+        />
         <Headline2>Are you sure?</Headline2>
         <Paragraph>
           You are about to navigate away from this page to {domain} and '

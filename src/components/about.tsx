@@ -3,6 +3,11 @@ import { useState } from "react"
 import Skeleton from "react-loading-skeleton"
 import { useFetchAbout } from "./sourceData"
 import styled from "styled-components"
+import Backdrop from "./backdrop"
+
+const backdrop_path = "/ifBIpsuutQlul3Mexjw2QdkFXG4.jpg"
+const original_title =
+  "background image in the about Modal - picture from the movie Trauma Center"
 
 //images
 //https://api.themoviedb.org/3/person/62/tagged_images?api_key=8551b13d1962564c7342bfbbb9e3c5d7&language=en-US&page=1
@@ -28,11 +33,73 @@ const BruceImage = styled.picture`
   }
   & img {
     border-radius: 22px;
+    position: inline;
+    float: left;
+    transform: rotate(-9deg) translate(-6%,12%);
+    width: 32%;
+    max-width: 200px;
+    min-width: 100px;
+    z-index: 1;
+    -webkit-filter: drop-shadow(12px 12px 6px var(--image-cover-color));
+    filter: drop-shadow(12px 12px 6px var(--image-cover-color));
+    shape-outside: polygon(59.86% 7.13%, 0.72% 87.62%, 78.24% 81.26%);
+    shape-image-threshold: 0.9;
+    shape-margin: calc(30px + 2%);
+    @media (max-width: 599px) {
+      margin-right: 25px;
+    margin-bottom: 30px;
+    }
+    @media (min-width: 600px) {
+    margin-right: 40px;
+    margin-bottom: 70px;
+    }
+    transform-origin: center center;
   }
+`
+
+const Header1 = styled.h1`
+  text-shadow: 4px 4px 4px var(--border-main);
+  color: var(--movie-header1-color);
+  margin: 0;
+  margin-block-start: 2em;
+  margin-block-end: 0;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  font-size: clamp(1.7rem, -0.1105rem + 9.0526vw, 6rem);
+`
+
+const Div = styled.div`
+  display: inline-flex;
+  width: 60%;
+  justify-content: flex-end;
+`
+
+const Born = styled.h3`
+  font-family: "Passion One", cursive;
+  font-weight: 400;
+  line-height: 0.8;
+  margin-bottom: 0.2em;
+  margin-block-start: 0;
+  margin-inline-end: 0;
+  padding: 4px 8px;
+  color: var(--border-main);
+  font-size: clamp(1.5rem, 1.0273rem + 2.3636vw, 2.8rem);
+  background-color: var(--movie-header1-color);
+  box-shadow: 6px 6px 16px var(--border-main);
+  border-radius: 0.3em;
+  transform: rotate(-4deg);
 `
 
 const Paragraph = styled.p`
   white-space: break-spaces;
+  color: var(--movie-paragraph-color);
+  text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
+  position: inline;
+  line-height: 1.5;
+  font-size: 16px;
+  margin-block-start: 3em;
+  margin-block-end: 1em;
 `
 
 //Bruce Willis has id: 62
@@ -55,40 +122,33 @@ const AboutView = ({ isMobile }) => {
 
   return (
     <>
-      <BackDrop>
-        <source
-          media={
-            isMobile === "mobile" ? "(max-width: 400px)" : "(max-width: 865px)"
-          }
-          srcSet={`https://image.tmdb.org/t/p/w400${movieDetails.backdrop_path}`}
-          loading="lazy"
-        />
-        <source
-          media={
-            isMobile === "mobile"
-              ? "(min-width: 401px) and (max-width: 500px)"
-              : "(min-width: 866px) and (max-width: 1065px)"
-          }
-          srcSet={`https://image.tmdb.org/t/p/w500${movieDetails.backdrop_path}`}
-          loading="lazy"
-        />
-      </BackDrop>
-      <BruceImage>
-        <source
-          media="(max-width: 599px)"
-          srcSet={`https://www.themoviedb.org/t/p/w180_and_h180_face${data.profilePicture}`}
-        />
-        <source
-          media="(min-width: 600px)"
-          srcSet={`https://www.themoviedb.org/t/p/w300_and_h450_face${data.profilePicture}`}
-        />
-        <img
-          src={`https://www.themoviedb.org/t/p/w300_and_h450_face${data.profilePicture}`}
-          alt={`Profile Picture of ${data.name}`}
-        />
-      </BruceImage>
-      <h2>{data.name}</h2>
-      <Paragraph>{biographyText}</Paragraph>
+      {isLoading ? (
+        <Skeleton />
+      ) : (
+        <BruceImage>
+          <source
+            media="(max-width: 599px)"
+            srcSet={`https://www.themoviedb.org/t/p/w180_and_h180_face${data.profilePicture}`}
+          />
+          <source
+            media="(min-width: 600px)"
+            srcSet={`https://www.themoviedb.org/t/p/w300_and_h450_face${data.profilePicture}`}
+          />
+          <img
+            src={`https://www.themoviedb.org/t/p/w300_and_h450_face${data.profilePicture}`}
+            alt={`Profile Picture of ${data.name}`}
+          />
+        </BruceImage>
+      )}
+      {isLoading ? <Skeleton /> : <Header1>{data.name}</Header1>}
+      {isLoading ? (
+        <Skeleton />
+      ) : (
+        <Div>
+          <Born>født {data.birthday}</Born>
+        </Div>
+      )}
+      {isLoading ? <Skeleton /> : <Paragraph>{biographyText}</Paragraph>}
     </>
   )
 }
