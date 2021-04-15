@@ -479,7 +479,11 @@ const Section1 = ({ isMobile, index }: SectionProps) => {
             : `${isMobile} EjaasLogo left`
         }
         isMobile={isMobile}
-        href="https://larsejaas.com/en/"
+        href={
+          language === "da"
+            ? "https://larsejaas.com/"
+            : "https://larsejaas.com/en/"
+        }
         title="Made by Lars Ejaas"
       >
         <EjaasLogo width="64" />

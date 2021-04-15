@@ -12,7 +12,8 @@ const id = "62/movie_credits"
 const type = "person"
 
 const Index = ({ location }) => {
-  const [movieData, isLoading] = useFetchMovieCredits({ type, id })
+  const { language } = useI18next()
+  const [movieData, isLoading] = useFetchMovieCredits({ type, id, language })
   const isMobile = DeviceDetectHook()
 
   return (

@@ -2,19 +2,19 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 
 const BASE_URL = "https://api.themoviedb.org/3/"
-const translation = "da-DK"
-const language = "da"
 const IMAGE_URL = "https://image.tmdb.org/t/p/"
 
 type useFetchProps = {
   type: "person" | "movie"
   id: string | null
   data: null | object
+  language: "da" | "en"
 }
 
-export const useFetchAbout = ({ type, id }: useFetchProps) => {
+export const useFetchAbout = ({ type, id, language }: useFetchProps) => {
   const [data, setData] = useState(null)
   const [isLoading, setLoading] = useState(true)
+  const translation = language === "da" ? "da-DK" : "en-US"
 
   const fetchData = async () => {
     setLoading(true)
@@ -45,11 +45,12 @@ export const useFetchAbout = ({ type, id }: useFetchProps) => {
   return [data, isLoading]
 }
 
-export const useFetchMovieCredits = ({ type, id }: useFetchProps) => {
+export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
   const [data, setData] = useState(null)
   const [isLoading, setLoading] = useState(false)
   const [isError, setIsError] = useState(false)
   const [Error, setError] = useState(null)
+  const translation = language === "da" ? "da-DK" : "en-US"
 
   const cleanData = obj => {
     //console.log(obj)
@@ -144,7 +145,7 @@ export const useFetchMovieCredits = ({ type, id }: useFetchProps) => {
 
 const translationDetails = "en-US"
 
-export const useFetchMovieDetails = ({ type, id }: useFetchProps) => {
+export const useFetchMovieDetails = ({ type, id, language }: useFetchProps) => {
   const [data, setData] = useState(null)
   const [isLoading, setLoading] = useState(true)
 

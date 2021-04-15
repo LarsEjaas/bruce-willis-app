@@ -44,18 +44,13 @@ module.exports = {
         keySeparator: ".",
         nsSeparator: ":",
       },
-      // pages: [
-      //   {
-      //     matchPath: "/:lang/artikler/:urlname",
-      //     getLanguageFromPath: true,
-      //     excludeLanguages: ["da", "en"],
-      //   },
-      //   {
-      //     matchPath: "/artikler/:urlname",
-      //     getLanguageFromPath: true,
-      //     excludeLanguages: ["da", "en"],
-      //   },
-      // ],
+      pages: [
+        {
+          matchPath: "/:lang/",
+          getLanguageFromPath: true,
+          excludeLanguages: ["da"],
+        }
+      ],
     },
   },
     {
@@ -63,6 +58,13 @@ module.exports = {
       options: {
         name: `images`,
         path: `${__dirname}/src/images`
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/locales`,
+        name: `locale`,
       },
     },
     'gatsby-plugin-styled-components',

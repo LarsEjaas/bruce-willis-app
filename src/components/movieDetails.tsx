@@ -1,7 +1,5 @@
 import * as React from "react"
-import { useState } from "react"
 import Skeleton from "react-loading-skeleton"
-import { useFetchAbout } from "./sourceData"
 import styled from "styled-components"
 import FemaleMale from "../images/female_male.inline.svg"
 import FilmStrip from "../images/filmStrip.inline.svg"
@@ -18,6 +16,7 @@ import ExternalLink from "./externalLink"
 import IframeMovie from "./youtubeVideo"
 import StreamLinks from "./streamingLinks"
 import Backdrop from "./backdrop"
+import { useI18next } from "gatsby-plugin-react-i18next"
 
 const PosterCover = styled.img`
   border-radius: 10px;
@@ -322,26 +321,26 @@ const StyledImdbLogo = styled(ImdbLogo)`
   transform: translateY(-7px);
 `
 
-const StreamName = styled.p`
-  white-space: break-spaces;
-  color: var(--movie-paragraph-color);
-  text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
-  position: inline;
-  line-height: 1.5;
-  font-size: 16px;
-  margin: auto 0 auto 3em;
-  margin-block-start: auto !important;
-  margin-block-end: auto !important;
-  margin-left: 3em;
-  flex-basis: 300px;
-`
+// const StreamName = styled.p`
+//   white-space: break-spaces;
+//   color: var(--movie-paragraph-color);
+//   text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
+//   position: inline;
+//   line-height: 1.5;
+//   font-size: 16px;
+//   margin: auto 0 auto 3em;
+//   margin-block-start: auto !important;
+//   margin-block-end: auto !important;
+//   margin-left: 3em;
+//   flex-basis: 300px;
+// `
 
-const StreamLogo = styled.img`
-  border-radius: 14px;
-  width: 50px;
-  height: 50px;
-  margin: 0.5em 0;
-`
+// const StreamLogo = styled.img`
+//   border-radius: 14px;
+//   width: 50px;
+//   height: 50px;
+//   margin: 0.5em 0;
+// `
 
 interface MovieDetailsProps {
   readonly movieId: number
@@ -353,7 +352,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
   const type = "movie"
   const [movieDetailedData, isLoading] = useFetchMovieDetails({ type, id })
   console.log(isMobile)
-  const language = "da"
+  const { language } = useI18next()
 
   const movieData = JSON.parse(
     localStorage.getItem(`movieStorageData-${language}`)
