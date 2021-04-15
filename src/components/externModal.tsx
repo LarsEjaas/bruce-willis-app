@@ -128,8 +128,6 @@ const ExternModalContainer = ({}) => {
 const ModalContentFrame = styled.div`
   position: absolute;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   border-radius: 40px;
   padding: 24px;
   animation: fadeIn ease-out 0.4s;

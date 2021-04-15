@@ -1,5 +1,7 @@
 import * as React from "react"
 import { DeviceDetectHook } from "../components/deviceDetect"
+import { graphql } from "gatsby"
+import { Link, Trans, useTranslation } from "gatsby-plugin-react-i18next"
 import Layout from "../components/layout"
 import { Main, MainMobile } from "../components/main"
 import SEO from "../components/seo"
@@ -30,3 +32,17 @@ const Index = ({ location }) => {
 }
 
 export default Index
+
+export const query = graphql`
+  query($language: String!) {
+    locales: allLocale(filter: { language: { eq: $language } }) {
+      edges {
+        node {
+          ns
+          data
+          language
+        }
+      }
+    }
+  }
+`

@@ -26,6 +26,38 @@ module.exports = {
       }
     } 
   },
+  {
+    resolve: `gatsby-plugin-react-i18next`,
+    options: {
+      localeJsonSourceName: `locale`,
+      languages: [`en`, `da`],
+      redirect: false,
+      siteUrl: 'https://bruce-willis.com', //to be changed,
+      defaultLanguage: `da`,
+      // you can pass any i18next options
+      // pass following options to allow message content as a key
+      i18nextOptions: {
+        lowerCaseLng: true,
+        interpolation: {
+          escapeValue: false, // not needed for react as it escapes by default
+        },
+        keySeparator: ".",
+        nsSeparator: ":",
+      },
+      // pages: [
+      //   {
+      //     matchPath: "/:lang/artikler/:urlname",
+      //     getLanguageFromPath: true,
+      //     excludeLanguages: ["da", "en"],
+      //   },
+      //   {
+      //     matchPath: "/artikler/:urlname",
+      //     getLanguageFromPath: true,
+      //     excludeLanguages: ["da", "en"],
+      //   },
+      // ],
+    },
+  },
     {
       resolve: `gatsby-source-filesystem`,
       options: {

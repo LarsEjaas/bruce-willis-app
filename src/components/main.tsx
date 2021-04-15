@@ -105,27 +105,16 @@ const Section = styled.section<SectionProps>`
     max-height: 749px;
     height: 127vw;
   }
-  .BruceW.mobile.right {
-    animation: ${fadeIn} 0.8s cubic-bezier(1, 0, 1, 1) 0.4s;
-    animation-fill-mode: both;
-  }
   .BruceW.desktop {
     bottom: 3%;
     width: 103%;
-    animation: ${fadeIn} 1.5s cubic-bezier(1, 0, 1, 1);
-    animation-fill-mode: both;
   }
   .grunge {
     overflow: hidden;
     position: absolute;
     inset: 0;
     border-radius: 0 40px 40px 0;
-  }
-  &.desktop .grunge {
-    animation: ${fadeIn} 1.5s cubic-bezier(1, 0, 1, 1);
-  }
-  &.mobile .grunge.left {
-    animation: ${fadeIn} 1.5s cubic-bezier(1, 0, 1, 1);
+    opacity: 0.6;
   }
   SVG {
     transition: all 0.2s ease-in-out;
@@ -250,6 +239,7 @@ const Headline = styled.h1`
   position: absolute;
   text-shadow: var(--text-shadow-primary);
   z-index: 3;
+  will-change: opacity;
   &.desktop {
     left: -48px;
     @media (max-width: 1200px) {
@@ -376,7 +366,7 @@ const Circle4 = styled.div<Circle4Props>`
   }
 `
 interface SectionProps {
-  isMobile?: "mobile" | "desktop" | undefined
+  readonly isMobile?: "mobile" | "desktop" | undefined
   index: 1 | 2
 }
 
@@ -501,6 +491,7 @@ const Section1 = ({ isMobile, index }: SectionProps) => {
         loading="eager"
         placeholder="none"
         layout="constrained"
+        width={572}
       />
       <Headline
         className={index === 1 ? `${isMobile} right` : `${isMobile} left`}

@@ -143,8 +143,7 @@ const Paragraph = styled.p`
   position: inline;
   line-height: 1.5;
   font-size: 16px;
-  margin-block-start: 3em;
-  margin-block-end: 1em;
+  margin-block: 1em;
 `
 
 //Bruce Willis has id: 62
@@ -165,9 +164,14 @@ const AboutView = ({ isMobile }: AboutViewProps) => {
 
   let biographyText =
     data !== null ? data.biography.match(/[^\s.!?]+[^.!?\r\n]+[.!?]*/g) : null
+  const birthday = data !== null ? `født ${data.birthday}` : null
   console.log(biographyText)
   biographyText = biographyText !== null ? biographyText.join("\n") : null
-  console.log(data !== null ? data.biography : null, biographyText)
+  console.log(
+    data !== null ? data.biography : null,
+    data !== null ? data : null,
+    biographyText
+  )
 
   return (
     <>
@@ -198,15 +202,36 @@ const AboutView = ({ isMobile }: AboutViewProps) => {
           </picture>
         </BruceImage>
       )}
-      {isLoading ? <Skeleton /> : <Header1>{data.name}</Header1>}
       {isLoading ? (
-        <Skeleton />
+        <Skeleton
+          style={{
+            fontSize: "clamp(1.7rem, -0.1105rem + 9.0526vw, 6rem)",
+            margin: "2em 5% 0 15%",
+          }}
+          width={"40%"}
+        />
+      ) : (
+        <Header1>{data.name}</Header1>
+      )}
+      {isLoading ? (
+        <Skeleton
+          width={"28.3%"}
+          style={{
+            margin: "0 0.2em 0 30%",
+            fontSize: "clamp(1.5rem, 1.0273rem + 2.3636vw, 2.8rem)",
+            transform: "rotate(-4deg)",
+          }}
+        />
       ) : (
         <Div>
-          <Born>født {data.birthday}</Born>
+          <Born>{birthday}</Born>
         </Div>
       )}
-      {isLoading ? <Skeleton /> : <Paragraph>{biographyText}</Paragraph>}
+      {isLoading ? (
+        <Skeleton style={{ fontSize: 16, marginBlock: "0.2em" }} count={10} />
+      ) : (
+        <Paragraph>{biographyText}</Paragraph>
+      )}
     </>
   )
 }

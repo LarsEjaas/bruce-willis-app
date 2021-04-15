@@ -189,22 +189,16 @@ a {
     z-index:6000;
     }
 
-@media (min-height: 720px) {
+.modal-content {
+  top: 4px;
+  transform: translate(-50%,0);
+}
+
+  @media (min-height: 720px) {
 .modal-content.desktop.about, .modal-content.desktop.movie {
   top: calc((100vh - 720px) / 2 );
-  transform: translate(-50%,0);
   }
 }
-@media (max-height: 719px) {
-.modal-content.desktop.about, .modal-content.desktop.movie {
-  top: 4px;
-  transform: translate(-50%,0);
-  }
-} 
-.modal-content.mobile.about, .modal-content.mobile.movie {
-  top: 4px;
-  transform: translate(-50%,0);
-  }
 
 body.move section.mobile.right {
     animation: slideRight 1s ease-in-out;

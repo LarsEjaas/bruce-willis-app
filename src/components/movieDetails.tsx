@@ -193,16 +193,24 @@ const MovieWrapper = styled.div`
   padding-top: 56.25%;
   display: block;
   position: relative;
-  & iframe {
+  & div {
     position: absolute;
     width: 90%;
     height: 90%;
     top: 0;
     border-radius: 12px;
-    filter: drop-shadow(12px 12px 6px var(--image-cover-color));
+    overflow: hidden;
     margin: 0.5em 0;
     transform: translateX(-50%);
     left: 50%;
+    background-color: var(--image-cover-color);
+    filter: drop-shadow(12px 12px 6px var(--image-cover-color));
+  }
+  & iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
   }
 `
 
@@ -536,7 +544,9 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
             <Note>Traileren er desværre kun tilgængelig på engelsk</Note>
           )}
           <MovieWrapper>
-            <IframeMovie trailerLink={trailerLink} />
+            <div>
+              <IframeMovie trailerLink={trailerLink} />
+            </div>
           </MovieWrapper>
         </IconHeadline>
       )}

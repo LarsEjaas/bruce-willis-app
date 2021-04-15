@@ -6,7 +6,7 @@ import {
   useContext,
   createRef,
 } from "react"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import ReactDOM from "react-dom"
 import Cross from "../svg/cross.inline.svg"
 import { GlobalContext } from "./layout"
@@ -14,6 +14,7 @@ import AboutView from "./about"
 import ShareButtons from "./share"
 import MovieDetails from "./movieDetails"
 import Backdrop from "./backdrop"
+import { SkeletonTheme } from "react-loading-skeleton"
 
 const Crossbutton = styled.button`
   position: absolute;
@@ -289,15 +290,20 @@ function Modal({ children, onModalClose, modalType }: ModalProps) {
       ref={modalContainerRef}
       onClick={onModalClose}
     >
-      <ModalContentFrame
-        className={`${isMobile} modal-content ${modalType}`}
-        ref={modalRef}
-        modalType={modalType}
+      <SkeletonTheme
+        color="var(--image-cover-color)"
+        highlightColor="var(--icon-hover-color1)"
       >
-        <modalContext.Provider value={{ onModalClose }}>
-          {children}
-        </modalContext.Provider>
-      </ModalContentFrame>
+        <ModalContentFrame
+          className={`${isMobile} modal-content ${modalType}`}
+          ref={modalRef}
+          modalType={modalType}
+        >
+          <modalContext.Provider value={{ onModalClose }}>
+            {children}
+          </modalContext.Provider>
+        </ModalContentFrame>
+      </SkeletonTheme>
     </div>,
     document.body
   )

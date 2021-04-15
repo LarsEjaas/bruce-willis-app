@@ -80,6 +80,7 @@ const SEO = props => {
       title={`${siteMetadata.author} | ${title}`}
     >
       {children}
+      <link rel="preconnect" href="https://api.themoviedb.org" crossorigin />
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
       <meta name="rights" content={rights}></meta>
       <meta name="description" content={description} />

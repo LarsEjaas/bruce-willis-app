@@ -28,6 +28,8 @@ export const useFetchAbout = ({ type, id }: useFetchProps) => {
           name: APIdata.data.name,
           biography: APIdata.data.biography,
           profilePicture: APIdata.data.profile_path,
+          birthday: APIdata.data.birthday,
+          imdb_id: APIdata.data.imdb_id,
         })
     } catch (error) {
       console.log("An error occurred while fetching data:", error)
