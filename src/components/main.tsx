@@ -10,6 +10,7 @@ import ExternalLink from "./externalLink"
 import MovieCovers from "./coverSlider"
 import MobileNavigation from "./mobileNavigation"
 import { GlobalContext } from "./layout"
+import { useTranslation, useI18next } from "gatsby-plugin-react-i18next"
 
 const fadeIn = keyframes`
   from {
@@ -371,6 +372,7 @@ interface SectionProps {
 }
 
 const Section1 = ({ isMobile, index }: SectionProps) => {
+  const { t } = useTranslation()
   const { modalToggle } = useContext(GlobalContext)
 
   const handleEnterKey = e => {
@@ -410,7 +412,7 @@ const Section1 = ({ isMobile, index }: SectionProps) => {
               onKeyPress={e => keyListener(e)}
               className="desktop"
             >
-              About
+              {t("MAIN.ABOUT")}
             </Vertical>
             <Vertical
               tabindex="0"
@@ -418,7 +420,7 @@ const Section1 = ({ isMobile, index }: SectionProps) => {
               onKeyPress={e => keyListener(e)}
               className="desktop"
             >
-              Credits
+              {t("MAIN.CREDITS")}
             </Vertical>
           </Navigation>
           <Navigation className="desktopShare">
@@ -457,7 +459,7 @@ const Section1 = ({ isMobile, index }: SectionProps) => {
               onKeyPress={e => keyListener(e)}
               className="mobile"
             >
-              About
+              {t("MAIN.ABOUT")}
             </Vertical>
             <Vertical
               tabIndex="0"
@@ -465,7 +467,7 @@ const Section1 = ({ isMobile, index }: SectionProps) => {
               onKeyPress={e => keyListener(e)}
               className="mobile"
             >
-              Credits
+              {t("MAIN.CREDITS")}
             </Vertical>
           </Navigation>
         </>

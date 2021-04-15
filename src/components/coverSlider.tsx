@@ -1,7 +1,6 @@
 import * as React from "react"
-import { useState, useContext } from "react"
 import styled, { keyframes } from "styled-components"
-import { GlobalContext } from "./layout"
+import { useTranslation, useI18next } from "gatsby-plugin-react-i18next"
 import Cover from "./moviecover"
 
 const sliderFadeIn = keyframes`
@@ -81,7 +80,7 @@ interface MovieCoverProps {
 }
 
 const MovieCovers = ({ isMobile, index, movieData }: MovieCoverProps) => {
-  const language = "da"
+  const { language } = useI18next()
   if (movieData !== null) {
     localStorage.setItem(
       `movieStorageData-${language}`,
