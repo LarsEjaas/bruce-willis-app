@@ -1,7 +1,7 @@
 import * as React from "react"
 import { DeviceDetectHook } from "../components/deviceDetect"
 import { graphql } from "gatsby"
-import { Link, Trans, useTranslation } from "gatsby-plugin-react-i18next"
+import { useTranslation, useI18next } from "gatsby-plugin-react-i18next"
 import Layout from "../components/layout"
 import { Main, MainMobile } from "../components/main"
 import SEO from "../components/seo"
