@@ -4,17 +4,13 @@ import Skeleton from "react-loading-skeleton"
 import { useFetchAbout } from "./sourceData"
 import styled from "styled-components"
 import Backdrop from "./backdrop"
+import Profile from "../images/profile.inline.svg"
 
 const backdrop_path = "/ifBIpsuutQlul3Mexjw2QdkFXG4.jpg"
 const original_title =
   "background image in the about Modal - picture from the movie Trauma Center"
 
-//images
-//https://api.themoviedb.org/3/person/62/tagged_images?api_key=8551b13d1962564c7342bfbbb9e3c5d7&language=en-US&page=1
-
-//https://image.tmdb.org/t/p/w500/w7RDIgQM6bLT7JXtH4iUQd3Iwxm.jpg
-
-const BackDrop = styled.picture`
+const StyledBackDrop = styled(Backdrop)`
   position: absolute;
   width: 100%;
   top: 0;
@@ -28,11 +24,8 @@ const BackDrop = styled.picture`
   }
 `
 
-const BruceImage = styled.picture`
-  position: relative;
-  }
-  & img {
-    border-radius: 22px;
+const BruceImage = styled.div`
+  border-radius: 22px;
     position: inline;
     float: left;
     transform: rotate(-9deg) translate(-6%,12%);
@@ -48,12 +41,64 @@ const BruceImage = styled.picture`
     @media (max-width: 599px) {
       margin-right: 25px;
     margin-bottom: 30px;
+    padding-top: 32%;
     }
     @media (min-width: 600px) {
     margin-right: 40px;
     margin-bottom: 70px;
+    padding-top: 48%;
+    }
+    @media (min-width: 678px) {
+    padding-top: 300px;
     }
     transform-origin: center center;
+    overflow: hidden;
+  }
+  & img {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   top: 0; 
+  }
+`
+
+const ProfileFrame = styled.div`
+    border-radius: 22px;
+    position: inline;
+    float: left;
+    transform: rotate(-9deg) translate(-6%,12%);
+    width: 32%;
+    max-width: 200px;
+    min-width: 100px;
+    z-index: 1;
+    -webkit-filter: drop-shadow(12px 12px 6px var(--image-cover-color));
+    filter: drop-shadow(12px 12px 6px var(--image-cover-color));
+    shape-outside: polygon(59.86% 7.13%, 0.72% 87.62%, 78.24% 81.26%);
+    shape-image-threshold: 0.9;
+    shape-margin: calc(30px + 2%);
+    @media (max-width: 599px) {
+    margin-right: 25px;
+    margin-bottom: 30px;
+    padding-top: 32%;
+    }
+    @media (min-width: 600px) {
+    margin-right: 40px;
+    margin-bottom: 70px;
+    padding-top: 48%;
+    }
+    @media (min-width: 678px) {
+    padding-top: 300px;
+    }
+    transform-origin: center center;
+    overflow: hidden;
+    background-color: var(--image-cover-color);
+  } & svg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 1%;
+    left: 0%;
+    margin: 0;
   }
 `
 
@@ -109,7 +154,11 @@ const type = "person"
 
 //https://api.themoviedb.org/3/person/62?api_key=8551b13d1962564c7342bfbbb9e3c5d7&language=en-US
 
-const AboutView = ({ isMobile }) => {
+interface AboutViewProps {
+  isMobile: "desktop" | "mobile" | undefined
+}
+
+const AboutView = ({ isMobile }: AboutViewProps) => {
   console.log(id, type)
   const [data, isLoading] = useFetchAbout({ type, id })
   const [imgIsLoading, setImgIsLoading] = useState(false)
@@ -122,22 +171,31 @@ const AboutView = ({ isMobile }) => {
 
   return (
     <>
+      <StyledBackDrop
+        isMobile={isMobile}
+        original_title={original_title}
+        backdrop_path={backdrop_path}
+      />
       {isLoading ? (
-        <Skeleton />
+        <ProfileFrame>
+          <Profile />
+        </ProfileFrame>
       ) : (
         <BruceImage>
-          <source
-            media="(max-width: 599px)"
-            srcSet={`https://www.themoviedb.org/t/p/w180_and_h180_face${data.profilePicture}`}
-          />
-          <source
-            media="(min-width: 600px)"
-            srcSet={`https://www.themoviedb.org/t/p/w300_and_h450_face${data.profilePicture}`}
-          />
-          <img
-            src={`https://www.themoviedb.org/t/p/w300_and_h450_face${data.profilePicture}`}
-            alt={`Profile Picture of ${data.name}`}
-          />
+          <picture>
+            <source
+              media="(max-width: 599px)"
+              srcSet={`https://www.themoviedb.org/t/p/w180_and_h180_face${data.profilePicture}`}
+            />
+            <source
+              media="(min-width: 600px)"
+              srcSet={`https://www.themoviedb.org/t/p/w300_and_h450_face${data.profilePicture}`}
+            />
+            <img
+              src={`https://www.themoviedb.org/t/p/w300_and_h450_face${data.profilePicture}`}
+              alt={`Profile Picture of ${data.name}`}
+            />
+          </picture>
         </BruceImage>
       )}
       {isLoading ? <Skeleton /> : <Header1>{data.name}</Header1>}

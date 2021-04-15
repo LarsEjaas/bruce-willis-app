@@ -2,7 +2,7 @@ import * as React from "react"
 import { ReactNode, useContext } from "react"
 import { GlobalContext } from "./layout"
 import styled from "styled-components"
-import { StaticImage } from "gatsby-plugin-image"
+import Backdrop from "./backdrop"
 
 type ExternalLinkProps = {
   className?: string
@@ -41,7 +41,7 @@ const ExternalLink = ({
 
 export default ExternalLink
 
-const ButtonContainer = styled.div<ButtonContainerProps>`
+const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
@@ -107,9 +107,13 @@ const Paragraph = styled.p`
 
 interface closeExternModalProps {
   closeExternModal: (e: any) => void
+  isMobile: "desktop" | "mobile" | undefined
 }
 
-export const GoExtern = ({ closeExternModal }: closeExternModalProps) => {
+export const GoExtern = ({
+  closeExternModal,
+  isMobile,
+}: closeExternModalProps) => {
   const { clickedExternLink } = useContext(GlobalContext)
 
   const openUrl = e => {
@@ -124,21 +128,36 @@ export const GoExtern = ({ closeExternModal }: closeExternModalProps) => {
 
   console.log(domain)
 
-  const backdrop_path =
-    domain === "larsejaas.com" ? "../images/ejaas_logo.png" : null
-
-  const backdrop_alt = domain === "larsejaas.com" ? "Ejaas logo" : null
-
   return (
     <>
       <div>
-        <StaticImage
-          src={backdrop_path}
-          alt={backdrop_alt}
-          loading="eager"
-          placeholder="none"
-          layout="constrained"
-        />
+        {domain === "larsejaas.com" && (
+          <Backdrop
+            isMobile={isMobile}
+            original_title="Ejaas logo background"
+            backdrop_path="ejaas_logo.png"
+            internUrl
+            style={{ opacity: "0.3" }}
+          />
+        )}
+        {domain === "www.themoviedb.org" && (
+          <Backdrop
+            isMobile={isMobile}
+            original_title="The Movie Database logo background"
+            backdrop_path="tmdb_back.png"
+            internUrl
+            style={{ opacity: "0.3" }}
+          />
+        )}
+        {domain === "www.imdb.com" && (
+          <Backdrop
+            isMobile={isMobile}
+            original_title="IMDb logo background"
+            backdrop_path="imdb_back.png"
+            internUrl
+            style={{ opacity: "0.3" }}
+          />
+        )}
         <Headline2>Are you sure?</Headline2>
         <Paragraph>
           You are about to navigate away from this page to {domain} and '

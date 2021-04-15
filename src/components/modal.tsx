@@ -13,7 +13,7 @@ import { GlobalContext } from "./layout"
 import AboutView from "./about"
 import ShareButtons from "./share"
 import MovieDetails from "./movieDetails"
-import { StaticImage } from "gatsby-plugin-image"
+import Backdrop from "./backdrop"
 
 const Crossbutton = styled.button`
   position: absolute;
@@ -152,12 +152,11 @@ const ModalContainer = ({}) => {
               type={modalType}
               share={
                 <>
-                  <StaticImage
-                    src="../images/SocialShare.jpg"
-                    alt="Social share background"
-                    loading="eager"
-                    placeholder="none"
-                    layout="constrained"
+                  <Backdrop
+                    isMobile={isMobile}
+                    original_title="Social share background"
+                    backdrop_path="socialShare.jpg"
+                    internUrl
                   />
                   <Headline2>Share on Social Media</Headline2>
                   <ShareButtons isMobile={isMobile} />

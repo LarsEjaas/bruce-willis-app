@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 
 const BASE_URL = "https://api.themoviedb.org/3/"
-const translation = "en-US"
+const translation = "da-DK"
 const language = "da"
 const IMAGE_URL = "https://image.tmdb.org/t/p/"
 

@@ -8,7 +8,7 @@ import FilmStrip from "../images/filmStrip.inline.svg"
 import ChairDirector from "../images/chair_director.inline.svg"
 import PlayTrailer from "../images/play_trailer.inline.svg"
 import SandTime from "../images/sand_time.inline.svg"
-import Television from "../images/television.inline.svg"
+import Profile from "../images/profile.inline.svg"
 import Books from "../images/books.inline.svg"
 import TmdbLogo from "../images/tmdb.inline.svg"
 import ImdbLogo from "../images/IMDB.inline.svg"
@@ -18,20 +18,6 @@ import ExternalLink from "./externalLink"
 import IframeMovie from "./youtubeVideo"
 import StreamLinks from "./streamingLinks"
 import Backdrop from "./backdrop"
-
-// const BackDrop = styled.picture`
-//   position: absolute;
-//   width: 100%;
-//   top: 0;
-//   left: 0;
-//   z-index: -1;
-//   opacity: 0.7;
-//   -webkit-mask-image: linear-gradient(to top, transparent 12%, black 100%);
-//   -mask-image: linear-gradient(to top, transparent 12%, black 100%);
-//   & img {
-//     width: 100%;
-//   }
-// `
 
 const PosterCover = styled.img`
   border-radius: 10px;
@@ -247,24 +233,43 @@ interface CastCardProps {
 const CastCard = styled.div<CastCardProps>`
   height: fit-content;
   width: 20%;
+  max-width: ${props => (props.isMobile === "mobile" ? "188px" : "196px")};
   min-width: 70px;
   display: flex;
   flex-direction: column;
   margin-right: 12px;
   & a {
     margin: 0 auto;
+    width: 100%;
   }
-  & img {
+  & div {
     box-shadow: 8px 8px 6px var(--border-main);
     border-radius: 50%;
     border: ${props =>
       props.isMobile === "mobile"
         ? "4px solid var(--movie-paragraph-color)"
         : "8px solid var(--movie-paragraph-color)"};
-    width: ${props =>
-      props.isMobile === "mobile" ? "calc(100% + 8px)" : "calc(100% + 16px)"};
+    width: 100%;
+    padding-top: ${props =>
+      props.isMobile === "mobile" ? "calc(100% - 8px)" : "calc(100% - 16px)"};
     min-width: 72px;
     max-width: ${props => (props.isMobile === "mobile" ? "188px" : "196px")};
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 0.5em;
+  }
+  & svg {
+    width: 80%;
+    height: 80%;
+    position: absolute;
+    top: 6%;
+    left: 10%;
+    margin: 0;
+  }
+  & img {
+    position: absolute;
+    top: 0;
+    height: 100%;
   }
   & h2 {
     font-family: "Passion One", cursive;
@@ -284,7 +289,7 @@ const CastCard = styled.div<CastCardProps>`
     font-size: 1em;
     margin: 0;
     margin-block-start: 0;
-    margin-block-end: 0.4em;
+    margin-block-end: 0.8em;
     line-height: 1.1;
     color: var(--movie-paragraph-color);
     text-shadow: 4px 4px 4px var(--border-main);
@@ -444,9 +449,12 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
                       href={`https://www.themoviedb.org/person/${cast.id}`}
                       title={`Details about ${cast.original_name}`} //skal oversættes
                     >
-                      <img
-                        src={`https://www.themoviedb.org/t/p/w180_and_h180_face${cast.profile_path}`}
-                      />
+                      <div>
+                        <Profile />
+                        <img
+                          src={`https://www.themoviedb.org/t/p/w180_and_h180_face${cast.profile_path}`}
+                        />
+                      </div>
                     </ExternalLink>
                     <h2>{cast.original_name}</h2>
                     <p>as</p>
@@ -471,43 +479,6 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
           backdrop_path={movieDetails ? movieDetails.backdrop_path : null}
           original_title={movieDetails ? movieDetails.original_title : null}
         />
-        // <BackDrop>
-        //   <source
-        //     media={
-        //       isMobile === "mobile"
-        //         ? "(max-width: 400px)"
-        //         : "(max-width: 865px)"
-        //     }
-        //     srcSet={`https://image.tmdb.org/t/p/w400${movieDetails.backdrop_path}`}
-        //     loading="lazy"
-        //   />
-        //   <source
-        //     media={
-        //       isMobile === "mobile"
-        //         ? "(min-width: 401px) and (max-width: 500px)"
-        //         : "(min-width: 866px) and (max-width: 1065px)"
-        //     }
-        //     srcSet={`https://image.tmdb.org/t/p/w500${movieDetails.backdrop_path}`}
-        //     loading="lazy"
-        //   />
-        //   <>
-        //     <source
-        //       media={
-        //         isMobile === "mobile"
-        //           ? "(min-width: 501px)"
-        //           : "(min-width: 1066px)"
-        //       }
-        //       srcSet={`https://www.themoviedb.org/t/p/w1000_and_h450_multi_faces${movieDetails.backdrop_path}`}
-        //       loading="lazy"
-        //     />
-        //   </>
-
-        //   <img
-        //     src={`https://image.tmdb.org/t/p/w500${movieDetails.backdrop_path}`}
-        //     alt={`Background image from the movie "${movieDetails.original_title}"`}
-        //     loading="lazy"
-        //   />
-        // </BackDrop>
       )}
       {genreList !== null && (
         <GenreArray>
