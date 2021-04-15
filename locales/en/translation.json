@@ -1,6 +1,9 @@
 {
-    "MAIN": {
-      "ABOUT": "About",
-      "CREDITS": "Credits"
-    }
+  "MAIN": {
+    "ABOUT": "About",
+    "CREDITS": "Credits"
+  },
+  "MOVIEDETAILS" : {
+    "BRUCE_STARRING_AS": "As"
+  }
 }

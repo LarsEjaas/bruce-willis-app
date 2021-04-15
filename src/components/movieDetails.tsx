@@ -16,7 +16,7 @@ import ExternalLink from "./externalLink"
 import IframeMovie from "./youtubeVideo"
 import StreamLinks from "./streamingLinks"
 import Backdrop from "./backdrop"
-import { useI18next } from "gatsby-plugin-react-i18next"
+import { useI18next, useTranslation } from "gatsby-plugin-react-i18next"
 
 const PosterCover = styled.img`
   border-radius: 10px;
@@ -321,33 +321,13 @@ const StyledImdbLogo = styled(ImdbLogo)`
   transform: translateY(-7px);
 `
 
-// const StreamName = styled.p`
-//   white-space: break-spaces;
-//   color: var(--movie-paragraph-color);
-//   text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
-//   position: inline;
-//   line-height: 1.5;
-//   font-size: 16px;
-//   margin: auto 0 auto 3em;
-//   margin-block-start: auto !important;
-//   margin-block-end: auto !important;
-//   margin-left: 3em;
-//   flex-basis: 300px;
-// `
-
-// const StreamLogo = styled.img`
-//   border-radius: 14px;
-//   width: 50px;
-//   height: 50px;
-//   margin: 0.5em 0;
-// `
-
 interface MovieDetailsProps {
   readonly movieId: number
   readonly isMobile: "mobile" | "desktop" | undefined
 }
 
 const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
+  const { t } = useTranslation()
   const id = movieId !== 0 ? movieId : Number(backDropRef.current.id)
   const type = "movie"
   const [movieDetailedData, isLoading] = useFetchMovieDetails({ type, id })
@@ -495,7 +475,9 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
       )}
       <Header1>{movieDetails.title}</Header1>
       <HeadlineDetails>
-        <StarringAs>Som&nbsp;"{movieDetails.character}"</StarringAs>
+        <StarringAs>
+          {t("MOVIEDETAILS.BRUCE_STARRING_AS")}&nbsp;"{movieDetails.character}"
+        </StarringAs>
         <Year>({movieYear})</Year>
       </HeadlineDetails>
       <PosterCover

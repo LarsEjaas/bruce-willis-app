@@ -373,6 +373,7 @@ interface SectionProps {
 
 const Section1 = ({ isMobile, index }: SectionProps) => {
   const { t } = useTranslation()
+  const { language } = useI18next()
   const { modalToggle } = useContext(GlobalContext)
 
   const handleEnterKey = e => {

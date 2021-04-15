@@ -2,6 +2,9 @@
     "MAIN": {
       "ABOUT": "About",
       "CREDITS": "Credits"
+    },
+    "MOVIEDETAILS" : {
+      "BRUCE_STARRING_AS": "Som"
     }
 }
     
