@@ -4,6 +4,16 @@
     "CREDITS": "Credits"
   },
   "MOVIEDETAILS" : {
-    "BRUCE_STARRING_AS": "As"
+    "BRUCE_STARRING_AS" : "As",
+    "ONLY_ENGLISH_DESCRIPTION" : "",
+    "DIRECTOR" : "Director",
+    "HOURS" : "h",
+    "ALSO_STARRING" : "Also Starring",
+    "STARRING_AS" : "as",
+    "TRAILER" : "Trailer",
+    "ONLY_ENGLISH_TRAILER" : "",
+    "BUY_OR_STREAM" : "Buy or Stream this Movie",
+    "READ_MORE" : "Read More"
+
   }
 }

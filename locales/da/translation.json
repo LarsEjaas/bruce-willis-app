@@ -4,7 +4,17 @@
       "CREDITS": "Credits"
     },
     "MOVIEDETAILS" : {
-      "BRUCE_STARRING_AS": "Som"
+      "BRUCE_STARRING_AS" : "Som",
+      "ONLY_ENGLISH_DESCRIPTION" : "Beskrivelsen er desværre kun tilgængelig på engelsk",
+      "DIRECTOR" : "Instruktør",
+      "HOURS" : "t",
+      "ALSO_STARRING" : "I øvrigt medvirkende",
+      "STARRING_AS" : "som",
+      "TRAILER" : "Trailer",
+      "ONLY_ENGLISH_TRAILER" : "Traileren er desværre kun tilgængelig på engelsk",
+      "BUY_OR_STREAM" : "Køb eller stream denne film",
+      "READ_MORE" : "Læs mere"
+      
     }
 }
     

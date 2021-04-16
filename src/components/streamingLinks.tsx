@@ -4,6 +4,7 @@ import Television from "../images/television.inline.svg"
 import TmdbLogo from "../images/tmdb.inline.svg"
 import { IconHeadline, Headline3, StyledTmdbLogo } from "./movieDetails"
 import ExternalLink from "./externalLink"
+import { useTranslation } from "gatsby-plugin-react-i18next"
 
 const addHyphen = (title: string) => {
   title = title.replace(" ", "-");
@@ -70,6 +71,8 @@ interface StreamLinksProps {
 
 const StreamLinks = ({movieDetailedData, language, languageCode,movieYear, movieDetails}: StreamLinksProps) => {
 
+const { t } = useTranslation()
+
 const buyLinks =
     movieDetailedData !== null?
     (movieDetailedData.data.["watch/providers"].results.[languageCode] !== undefined
@@ -77,12 +80,6 @@ const buyLinks =
       : null
 
       console.log(buyLinks, movieDetailedData !== null? movieDetailedData.data.["watch/providers"]:null, movieDetailedData !== null? movieDetailedData.data.["watch/providers"].results.[languageCode] : null)
-  
-//const LogoLink = buyLinks !== null? link.provider_name: null
-
-//       const buyList = buyLinks !== null? buyLinks.map(link =>
-// <span><StreamName><b>{link.provider_name}</b></StreamName><ExternalLink href={MatchStreamProvider(link.provider_name, language, movieDetails.title, movieDetails.year, languageCode)} title={`lej ${movieDetails.title} hos ${link.provider_name}`}><StreamLogo src={`https://www.themoviedb.org/t/p/original${link.logo_path}`} alt={`${link.provider_name} logo`}></StreamLogo></ExternalLink></span>)
-//   : null
 
 const buyList = buyLinks !== null? buyLinks.map(link =>
   <span><StreamName><b>{link.provider_name}</b></StreamName><StreamLogo src={`https://www.themoviedb.org/t/p/original${link.logo_path}`} alt={`${link.provider_name} logo`}/></span>)
@@ -110,7 +107,7 @@ const buyList = buyLinks !== null? buyLinks.map(link =>
           <IconHeadline fullWidth>
             <span>
               <Television style={{ top: "0" }} />
-              <Headline3>Lej eller stream denne film</Headline3>
+              <Headline3>{t("MOVIEDETAILS.BUY_OR_STREAM")}</Headline3>
             </span>
             <p>Du kan i øjeblikket leje eler købe titlen med danske undertekster her:</p>
             {buyList}

@@ -444,7 +444,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
                       </div>
                     </ExternalLink>
                     <h2>{cast.original_name}</h2>
-                    <p>as</p>
+                    <p>{t("MOVIEDETAILS.STARRING_AS")}</p>
                     <h3>{cast.character}</h3>
                   </CastCard>
                 </>
@@ -486,7 +486,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
         loading="lazy"
       />
       {!movieDetails.overview && language === "da" && (
-        <Note>Beskrivelsen er desværre kun tilgængelig på engelsk</Note>
+        <Note>{t("MOVIEDETAILS.ONLY_ENGLISH_DESCRIPTION")}</Note>
       )}
       <Paragraph>
         {movieDetails.overview ? movieDetails.overview : enDescription}
@@ -495,7 +495,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
         <IconHeadline>
           <span>
             <ChairDirector />
-            <Headline3>Director</Headline3>
+            <Headline3>{t("MOVIEDETAILS.DIRECTOR")}</Headline3>
           </span>
           <p>{Director}</p>
         </IconHeadline>
@@ -503,14 +503,16 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
       <IconHeadline>
         <span>
           <SandTime />
-          <Headline3>{`${hours}h ${minutes}m`}</Headline3>
+          <Headline3>{`${hours}${t(
+            "MOVIEDETAILS.HOURS"
+          )} ${minutes}m`}</Headline3>
         </span>
       </IconHeadline>
       {castList && (
         <IconHeadline fullWidth>
           <span>
             <FemaleMale />
-            <Headline3>Also Starring</Headline3>
+            <Headline3>{t("MOVIEDETAILS.ALSO_STARRING")}</Headline3>
           </span>
           <CastlistWrapper>{castList}</CastlistWrapper>
         </IconHeadline>
@@ -519,14 +521,14 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
         <IconHeadline fullWidth>
           <span>
             <PlayTrailer />
-            <Headline3>Trailer</Headline3>
+            <Headline3>{t("MOVIEDETAILS.TRAILER")}</Headline3>
           </span>
           {language === "da" && (
-            <Note>Traileren er desværre kun tilgængelig på engelsk</Note>
+            <Note>{t("MOVIEDETAILS.ONLY_ENGLISH_TRAILER")}</Note>
           )}
           <MovieWrapper>
             <div>
-              <IframeMovie trailerLink={trailerLink} />
+              <IframeMovie trailerLink={trailerLink} language={language} />
             </div>
           </MovieWrapper>
         </IconHeadline>
@@ -541,7 +543,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
       <IconHeadline fullWidth>
         <span>
           <Books />
-          <Headline3>Læs mere</Headline3>
+          <Headline3>{t("MOVIEDETAILS.READ_MORE")}</Headline3>
         </span>
         {imdbId && (
           <>

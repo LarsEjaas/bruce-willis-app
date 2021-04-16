@@ -2,14 +2,17 @@ import * as React from "react"
 
 interface IframeMovieProps {
   trailerLink: string
+  language: "da" | "en"
 }
 
-const IframeMovie = ({ trailerLink }: IframeMovieProps) => {
+const IframeMovie = ({ trailerLink, language }: IframeMovieProps) => {
   return (
     <iframe
       controls="1"
       color="white"
       fs="1"
+      hl={language}
+      cc_lang_pref={language}
       src={`https://www.youtube.com/embed/${trailerLink}?controls=0`}
       title="YouTube video player"
       frameborder="0"
@@ -18,6 +21,7 @@ const IframeMovie = ({ trailerLink }: IframeMovieProps) => {
       modestbranding="0" //<-- has to be 0 to allow for accessible keyboard nav
       allowfullscreen
       rel="0"
+      disablekb="0"
       widget_referrer="path" //set path!!!
     ></iframe>
   )
