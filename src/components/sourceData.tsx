@@ -20,7 +20,7 @@ export const useFetchAbout = ({ type, id, language }: useFetchProps) => {
     setLoading(true)
     try {
       const response = await axios.get(
-        `${BASE_URL}${type}/${id}?api_key=${process.env.TMDB_API_KEY}&language=${translation}`
+        `${BASE_URL}${type}/${id}?api_key=${process.env.GATSBY_TMDB_API_KEY}&language=${translation}`
       )
       const APIdata = await response
       console.log(APIdata),
