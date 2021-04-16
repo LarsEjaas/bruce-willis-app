@@ -53,7 +53,11 @@ const Headline2 = styled.h2`
   width: 80%;
 `
 
-const ModalContainer = ({}) => {
+interface ModalContainerProps {
+  language: "da" | "en"
+}
+
+const ModalContainer = ({ language }: ModalContainerProps) => {
   const {
     modalToggle,
     modalVisible,
@@ -143,7 +147,7 @@ const ModalContainer = ({}) => {
               type={modalType}
               about={
                 <>
-                  <AboutView isMobile={isMobile} />
+                  <AboutView isMobile={isMobile} language={language} />
                 </>
               }
             />

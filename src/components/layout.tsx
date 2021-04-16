@@ -7,6 +7,7 @@ import { createGlobalStyle } from "styled-components"
 import { DeviceDetectHook } from "../components/deviceDetect"
 import ModalContainer from "./modal"
 import ExternModalContainer from "./externModal"
+import { useI18next } from "gatsby-plugin-react-i18next"
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -250,6 +251,7 @@ const Layout = ({ children }: LayoutProps) => {
   const { ModalVisibleInitial, externModalVisibleInitial } = useContext(
     GlobalContext
   )
+  const { language } = useI18next()
   const isMobile = DeviceDetectHook()
   const [modalVisible, setModalVisible] = useState(ModalVisibleInitial)
   const [externModalVisible, setExternModalVisible] = useState(
@@ -299,7 +301,7 @@ const Layout = ({ children }: LayoutProps) => {
         <GlobalStyle />
         {isMobile === "mobile" && <main className={isMobile}>{children}</main>}
         {isMobile === "desktop" && <main className={isMobile}>{children}</main>}
-        <ModalContainer />
+        <ModalContainer language={language} />
         <ExternModalContainer />
       </GlobalContext.Provider>
     </>

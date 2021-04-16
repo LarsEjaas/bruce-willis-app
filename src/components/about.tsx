@@ -5,6 +5,7 @@ import { useFetchAbout } from "./sourceData"
 import styled from "styled-components"
 import Backdrop from "./backdrop"
 import Profile from "../images/profile.inline.svg"
+import { useTranslation } from "gatsby-plugin-react-i18next"
 
 const backdrop_path = "/ifBIpsuutQlul3Mexjw2QdkFXG4.jpg"
 const original_title =
@@ -157,14 +158,15 @@ interface AboutViewProps {
   isMobile: "desktop" | "mobile" | undefined
 }
 
-const AboutView = ({ isMobile }: AboutViewProps) => {
+const AboutView = ({ isMobile, language }: AboutViewProps) => {
+  const { t } = useTranslation()
   console.log(id, type)
-  const [data, isLoading] = useFetchAbout({ type, id })
+  const [data, isLoading] = useFetchAbout({ type, id, language })
   const [imgIsLoading, setImgIsLoading] = useState(false)
 
   let biographyText =
     data !== null ? data.biography.match(/[^\s.!?]+[^.!?\r\n]+[.!?]*/g) : null
-  const birthday = data !== null ? `født ${data.birthday}` : null
+  const birthday = data !== null ? `${t("BORN")} ${data.birthday}` : null
   console.log(biographyText)
   biographyText = biographyText !== null ? biographyText.join("\n") : null
   console.log(
