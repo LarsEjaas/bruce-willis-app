@@ -120,7 +120,7 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
     setLoading(true)
     try {
       const response = await axios.get(
-        `${BASE_URL}${type}/${id}?api_key=${process.env.TMDB_API_KEY}&language=${translation}&append_to_response=details`
+        `${BASE_URL}${type}/${id}?api_key=${process.env.GATSBY_TMDB_API_KEY}&language=${translation}&append_to_response=details`
       )
       const APIdata = await response
       console.log(response)
@@ -154,7 +154,7 @@ export const useFetchMovieDetails = ({ type, id, language }: useFetchProps) => {
     try {
       const response = await axios.get(
         //681887?api_key=8551b13d1962564c7342bfbbb9e3c5d7&language=en-US&append_to_response=credits,images,videos
-        `${BASE_URL}${type}/${id}?api_key=${process.env.TMDB_API_KEY}&language=${translationDetails}&append_to_response=credits,videos,watch/providers`
+        `${BASE_URL}${type}/${id}?api_key=${process.env.GATSBY_TMDB_API_KEY}&language=${translationDetails}&append_to_response=credits,videos,watch/providers`
       )
       const APIdata = await response
       console.log(APIdata), setData(APIdata)
