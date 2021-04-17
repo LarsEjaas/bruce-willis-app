@@ -47,7 +47,6 @@ const Backdrop = ({
                 ? `../w400${backdrop_path}`
                 : `https://image.tmdb.org/t/p/w400${backdrop_path}`
             }
-            loading="lazy"
           />
           <source
             media={
@@ -60,7 +59,6 @@ const Backdrop = ({
                 ? `../w500${backdrop_path}`
                 : `https://image.tmdb.org/t/p/w500${backdrop_path}`
             }
-            loading="lazy"
           />
           <>
             <source
@@ -74,7 +72,6 @@ const Backdrop = ({
                   ? `../w1000${backdrop_path}`
                   : `https://www.themoviedb.org/t/p/w1000_and_h450_multi_faces${backdrop_path}`
               }
-              loading="lazy"
             />
           </>
 

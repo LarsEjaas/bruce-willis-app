@@ -1,17 +1,30 @@
 import * as React from "react"
 import { Link } from "gatsby"
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import { useTranslation, useI18next } from "gatsby-plugin-react-i18next"
 
-const StyledNav = styled.nav`
+interface StyledNavProps {
+  readonly isMobile?: "mobile" | "desktop" | undefined
+}
+
+const StyledNav = styled.nav<StyledNavProps>`
   z-index: 3;
   position: relative;
-  padding: 20px 8px;
+  padding: ${props => (props.isMobile === "mobile" ? "20px 8px" : "20px")};
 `
 
 interface LanguageButtonProps {
   readonly isMobile?: "mobile" | "desktop" | undefined
 }
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
 
 const LanguageButton = styled.button<LanguageButtonProps>`
   border-radius: 50%;
@@ -31,6 +44,8 @@ const LanguageButton = styled.button<LanguageButtonProps>`
   overflow: hidden;
   background-color: var(--background1);
   transition: transform 0.2s ease-in-out;
+  animation: ${fadeIn} 1s ease-out 0.6s;
+  animation-fill-mode: both;
   &:hover {
     transform: scale(1.1);
     border-color: ${props =>
@@ -51,10 +66,11 @@ const LanguageButton = styled.button<LanguageButtonProps>`
 `
 
 interface LanguageToggleProps {
-  location: string
+  location: object
+  readonly isMobile?: "mobile" | "desktop" | undefined
 }
 
-const LanguageToggle = ({ location }: LanguageToggleProps) => {
+const LanguageToggle = ({ location, isMobile }: LanguageToggleProps) => {
   const { t } = useTranslation()
   const { language } = useI18next()
 

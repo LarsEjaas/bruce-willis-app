@@ -125,6 +125,10 @@ const ExternModalContainer = ({}) => {
   )
 }
 
+const StyledExternModalContainer = styled.div`
+  z-index: 6000;
+`
+
 const ModalContentFrame = styled.div`
   position: absolute;
   left: 50%;
@@ -168,7 +172,7 @@ function Modal({ children, onModalExternClose, movieId }: ModalProps) {
   })
 
   const modalRef = createRef()
-  const modalContainerRef = createRef()
+  const externModalContainerRef = createRef()
   const handleTabKey = e => {
     let focusableModalElements = []
     const allFocusableModalElements = modalRef.current.querySelectorAll(
@@ -210,11 +214,11 @@ function Modal({ children, onModalExternClose, movieId }: ModalProps) {
   document.addEventListener("keydown", keyListener)
 
   return ReactDOM.createPortal(
-    <div
+    <StyledExternModalContainer
       className="extern modal-container"
       role="dialog"
       aria-modal="true"
-      ref={modalContainerRef}
+      ref={externModalContainerRef}
       style={{ movieId }}
       onClick={onModalExternClose}
     >
@@ -226,7 +230,7 @@ function Modal({ children, onModalExternClose, movieId }: ModalProps) {
           {children}
         </externModalContext.Provider>
       </ModalContentFrame>
-    </div>,
+    </StyledExternModalContainer>,
     document.body
   )
 }

@@ -1,5 +1,4 @@
 import * as React from "react"
-import { useState } from "react"
 import Skeleton from "react-loading-skeleton"
 import { useFetchAbout } from "./sourceData"
 import styled from "styled-components"
@@ -18,8 +17,8 @@ const StyledBackDrop = styled(Backdrop)`
   left: 0;
   z-index: -1;
   opacity: 0.7;
-  -webkit-mask-image: linear-gradient(to top, transparent 12%, black 100%);
   -mask-image: linear-gradient(to top, transparent 12%, black 100%);
+  -webkit-mask-image: linear-gradient(to top, transparent 12%, black 100%);
   & img {
     width: 100%;
   }
@@ -27,73 +26,72 @@ const StyledBackDrop = styled(Backdrop)`
 
 const BruceImage = styled.div`
   border-radius: 22px;
-    position: inline;
-    float: left;
-    transform: rotate(-9deg) translate(-6%,12%);
-    width: 32%;
-    max-width: 200px;
-    min-width: 100px;
-    z-index: 1;
-    -webkit-filter: drop-shadow(12px 12px 6px var(--image-cover-color));
-    filter: drop-shadow(12px 12px 6px var(--image-cover-color));
-    shape-outside: polygon(59.86% 7.13%, 0.72% 87.62%, 78.24% 81.26%);
-    shape-image-threshold: 0.9;
-    shape-margin: calc(30px + 2%);
-    @media (max-width: 599px) {
-      margin-right: 25px;
+  position: inline;
+  float: left;
+  transform: rotate(-9deg) translate(-6%, 12%);
+  width: 32%;
+  max-width: 200px;
+  min-width: 100px;
+  z-index: 1;
+  -webkit-filter: drop-shadow(12px 12px 6px var(--image-cover-color));
+  filter: drop-shadow(12px 12px 6px var(--image-cover-color));
+  shape-outside: polygon(59.86% 7.13%, 0.72% 87.62%, 78.24% 81.26%);
+  shape-image-threshold: 0.9;
+  shape-margin: calc(30px + 2%);
+  @media (max-width: 599px) {
+    margin-right: 25px;
     margin-bottom: 30px;
     padding-top: 32%;
-    }
-    @media (min-width: 600px) {
+  }
+  @media (min-width: 600px) {
     margin-right: 40px;
     margin-bottom: 70px;
     padding-top: 48%;
-    }
-    @media (min-width: 678px) {
-    padding-top: 300px;
-    }
-    transform-origin: center center;
-    overflow: hidden;
   }
+  @media (min-width: 678px) {
+    padding-top: 300px;
+  }
+  transform-origin: center center;
+  overflow: hidden;
   & img {
-   position: absolute;
-   width: 100%;
-   height: 100%;
-   top: 0; 
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
   }
 `
 
 const ProfileFrame = styled.div`
-    border-radius: 22px;
-    position: inline;
-    float: left;
-    transform: rotate(-9deg) translate(-6%,12%);
-    width: 32%;
-    max-width: 200px;
-    min-width: 100px;
-    z-index: 1;
-    -webkit-filter: drop-shadow(12px 12px 6px var(--image-cover-color));
-    filter: drop-shadow(12px 12px 6px var(--image-cover-color));
-    shape-outside: polygon(59.86% 7.13%, 0.72% 87.62%, 78.24% 81.26%);
-    shape-image-threshold: 0.9;
-    shape-margin: calc(30px + 2%);
-    @media (max-width: 599px) {
+  border-radius: 22px;
+  position: inline;
+  float: left;
+  transform: rotate(-9deg) translate(-6%, 12%);
+  width: 32%;
+  max-width: 200px;
+  min-width: 100px;
+  z-index: 1;
+  -webkit-filter: drop-shadow(12px 12px 6px var(--image-cover-color));
+  filter: drop-shadow(12px 12px 6px var(--image-cover-color));
+  shape-outside: polygon(59.86% 7.13%, 0.72% 87.62%, 78.24% 81.26%);
+  shape-image-threshold: 0.9;
+  shape-margin: calc(30px + 2%);
+  @media (max-width: 599px) {
     margin-right: 25px;
     margin-bottom: 30px;
     padding-top: 32%;
-    }
-    @media (min-width: 600px) {
+  }
+  @media (min-width: 600px) {
     margin-right: 40px;
     margin-bottom: 70px;
     padding-top: 48%;
-    }
-    @media (min-width: 678px) {
+  }
+  @media (min-width: 678px) {
     padding-top: 300px;
-    }
-    transform-origin: center center;
-    overflow: hidden;
-    background-color: var(--image-cover-color);
-  } & svg {
+  }
+  transform-origin: center center;
+  overflow: hidden;
+  background-color: var(--image-cover-color);
+  & svg {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -156,13 +154,13 @@ const type = "person"
 
 interface AboutViewProps {
   isMobile: "desktop" | "mobile" | undefined
+  language: "en" | "da"
 }
 
 const AboutView = ({ isMobile, language }: AboutViewProps) => {
   const { t } = useTranslation()
   console.log(id, type)
   const [data, isLoading] = useFetchAbout({ type, id, language })
-  const [imgIsLoading, setImgIsLoading] = useState(false)
 
   let biographyText =
     data !== null ? data.biography.match(/[^\s.!?]+[^.!?\r\n]+[.!?]*/g) : null

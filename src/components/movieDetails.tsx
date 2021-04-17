@@ -317,6 +317,10 @@ const CastCard = styled.div<CastCardProps>`
   }
 `
 
+const ImdbNavigateButton = styled(NavigateButton)`
+  padding: 11px 14px 5px;
+`
+
 export const StyledTmdbLogo = styled(TmdbLogo)`
   width: 100px !important;
   transform: translateY(-7px);
@@ -564,9 +568,9 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
                 title={`Read about ${movieDetails.title} at TMDb`}
                 className="FullHeight"
               >
-                <NavigateButton>
+                <ImdbNavigateButton>
                   <StyledImdbLogo />
-                </NavigateButton>
+                </ImdbNavigateButton>
               </ExternalLink>
             </span>
             {language === "da" && (

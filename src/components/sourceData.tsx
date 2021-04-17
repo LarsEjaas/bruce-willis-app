@@ -101,7 +101,7 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
         }
       }
     })
-    const sortedObj = obj.sort(function (a, b) {
+    const sortedObj = obj.sort(function (a: string, b: string) {
       a.release_date = new Date(a.release_date)
       b.release_date = new Date(b.release_date)
       if (a.release_date == b.release_date) {

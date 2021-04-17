@@ -1,7 +1,6 @@
 import * as React from "react"
 import styled from "styled-components"
 import Television from "../images/television.inline.svg"
-import TmdbLogo from "../images/tmdb.inline.svg"
 import { IconHeadline, Headline3, StyledTmdbLogo } from "./movieDetails"
 import ExternalLink, { NavigateButton } from "./externalLink"
 import { useTranslation } from "gatsby-plugin-react-i18next"
@@ -16,14 +15,14 @@ const domainLanguage = (language:string) => {
   return language
 }
 
-const MatchStreamProvider = (provider_name:string, language: string, title: string, year: string, languageCode:string) => {
-  if (provider_name === "Google Play Movies") return `xxx`;
-  else if (provider_name === "Viaplay") return `https://viaplay.${domainLanguage(language)}/store/${addHyphen(title)}-${year}`;
-  else if (provider_name === "Rakuten TV") return `https://rakuten.tv/movies/${addHyphen(title)}&uct_country=${languageCode}`;
-  else if (provider_name === "Microsoft Store") return `https://www.microsoft.com/${language}-${domainLanguage(language)}/p/${addHyphen(title)}/8d6kgwxn6qfn?activetab=pivot:overviewtab`;
-  else if (provider_name === "Apple Itunes") return `https://tv.apple.com/${language}/movie/ID`;
-  else return null
-}
+// const MatchStreamProvider = (provider_name:string, language: string, title: string, year: string, languageCode:string) => {
+//   if (provider_name === "Google Play Movies") return `xxx`;
+//   else if (provider_name === "Viaplay") return `https://viaplay.${domainLanguage(language)}/store/${addHyphen(title)}-${year}`;
+//   else if (provider_name === "Rakuten TV") return `https://rakuten.tv/movies/${addHyphen(title)}&uct_country=${languageCode}`;
+//   else if (provider_name === "Microsoft Store") return `https://www.microsoft.com/${language}-${domainLanguage(language)}/p/${addHyphen(title)}/8d6kgwxn6qfn?activetab=pivot:overviewtab`;
+//   else if (provider_name === "Apple Itunes") return `https://tv.apple.com/${language}/movie/ID`;
+//   else return null
+// }
 
 const StreamName = styled.p `
 white-space: break-spaces;
@@ -98,7 +97,7 @@ const buyList = buyLinks !== null? buyLinks.map(link =>
     ? streamLink: null,  movieDetailedData !== null
     ? movieDetailedData.data : null)
 
-    const justWatchLink = `https://www.justwatch.com/${languageCode}/movie/${addHyphen(movieDetails.title)}`
+    // const justWatchLink = `https://www.justwatch.com/${languageCode}/movie/${addHyphen(movieDetails.title)}`
 
       return (
         <>

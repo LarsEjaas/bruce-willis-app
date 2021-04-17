@@ -190,10 +190,6 @@ a {
     overflow-y: scroll;
     }
 
-.extern.modal-container {
-    z-index:6000;
-    }
-
 .modal-content {
   top: 4px;
   transform: translate(-50%,0);

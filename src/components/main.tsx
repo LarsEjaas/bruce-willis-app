@@ -12,6 +12,7 @@ import MobileNavigation from "./mobileNavigation"
 import { GlobalContext } from "./layout"
 import { useTranslation, useI18next } from "gatsby-plugin-react-i18next"
 import LanguageToggle from "./languageToggle"
+import Section1 from "./section1"
 
 const fadeIn = keyframes`
   from {
@@ -68,7 +69,7 @@ to {
 }
 `
 
-const slideDown = keyframes`
+export const slideDown = keyframes`
 from {
   opacity: 0;
   transform: translateY(-40px);
@@ -78,6 +79,7 @@ to {
   transform: translateY(0);
 }
 `
+
 interface SectionProps {
   readonly left?: boolean
   readonly isMobile?: "mobile" | "desktop" | undefined
@@ -148,7 +150,8 @@ const StyledExternalLink = styled(ExternalLink)<ExternalLinkProps>`
     bottom: ${props => (props.isMobile === "mobile" ? "unset" : "26px")};
     height: ${props => (props.isMobile === "mobile" ? "43px" : "48px")};
     right: ${props => (props.isMobile === "mobile" ? "unset" : "24px")};
-    padding: 20px;
+    padding: 20px 16px;
+    height: fit-content;
   }
   &.desktop&.EjaasLogo&.left {
     animation: ${slideUp} 1s ease-out;
@@ -161,11 +164,8 @@ const StyledExternalLink = styled(ExternalLink)<ExternalLinkProps>`
     animation: ${slideIn} 1s ease-out 0.6s;
     animation-fill-mode: both;
     z-index: 3;
-    //top: 36px;
-    //left: 24px;
-    //position: absolute;
     position: relative;
-    padding: 32px 16px 32px 8px;
+    padding: 32px 8px 32px 16px;
   }
   &.mobile&.TMDBlogo&.left {
     z-index: 3;
@@ -375,162 +375,170 @@ const Circle4 = styled.div<Circle4Props>`
     animation-fill-mode: both;
   }
 `
-interface SectionProps {
-  readonly isMobile?: "mobile" | "desktop" | undefined
-  index: 1 | 2
-  hidden: true | false
-}
+// interface SectionProps {
+//   readonly isMobile?: "mobile" | "desktop" | undefined
+//   index: 1 | 2
+//   hidden: true | false
+// }
 
-const Section1 = ({ isMobile, index, location }: SectionProps) => {
-  const { t } = useTranslation()
-  const { language } = useI18next()
-  const { modalToggle } = useContext(GlobalContext)
+// const Section1 = ({ isMobile, index, location }: SectionProps) => {
+//   const { t } = useTranslation()
+//   const { language } = useI18next()
+//   const { modalToggle } = useContext(GlobalContext)
 
-  const handleEnterKey = e => {
-    console.log(e.currentTarget)
-    e.currentTarget.click()
-  }
+//   const handleEnterKey = e => {
+//     console.log(e.currentTarget)
+//     e.currentTarget.click()
+//   }
 
-  const keyListenersMap = new Map([[13, handleEnterKey]])
-  function keyListener(e) {
-    console.log(e, e.keyCode)
-    // get the listener corresponding to the pressed key
-    const listener = keyListenersMap.get(e.keyCode)
-    // call the listener if it exists
-    return listener && listener(e)
-  }
+//   const keyListenersMap = new Map([[13, handleEnterKey]])
+//   function keyListener(e) {
+//     console.log(e, e.keyCode)
+//     // get the listener corresponding to the pressed key
+//     const listener = keyListenersMap.get(e.keyCode)
+//     // call the listener if it exists
+//     return listener && listener(e)
+//   }
 
-  return (
-    <Section
-      left
-      className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
-    >
-      {isMobile === "desktop" && (
-        <>
-          <Navigation
-            className={index === 1 ? "desktop right" : "desktop left"}
-          >
-            <StyledExternalLink
-              className="desktop TMDBlogo"
-              href="https://www.themoviedb.org/"
-              title="The Movie Database"
-            >
-              <TMDBlogoVertical width="13" style={{ margin: "8px 0" }} />
-            </StyledExternalLink>
-            <Vertical
-              tabIndex="0"
-              onClick={e => modalToggle(e.currentTarget, "about")}
-              onKeyPress={e => keyListener(e)}
-              className="desktop"
-            >
-              {t("MAIN.ABOUT")}
-            </Vertical>
-            <Vertical
-              tabindex="0"
-              onClick={e => modalToggle(e.currentTarget, "credits")}
-              onKeyPress={e => keyListener(e)}
-              className="desktop"
-            >
-              {t("MAIN.CREDITS")}
-            </Vertical>
-          </Navigation>
-          <Navigation className="desktopShare">
-            <ShareIcon
-              tabindex="0"
-              height="32px"
-              className="ShareIcon"
-              onClick={e => modalToggle(e.currentTarget, "share")}
-              onKeyPress={e => keyListener(e)}
-            />
-          </Navigation>
-        </>
-      )}
-      {isMobile === "mobile" && (
-        <>
-          <NavTop>
-            <StyledExternalLink
-              className={
-                index === 1 ? "mobile TMDBlogo right" : "mobile TMDBlogo left"
-              }
-              href="https://www.themoviedb.org/"
-              title="The Movie Database"
-            >
-              <TMDBlogo height="16" />
-            </StyledExternalLink>
-            <LanguageToggle location={location} />
-            <StyledExternalLink
-              className={
-                index === 1
-                  ? `${isMobile} EjaasLogo right`
-                  : `${isMobile} EjaasLogo left`
-              }
-              isMobile={isMobile}
-              href={
-                language === "da"
-                  ? "https://larsejaas.com/"
-                  : "https://larsejaas.com/en/"
-              }
-              title="Made by Lars Ejaas"
-            >
-              <EjaasLogo width="64" />
-            </StyledExternalLink>
-          </NavTop>
-          <Navigation className={index === 1 ? `mobile right` : `mobile left`}>
-            <ShareIcon
-              tabindex="0"
-              height="24px"
-              className="ShareIcon mobile"
-              onClick={e => modalToggle(e.currentTarget, "share")}
-              onKeyPress={e => keyListener(e)}
-            />
-            <Vertical
-              tabIndex="0"
-              onClick={e => modalToggle(e.currentTarget, "about")}
-              onKeyPress={e => keyListener(e)}
-              className="mobile"
-            >
-              {t("MAIN.ABOUT")}
-            </Vertical>
-            <Vertical
-              tabIndex="0"
-              onClick={e => modalToggle(e.currentTarget, "credits")}
-              onKeyPress={e => keyListener(e)}
-              className="mobile"
-            >
-              {t("MAIN.CREDITS")}
-            </Vertical>
-          </Navigation>
-        </>
-      )}
-      <StaticImage
-        className={
-          index === 1 ? `BruceW ${isMobile} right` : `BruceW ${isMobile} left`
-        }
-        src="../images/Bruce_Willis.png"
-        alt="portrait of Bruce Willis"
-        loading="eager"
-        placeholder="none"
-        layout="constrained"
-        formats={["auto", "webp", "avif"]}
-        width={572}
-      />
-      <Headline
-        className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
-        isMobile={isMobile}
-      >
-        BRUCE
-        <br />
-        WILLIS
-      </Headline>
-      <CircleWrapper>
-        <Circle1
-          isMobile={isMobile}
-          className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
-        ></Circle1>
-      </CircleWrapper>
-    </Section>
-  )
-}
+//   return (
+//     <Section
+//       left
+//       className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
+//     >
+//       {isMobile === "desktop" && (
+//         <>
+//           <Navigation
+//             className={index === 1 ? "desktop right" : "desktop left"}
+//           >
+//             <StyledExternalLink
+//               className="desktop TMDBlogo"
+//               href="https://www.themoviedb.org/"
+//               title="The Movie Database"
+//             >
+//               <TMDBlogoVertical width="13" style={{ margin: "8px 0" }} />
+//             </StyledExternalLink>
+//             <Vertical
+//               tabIndex="0"
+//               onClick={e => modalToggle(e.currentTarget, "about")}
+//               onKeyPress={e => keyListener(e)}
+//               className="desktop"
+//             >
+//               {t("MAIN.ABOUT")}
+//             </Vertical>
+//             <Vertical
+//               tabindex="0"
+//               onClick={e => modalToggle(e.currentTarget, "credits")}
+//               onKeyPress={e => keyListener(e)}
+//               className="desktop"
+//             >
+//               {t("MAIN.CREDITS")}
+//             </Vertical>
+//           </Navigation>
+//           <Navigation className="desktopShare">
+//             <ShareIcon
+//               tabindex="0"
+//               height="32px"
+//               className="ShareIcon"
+//               onClick={e => modalToggle(e.currentTarget, "share")}
+//               onKeyPress={e => keyListener(e)}
+//             />
+//           </Navigation>
+//           <StyledExternalLink
+//             className="EjaasLogo"
+//             isMobile={isMobile}
+//             href="https://larsejaas.com/"
+//             title="Made by Lars Ejaas"
+//           >
+//             <EjaasLogo width="64" />
+//           </StyledExternalLink>
+//         </>
+//       )}
+//       {isMobile === "mobile" && (
+//         <>
+//           <NavTop>
+//             <StyledExternalLink
+//               className={
+//                 index === 1 ? "mobile TMDBlogo right" : "mobile TMDBlogo left"
+//               }
+//               href="https://www.themoviedb.org/"
+//               title="The Movie Database"
+//             >
+//               <TMDBlogo height="16" />
+//             </StyledExternalLink>
+//             <LanguageToggle location={location} isMobile={isMobile} />
+//             <StyledExternalLink
+//               className={
+//                 index === 1
+//                   ? `${isMobile} EjaasLogo right`
+//                   : `${isMobile} EjaasLogo left`
+//               }
+//               isMobile={isMobile}
+//               href={
+//                 language === "da"
+//                   ? "https://larsejaas.com/"
+//                   : "https://larsejaas.com/en/"
+//               }
+//               title="Made by Lars Ejaas"
+//             >
+//               <EjaasLogo width="64" />
+//             </StyledExternalLink>
+//           </NavTop>
+//           <Navigation className={index === 1 ? `mobile right` : `mobile left`}>
+//             <ShareIcon
+//               tabindex="0"
+//               height="24px"
+//               className="ShareIcon mobile"
+//               onClick={e => modalToggle(e.currentTarget, "share")}
+//               onKeyPress={e => keyListener(e)}
+//             />
+//             <Vertical
+//               tabIndex="0"
+//               onClick={e => modalToggle(e.currentTarget, "about")}
+//               onKeyPress={e => keyListener(e)}
+//               className="mobile"
+//             >
+//               {t("MAIN.ABOUT")}
+//             </Vertical>
+//             <Vertical
+//               tabIndex="0"
+//               onClick={e => modalToggle(e.currentTarget, "credits")}
+//               onKeyPress={e => keyListener(e)}
+//               className="mobile"
+//             >
+//               {t("MAIN.CREDITS")}
+//             </Vertical>
+//           </Navigation>
+//         </>
+//       )}
+//       <StaticImage
+//         className={
+//           index === 1 ? `BruceW ${isMobile} right` : `BruceW ${isMobile} left`
+//         }
+//         src="../images/Bruce_Willis.png"
+//         alt="portrait of Bruce Willis"
+//         loading="eager"
+//         placeholder="none"
+//         layout="constrained"
+//         formats={["auto", "webp", "avif"]}
+//         width={572}
+//       />
+//       <Headline
+//         className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
+//         isMobile={isMobile}
+//       >
+//         BRUCE
+//         <br />
+//         WILLIS
+//       </Headline>
+//       <CircleWrapper>
+//         <Circle1
+//           isMobile={isMobile}
+//           className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
+//         ></Circle1>
+//       </CircleWrapper>
+//     </Section>
+//   )
+// }
 
 const Section2 = ({
   isMobile,
@@ -580,6 +588,9 @@ interface MainProps {
   className: string
   id: "1" | "2"
   isMobile: "mobile" | "desktop" | undefined
+  location: any
+  isLoading: true | false
+  movieData: any
 }
 
 export const Main = ({
@@ -591,10 +602,14 @@ export const Main = ({
   const [index, setIndex] = useState(1)
   const [hidden, setHidden] = useState(true)
   console.log(hidden, isMobile === "mobile")
-  const togglePage = e => {
+  const togglePage = (e: MouseEvent) => {
     if (typeof window !== undefined) {
       let body = document.querySelector("body")
-      body.classList.length > 0 ? undefined : body.classList.add("move")
+      body !== null && body.classList.length > 0
+        ? undefined
+        : body !== null
+        ? body.classList.add("move")
+        : undefined
     }
     setIndex(parseFloat(e.currentTarget.id))
     hidden === true
