@@ -47,7 +47,7 @@ const ButtonContainer = styled.div`
   width: 100%;
 `
 
-const NavigateButton = styled.button`
+export const NavigateButton = styled.button`
   border-radius: 30px;
   transition: 0.2s ease-in;
   padding: 14px;

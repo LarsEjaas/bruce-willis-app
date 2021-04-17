@@ -11,7 +11,7 @@ const StyledBackDrop = styled.picture<StyledBackDrop>`
   top: 0;
   left: 0;
   z-index: -1;
-  opacity: ${props => (props.internUrl ? "0.3" : "0.7")};
+  opacity: ${props => (props.internUrl ? "0.5" : "0.7")};
   -webkit-mask-image: linear-gradient(to top, transparent 12%, black 100%);
   -mask-image: linear-gradient(to top, transparent 12%, black 100%);
   & img {

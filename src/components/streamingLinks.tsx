@@ -3,7 +3,7 @@ import styled from "styled-components"
 import Television from "../images/television.inline.svg"
 import TmdbLogo from "../images/tmdb.inline.svg"
 import { IconHeadline, Headline3, StyledTmdbLogo } from "./movieDetails"
-import ExternalLink from "./externalLink"
+import ExternalLink, { NavigateButton } from "./externalLink"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 
 const addHyphen = (title: string) => {
@@ -44,7 +44,6 @@ border-radius: 14px;
 width: 50px;
 height: 50px;
 margin: 0.5em 0;
-opacity: 0.5;
 `
 
 const HorizontalRule = styled.hr`
@@ -114,7 +113,7 @@ const buyList = buyLinks !== null? buyLinks.map(link =>
             <HorizontalRule/>
             <span>
               <p>Besøg TMDB for direkte links til køb og leje af denne titel:</p>
-              <StyledExternalLink href={streamLink} title={`Go to TMDb.com to get streaming links for ${movieDetails.title}`}><StyledTmdbLogo /></StyledExternalLink>
+              <StyledExternalLink href={streamLink} title={`Go to TMDb.com to get streaming links for ${movieDetails.title}`}><NavigateButton><StyledTmdbLogo /></NavigateButton></StyledExternalLink>
             </span>
           </IconHeadline>
         )}

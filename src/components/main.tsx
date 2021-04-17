@@ -369,6 +369,7 @@ const Circle4 = styled.div<Circle4Props>`
 interface SectionProps {
   readonly isMobile?: "mobile" | "desktop" | undefined
   index: 1 | 2
+  hidden: true | false
 }
 
 const Section1 = ({ isMobile, index }: SectionProps) => {
@@ -498,6 +499,7 @@ const Section1 = ({ isMobile, index }: SectionProps) => {
         loading="eager"
         placeholder="none"
         layout="constrained"
+        formats={["auto", "webp", "avif"]}
         width={572}
       />
       <Headline
@@ -529,6 +531,7 @@ const Section2 = ({ isMobile, index, movieData, isLoading }: SectionProps) => (
       alt="grunge background-texture"
       loading="eager"
       placeholder="none"
+      formats={["auto", "webp", "avif"]}
       layout="constrained"
     />
     <CircleWrapper>
@@ -562,13 +565,21 @@ interface MainProps {
 
 export const Main = ({ isMobile, movieData, isLoading }: MainProps) => {
   const [index, setIndex] = useState(1)
+  const [hidden, setHidden] = useState(true)
+  console.log(hidden, isMobile === "mobile")
   const togglePage = e => {
     if (typeof window !== undefined) {
       let body = document.querySelector("body")
       body.classList.length > 0 ? undefined : body.classList.add("move")
     }
     setIndex(parseFloat(e.currentTarget.id))
-    console.log(isMobile)
+    hidden === true
+      ? setHidden(false)
+      : setTimeout(function () {
+          setHidden(true)
+          console.log("section 2 hidden")
+        }, 1000)
+    console.log(hidden)
   }
 
   return (
@@ -581,13 +592,15 @@ export const Main = ({ isMobile, movieData, isLoading }: MainProps) => {
             index={index}
             isMobile={isMobile}
           />
-          <Section2
-            className={`${index} two`}
-            index={index}
-            isMobile={isMobile}
-            movieData={movieData}
-            isLoading={isLoading}
-          />
+          {hidden === false && (
+            <Section2
+              className={`${index} two`}
+              index={index}
+              isMobile={isMobile}
+              movieData={movieData}
+              isLoading={isLoading}
+            />
+          )}
         </>
       )}
       {isMobile === "desktop" && (

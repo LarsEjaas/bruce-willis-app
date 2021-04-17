@@ -141,6 +141,8 @@ main {
     grid-template-rows: 100%;
     will-change: filter;
     transition: all 0.4s;
+    animation: fadeIn 0.4s ease-out;
+    animation-fill-mode: both;
   }
   main.mobile{
     width: 200vw;
@@ -148,6 +150,8 @@ main {
     left: 0;
     top: 0;
     will-change: filter;
+    animation: fadeIn 0.4s ease-out;
+    animation-fill-mode: both;
   }
 
 a {

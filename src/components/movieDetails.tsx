@@ -12,7 +12,7 @@ import TmdbLogo from "../images/tmdb.inline.svg"
 import ImdbLogo from "../images/IMDB.inline.svg"
 import { useFetchMovieDetails } from "./sourceData"
 import { getGenre } from "./genres"
-import ExternalLink from "./externalLink"
+import ExternalLink, { NavigateButton } from "./externalLink"
 import IframeMovie from "./youtubeVideo"
 import StreamLinks from "./streamingLinks"
 import Backdrop from "./backdrop"
@@ -163,7 +163,6 @@ export const IconHeadline = styled.div<IconHeadlineProps>`
     display: inline-flex;
     align-self: center;
     margin: 0 8px;
-    height: 1.8em;
     width: 1.8em;
     top: 0.3em;
     position: relative;
@@ -248,6 +247,10 @@ const CastCard = styled.div<CastCardProps>`
   & a {
     margin: 0 auto;
     width: 100%;
+    transition: transform 0.2s ease-in-out;
+  }
+  & a:hover {
+    transform: scale(1.1);
   }
   & div {
     box-shadow: 8px 8px 6px var(--border-main);
@@ -264,6 +267,9 @@ const CastCard = styled.div<CastCardProps>`
     overflow: hidden;
     position: relative;
     margin-bottom: 0.5em;
+  }
+  & a:hover div {
+    box-shadow: 6px 12px 6px var(--border-main);
   }
   & svg {
     width: 80%;
@@ -314,11 +320,13 @@ const CastCard = styled.div<CastCardProps>`
 export const StyledTmdbLogo = styled(TmdbLogo)`
   width: 100px !important;
   transform: translateY(-7px);
+  height: 13px;
 `
 
 const StyledImdbLogo = styled(ImdbLogo)`
   width: 100px !important;
   transform: translateY(-7px);
+  height: 29px;
 `
 
 interface MovieDetailsProps {
@@ -556,7 +564,9 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
                 title={`Read about ${movieDetails.title} at TMDb`}
                 className="FullHeight"
               >
-                <StyledImdbLogo />
+                <NavigateButton>
+                  <StyledImdbLogo />
+                </NavigateButton>
               </ExternalLink>
             </span>
             {language === "da" && (
@@ -574,7 +584,9 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
             title={`Read about ${movieDetails.title} at TMDB`}
             className="FullHeight"
           >
-            <StyledTmdbLogo />
+            <NavigateButton>
+              <StyledTmdbLogo />
+            </NavigateButton>
           </ExternalLink>
         </span>
       </IconHeadline>

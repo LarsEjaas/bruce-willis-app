@@ -12,7 +12,8 @@ function debounce(fn, ms) {
 }
 
 export const DeviceDetectHook = () => {
-  const [isMobile, setMobile] = useState("mobile")
+  //const [isMobile, setMobile] = useState("mobile")
+  const [isMobile, setMobile] = useState(undefined)
 
   useEffect(() => {
     const userAgent =

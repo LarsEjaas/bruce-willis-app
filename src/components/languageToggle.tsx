@@ -1,0 +1,8 @@
+import * as React from "react"
+import { useState } from "react"
+import Skeleton from "react-loading-skeleton"
+import { useFetchAbout } from "./sourceData"
+import styled from "styled-components"
+import Backdrop from "./backdrop"
+import Profile from "../images/profile.inline.svg"
+import { useTranslation } from "gatsby-plugin-react-i18next"
