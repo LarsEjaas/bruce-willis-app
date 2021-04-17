@@ -137,7 +137,7 @@ interface ExternalLinkProps {
 
 const NavTop = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 `
 
 const StyledExternalLink = styled(ExternalLink)<ExternalLinkProps>`
@@ -530,7 +530,13 @@ const Section1 = ({ isMobile, index, location }: SectionProps) => {
   )
 }
 
-const Section2 = ({ isMobile, index, movieData, isLoading }: SectionProps) => (
+const Section2 = ({
+  isMobile,
+  index,
+  movieData,
+  isLoading,
+  location,
+}: SectionProps) => (
   <Section
     isMobile={isMobile}
     className={index === 2 ? `${isMobile} left` : `${isMobile} right`}
@@ -555,6 +561,7 @@ const Section2 = ({ isMobile, index, movieData, isLoading }: SectionProps) => (
         className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
       ></Circle4>
     </CircleWrapper>
+    {isMobile === "desktop" && <LanguageToggle location={location} />}
     <MovieCovers
       movieData={movieData}
       isLoading={isLoading}
@@ -626,6 +633,7 @@ export const Main = ({
             isMobile={isMobile}
             movieData={movieData}
             isLoading={isLoading}
+            location={location}
           />
         </>
       )}
