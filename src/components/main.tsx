@@ -147,8 +147,8 @@ const StyledExternalLink = styled(ExternalLink)<ExternalLinkProps>`
     z-index: 3;
     bottom: ${props => (props.isMobile === "mobile" ? "unset" : "26px")};
     height: ${props => (props.isMobile === "mobile" ? "43px" : "48px")};
-    right: 24px;
-    top: ${props => (props.isMobile === "mobile" ? "24px" : "unset")};
+    right: ${props => (props.isMobile === "mobile" ? "unset" : "24px")};
+    padding: 20px;
   }
   &.desktop&.EjaasLogo&.left {
     animation: ${slideUp} 1s ease-out;
@@ -161,9 +161,11 @@ const StyledExternalLink = styled(ExternalLink)<ExternalLinkProps>`
     animation: ${slideIn} 1s ease-out 0.6s;
     animation-fill-mode: both;
     z-index: 3;
-    top: 36px;
-    left: 24px;
-    position: absolute;
+    //top: 36px;
+    //left: 24px;
+    //position: absolute;
+    position: relative;
+    padding: 32px 16px 32px 8px;
   }
   &.mobile&.TMDBlogo&.left {
     z-index: 3;

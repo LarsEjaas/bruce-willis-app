@@ -6,6 +6,7 @@ import { useTranslation, useI18next } from "gatsby-plugin-react-i18next"
 const StyledNav = styled.nav`
   z-index: 3;
   position: relative;
+  padding: 20px 8px;
 `
 
 interface LanguageButtonProps {
@@ -25,10 +26,10 @@ const LanguageButton = styled.button<LanguageButtonProps>`
   position: relative;
   -webkit-text-decoration: none;
   text-decoration: none;
-  margin: 0.5em;
+  margin: 0;
   cursor: pointer;
   overflow: hidden;
-  background-color: transparent;
+  background-color: var(--background1);
   transition: transform 0.2s ease-in-out;
   &:hover {
     transform: scale(1.1);
