@@ -26,7 +26,12 @@ const Index = ({ location }) => {
         published={location.published}
       />
       <Layout>
-        <Main isMobile={isMobile} movieData={movieData} isLoading={isLoading} />
+        <Main
+          isMobile={isMobile}
+          movieData={movieData}
+          isLoading={isLoading}
+          location={location}
+        />
       </Layout>
     </>
   )

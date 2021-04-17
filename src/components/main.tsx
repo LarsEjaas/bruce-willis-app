@@ -11,6 +11,7 @@ import MovieCovers from "./coverSlider"
 import MobileNavigation from "./mobileNavigation"
 import { GlobalContext } from "./layout"
 import { useTranslation, useI18next } from "gatsby-plugin-react-i18next"
+import LanguageToggle from "./languageToggle"
 
 const fadeIn = keyframes`
   from {
@@ -134,9 +135,15 @@ interface ExternalLinkProps {
   readonly isMobile: "mobile" | "desktop" | undefined
 }
 
+const NavTop = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+`
+
 const StyledExternalLink = styled(ExternalLink)<ExternalLinkProps>`
   &.EjaasLogo {
-    position: absolute;
+    position: ${props =>
+      props.isMobile === "mobile" ? "relative" : "absolute"};
     z-index: 3;
     bottom: ${props => (props.isMobile === "mobile" ? "unset" : "26px")};
     height: ${props => (props.isMobile === "mobile" ? "43px" : "48px")};
@@ -372,7 +379,7 @@ interface SectionProps {
   hidden: true | false
 }
 
-const Section1 = ({ isMobile, index }: SectionProps) => {
+const Section1 = ({ isMobile, index, location }: SectionProps) => {
   const { t } = useTranslation()
   const { language } = useI18next()
   const { modalToggle } = useContext(GlobalContext)
@@ -438,15 +445,34 @@ const Section1 = ({ isMobile, index }: SectionProps) => {
       )}
       {isMobile === "mobile" && (
         <>
-          <StyledExternalLink
-            className={
-              index === 1 ? "mobile TMDBlogo right" : "mobile TMDBlogo left"
-            }
-            href="https://www.themoviedb.org/"
-            title="The Movie Database"
-          >
-            <TMDBlogo height="16" />
-          </StyledExternalLink>
+          <NavTop>
+            <StyledExternalLink
+              className={
+                index === 1 ? "mobile TMDBlogo right" : "mobile TMDBlogo left"
+              }
+              href="https://www.themoviedb.org/"
+              title="The Movie Database"
+            >
+              <TMDBlogo height="16" />
+            </StyledExternalLink>
+            <LanguageToggle location={location} />
+            <StyledExternalLink
+              className={
+                index === 1
+                  ? `${isMobile} EjaasLogo right`
+                  : `${isMobile} EjaasLogo left`
+              }
+              isMobile={isMobile}
+              href={
+                language === "da"
+                  ? "https://larsejaas.com/"
+                  : "https://larsejaas.com/en/"
+              }
+              title="Made by Lars Ejaas"
+            >
+              <EjaasLogo width="64" />
+            </StyledExternalLink>
+          </NavTop>
           <Navigation className={index === 1 ? `mobile right` : `mobile left`}>
             <ShareIcon
               tabindex="0"
@@ -474,22 +500,6 @@ const Section1 = ({ isMobile, index }: SectionProps) => {
           </Navigation>
         </>
       )}
-      <StyledExternalLink
-        className={
-          index === 1
-            ? `${isMobile} EjaasLogo right`
-            : `${isMobile} EjaasLogo left`
-        }
-        isMobile={isMobile}
-        href={
-          language === "da"
-            ? "https://larsejaas.com/"
-            : "https://larsejaas.com/en/"
-        }
-        title="Made by Lars Ejaas"
-      >
-        <EjaasLogo width="64" />
-      </StyledExternalLink>
       <StaticImage
         className={
           index === 1 ? `BruceW ${isMobile} right` : `BruceW ${isMobile} left`
@@ -563,7 +573,12 @@ interface MainProps {
   isMobile: "mobile" | "desktop" | undefined
 }
 
-export const Main = ({ isMobile, movieData, isLoading }: MainProps) => {
+export const Main = ({
+  isMobile,
+  movieData,
+  isLoading,
+  location,
+}: MainProps) => {
   const [index, setIndex] = useState(1)
   const [hidden, setHidden] = useState(true)
   console.log(hidden, isMobile === "mobile")
@@ -591,6 +606,7 @@ export const Main = ({ isMobile, movieData, isLoading }: MainProps) => {
             className={`${index} one`}
             index={index}
             isMobile={isMobile}
+            location={location}
           />
           {hidden === false && (
             <Section2

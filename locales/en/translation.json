@@ -16,5 +16,6 @@
     "READ_MORE" : "Read More"
 
   },
-  "BORN" : "born"
+  "BORN" : "born",
+  "LANGUAGE_ARIA_LABEL": "Change language"
 }
