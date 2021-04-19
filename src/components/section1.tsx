@@ -148,18 +148,14 @@ const StyledExternalLink = styled(ExternalLink)<ExternalLinkProps>`
     animation: ${slideDown} 1s ease-out 0.4s;
     animation-fill-mode: both;
   }
-  &.mobile&.TMDBlogo&.right {
-    animation: ${slideIn} 1s ease-out 0.6s;
-    animation-fill-mode: both;
+  &.mobile&.TMDBlogo {
     z-index: 3;
     position: relative;
     padding: 32px 8px 32px 16px;
   }
-  &.mobile&.TMDBlogo&.left {
-    z-index: 3;
-    top: 36px;
-    left: 24px;
-    position: absolute;
+  &.mobile&.TMDBlogo&.right {
+    animation: ${slideIn} 1s ease-out 0.6s;
+    animation-fill-mode: both;
   }
 `
 
@@ -293,6 +289,7 @@ interface Section1Props {
   readonly isMobile?: "mobile" | "desktop" | undefined
   index: 1 | 2
   hidden: true | false
+  className: string
 }
 
 const Section1 = ({ isMobile, index, location }: Section1Props) => {
@@ -325,7 +322,9 @@ const Section1 = ({ isMobile, index, location }: Section1Props) => {
             className={index === 1 ? "desktop right" : "desktop left"}
           >
             <StyledExternalLink
-              className="desktop TMDBlogo"
+              className={
+                index === 1 ? "desktop TMDBlogo right" : "desktop TMDBlogo left"
+              }
               href="https://www.themoviedb.org/"
               title="The Movie Database"
             >
@@ -379,7 +378,10 @@ const Section1 = ({ isMobile, index, location }: Section1Props) => {
             >
               <TMDBlogo height="16" />
             </StyledExternalLink>
-            <LanguageToggle location={location} isMobile={isMobile} />
+            <LanguageToggle
+              location={location}
+              className={index === 1 ? "language right" : "language left"}
+            />
             <StyledExternalLink
               className={
                 index === 1

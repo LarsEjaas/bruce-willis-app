@@ -4,15 +4,31 @@ import axios from "axios"
 const BASE_URL = "https://api.themoviedb.org/3/"
 const IMAGE_URL = "https://image.tmdb.org/t/p/"
 
-type useFetchProps = {
+interface useFetchProps {
   type: "person" | "movie"
   id: string | null
   data: null | object
   language: "da" | "en"
 }
 
+interface Idata {
+  name: { data: string }
+  biography: { data: string }
+  profilePicture: { data: string }
+  birthday: { data: string }
+  imdb_id: { data: string }
+}
+
+interface Ientry {
+  release_date: { data: string }
+}
+
+interface IsortedObj {
+  release_date: { a: string }
+}
+
 export const useFetchAbout = ({ type, id, language }: useFetchProps) => {
-  const [data, setData] = useState(null)
+  const [data, setData] = useState<Idata | null>(null)
   const [isLoading, setLoading] = useState(true)
   const translation = language === "da" ? "da-DK" : "en-US"
 
@@ -46,16 +62,16 @@ export const useFetchAbout = ({ type, id, language }: useFetchProps) => {
 }
 
 export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
-  const [data, setData] = useState(null)
-  const [isLoading, setLoading] = useState(false)
-  const [isError, setIsError] = useState(false)
-  const [Error, setError] = useState(null)
+  const [data, setData] = useState<Idata | null>(null)
+  const [isLoading, setLoading] = useState<boolean>(false)
+  const [isError, setIsError] = useState<boolean>(false)
+  const [Error, setError] = useState<object | null>(null)
   const translation = language === "da" ? "da-DK" : "en-US"
 
-  const cleanData = obj => {
+  const cleanData = (obj: object) => {
     //console.log(obj)
     const entries = Object.entries(obj)
-    entries.forEach(function callback(entry, index) {
+    entries.forEach(function callback(entry: Ientry, index: number) {
       // console.log(
       //   `${index}: ${entry[1].original_title} ${entry[1].release_date}`
       // )
@@ -96,12 +112,11 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
                 "(stemme)"
               )
             }
-            //console.log(`${index}: ${entry[1].character}`)
           }
         }
       }
     })
-    const sortedObj = obj.sort(function (a: string, b: string) {
+    const sortedObj: IsortedObj = obj.sort(function (a, b) {
       a.release_date = new Date(a.release_date)
       b.release_date = new Date(b.release_date)
       if (a.release_date == b.release_date) {
@@ -125,14 +140,12 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
       const APIdata = await response
       console.log(response)
       const cleanedDATA = cleanData(APIdata.data.cast)
-      console.log(APIdata, cleanedDATA), setData(cleanedDATA)
-      //console.log(APIdata), setData(APIdata.data.cast)
+      setData(cleanedDATA)
     } catch (error) {
       setIsError(true)
       setError(error)
-      console.log("An error occurred while fetching data:", error)
+      console.log("An error occurred while fetching data:", error, typeof error)
     }
-    //const cleanedData = data !== null ? cleanData(data) : null
     setLoading(false)
   }
 
@@ -145,8 +158,8 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
 
 const translationDetails = "en-US"
 
-export const useFetchMovieDetails = ({ type, id, language }: useFetchProps) => {
-  const [data, setData] = useState(null)
+export const useFetchMovieDetails = ({ type, id }: useFetchProps) => {
+  const [data, setData] = useState<Idata | null>(null)
   const [isLoading, setLoading] = useState(true)
 
   const fetchData = async () => {

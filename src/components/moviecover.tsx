@@ -2,7 +2,6 @@ import * as React from "react"
 import { useState, useContext } from "react"
 import styled, { keyframes } from "styled-components"
 import { GlobalContext } from "./layout"
-import { useFetchMovieCredits } from "./sourceData"
 
 interface CoverProps {
   isMobile: "mobile" | "desktop" | undefined

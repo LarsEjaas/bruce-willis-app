@@ -7,16 +7,6 @@ interface StyledNavProps {
   readonly isMobile?: "mobile" | "desktop" | undefined
 }
 
-const StyledNav = styled.nav<StyledNavProps>`
-  z-index: 3;
-  position: relative;
-  padding: ${props => (props.isMobile === "mobile" ? "20px 8px" : "20px")};
-`
-
-interface LanguageButtonProps {
-  readonly isMobile?: "mobile" | "desktop" | undefined
-}
-
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -25,6 +15,33 @@ const fadeIn = keyframes`
     opacity: 1;
   }
 `
+
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`
+
+const StyledNav = styled.nav<StyledNavProps>`
+  z-index: 3;
+  position: relative;
+  padding: ${props => (props.isMobile === "mobile" ? "20px 8px" : "20px")};
+  &.right {
+    animation: ${fadeIn} 1s ease-out 0.6s;
+    animation-fill-mode: both;
+  }
+  &.left {
+    animation: ${fadeOut} 0.5s ease-out;
+    animation-fill-mode: both;
+  }
+`
+
+interface LanguageButtonProps {
+  readonly isMobile?: "mobile" | "desktop" | undefined
+}
 
 const LanguageButton = styled.button<LanguageButtonProps>`
   border-radius: 50%;
@@ -44,8 +61,6 @@ const LanguageButton = styled.button<LanguageButtonProps>`
   overflow: hidden;
   background-color: var(--background1);
   transition: transform 0.2s ease-in-out;
-  animation: ${fadeIn} 1s ease-out 0.6s;
-  animation-fill-mode: both;
   &:hover {
     transform: scale(1.1);
     border-color: ${props =>
@@ -67,10 +82,10 @@ const LanguageButton = styled.button<LanguageButtonProps>`
 
 interface LanguageToggleProps {
   location: object
-  readonly isMobile?: "mobile" | "desktop" | undefined
+  className: string
 }
 
-const LanguageToggle = ({ location, isMobile }: LanguageToggleProps) => {
+const LanguageToggle = ({ location, className }: LanguageToggleProps) => {
   const { t } = useTranslation()
   const { language } = useI18next()
 
@@ -79,7 +94,7 @@ const LanguageToggle = ({ location, isMobile }: LanguageToggleProps) => {
   const linkPath = location.pathname === "/" ? "/en/" : "../"
 
   return (
-    <StyledNav aria-label={t("LANGUAGE_ARIA_LABEL")}>
+    <StyledNav aria-label={t("LANGUAGE_ARIA_LABEL")} className={className}>
       <Link to={linkPath} activeClassName="active" title="Dansk">
         <LanguageButton>
           <img src={`../${imageFlag}`} />

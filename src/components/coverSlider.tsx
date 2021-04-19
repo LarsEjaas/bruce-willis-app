@@ -82,6 +82,7 @@ interface MovieCoverProps {
 const MovieCovers = ({ isMobile, index, movieData }: MovieCoverProps) => {
   const { language } = useI18next()
   if (movieData !== null) {
+    console.log(movieData)
     localStorage.setItem(
       `movieStorageData-${language}`,
       JSON.stringify(movieData)

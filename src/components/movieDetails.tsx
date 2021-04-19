@@ -36,7 +36,8 @@ const PosterCover = styled.img`
 `
 
 const GenreArray = styled.div`
-  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
   & h3 {
     font-family: "Passion One", cursive;
     font-size: 20px;
@@ -123,7 +124,6 @@ const StarringAs = styled.h3`
 const Paragraph = styled.p`
   white-space: break-spaces;
   color: var(--movie-paragraph-color);
-  text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
   position: inline;
   line-height: 1.5;
   font-size: 16px;
@@ -171,13 +171,9 @@ export const IconHeadline = styled.div<IconHeadlineProps>`
   & p {
     white-space: break-spaces;
     color: var(--movie-paragraph-color);
-    text-shadow: 6px 6px 6px var(--border-main),
-      -6px -6px 6px var(--border-main);
-    position: inline;
-    line-height: 1.5;
+    margin-block-start: auto;
+    margin-block-end: auto;
     font-size: 16px;
-    margin-block-start: 0;
-    margin-block-end: 0.5em;
     margin-left: 3em;
     flex-basis: 500px;
   }

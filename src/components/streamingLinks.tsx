@@ -5,25 +5,6 @@ import { IconHeadline, Headline3, StyledTmdbLogo } from "./movieDetails"
 import ExternalLink, { NavigateButton } from "./externalLink"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 
-const addHyphen = (title: string) => {
-  title = title.replace(" ", "-");
-  return title
-}
-
-const domainLanguage = (language:string) => {
-  language = language === "da"? "dk" : "us"
-  return language
-}
-
-// const MatchStreamProvider = (provider_name:string, language: string, title: string, year: string, languageCode:string) => {
-//   if (provider_name === "Google Play Movies") return `xxx`;
-//   else if (provider_name === "Viaplay") return `https://viaplay.${domainLanguage(language)}/store/${addHyphen(title)}-${year}`;
-//   else if (provider_name === "Rakuten TV") return `https://rakuten.tv/movies/${addHyphen(title)}&uct_country=${languageCode}`;
-//   else if (provider_name === "Microsoft Store") return `https://www.microsoft.com/${language}-${domainLanguage(language)}/p/${addHyphen(title)}/8d6kgwxn6qfn?activetab=pivot:overviewtab`;
-//   else if (provider_name === "Apple Itunes") return `https://tv.apple.com/${language}/movie/ID`;
-//   else return null
-// }
-
 const StreamName = styled.p `
 white-space: break-spaces;
     color: var(--movie-paragraph-color);
@@ -33,11 +14,10 @@ white-space: break-spaces;
     line-height: 1.5;
     font-size: 16px;
     margin: auto 0 auto 3em;
-    margin-block-start: auto !important;
-    margin-block-end: auto !important;
     margin-left: 3em;
     flex-basis: 250px !important;
 `
+
 const StreamLogo = styled.img `
 border-radius: 14px;
 width: 50px;
@@ -56,7 +36,13 @@ const HorizontalRule = styled.hr`
 `
 
 const StyledExternalLink = styled(ExternalLink)`
-margin: 0 auto;
+margin: auto;
+`
+
+const CenteredText = styled.p`
+    line-height: 1;
+    margin-block-start: auto;
+    margin-block-end: auto;
 `
 
 interface StreamLinksProps {
@@ -107,11 +93,11 @@ const buyList = buyLinks !== null? buyLinks.map(link =>
               <Television style={{ top: "0" }} />
               <Headline3>{t("MOVIEDETAILS.BUY_OR_STREAM")}</Headline3>
             </span>
-            <p>Du kan i øjeblikket leje eler købe titlen med danske undertekster her:</p>
+            <CenteredText>Du kan i øjeblikket leje eler købe titlen med danske undertekster her:</CenteredText>
             {buyList}
             <HorizontalRule/>
             <span>
-              <p>Besøg TMDB for direkte links til køb og leje af denne titel:</p>
+              <CenteredText>Besøg TMDB for direkte links til køb og leje af denne titel:</CenteredText>
               <StyledExternalLink href={streamLink} title={`Go to TMDb.com to get streaming links for ${movieDetails.title}`}><NavigateButton><StyledTmdbLogo /></NavigateButton></StyledExternalLink>
             </span>
           </IconHeadline>

@@ -13,7 +13,11 @@ const type = "person"
 
 const Index = ({ location }) => {
   const { language } = useI18next()
-  const [movieData, isLoading] = useFetchMovieCredits({ type, id, language })
+  const [movieData, isLoading, isError] = useFetchMovieCredits({
+    type,
+    id,
+    language,
+  })
   const isMobile = DeviceDetectHook()
 
   return (
@@ -30,6 +34,7 @@ const Index = ({ location }) => {
           isMobile={isMobile}
           movieData={movieData}
           isLoading={isLoading}
+          isError={isError}
           location={location}
         />
       </Layout>
