@@ -77,7 +77,7 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
       // )
       //delete not yet released movies
       if (!entry[1].release_date) {
-        //console.log(`${index} title: ${obj[index].original_title}`)
+        console.log(`${index} title: ${obj[index].original_title}`)
         obj[index] = undefined
         //delete if no genres are present
       } else if (entry[1].genre_ids.length === 0) {
@@ -99,8 +99,18 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
           entry[1].character = entry[1].character.replace("(uncredited)", "")
         }
         if (language === "da") {
-          if (entry[1].character.indexOf("(") !== -1) {
+          console.log("language is danish", entry[1].character, index)
+          if (
+            entry[1].character.indexOf("(") !== -1 ||
+            entry[1].character.indexOf("Himself") !== -1
+          ) {
+            console.log("indexOf('(') !== -1", entry[1].character, index)
             if (entry[1].character.indexOf("Himself") !== -1) {
+              console.log(
+                "replacing himself",
+                entry[1].character,
+                entry[1].original_title
+              )
               entry[1].character = entry[1].character.replace(
                 "Himself",
                 "Bruce Willis"
@@ -144,7 +154,12 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
     } catch (error) {
       setIsError(true)
       setError(error)
-      console.log("An error occurred while fetching data:", error, typeof error)
+      console.log(
+        "An error occurred while fetching data:",
+        error,
+        typeof error,
+        isError
+      )
     }
     setLoading(false)
   }
@@ -153,7 +168,7 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
     fetchData()
   }, [])
 
-  return [data, isLoading]
+  return [data, isLoading, isError]
 }
 
 const translationDetails = "en-US"

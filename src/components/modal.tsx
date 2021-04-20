@@ -15,6 +15,8 @@ import ShareButtons from "./share"
 import MovieDetails from "./movieDetails"
 import Backdrop from "./backdrop"
 import { SkeletonTheme } from "react-loading-skeleton"
+import { NavigateButton, Paragraph } from "./externalLink"
+import { useTranslation } from "gatsby-plugin-react-i18next"
 
 const Crossbutton = styled.button`
   position: absolute;
@@ -58,6 +60,7 @@ interface ModalContainerProps {
 }
 
 const ModalContainer = ({ language }: ModalContainerProps) => {
+  const { t } = useTranslation()
   const {
     modalToggle,
     modalVisible,
@@ -82,7 +85,9 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
     console.log("modal visible changed")
     document.querySelector(".modal-body") !== null
       ? setTimeout(function () {
-          document.querySelector(".modal-header > .cross-btn").focus()
+          document.querySelector(".cross-btn") !== null
+            ? document.querySelector(".modal-header > .cross-btn").focus()
+            : document.querySelector(".modal-body.error button").focus()
         }, 400)
       : document.querySelector("main").classList.remove("blur")
   }, [isModalVisible])
@@ -97,8 +102,9 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
       document.querySelector(".extern.modal-container")
     )
     if (
-      e.currentTarget === document.querySelector(".modal-container") &&
-      e.target !== e.currentTarget
+      (e.currentTarget === document.querySelector(".modal-container") &&
+        e.target !== e.currentTarget) ||
+      modalType === "error"
     )
       return
 
@@ -169,6 +175,26 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
               }
             />
           )}
+          {modalType === "error" && (
+            <Modal.Body
+              type={modalType}
+              error={
+                <>
+                  <Backdrop
+                    isMobile={isMobile}
+                    original_title="404 error background"
+                    backdrop_path="404.jpg"
+                    internUrl
+                  />
+                  <Headline2>An error occured</Headline2>
+                  <Paragraph>Please reload the page to retry...</Paragraph>
+                  <NavigateButton onClick={() => location.reload()}>
+                    {t("RELOAD")}
+                  </NavigateButton>
+                </>
+              }
+            />
+          )}
         </Modal>
       )}
     </>
@@ -176,8 +202,27 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
 }
 
 interface ModalContentFrameProps {
-  readonly modalType: "share" | "movieContent" | "offline" | "credits" | "about"
+  readonly modalType:
+    | "share"
+    | "movieContent"
+    | "offline"
+    | "credits"
+    | "about"
+    | "error"
 }
+
+const StyledModalContainer = styled.div`
+  position: fixed;
+  width: 100vw;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 5000;
+  animation: fadeIn ease-out 0.4s;
+  will-change: opacity;
+  overflow-x: hidden;
+  overflow-y: scroll;
+`
 
 const ModalContentFrame = styled.div<ModalContentFrameProps>`
   position: relative;
@@ -187,13 +232,16 @@ const ModalContentFrame = styled.div<ModalContentFrameProps>`
   border-radius: 40px;
   padding: 0;
   animation: fadeIn ease-out 0.4s;
-  /* transform-origin: center center; */
   background: var(--background2);
   border: 2px solid var(--icon-hover-color2);
   will-change: opacity;
   will-change: filter;
   overflow: hidden;
   transition: all 0.4s;
+  :not(.extern, .credits, .share) {
+    top: 4px;
+    transform: translate(-50%, 0);
+  }
   &.mobile {
     width: calc(100vw - 8px);
     min-width: 300px;
@@ -201,9 +249,18 @@ const ModalContentFrame = styled.div<ModalContentFrameProps>`
   &.desktop {
     max-width: 1080px;
   }
-  &.desktop.movie {
+  &.desktop.movie, &.desktop.about {
     width: calc(100% - 8px);
     margin-bottom: 200px;
+    @media (min-height: 720px) {
+      top: calc((100vh - 720px) / 2 );
+    }
+  }
+  }
+  &.share,
+  &.error,
+  &.credits {
+    transform: translate(-50%, calc((100vh - 100%) / 2));
   }
   & .gatsby-image-wrapper {
     position: absolute;
@@ -223,7 +280,13 @@ const ModalBodyContent = styled.div`
 const modalContext = createContext(null)
 
 interface ModalProps {
-  readonly modalType: "share" | "movieContent" | "offline" | "credits" | "about"
+  readonly modalType:
+    | "share"
+    | "movieContent"
+    | "offline"
+    | "credits"
+    | "about"
+    | "error"
   children: JSX.Element
   onModalClose: (e: Event) => void
 }
@@ -287,7 +350,7 @@ function Modal({ children, onModalClose, modalType }: ModalProps) {
   document.addEventListener("keydown", keyListener)
 
   return ReactDOM.createPortal(
-    <div
+    <StyledModalContainer
       className="modal-container"
       role="dialog"
       aria-modal="true"
@@ -308,13 +371,19 @@ function Modal({ children, onModalClose, modalType }: ModalProps) {
           </modalContext.Provider>
         </ModalContentFrame>
       </SkeletonTheme>
-    </div>,
+    </StyledModalContainer>,
     document.body
   )
 }
 
 interface ModalHeaderProps {
-  modalType: "share" | "movieContent" | "offline" | "credits" | "about"
+  modalType:
+    | "share"
+    | "movieContent"
+    | "offline"
+    | "credits"
+    | "about"
+    | "error"
 }
 
 Modal.Header = function ModalHeader({ modalType }: ModalHeaderProps) {
@@ -322,15 +391,17 @@ Modal.Header = function ModalHeader({ modalType }: ModalHeaderProps) {
   console.log(modalType)
   return (
     <div className="modal-header">
-      <Crossbutton
-        className="cross-btn"
-        title="Close window"
-        aria-label="Close window"
-        onClick={onModalClose}
-        modalType={modalType}
-      >
-        <Cross className="cross" width="22" />
-      </Crossbutton>
+      {modalType !== "error" && (
+        <Crossbutton
+          className="cross-btn"
+          title="Close window"
+          aria-label="Close window"
+          onClick={onModalClose}
+          modalType={modalType}
+        >
+          <Cross className="cross" width="22" />
+        </Crossbutton>
+      )}
     </div>
   )
 }
@@ -341,6 +412,7 @@ interface ModalBodyProps {
   offline: JSX.Element
   credits: JSX.Element
   about: JSX.Element
+  error: JSX.Element
   type: string
   movieId: number
 }
@@ -351,6 +423,7 @@ Modal.Body = function ModalBody({
   offline,
   credits,
   about,
+  error,
   type,
   movieId,
 }: ModalBodyProps) {
@@ -361,6 +434,7 @@ Modal.Body = function ModalBody({
       {offline}
       {credits}
       {about}
+      {error}
     </ModalBodyContent>
   )
 }

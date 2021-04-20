@@ -1,9 +1,9 @@
 import * as React from "react"
 import { DeviceDetectHook } from "../components/deviceDetect"
 import { graphql } from "gatsby"
-import { useTranslation, useI18next } from "gatsby-plugin-react-i18next"
+import { useI18next } from "gatsby-plugin-react-i18next"
 import Layout from "../components/layout"
-import { Main, MainMobile } from "../components/main"
+import { Main } from "../components/main"
 import SEO from "../components/seo"
 import { useFetchMovieCredits } from "../components/sourceData"
 
@@ -11,7 +11,11 @@ import { useFetchMovieCredits } from "../components/sourceData"
 const id = "62/movie_credits"
 const type = "person"
 
-const Index = ({ location }) => {
+interface IndexProps {
+  location: any
+}
+
+const Index = ({ location }: IndexProps) => {
   const { language } = useI18next()
   const [movieData, isLoading, isError] = useFetchMovieCredits({
     type,

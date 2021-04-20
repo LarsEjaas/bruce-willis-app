@@ -51,18 +51,15 @@ export const NavigateButton = styled.button`
   border-radius: 30px;
   transition: 0.2s ease-in;
   padding: 14px;
-  box-shadow: var(--icon-shadow);
   border: 2px solid var(--icon-hover-color2);
-  display: inline-block;
-  -webkit-text-decoration: none;
-  text-decoration: none;
   margin: 0.5em;
   background-color: transparent;
   font-family: "Passion One", cursive;
-  font-weight: 700;
+  font-weight: 400;
   cursor: pointer;
   font-size: 20px;
   color: var(--movie-paragraph-color);
+  float: right;
   &:nth-child(1) {
     color: var(--icon-hover-color2);
     background-color: #ffffff08;
@@ -94,7 +91,7 @@ const Headline2 = styled.h2`
   text-align: center;
 `
 
-const Paragraph = styled.p`
+export const Paragraph = styled.p`
   white-space: break-spaces;
   color: var(--movie-paragraph-color);
   text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);

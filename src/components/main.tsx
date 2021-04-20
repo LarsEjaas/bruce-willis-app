@@ -22,6 +22,7 @@ export const Main = ({
   movieData,
   isLoading,
   location,
+  isError,
 }: MainProps) => {
   const [index, setIndex] = useState(1)
   const [hidden, setHidden] = useState(true)
@@ -55,6 +56,7 @@ export const Main = ({
             index={index}
             isMobile={isMobile}
             location={location}
+            isError={isError}
           />
           {hidden === false && (
             <Section2

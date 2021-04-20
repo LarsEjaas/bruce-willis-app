@@ -17,5 +17,6 @@
 
   },
   "BORN" : "born",
-  "LANGUAGE_ARIA_LABEL": "Change language"
+  "LANGUAGE_ARIA_LABEL": "Change language",
+  "RELOAD" : "Reload Page"
 }

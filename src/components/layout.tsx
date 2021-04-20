@@ -177,30 +177,6 @@ a {
     }
   }
 
-.modal-container {
-    position: fixed;
-    width: 100vw;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index:5000;
-    animation: fadeIn ease-out 0.4s;
-    will-change: opacity;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    }
-
-.modal-content {
-  top: 4px;
-  transform: translate(-50%,0);
-}
-
-  @media (min-height: 720px) {
-.modal-content.desktop.about, .modal-content.desktop.movie {
-  top: calc((100vh - 720px) / 2 );
-  }
-}
-
 body.move section.mobile.right {
     animation: slideRight 1s ease-in-out;
     animation-fill-mode: both;
@@ -269,9 +245,11 @@ const Layout = ({ children }: LayoutProps) => {
       | "offline"
       | "credits"
       | "about"
+      | "error"
       | undefined
   ) => {
-    setClickedElement(domNode),
+    console.log("modal toggled"),
+      setClickedElement(domNode),
       setModalVisible(!modalVisible),
       setModalType(typeOfModal)
   }
@@ -322,6 +300,7 @@ type GlobalContextProps = {
     | "offline"
     | "credits"
     | "about"
+    | "error"
     | undefined
   modalToggle: (
     DOMnode: HTMLElement,
@@ -332,6 +311,7 @@ type GlobalContextProps = {
       | "offline"
       | "credits"
       | "about"
+      | "error"
       | undefined
   ) => void
   externModalVisible: boolean
@@ -344,6 +324,7 @@ type GlobalContextProps = {
     | "offline"
     | "credits"
     | "about"
+    | "error"
     | undefined
   clickedElement: HTMLElement | undefined
   clickedExternLink: HTMLElement | undefined

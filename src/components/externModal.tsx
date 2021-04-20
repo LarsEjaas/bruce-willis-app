@@ -126,7 +126,16 @@ const ExternModalContainer = ({}) => {
 }
 
 const StyledExternModalContainer = styled.div`
+  position: fixed;
+  width: 100vw;
+  height: 100%;
+  top: 0;
+  left: 0;
   z-index: 6000;
+  animation: fadeIn ease-out 0.4s;
+  will-change: opacity;
+  overflow-x: hidden;
+  overflow-y: scroll;
 `
 
 const ModalContentFrame = styled.div`
@@ -135,11 +144,12 @@ const ModalContentFrame = styled.div`
   border-radius: 40px;
   padding: 24px;
   animation: fadeIn ease-out 0.4s;
-  transform-origin: center center;
+  /* transform-origin: center center; */
   background: var(--background2);
   border: 2px solid var(--icon-hover-color2);
   will-change: opacity;
   overflow: hidden;
+  transform: translate(-50%, calc((100vh - 100%) / 2));
   &.mobile {
     width: calc(100vw - 8px);
     min-width: 300px;

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import styled, { keyframes } from "styled-components"
 import { StaticImage } from "gatsby-plugin-image"
 import EjaasLogo from "../svg/ejaas_logo.inline.svg"
@@ -290,12 +290,19 @@ interface Section1Props {
   index: 1 | 2
   hidden: true | false
   className: string
+  isError: boolean
 }
 
-const Section1 = ({ isMobile, index, location }: Section1Props) => {
+const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
   const { t } = useTranslation()
   const { language } = useI18next()
   const { modalToggle } = useContext(GlobalContext)
+
+  //show error modal message if fetch of API-data fails
+  useEffect(() => {
+    isError === true ? modalToggle(undefined, "error") : undefined
+    //modalToggle(undefined, "error")
+  }, [isError])
 
   const handleEnterKey = e => {
     console.log(e.currentTarget)

@@ -17,6 +17,7 @@
       
     },
     "BORN" : "født",
-    "LANGUAGE_ARIA_LABEL": "Skift sprog"
+    "LANGUAGE_ARIA_LABEL": "Skift sprog",
+    "RELOAD" : "Genindlæs"
 }
     
