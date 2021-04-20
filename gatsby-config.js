@@ -76,27 +76,6 @@ module.exports = {
         },
       },
     },
-    // {
-    //   resolve: 'gatsby-source-tmdb',
-    //   options: {
-    //     apiKey: process.env.TMDB_API_KEY,
-    //     sessionID: process.env.SESSION_ID,
-    //     language: 'en-US',
-    //     region: 'DK',
-    //     modules: {
-    //       account: {
-    //         activate: true,
-    //         endpoints: {
-    //           person: ['67'],
-    //         },
-    //       },
-    //     },
-    //     timezone: 'Europe/Berlin',
-    //     reqPerTenSeconds: 32,
-    //   },
-    // },
-    //generate new request token: https://api.themoviedb.org/3/authentication/token/new?api_key=process.env.GATSBY_API_KEY
-    //https://api.themoviedb.org/3/person/62?api_key=8551b13d1962564c7342bfbbb9e3c5d7&language=en-US
     {
       resolve: 'gatsby-plugin-manifest',
       options: {

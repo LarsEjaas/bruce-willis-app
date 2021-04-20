@@ -154,7 +154,7 @@ const type = "person"
 
 interface AboutViewProps {
   isMobile: "desktop" | "mobile" | undefined
-  language: "en" | "da"
+  language: string
 }
 
 const AboutView = ({ isMobile, language }: AboutViewProps) => {

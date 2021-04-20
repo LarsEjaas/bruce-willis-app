@@ -3,13 +3,6 @@ import { useState, useContext } from "react"
 import styled, { keyframes } from "styled-components"
 import { GlobalContext } from "./layout"
 
-interface CoverProps {
-  isMobile: "mobile" | "desktop" | undefined
-  left?: boolean
-  right?: boolean
-  active?: boolean
-}
-
 const CoverCard = styled.div<CoverProps>`
   position: relative;
   width: 46.3%;
@@ -44,8 +37,18 @@ const CoverCard = styled.div<CoverProps>`
   }
 `
 
+interface CoverProps {
+  isMobile: "mobile" | "desktop" | undefined
+  left?: boolean
+  right?: boolean
+  active?: boolean
+  id: string
+  original_title: string
+  poster_path: string
+}
+
 const Cover = ({ poster_path, original_title, isMobile, id }: CoverProps) => {
-  const [active, setActive] = useState(false)
+  const [active, setActive] = useState<boolean>(false)
 
   const { modalToggle } = useContext(GlobalContext)
   const handleEnterKey = e => {
@@ -64,7 +67,7 @@ const Cover = ({ poster_path, original_title, isMobile, id }: CoverProps) => {
 
   return (
     <CoverCard
-      tabIndex="0"
+      tabIndex={0}
       className={active}
       onClick={e => modalToggle(e.currentTarget, "movie")}
       onKeyPress={e => keyListener(e)}

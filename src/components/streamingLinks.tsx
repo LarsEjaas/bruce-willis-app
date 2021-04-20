@@ -47,7 +47,7 @@ const CenteredText = styled.p`
 
 interface StreamLinksProps {
   movieDetailedData: object | null
-  language: "da" | "en"
+  language: string
   languageCode: "DK" | "US"
   movieDetails: object | null
   movieYear: string | null
@@ -59,11 +59,11 @@ const { t } = useTranslation()
 
 const buyLinks =
     movieDetailedData !== null?
-    (movieDetailedData.data.["watch/providers"].results.[languageCode] !== undefined
-      ? movieDetailedData.data.["watch/providers"].results.[languageCode].buy : null)
+    (movieDetailedData.["watch/providers"].results.[languageCode] !== undefined
+      ? movieDetailedData.["watch/providers"].results.[languageCode].buy : null)
       : null
 
-      console.log(buyLinks, movieDetailedData !== null? movieDetailedData.data.["watch/providers"]:null, movieDetailedData !== null? movieDetailedData.data.["watch/providers"].results.[languageCode] : null)
+      console.log(buyLinks, movieDetailedData !== null? movieDetailedData.["watch/providers"]:null, movieDetailedData !== null? movieDetailedData.["watch/providers"].results.[languageCode] : null)
 
 const buyList = buyLinks !== null? buyLinks.map(link =>
   <span><StreamName><b>{link.provider_name}</b></StreamName><StreamLogo src={`https://www.themoviedb.org/t/p/original${link.logo_path}`} alt={`${link.provider_name} logo`}/></span>)
@@ -73,7 +73,7 @@ const buyList = buyLinks !== null? buyLinks.map(link =>
 
   const streamLink =
   movieDetailedData !== null
-      ? (movieDetailedData.data.["watch/providers"].results.[languageCode] !== undefined? movieDetailedData.data.["watch/providers"].results.[languageCode].link: null)
+      ? (movieDetailedData.["watch/providers"].results.[languageCode] !== undefined? movieDetailedData.["watch/providers"].results.[languageCode].link: null)
       : null
 
     console.log(streamLink)
@@ -81,7 +81,7 @@ const buyList = buyLinks !== null? buyLinks.map(link =>
     console.log(movieDetailedData !== null
     ? buyLinks: null, movieDetailedData !== null
     ? streamLink: null,  movieDetailedData !== null
-    ? movieDetailedData.data : null)
+    ? movieDetailedData : null)
 
     // const justWatchLink = `https://www.justwatch.com/${languageCode}/movie/${addHyphen(movieDetails.title)}`
 
@@ -98,7 +98,7 @@ const buyList = buyLinks !== null? buyLinks.map(link =>
             <HorizontalRule/>
             <span>
               <CenteredText>Besøg TMDB for direkte links til køb og leje af denne titel:</CenteredText>
-              <StyledExternalLink href={streamLink} title={`Go to TMDb.com to get streaming links for ${movieDetails.title}`}><NavigateButton><StyledTmdbLogo /></NavigateButton></StyledExternalLink>
+              <StyledExternalLink tabIndex="-1" href={streamLink} title={`Go to TMDb.com to get streaming links for ${movieDetails.title}`}><NavigateButton><StyledTmdbLogo /></NavigateButton></StyledExternalLink>
             </span>
           </IconHeadline>
         )}

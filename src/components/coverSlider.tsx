@@ -25,7 +25,7 @@ to {
 }
 `
 interface SliderProps {
-  readonly isMobile: boolean
+  readonly isMobile: "mobile" | "desktop"
 }
 
 const Slider = styled.div<SliderProps>`
@@ -60,7 +60,7 @@ const Slider = styled.div<SliderProps>`
     -ms-overflow-style: none;
   }
   .desktop.sliderContainer {
-    animation: ${sliderFadeIn} 1s ease-out;
+    animation: ${sliderFadeIn} 0.5s ease-out 0.5s;
     position: relative;
   }
   .mobile.sliderContainer.left {
@@ -75,8 +75,9 @@ const Slider = styled.div<SliderProps>`
 `
 
 interface MovieCoverProps {
-  isMobile: boolean
-  index: string
+  isMobile: "mobile" | "desktop" | undefined
+  index: "1" | "2"
+  movieData: any
 }
 
 const MovieCovers = ({ isMobile, index, movieData }: MovieCoverProps) => {

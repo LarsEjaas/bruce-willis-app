@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import axios from "axios"
 
 const BASE_URL = "https://api.themoviedb.org/3/"
 const IMAGE_URL = "https://image.tmdb.org/t/p/"
@@ -8,7 +7,7 @@ interface useFetchProps {
   type: "person" | "movie"
   id: string | null
   data: null | object
-  language: "da" | "en"
+  language: string
 }
 
 interface Idata {
@@ -20,7 +19,7 @@ interface Idata {
 }
 
 interface Ientry {
-  release_date: { data: string }
+  release_date?: { data: string }
 }
 
 interface IsortedObj {
@@ -35,17 +34,17 @@ export const useFetchAbout = ({ type, id, language }: useFetchProps) => {
   const fetchData = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(
+      const response = await fetch(
         `${BASE_URL}${type}/${id}?api_key=${process.env.GATSBY_TMDB_API_KEY}&language=${translation}`
       )
-      const APIdata = await response
+      const APIdata = await response.json()
       console.log(APIdata),
         setData({
-          name: APIdata.data.name,
-          biography: APIdata.data.biography,
-          profilePicture: APIdata.data.profile_path,
-          birthday: APIdata.data.birthday,
-          imdb_id: APIdata.data.imdb_id,
+          name: APIdata.name,
+          biography: APIdata.biography,
+          profilePicture: APIdata.profile_path,
+          birthday: APIdata.birthday,
+          imdb_id: APIdata.imdb_id,
         })
     } catch (error) {
       console.log("An error occurred while fetching data:", error)
@@ -65,7 +64,6 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
   const [data, setData] = useState<Idata | null>(null)
   const [isLoading, setLoading] = useState<boolean>(false)
   const [isError, setIsError] = useState<boolean>(false)
-  const [Error, setError] = useState<object | null>(null)
   const translation = language === "da" ? "da-DK" : "en-US"
 
   const cleanData = (obj: object) => {
@@ -144,12 +142,12 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
     console.log("getting data", data)
     setLoading(true)
     try {
-      const response = await axios.get(
+      const response = await fetch(
         `${BASE_URL}${type}/${id}?api_key=${process.env.GATSBY_TMDB_API_KEY}&language=${translation}&append_to_response=details`
       )
-      const APIdata = await response
+      const APIdata = await response.json()
       console.log(response)
-      const cleanedDATA = cleanData(APIdata.data.cast)
+      const cleanedDATA = cleanData(APIdata.cast)
       setData(cleanedDATA)
     } catch (error) {
       setIsError(true)
@@ -175,16 +173,16 @@ const translationDetails = "en-US"
 
 export const useFetchMovieDetails = ({ type, id }: useFetchProps) => {
   const [data, setData] = useState<Idata | null>(null)
-  const [isLoading, setLoading] = useState(true)
+  const [isLoading, setLoading] = useState<boolean>(true)
 
   const fetchData = async () => {
     setLoading(true)
     try {
-      const response = await axios.get(
+      const response = await fetch(
         //681887?api_key=8551b13d1962564c7342bfbbb9e3c5d7&language=en-US&append_to_response=credits,images,videos
         `${BASE_URL}${type}/${id}?api_key=${process.env.GATSBY_TMDB_API_KEY}&language=${translationDetails}&append_to_response=credits,videos,watch/providers`
       )
-      const APIdata = await response
+      const APIdata: any = await response.json()
       console.log(APIdata), setData(APIdata)
     } catch (error) {
       console.log("An error occurred while fetching data:", error)

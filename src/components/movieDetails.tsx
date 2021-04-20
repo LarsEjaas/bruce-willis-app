@@ -371,7 +371,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
 
   let keys =
     movieDetailedData !== null
-      ? movieDetailedData.data.credits.crew.map((crew, index) =>
+      ? movieDetailedData.credits.crew.map((crew, index) =>
           crew.job === "Director" ? crew.name : null
         )
       : null
@@ -380,25 +380,23 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
 
   const hours =
     movieDetailedData !== null
-      ? Math.floor(Number(movieDetailedData.data.runtime) / 60)
+      ? Math.floor(Number(movieDetailedData.runtime) / 60)
       : null
   const minutes =
-    movieDetailedData !== null
-      ? Number(movieDetailedData.data.runtime) % 60
-      : null
+    movieDetailedData !== null ? Number(movieDetailedData.runtime) % 60 : null
 
   //console.log(`${hours}h ${minutes}m`)
   const castListData =
     movieDetailedData !== null
-      ? movieDetailedData.data.credits.cast.length > 1
-        ? movieDetailedData.data.credits.cast
+      ? movieDetailedData.credits.cast.length > 1
+        ? movieDetailedData.credits.cast
         : null
       : null
   //console.log(castListData)
 
   const trailerLinkID =
     movieDetailedData !== null
-      ? movieDetailedData.data.videos.results.map(movie =>
+      ? movieDetailedData.videos.results.map(movie =>
           movie.iso_639_1 === "en"
             ? movie.site === "YouTube"
               ? movie.type === "Trailer"
@@ -416,19 +414,18 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
 
   console.log(trailerLink)
 
-  const imdbId =
-    movieDetailedData !== null ? movieDetailedData.data.imdb_id : null
+  const imdbId = movieDetailedData !== null ? movieDetailedData.imdb_id : null
 
   console.log(
     movieDetailedData !== null ? movieDetailedData : null,
-    movieDetailedData !== null ? movieDetailedData.data.imdb_id : null,
+    movieDetailedData !== null ? movieDetailedData.imdb_id : null,
     imdbId
   )
 
   const enDescription =
     language === "da"
       ? movieDetailedData !== null
-        ? movieDetailedData.data.overview
+        ? movieDetailedData.overview
         : null
       : null
 
@@ -560,6 +557,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
                 Læs mere om denne titel hos <b>IMDB</b>:&nbsp;
               </p>
               <ExternalLink
+                tabIndex={-1}
                 href={`https://www.imdb.com/title/${imdbId}/`}
                 title={`Read about ${movieDetails.title} at TMDb`}
                 className="FullHeight"
@@ -580,6 +578,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
             Læs mere om denne titel hos <b>The Movie Database (TMDb)</b>:&nbsp;
           </p>
           <ExternalLink
+            tabIndex={-1}
             href={`https://www.themoviedb.org/movie/${id}/${language}`}
             title={`Read about ${movieDetails.title} at TMDB`}
             className="FullHeight"

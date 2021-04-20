@@ -10,6 +10,7 @@ type ExternalLinkProps = {
   title: string
   children?: ReactNode
   isMobile?: "mobile" | "desktop"
+  tabIndex?: number | undefined
 }
 
 const ExternalLink = ({
@@ -17,6 +18,7 @@ const ExternalLink = ({
   href,
   title,
   children,
+  tabIndex,
 }: ExternalLinkProps) => {
   const { externModalToggle } = useContext(GlobalContext)
   const sureToLeave = e => {
@@ -26,6 +28,7 @@ const ExternalLink = ({
 
   return (
     <a
+      tabIndex={tabIndex}
       className={className}
       onClick={e => sureToLeave(e)}
       href={href}

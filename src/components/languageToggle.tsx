@@ -82,7 +82,7 @@ const LanguageButton = styled.button<LanguageButtonProps>`
 
 interface LanguageToggleProps {
   location: object
-  className: string
+  className?: string
 }
 
 const LanguageToggle = ({ location, className }: LanguageToggleProps) => {
@@ -95,7 +95,7 @@ const LanguageToggle = ({ location, className }: LanguageToggleProps) => {
 
   return (
     <StyledNav aria-label={t("LANGUAGE_ARIA_LABEL")} className={className}>
-      <Link to={linkPath} activeClassName="active" title="Dansk">
+      <Link tabIndex="-1" to={linkPath} activeClassName="active" title="Dansk">
         <LanguageButton>
           <img src={`../${imageFlag}`} />
         </LanguageButton>

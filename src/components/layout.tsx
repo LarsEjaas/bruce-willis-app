@@ -229,15 +229,19 @@ const Layout = ({ children }: LayoutProps) => {
   )
   const { language } = useI18next()
   const isMobile = DeviceDetectHook()
-  const [modalVisible, setModalVisible] = useState(ModalVisibleInitial)
+  const [modalVisible, setModalVisible] = useState<boolean>(ModalVisibleInitial)
   const [externModalVisible, setExternModalVisible] = useState(
     externModalVisibleInitial
   )
   const [modalType, setModalType] = useState(undefined)
-  const [clickedElement, setClickedElement] = useState(undefined)
-  const [clickedExternLink, setclickedExternLink] = useState(undefined)
+  const [clickedElement, setClickedElement] = useState<HTMLElement | undefined>(
+    undefined
+  )
+  const [clickedExternLink, setclickedExternLink] = useState<
+    HTMLElement | undefined
+  >(undefined)
   const modalToggle = (
-    domNode: HTMLElement | undefined,
+    domNode: HTMLElement,
     typeOfModal:
       | "share"
       | "movie"
@@ -246,7 +250,6 @@ const Layout = ({ children }: LayoutProps) => {
       | "credits"
       | "about"
       | "error"
-      | undefined
   ) => {
     console.log("modal toggled"),
       setClickedElement(domNode),
@@ -289,7 +292,7 @@ const Layout = ({ children }: LayoutProps) => {
 export default Layout
 
 type GlobalContextProps = {
-  isMobile?: any
+  isMobile?: "mobile" | "desktop" | undefined
   setIsMobile: () => void
   ModalVisibleInitial: boolean
   modalVisible: boolean
@@ -331,13 +334,20 @@ type GlobalContextProps = {
   storeClickedElement: () => void
 }
 
-const ModalVisibleInitial = false
-const externModalVisibleInitial = false
-const modalType = undefined
-const isMobile = "mobile"
-console.log(isMobile)
-const clickedElement = undefined
-const clickedExternLink = undefined
+const ModalVisibleInitial: boolean = false
+const externModalVisibleInitial: boolean = false
+const modalType:
+  | "share"
+  | "movie"
+  | "externLink"
+  | "offline"
+  | "credits"
+  | "about"
+  | "error"
+  | undefined = undefined
+const isMobile: "mobile" | "desktop" | undefined = "mobile"
+const clickedElement: HTMLElement | undefined = undefined
+const clickedExternLink: HTMLElement | undefined = undefined
 
 export const GlobalContext = createContext<Partial<GlobalContextProps>>({
   isMobile,

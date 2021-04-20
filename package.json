@@ -23,7 +23,6 @@
     "gatsby-plugin-sharp": "^3.0.0",
     "gatsby-plugin-styled-components": "^4.0.0",
     "gatsby-source-filesystem": "^3.0.0",
-    "gatsby-source-tmdb": "^1.0.2",
     "gatsby-transformer-sharp": "^3.0.0",
     "i18next": "^20.2.1",
     "preact": "^10.5.12",

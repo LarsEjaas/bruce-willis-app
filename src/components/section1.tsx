@@ -241,7 +241,7 @@ const Headline = styled.h1`
     }
     bottom: 24px;
     font-size: clamp(3.5rem, -0.7857rem + 11.4286vw, 8rem);
-    animation: ${HeadlineslideIn} 1.5s ease-out;
+    animation: ${HeadlineslideIn} 0.5s ease-out 0.4s;
     animation-fill-mode: both;
   }
   &.mobile {
@@ -250,7 +250,7 @@ const Headline = styled.h1`
     bottom: 72px;
   }
   &.mobile&.right {
-    animation: ${HeadlineslideIn} 1s ease-out 0.7s;
+    animation: ${HeadlineslideIn} 0.5s ease-out;
     animation-fill-mode: both;
   }
 `
@@ -338,7 +338,7 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
               <TMDBlogoVertical width="13" style={{ margin: "8px 0" }} />
             </StyledExternalLink>
             <Vertical
-              tabIndex="0"
+              tabIndex={0}
               onClick={e => modalToggle(e.currentTarget, "about")}
               onKeyPress={e => keyListener(e)}
               className="desktop"
@@ -346,7 +346,7 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
               {t("MAIN.ABOUT")}
             </Vertical>
             <Vertical
-              tabindex="0"
+              tabIndex={0}
               onClick={e => modalToggle(e.currentTarget, "credits")}
               onKeyPress={e => keyListener(e)}
               className="desktop"
@@ -356,7 +356,7 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
           </Navigation>
           <Navigation className="desktopShare">
             <ShareIcon
-              tabindex="0"
+              tabIndex={0}
               height="32px"
               className="ShareIcon"
               onClick={e => modalToggle(e.currentTarget, "share")}
@@ -408,14 +408,14 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
           </NavTop>
           <Navigation className={index === 1 ? `mobile right` : `mobile left`}>
             <ShareIcon
-              tabindex="0"
+              tabIndex={0}
               height="24px"
               className="ShareIcon mobile"
               onClick={e => modalToggle(e.currentTarget, "share")}
               onKeyPress={e => keyListener(e)}
             />
             <Vertical
-              tabIndex="0"
+              tabIndex={0}
               onClick={e => modalToggle(e.currentTarget, "about")}
               onKeyPress={e => keyListener(e)}
               className="mobile"
@@ -423,7 +423,7 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
               {t("MAIN.ABOUT")}
             </Vertical>
             <Vertical
-              tabIndex="0"
+              tabIndex={0}
               onClick={e => modalToggle(e.currentTarget, "credits")}
               onKeyPress={e => keyListener(e)}
               className="mobile"

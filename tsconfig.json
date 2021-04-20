@@ -13,8 +13,8 @@
       "noUnusedParameters": true,
       "removeComments": false,
       "preserveConstEnums": true,
-      "strictNullChecks": true,
+      "strictNullChecks": false,
       "noImplicitAny": true
       },
-    "include": ["./src/**/*", "custom.d.ts"]
+    "include": ["./src/**/*", "src/types/gatsby-plugin-react-svg.d.ts"]
   }
