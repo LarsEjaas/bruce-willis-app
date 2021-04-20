@@ -60,7 +60,8 @@ const Slider = styled.div<SliderProps>`
     -ms-overflow-style: none;
   }
   .desktop.sliderContainer {
-    animation: ${sliderFadeIn} 0.5s ease-out 0.5s;
+    animation: ${sliderFadeIn} 0.7s ease-out 0.4s;
+    animation-fill-mode: both;
     position: relative;
   }
   .mobile.sliderContainer.left {

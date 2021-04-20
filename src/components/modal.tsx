@@ -48,7 +48,7 @@ const Headline2 = styled.h2`
   margin: 0;
   margin-block-start: 0;
   margin-block-end: 0.4em;
-  line-height: 1.1;
+  line-height: 0.7;
   color: var(--movie-header1-color);
   text-shadow: 4px 4px 4px var(--border-main);
   text-align: center;
@@ -132,7 +132,16 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
                 <>
                   <MovieDetails
                     isMobile={isMobile}
-                    movieId={Number(clickedElement.id)}
+                    movieId={
+                      clickedElement !== undefined
+                        ? Number(
+                            clickedElement.id.substr(
+                              2,
+                              clickedElement.id.length
+                            )
+                          )
+                        : undefined
+                    }
                   />
                 </>
               }
@@ -261,6 +270,7 @@ const ModalContentFrame = styled.div<ModalContentFrameProps>`
   &.error,
   &.credits {
     transform: translate(-50%, calc((100vh - 100%) / 2));
+    width: fit-content;
   }
   & .gatsby-image-wrapper {
     position: absolute;

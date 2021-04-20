@@ -330,13 +330,13 @@ const StyledImdbLogo = styled(ImdbLogo)`
 `
 
 interface MovieDetailsProps {
-  readonly movieId: number
+  readonly movieId: number | undefined
   readonly isMobile: "mobile" | "desktop" | undefined
 }
 
 const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
   const { t } = useTranslation()
-  const id = movieId !== 0 ? movieId : Number(backDropRef.current.id)
+  const id = movieId !== 0 ? movieId : undefined
   const type = "movie"
   const [movieDetailedData, isLoading] = useFetchMovieDetails({ type, id })
   console.log(isMobile)

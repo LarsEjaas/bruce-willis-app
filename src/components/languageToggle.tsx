@@ -29,6 +29,7 @@ const StyledNav = styled.nav<StyledNavProps>`
   z-index: 3;
   position: relative;
   padding: ${props => (props.isMobile === "mobile" ? "20px 8px" : "20px")};
+  width: fit-content;
   &.right {
     animation: ${fadeIn} 1s ease-out 0.6s;
     animation-fill-mode: both;

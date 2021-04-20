@@ -18,7 +18,9 @@ const CoverCard = styled.div<CoverProps>`
   transform-origin: center;
   transform: ${props => (props.active === true ? "scale(1.1)" : "scale(1)")};
   z-index: 1;
-  &:hover {
+  &:hover,
+  &:active,
+  &:focus {
     transform: scale(1.13);
     box-shadow: var(--box-shadow-raised);
     z-index: 2;
@@ -32,7 +34,9 @@ const CoverCard = styled.div<CoverProps>`
     width: 100%;
     top: 0;
   }
-  &:hover img {
+  &:hover img,
+  &:active img,
+  &:focus img {
     filter: unset;
   }
 `
@@ -73,7 +77,7 @@ const Cover = ({ poster_path, original_title, isMobile, id }: CoverProps) => {
       onKeyPress={e => keyListener(e)}
       aria-label=""
       title=""
-      id={id}
+      id={`mc${id}`}
     >
       <picture className={isMobile}>
         <source

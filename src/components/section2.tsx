@@ -3,6 +3,8 @@ import styled, { keyframes } from "styled-components"
 import { StaticImage } from "gatsby-plugin-image"
 import LanguageToggle from "./languageToggle"
 import MovieCovers from "./coverSlider"
+import MovieIndex from "./movieIndex"
+import MovieLabel from "./movieLabel"
 
 const circleFadeIn = keyframes`
 from {
@@ -207,6 +209,8 @@ const Section2 = ({
       index={index}
       isMobile={isMobile}
     />
+    <MovieIndex movieData={movieData} />
+    <MovieLabel movieData={movieData} />
   </Section>
 )
 

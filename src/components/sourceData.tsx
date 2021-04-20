@@ -151,7 +151,6 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
       setData(cleanedDATA)
     } catch (error) {
       setIsError(true)
-      setError(error)
       console.log(
         "An error occurred while fetching data:",
         error,

@@ -26,7 +26,6 @@ export const Main = ({
 }: MainProps) => {
   const [index, setIndex] = useState(1)
   const [hidden, setHidden] = useState(true)
-  console.log(hidden, isMobile === "mobile")
   const togglePage = (e: MouseEvent) => {
     if (typeof window !== undefined) {
       let body = document.querySelector("body")
@@ -43,7 +42,6 @@ export const Main = ({
           setHidden(true)
           console.log("section 2 hidden")
         }, 1000)
-    console.log(hidden)
   }
 
   return (
@@ -71,7 +69,7 @@ export const Main = ({
       )}
       {isMobile === "desktop" && (
         <>
-          <Section1 isMobile={isMobile} />
+          <Section1 isMobile={isMobile} isError={isError} />
           <Section2
             isMobile={isMobile}
             movieData={movieData}
