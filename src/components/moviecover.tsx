@@ -47,22 +47,28 @@ interface CoverProps {
   right?: boolean
   active?: boolean
   id: string
-  original_title: string
+  title: string
   poster_path: string
+  release_date: Date
 }
 
-const Cover = ({ poster_path, original_title, isMobile, id }: CoverProps) => {
+const Cover = ({
+  poster_path,
+  title,
+  isMobile,
+  id,
+  release_date,
+}: CoverProps) => {
   const [active, setActive] = useState<boolean>(false)
 
   const { modalToggle } = useContext(GlobalContext)
+  const year = release_date.getFullYear()
   const handleEnterKey = e => {
-    console.log(e)
     e.currentTarget.click()
   }
 
   const keyListenersMap = new Map([[13, handleEnterKey]])
   function keyListener(e) {
-    console.log(e, e.keyCode)
     // get the listener corresponding to the pressed key
     const listener = keyListenersMap.get(e.keyCode)
     // call the listener if it exists
@@ -76,8 +82,10 @@ const Cover = ({ poster_path, original_title, isMobile, id }: CoverProps) => {
       onClick={e => modalToggle(e.currentTarget, "movie")}
       onKeyPress={e => keyListener(e)}
       aria-label=""
-      title=""
+      title={title}
       id={`mc${id}`}
+      data-id={id}
+      data-year={year}
     >
       <picture className={isMobile}>
         <source
@@ -112,7 +120,7 @@ const Cover = ({ poster_path, original_title, isMobile, id }: CoverProps) => {
         )}
         <img
           src={`https://image.tmdb.org/t/p/w300${poster_path}`}
-          alt={`Movie poster from ${original_title}`}
+          alt={`Movie poster from ${title}`}
           loading="lazy"
         />
       </picture>

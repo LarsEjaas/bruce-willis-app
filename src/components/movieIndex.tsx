@@ -16,7 +16,11 @@ const MoviePin = styled.div`
   }
 `
 
-const IndexSlider = styled.div`
+interface IndexSliderProps {
+  isMobile: "mobile" | "desktop" | undefined
+}
+
+const IndexSlider = styled.div<IndexSliderProps>`
   height: fit-content;
   display: block;
   position: absolute;
@@ -24,6 +28,10 @@ const IndexSlider = styled.div`
   top: 16px;
   z-index: 20;
   width: 50px;
+  z-index: 5;
+  max-height: ${props =>
+    props.isMobile === "mobile" ? "calc(100% - 80px)" : "100%"};
+  overflow: auto;
 `
 
 interface MovieIndexProps {
@@ -38,20 +46,30 @@ const MovieIndex = ({ isMobile, index, movieData }: MovieIndexProps) => {
     if (e.currentTarget === null || typeof window === `undefined`) return
     let hash = e.currentTarget.getAttribute("href")
     hash = hash.substr(1, hash.length)
-    console.log(
-      hash,
-      typeof hash,
-      document.querySelector(`#mc${hash}`),
-      document.querySelector(`#mc9333`),
-      `div${hash}mc`
-    )
-    const target = document.querySelector(`#mc${hash}`)
-    if (target === null) return
-    smoothScroll(target)
-    console.log(target)
-    //const headerOffset = 100
-    //const elementPosition = target.offsetTop
-    //const offsetPosition = elementPosition - headerOffset
+    const target: HTMLElement | null = document.querySelector(`#mc${hash}`)
+
+    target?.addEventListener("scroll", scrollListener(e))
+
+    target?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "nearest",
+    })
+
+    let scrollTimeout: number
+
+    function scrollListener(this: Event) {
+      clearTimeout(scrollTimeout)
+      scrollTimeout = setTimeout(function () {
+        target?.focus()
+        console.log(isMobile)
+      }, 700)
+    }
+
+    target?.removeEventListener("scroll", scrollListener(e))
+    // if (target === null) return
+    // smoothScroll(target)
+    // console.log(target)
   }
 
   const ListItems =
@@ -61,6 +79,9 @@ const MovieIndex = ({ isMobile, index, movieData }: MovieIndexProps) => {
             <a
               onClick={(e: MouseEvent) => SmoothScrollToAnchor(e)}
               href={`#${listMovie.id}`}
+              tabIndex={-1}
+              title={listMovie.title}
+              //   className="moviePin"
             >
               <MoviePin />
             </a>

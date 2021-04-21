@@ -132,16 +132,7 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
                 <>
                   <MovieDetails
                     isMobile={isMobile}
-                    movieId={
-                      clickedElement !== undefined
-                        ? Number(
-                            clickedElement.id.substr(
-                              2,
-                              clickedElement.id.length
-                            )
-                          )
-                        : undefined
-                    }
+                    movieId={Number(clickedElement.getAttribute("data-id"))}
                   />
                 </>
               }

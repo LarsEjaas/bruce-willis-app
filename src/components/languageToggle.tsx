@@ -26,7 +26,7 @@ const fadeOut = keyframes`
 `
 
 const StyledNav = styled.nav<StyledNavProps>`
-  z-index: 3;
+  z-index: 5;
   position: relative;
   padding: ${props => (props.isMobile === "mobile" ? "20px 8px" : "20px")};
   width: fit-content;

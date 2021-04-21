@@ -66,7 +66,8 @@ const Section = styled.section<SectionProps>`
     position: absolute;
     inset: 0;
     border-radius: 0 40px 40px 0;
-    opacity: 0.6;
+    opacity: 0.5;
+    z-index: 2;
   }
   SVG {
     transition: all 0.2s ease-in-out;
@@ -86,6 +87,7 @@ const CircleWrapper = styled.div`
   overflow: hidden;
   position: absolute;
   inset: 0;
+  z-index: 2;
 `
 
 interface Circle2Props {
@@ -209,8 +211,8 @@ const Section2 = ({
       index={index}
       isMobile={isMobile}
     />
-    <MovieIndex movieData={movieData} />
-    <MovieLabel movieData={movieData} />
+    <MovieIndex isMobile={isMobile} movieData={movieData} />
+    <MovieLabel isMobile={isMobile} />
   </Section>
 )
 

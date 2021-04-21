@@ -58,18 +58,19 @@ const GlobalStyle = createGlobalStyle`
 /*Auto adjust height on chrome Android*/
 height: 100%; 
 scroll-behavior: smooth;
-}
+
   /* Hide scrollbar for Chrome, Safari and Opera */
-/* .example::-webkit-scrollbar {
+::-webkit-scrollbar {
   display: none;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
 /* .example { */
-  /* -ms-overflow-style: none;  IE and Edge */
-  /* scrollbar-width: none;   Firefox 
-  }
-}  */
+  -ms-overflow-style: none;  /*IE and Edge */
+  scrollbar-width: none;   /*Firefox*/ 
+  
+/*}  */
+}
 
 body {
   margin:0;

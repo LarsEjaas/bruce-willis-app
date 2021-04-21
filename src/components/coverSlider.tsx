@@ -38,6 +38,7 @@ const Slider = styled.div<SliderProps>`
     height: ${props => (props.isMobile === "mobile" ? "100%" : "717px")};
   }
   inset: 0;
+  z-index: 3;
   .sliderContainer {
     transform: ${props =>
       props.isMobile === "mobile"
@@ -97,10 +98,11 @@ const MovieCovers = ({ isMobile, index, movieData }: MovieCoverProps) => {
           listMovie !== undefined ? (
             <Cover
               poster_path={listMovie.poster_path}
-              original_title={listMovie.original_title}
+              title={listMovie.title}
               isMobile={isMobile}
               id={listMovie.id}
               movieData={movieData}
+              release_date={listMovie.release_date}
             />
           ) : null
         )

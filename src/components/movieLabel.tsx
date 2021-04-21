@@ -1,46 +1,79 @@
 import * as React from "react"
-import { useState, useContext } from "react"
 import styled, { keyframes } from "styled-components"
-import { GlobalContext } from "./layout"
+import ActiveElement from "./activeElementHook"
 
-const LabelContainer = styled.div<CoverProps>`
-  height: fit-content;
-  width: fit-content;
-  display: block;
-  position: absolute;
-  right: 24px;
-  bottom: 16px;
-  z-index: 25;
-  & h2 {
-  }
-  & h3 {
-  }
+const fadeIn = keyframes`
+from {
+  opacity: 0;
+  transform: translateX(-40px) scale(0.9);
+}
+to {
+  opacity: 1;
+  transform: translateX(0);
+}
 `
 
-interface MovieLabelProps {}
+interface MovieLabelProps {
+  readonly isMobile: "mobile" | "desktop" | undefined
+}
 
-const MovieLabel = ({}: MovieLabelProps) => {
-  const [active, setActive] = useState<boolean>(false)
+const LabelContainer = styled.div<MovieLabelProps>`
+  height: fit-content;
+  width: fit-content;
+  position: absolute;
+  left: ${props => (props.isMobile === "mobile" ? "52%" : "55%")};
+  bottom: 48px;
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  max-width: 30%;
+  z-index: 1;
+`
 
-  const { modalToggle } = useContext(GlobalContext)
-  const handleEnterKey = e => {
-    console.log(e)
-    e.currentTarget.click()
-  }
+const Year = styled.h2<MovieLabelProps>`
+  font-family: "Passion One", cursive;
+  font-weight: 700;
+  line-height: 0.7;
+  color: var(--primary-font);
+  font-size: ${props =>
+    props.isMobile === "mobile"
+      ? "clamp(2.7rem, -0.2647rem + 14.8235vw, 9rem)"
+      : "clamp(2.1rem, -0.7750rem + 7.6667vw, 4.4rem)"};
+  text-shadow: #000 -8px 8px 20px;
+  margin-block: 0;
+  width: 100%;
+  text-align: center;
+  animation: ${fadeIn} 0.4s ease-out;
+  animation-fill-mode: both;
+`
 
-  const keyListenersMap = new Map([[13, handleEnterKey]])
-  function keyListener(e) {
-    console.log(e, e.keyCode)
-    // get the listener corresponding to the pressed key
-    const listener = keyListenersMap.get(e.keyCode)
-    // call the listener if it exists
-    return listener && listener(e)
-  }
+const Title = styled.h3`
+  font-family: "Passion One", cursive;
+  font-weight: 700;
+  line-height: 0.8;
+  color: var(--movie-paragraph-color);
+  font-size: clamp(1rem, 0.6364rem + 1.8182vw, 2rem);
+  text-shadow: #000 -8px 8px 12px;
+  margin-block: 0;
+  max-width: 100%;
+  text-align: center;
+  animation: ${fadeIn} 0.4s ease-out;
+  animation-fill-mode: both;
+`
+
+const MovieLabel = ({ isMobile }: MovieLabelProps) => {
+  const [activeMovieId, activeMovieYear, activeMovieTitle] = ActiveElement()
+
+  console.log(activeMovieId, activeMovieYear, activeMovieTitle)
 
   return (
-    <LabelContainer>
-      <h2></h2>
-      <h3></h3>
+    <LabelContainer isMobile={isMobile}>
+      {activeMovieId && (
+        <>
+          <Year isMobile={isMobile}>{activeMovieYear}</Year>
+          <Title isMobile={isMobile}>{activeMovieTitle}</Title>
+        </>
+      )}
     </LabelContainer>
   )
 }
