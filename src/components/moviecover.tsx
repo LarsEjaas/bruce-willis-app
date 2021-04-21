@@ -18,6 +18,9 @@ const CoverCard = styled.div<CoverProps>`
   transform-origin: center;
   transform: ${props => (props.active === true ? "scale(1.1)" : "scale(1)")};
   z-index: 1;
+  &:last-of-type {
+    margin-bottom: 50px;
+  }
   &:hover,
   &:active,
   &:focus {

@@ -54,15 +54,15 @@ const Slider = styled.div<SliderProps>`
       height: 130%;
     }
     @media (min-height: 451px) {
-      height: 110%;
+      height: 111%;
     }
     overflow: auto;
     overflow: -moz-scrollbars-none;
     -ms-overflow-style: none;
   }
   .desktop.sliderContainer {
-    animation: ${sliderFadeIn} 0.7s ease-out 0.4s;
-    animation-fill-mode: both;
+    /* animation: ${sliderFadeIn} 0.7s ease-out 0.4s;
+    animation-fill-mode: both; */
     position: relative;
   }
   .mobile.sliderContainer.left {

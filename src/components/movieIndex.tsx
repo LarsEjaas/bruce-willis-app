@@ -42,26 +42,33 @@ interface MovieIndexProps {
 
 const MovieIndex = ({ isMobile, index, movieData }: MovieIndexProps) => {
   const SmoothScrollToAnchor = (e: MouseEvent) => {
-    e.preventDefault()
     if (e.currentTarget === null || typeof window === `undefined`) return
-    let hash = e.currentTarget.getAttribute("href")
-    hash = hash.substr(1, hash.length)
+    const hash = e.currentTarget.getAttribute("data-movieId")
     const target: HTMLElement | null = document.querySelector(`#mc${hash}`)
 
     target?.addEventListener("scroll", scrollListener(e))
-
-    target?.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-      inline: "nearest",
-    })
+    console.log(target?.nextElementSibling !== null, target.previousSibling)
+    if (target?.nextElementSibling !== null) {
+      target?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "nearest",
+      })
+    } else {
+      console.log(target?.previousSibling)
+      target?.previousSibling.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+      })
+    }
 
     let scrollTimeout: number
 
     function scrollListener(this: Event) {
       clearTimeout(scrollTimeout)
       scrollTimeout = setTimeout(function () {
-        target?.focus()
+        target?.focus({ preventScroll: true })
         console.log(isMobile)
       }, 700)
     }
@@ -78,9 +85,9 @@ const MovieIndex = ({ isMobile, index, movieData }: MovieIndexProps) => {
           listMovie !== undefined ? (
             <a
               onClick={(e: MouseEvent) => SmoothScrollToAnchor(e)}
-              href={`#${listMovie.id}`}
               tabIndex={-1}
               title={listMovie.title}
+              data-movieId={listMovie.id}
               //   className="moviePin"
             >
               <MoviePin />
