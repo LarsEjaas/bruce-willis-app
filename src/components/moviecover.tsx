@@ -21,6 +21,9 @@ const CoverCard = styled.div<CoverProps>`
   &:last-of-type {
     margin-bottom: 50px;
   }
+  &:nth-child(1) {
+    margin-top: 40px;
+  }
   &:hover,
   &:active,
   &:focus {
