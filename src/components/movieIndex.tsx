@@ -1,6 +1,5 @@
 import * as React from "react"
 import styled from "styled-components"
-import { smoothScroll } from "./smoothScroll"
 
 const MoviePin = styled.div`
   width: 40px;
@@ -46,7 +45,7 @@ const MovieIndex = ({ isMobile, index, movieData }: MovieIndexProps) => {
     const hash = e.currentTarget.getAttribute("data-movieId")
     const target: HTMLElement | null = document.querySelector(`#mc${hash}`)
 
-    target?.addEventListener("scroll", scrollListener(e))
+    target?.addEventListener("scroll", scrollListener(e), { passive: true })
     console.log(target?.nextElementSibling !== null, target.previousSibling)
     if (target?.nextElementSibling !== null) {
       target?.scrollIntoView({

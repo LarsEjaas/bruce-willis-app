@@ -12,7 +12,7 @@ const ActiveElement = () => {
     string | null | undefined
   >(null)
 
-  const handleFocusIn = e => {
+  const handleFocusIn = () => {
     setActiveElement(document.activeElement as HTMLElement | null)
   }
 

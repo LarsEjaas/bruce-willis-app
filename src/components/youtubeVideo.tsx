@@ -8,7 +8,7 @@ interface IframeMovieProps {
 const IframeMovie = ({ trailerLink, language }: IframeMovieProps) => {
   return (
     <iframe
-      controls="1"
+      controls={1}
       color="white"
       fs="1"
       hl={language}

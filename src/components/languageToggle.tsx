@@ -38,6 +38,10 @@ const StyledNav = styled.nav<StyledNavProps>`
     animation: ${fadeOut} 0.5s ease-out;
     animation-fill-mode: both;
   }
+  &.desktop {
+    animation: ${fadeIn} 0.6s ease-out 0.4s;
+    animation-fill-mode: both;
+  }
 `
 
 interface LanguageButtonProps {

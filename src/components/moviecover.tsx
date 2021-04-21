@@ -88,6 +88,7 @@ const Cover = ({
       onClick={e => modalToggle(e.currentTarget, "movie")}
       onKeyPress={e => keyListener(e)}
       onTouchMove={e => e.currentTarget.focus({ preventScroll: true })}
+      onMouseEnter={e => e.currentTarget.focus({ preventScroll: true })}
       aria-label=""
       title={title}
       id={`mc${id}`}

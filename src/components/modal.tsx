@@ -99,7 +99,9 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
   const closeModal = e => {
     console.log(
       "closemodal running (not externModal",
-      document.querySelector(".extern.modal-container")
+      document.querySelector(".extern.modal-container"),
+      e.target,
+      e.currentTarget
     )
     if (
       (e.currentTarget === document.querySelector(".modal-container") &&

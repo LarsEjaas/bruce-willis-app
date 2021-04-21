@@ -204,7 +204,9 @@ const Section2 = ({
         className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
       ></Circle4>
     </CircleWrapper>
-    {isMobile === "desktop" && <LanguageToggle location={location} />}
+    {isMobile === "desktop" && (
+      <LanguageToggle location={location} className={isMobile} />
+    )}
     <MovieCovers
       movieData={movieData}
       isLoading={isLoading}

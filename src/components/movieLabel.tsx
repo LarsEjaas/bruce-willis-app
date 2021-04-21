@@ -71,7 +71,7 @@ const MovieLabel = ({ isMobile }: MovieLabelProps) => {
       {activeMovieId && (
         <>
           <Year isMobile={isMobile}>{activeMovieYear}</Year>
-          <Title isMobile={isMobile}>{activeMovieTitle}</Title>
+          <Title>{activeMovieTitle}</Title>
         </>
       )}
     </LabelContainer>

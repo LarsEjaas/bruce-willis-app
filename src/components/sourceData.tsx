@@ -6,8 +6,8 @@ const IMAGE_URL = "https://image.tmdb.org/t/p/"
 interface useFetchProps {
   type: "person" | "movie"
   id: string | null
-  data: null | object
-  language: string
+  data?: null | object
+  language?: string
 }
 
 interface Idata {
