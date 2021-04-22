@@ -68,7 +68,13 @@ const Cover = ({
   const [active, setActive] = useState<boolean>(false)
 
   const { modalToggle } = useContext(GlobalContext)
-  const year = release_date.getFullYear()
+  console.log(
+    release_date,
+    typeof release_date,
+    new Date(release_date),
+    typeof new Date(release_date)
+  )
+  const year = new Date(release_date).getFullYear()
   const handleEnterKey = e => {
     e.currentTarget.click()
   }

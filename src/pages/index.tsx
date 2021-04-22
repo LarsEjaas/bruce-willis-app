@@ -6,6 +6,7 @@ import Layout from "../components/layout"
 import { Main } from "../components/main"
 import SEO from "../components/seo"
 import { useFetchMovieCredits } from "../components/sourceData"
+import { getWithExpiry } from "../components/localStorage"
 
 //Bruce Willis has id: 62
 const id = "62/movie_credits"
@@ -17,11 +18,19 @@ interface IndexProps {
 
 const Index = ({ location }: IndexProps) => {
   const { language } = useI18next()
-  const [movieData, isLoading, isError] = useFetchMovieCredits({
-    type,
-    id,
-    language,
-  })
+
+  const [movieData, isLoading, isError] = getWithExpiry(
+    `movieStorageData-${language}`
+  )
+    ? [getWithExpiry(`movieStorageData-${language}`), false, false]
+    : useFetchMovieCredits({
+        type,
+        id,
+        language,
+      })
+
+  console.log(movieData, isLoading, isError)
+
   const isMobile = DeviceDetectHook()
 
   return (

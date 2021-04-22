@@ -5,6 +5,7 @@ import styled from "styled-components"
 import Backdrop from "./backdrop"
 import Profile from "../images/profile.inline.svg"
 import { useTranslation } from "gatsby-plugin-react-i18next"
+import { getWithExpiry } from "./localStorage"
 
 const backdrop_path = "/ifBIpsuutQlul3Mexjw2QdkFXG4.jpg"
 const original_title =
@@ -147,7 +148,7 @@ const Paragraph = styled.p`
 
 //Bruce Willis has id: 62
 //const id = "62/movie_credits" - for all movie credits
-const id = "62"
+const id = 62
 const type = "person"
 
 //https://api.themoviedb.org/3/person/62?api_key=8551b13d1962564c7342bfbbb9e3c5d7&language=en-US
@@ -160,7 +161,15 @@ interface AboutViewProps {
 const AboutView = ({ isMobile, language }: AboutViewProps) => {
   const { t } = useTranslation()
   console.log(id, type)
-  const [data, isLoading] = useFetchAbout({ type, id, language })
+
+  const [data, isLoading] = getWithExpiry(`movieAbout-${language}`)
+    ? [getWithExpiry(`movieAbout-${language}`), false]
+    : useFetchAbout({
+        type,
+        id,
+        language,
+      })
+  console.log(data, isLoading, isMobile)
 
   let biographyText =
     data !== null ? data.biography.match(/[^\s.!?]+[^.!?\r\n]+[.!?]*/g) : null
@@ -189,14 +198,14 @@ const AboutView = ({ isMobile, language }: AboutViewProps) => {
           <picture>
             <source
               media="(max-width: 599px)"
-              srcSet={`https://www.themoviedb.org/t/p/w180_and_h180_face${data.profilePicture}`}
+              srcSet={`https://www.themoviedb.org/t/p/w180_and_h180_face${data.profile_path}`}
             />
             <source
               media="(min-width: 600px)"
-              srcSet={`https://www.themoviedb.org/t/p/w300_and_h450_face${data.profilePicture}`}
+              srcSet={`https://www.themoviedb.org/t/p/w300_and_h450_face${data.profile_path}`}
             />
             <img
-              src={`https://www.themoviedb.org/t/p/w300_and_h450_face${data.profilePicture}`}
+              src={`https://www.themoviedb.org/t/p/w300_and_h450_face${data.profile_path}`}
               alt={`Profile Picture of ${data.name}`}
             />
           </picture>

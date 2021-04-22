@@ -30,20 +30,20 @@ const ActiveElement = () => {
     setActiveMovieId(idString)
     setActiveMovieYear(yearString)
     setActiveMovieTitle(titleString)
-    console.log(
-      "activeElement: ",
-      activeElement,
-      activeElement?.getAttribute("data-id"),
-      activeElement?.getAttribute("data-year"),
-      idString,
-      yearString,
-      titleString,
-      "-----",
-      activeElement,
-      activeMovieId,
-      activeMovieYear,
-      activeMovieTitle
-    )
+    // console.log(
+    //   "activeElement: ",
+    //   activeElement,
+    //   activeElement?.getAttribute("data-id"),
+    //   activeElement?.getAttribute("data-year"),
+    //   idString,
+    //   yearString,
+    //   titleString,
+    //   "-----",
+    //   activeElement,
+    //   activeMovieId,
+    //   activeMovieYear,
+    //   activeMovieTitle
+    // )
   }, [activeElement])
 
   return [activeMovieId, activeMovieYear, activeMovieTitle]

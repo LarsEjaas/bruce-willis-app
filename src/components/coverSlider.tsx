@@ -84,18 +84,26 @@ interface MovieCoverProps {
 
 const MovieCovers = ({ isMobile, index, movieData }: MovieCoverProps) => {
   const { language } = useI18next()
-  if (movieData !== null) {
-    console.log(movieData)
-    localStorage.setItem(
-      `movieStorageData-${language}`,
-      JSON.stringify(movieData)
-    )
-  }
+  console.log(movieData)
+  // if (movieData !== null) {
+  //   console.log(movieData)
+  //   localStorage.setItem(
+  //     `movieStorageData-${language}`,
+  //     JSON.stringify(movieData)
+  //   )
+  // }
+
+  const consoleList =
+    movieData !== null
+      ? movieData.map(listMovie =>
+          listMovie !== null ? console.log(listMovie.release_date) : null
+        )
+      : null
 
   const movieList =
     movieData !== null
       ? movieData.map(listMovie =>
-          listMovie !== undefined ? (
+          listMovie !== null ? (
             <Cover
               poster_path={listMovie.poster_path}
               title={listMovie.title}

@@ -1,11 +1,13 @@
+import { object } from "prop-types"
 import { useEffect, useState } from "react"
+import { setWithExpiry } from "./localStorage"
 
 const BASE_URL = "https://api.themoviedb.org/3/"
 const IMAGE_URL = "https://image.tmdb.org/t/p/"
 
 interface useFetchProps {
   type: "person" | "movie"
-  id: string | null
+  id: number | null
   data?: null | object
   language?: string
 }
@@ -28,7 +30,7 @@ interface IsortedObj {
 
 export const useFetchAbout = ({ type, id, language }: useFetchProps) => {
   const [data, setData] = useState<Idata | null>(null)
-  const [isLoading, setLoading] = useState(true)
+  const [isLoading, setLoading] = useState<boolean>(true)
   const translation = language === "da" ? "da-DK" : "en-US"
 
   const fetchData = async () => {
@@ -38,18 +40,18 @@ export const useFetchAbout = ({ type, id, language }: useFetchProps) => {
         `${BASE_URL}${type}/${id}?api_key=${process.env.GATSBY_TMDB_API_KEY}&language=${translation}`
       )
       const APIdata = await response.json()
-      console.log(APIdata),
-        setData({
-          name: APIdata.name,
-          biography: APIdata.biography,
-          profilePicture: APIdata.profile_path,
-          birthday: APIdata.birthday,
-          imdb_id: APIdata.imdb_id,
-        })
+      console.log(APIdata), setWithExpiry(`movieAbout-${language}`, APIdata)
+      setData({
+        name: APIdata.name,
+        biography: APIdata.biography,
+        profilePicture: APIdata.profile_path,
+        birthday: APIdata.birthday,
+        imdb_id: APIdata.imdb_id,
+      })
     } catch (error) {
       console.log("An error occurred while fetching data:", error)
     }
-    //console.log(p)
+    //console.log(data)
     setLoading(false)
   }
 
@@ -148,7 +150,9 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
       const APIdata = await response.json()
       console.log(response)
       const cleanedDATA = cleanData(APIdata.cast)
+      console.log(cleanedDATA)
       setData(cleanedDATA)
+      setWithExpiry(`movieStorageData-${language}`, cleanedDATA)
     } catch (error) {
       setIsError(true)
       console.log(
@@ -164,15 +168,16 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
   useEffect(() => {
     fetchData()
   }, [])
-
+  console.log(data)
   return [data, isLoading, isError]
 }
 
 const translationDetails = "en-US"
 
-export const useFetchMovieDetails = ({ type, id }: useFetchProps) => {
+export const useFetchMovieDetails = ({ type, id, language }: useFetchProps) => {
   const [data, setData] = useState<Idata | null>(null)
   const [isLoading, setLoading] = useState<boolean>(true)
+  const [isError, setIsError] = useState<boolean>(false)
 
   const fetchData = async () => {
     setLoading(true)
@@ -182,8 +187,11 @@ export const useFetchMovieDetails = ({ type, id }: useFetchProps) => {
         `${BASE_URL}${type}/${id}?api_key=${process.env.GATSBY_TMDB_API_KEY}&language=${translationDetails}&append_to_response=credits,videos,watch/providers`
       )
       const APIdata: any = await response.json()
-      console.log(APIdata), setData(APIdata)
+      console.log(APIdata)
+      setData(APIdata)
+      setWithExpiry(`movieDetailsData-${id}-${language}`, APIdata)
     } catch (error) {
+      setIsError(true)
       console.log("An error occurred while fetching data:", error)
     }
     setLoading(false)
@@ -193,5 +201,5 @@ export const useFetchMovieDetails = ({ type, id }: useFetchProps) => {
     fetchData()
   }, [])
 
-  return [data, isLoading]
+  return [data, isLoading, isError]
 }

@@ -17,6 +17,7 @@ import IframeMovie from "./youtubeVideo"
 import StreamLinks from "./streamingLinks"
 import Backdrop from "./backdrop"
 import { useI18next, useTranslation } from "gatsby-plugin-react-i18next"
+import { getWithExpiry } from "./localStorage"
 
 const PosterCover = styled.img`
   border-radius: 10px;
@@ -338,9 +339,17 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
   const { t } = useTranslation()
   const id = movieId !== 0 ? movieId : Number(backDropRef.current.id)
   const type = "movie"
-  const [movieDetailedData, isLoading] = useFetchMovieDetails({ type, id })
-  console.log(isMobile)
   const { language } = useI18next()
+  const [movieDetailedData, isLoading, isError] = getWithExpiry(
+    `movieDetailsData-${id}-${language}`
+  )
+    ? [getWithExpiry(`movieDetailsData-${id}-${language}`), false, false]
+    : useFetchMovieDetails({
+        type,
+        id,
+        language,
+      })
+  console.log(movieDetailedData, isLoading, isError, isMobile)
 
   const movieData = JSON.parse(
     localStorage.getItem(`movieStorageData-${language}`)

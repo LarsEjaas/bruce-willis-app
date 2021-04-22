@@ -81,7 +81,7 @@ const MovieIndex = ({ isMobile, index, movieData }: MovieIndexProps) => {
   const ListItems =
     movieData !== null
       ? movieData.map(listMovie =>
-          listMovie !== undefined ? (
+          listMovie !== null ? (
             <a
               onClick={(e: MouseEvent) => SmoothScrollToAnchor(e)}
               tabIndex={-1}

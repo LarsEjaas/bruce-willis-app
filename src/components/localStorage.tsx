@@ -2,7 +2,7 @@
 
 const ttl = 604_800_000 //one week = 7 x 24 x 60 x 60 x 1000
 
-export function setWithExpiry(key, value) {
+export function setWithExpiry(key: string, value: object) {
   const now = new Date()
 
   // `item` is an object which contains the original value
@@ -14,7 +14,7 @@ export function setWithExpiry(key, value) {
   localStorage.setItem(key, JSON.stringify(item))
 }
 
-export function getWithExpiry(key) {
+export function getWithExpiry(key: string) {
   const itemStr = localStorage.getItem(key)
   // if the item doesn't exist, return null
   if (!itemStr) {
