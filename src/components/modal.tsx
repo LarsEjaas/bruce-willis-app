@@ -5,6 +5,8 @@ import {
   createContext,
   useContext,
   createRef,
+  lazy,
+  Suspense,
 } from "react"
 import styled from "styled-components"
 import ReactDOM from "react-dom"
@@ -12,11 +14,14 @@ import Cross from "../svg/cross.inline.svg"
 import { GlobalContext } from "./layout"
 import AboutView from "./about"
 import ShareButtons from "./share"
-import MovieDetails from "./movieDetails"
-import Backdrop from "./backdrop"
+//import MovieDetails from "./movieDetails"
+//import Backdrop from "./backdrop"
 import { SkeletonTheme } from "react-loading-skeleton"
 import { NavigateButton, Paragraph } from "./externalLink"
 import { useTranslation } from "gatsby-plugin-react-i18next"
+
+const Backdrop = lazy(() => import("./backdrop"))
+const MovieDetails = lazy(() => import("./movieDetails"))
 
 interface CrossbuttonProps {
   modalType:
@@ -70,6 +75,7 @@ interface ModalContainerProps {
 }
 
 const ModalContainer = ({ language }: ModalContainerProps) => {
+  const isSSR = typeof window === "undefined"
   const { t } = useTranslation()
   const {
     modalToggle,
@@ -142,10 +148,16 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
                 movieId={Number(clickedElement.id)}
                 movieContent={
                   <>
-                    <MovieDetails
-                      isMobile={isMobile}
-                      movieId={Number(clickedElement.getAttribute("data-id"))}
-                    />
+                    {!isSSR && (
+                      <Suspense fallback={<div />}>
+                        <MovieDetails
+                          isMobile={isMobile}
+                          movieId={Number(
+                            clickedElement.getAttribute("data-id")
+                          )}
+                        />
+                      </Suspense>
+                    )}
                   </>
                 }
               />
@@ -175,12 +187,16 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
                 type={modalType}
                 share={
                   <>
-                    <Backdrop
-                      isMobile={isMobile}
-                      original_title="Social share background"
-                      backdrop_path="socialShare.jpg"
-                      internUrl
-                    />
+                    {!isSSR && (
+                      <Suspense fallback={<div />}>
+                        <Backdrop
+                          isMobile={isMobile}
+                          original_title="Social share background"
+                          backdrop_path="socialShare.jpg"
+                          internUrl
+                        />
+                      </Suspense>
+                    )}
                     <Headline2>Share on Social Media</Headline2>
                     <ShareButtons isMobile={isMobile} />
                   </>
@@ -192,12 +208,16 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
                 type={modalType}
                 error={
                   <>
-                    <Backdrop
-                      isMobile={isMobile}
-                      original_title="404 error background"
-                      backdrop_path="404.jpg"
-                      internUrl
-                    />
+                    {!isSSR && (
+                      <Suspense fallback={<div />}>
+                        <Backdrop
+                          isMobile={isMobile}
+                          original_title="404 error background"
+                          backdrop_path="404.jpg"
+                          internUrl
+                        />
+                      </Suspense>
+                    )}
                     <Headline2>An error occured</Headline2>
                     <Paragraph>Please reload the page to retry...</Paragraph>
                     <NavigateButton onClick={() => location.reload()}>

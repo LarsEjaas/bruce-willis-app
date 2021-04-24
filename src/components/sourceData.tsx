@@ -68,7 +68,7 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
       )
       const APIdata = await response.json()
       console.log(response)
-      const cleanedDATA = CleanData(APIdata.cast)
+      const cleanedDATA = CleanData(APIdata.cast, language)
       console.log(cleanedDATA)
       setData(cleanedDATA)
       setWithExpiry(`movieStorageData-${language}`, cleanedDATA)

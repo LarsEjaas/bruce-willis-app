@@ -1,13 +1,23 @@
 import * as React from "react"
-import { ReactNode, createContext, useContext, useState } from "react"
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useState,
+  lazy,
+  Suspense,
+} from "react"
 import "@fontsource/passion-one/700.css"
 import "@fontsource/passion-one/400.css"
 import "@fontsource/open-sans/400.css"
 import { createGlobalStyle } from "styled-components"
 import { DeviceDetectHook } from "../components/deviceDetect"
-import ModalContainer from "./modal"
-import ExternModalContainer from "./externModal"
+// import ModalContainer from "./modal"
+// import ExternModalContainer from "./externModal"
 import { useI18next } from "gatsby-plugin-react-i18next"
+
+const ModalContainer = lazy(() => import("./modal"))
+const ExternModalContainer = lazy(() => import("./externModal"))
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -225,6 +235,7 @@ type LayoutProps = {
 }
 
 const Layout = ({ children }: LayoutProps) => {
+  const isSSR = typeof window === "undefined"
   const { ModalVisibleInitial, externModalVisibleInitial } = useContext(
     GlobalContext
   )
@@ -283,8 +294,12 @@ const Layout = ({ children }: LayoutProps) => {
         <GlobalStyle />
         {isMobile === "mobile" && <main className={isMobile}>{children}</main>}
         {isMobile === "desktop" && <main className={isMobile}>{children}</main>}
-        <ModalContainer language={language} />
-        <ExternModalContainer />
+        {!isSSR && (
+          <Suspense fallback={<div />}>
+            <ModalContainer language={language} />
+            <ExternModalContainer />
+          </Suspense>
+        )}
       </GlobalContext.Provider>
     </>
   )

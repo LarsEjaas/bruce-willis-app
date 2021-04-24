@@ -437,7 +437,7 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
           </Navigation>
         </>
       )}
-      <StaticImage
+      {/* <StaticImage
         className={
           index === 1 ? `BruceW ${isMobile} right` : `BruceW ${isMobile} left`
         }
@@ -448,7 +448,32 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
         layout="constrained"
         formats={["auto", "webp", "avif"]}
         width={572}
-      />
+      /> */}
+      <picture>
+        <source
+          type="image/avif"
+          srcSet="../286_Bruce_Willis.avif 286w, ../572_Bruce_Willis.avif 572w"
+          sizes="(min-width: 572px) 572px, 100vw"
+        />
+        <source
+          type="image/webp"
+          srcSet="../286_Bruce_Willis.webp 286w,
+../572_Bruce_Willis.webp 572w"
+          sizes="(min-width: 572px) 572px, 100vw"
+        />
+        <img
+          className="BruceW desktop left"
+          // width="572"
+          // height="806"
+          data-main-image=""
+          sizes="(min-width: 572px) 572px, 100vw"
+          loading="eager"
+          src="../572_Bruce_Willis.png"
+          srcSet="../286_Bruce_Willis.png 286w, ../572_Bruce_Willis.png 572w"
+          alt="portrait of Bruce Willis"
+          style={{ objectFit: "cover", opacity: "1" }}
+        />
+      </picture>
       <Headline
         className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
         isMobile={isMobile}

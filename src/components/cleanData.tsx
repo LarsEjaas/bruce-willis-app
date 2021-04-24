@@ -9,9 +9,8 @@ interface IsortedObj {
   release_date: { a: string }
 }
 
-const CleanData = (obj: InterfaceObj) => {
+const CleanData = (obj: InterfaceObj, language: string) => {
   //console.log(obj)
-  const { language } = useI18next()
   const entries = Object.entries(obj)
   entries.forEach(function callback(entry, index) {
     //delete not yet released movies

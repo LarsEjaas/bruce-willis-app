@@ -15,7 +15,8 @@ export function setWithExpiry(key: string, value: object) {
 }
 
 export function getWithExpiry(key: string) {
-  const itemStr = localStorage.getItem(key)
+  const itemStr =
+    typeof window !== "undefined" ? localStorage.getItem(key) : null
   // if the item doesn't exist, return null
   if (!itemStr) {
     return null
@@ -26,7 +27,7 @@ export function getWithExpiry(key: string) {
   if (now.getTime() > item.expiry) {
     // If the item is expired, delete the item from storage
     // and return null
-    localStorage.removeItem(key)
+    if (typeof window !== "undefined") localStorage.removeItem(key)
     return null
   }
   return item.value
