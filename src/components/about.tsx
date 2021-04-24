@@ -147,11 +147,8 @@ const Paragraph = styled.p`
 `
 
 //Bruce Willis has id: 62
-//const id = "62/movie_credits" - for all movie credits
 const id = 62
 const type = "person"
-
-//https://api.themoviedb.org/3/person/62?api_key=8551b13d1962564c7342bfbbb9e3c5d7&language=en-US
 
 interface AboutViewProps {
   isMobile: "desktop" | "mobile" | undefined

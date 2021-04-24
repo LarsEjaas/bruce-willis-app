@@ -58,12 +58,12 @@ const StreamLinks = ({movieDetailedData, language, languageCode,movieYear, movie
 const { t } = useTranslation()
 
 const buyLinks =
-    movieDetailedData !== null?
+    !!movieDetailedData ?
     (movieDetailedData.["watch/providers"].results.[languageCode] !== undefined
       ? movieDetailedData.["watch/providers"].results.[languageCode].buy : null)
       : null
 
-const buyList = buyLinks !== null? buyLinks.map(link =>
+const buyList = buyLinks !== null? buyLinks.map((link: { provider_name: string; logo_path: string }) =>
   <span><StreamName><b>{link.provider_name}</b></StreamName><StreamLogo src={`https://www.themoviedb.org/t/p/original${link.logo_path}`} alt={`${link.provider_name} logo`}/></span>)
     : null
 
@@ -71,9 +71,6 @@ const buyList = buyLinks !== null? buyLinks.map(link =>
   movieDetailedData !== null
       ? (movieDetailedData.["watch/providers"].results.[languageCode] !== undefined? movieDetailedData.["watch/providers"].results.[languageCode].link: null)
       : null
-
-
-    // const justWatchLink = `https://www.justwatch.com/${languageCode}/movie/${addHyphen(movieDetails.title)}`
 
       return (
         <>
@@ -88,7 +85,7 @@ const buyList = buyLinks !== null? buyLinks.map(link =>
             <HorizontalRule/>
             <span>
               <CenteredText>Besøg TMDB for direkte links til køb og leje af denne titel:</CenteredText>
-              <StyledExternalLink tabIndex="-1" href={streamLink} title={`Go to TMDb.com to get streaming links for ${movieDetails.title}`}><NavigateButton><StyledTmdbLogo /></NavigateButton></StyledExternalLink>
+              <StyledExternalLink tabIndex={-1} href={streamLink} title={`Go to TMDb.com to get streaming links for ${movieDetails.title}`}><NavigateButton><StyledTmdbLogo /></NavigateButton></StyledExternalLink>
             </span>
           </IconHeadline>
         )}

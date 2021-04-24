@@ -68,12 +68,12 @@ to {
 }
 `
 
-interface SectionProps {
+interface StyledProps {
   readonly left?: boolean
   readonly isMobile?: "mobile" | "desktop" | undefined
 }
 
-const Section = styled.section<SectionProps>`
+const Section = styled.section<StyledProps>`
   position: relative;
   background: ${props =>
     props.left ? "var(--background1)" : "var(--background2)"};
@@ -121,16 +121,13 @@ const Section = styled.section<SectionProps>`
     transform: scale(1.2);
   }
 `
-interface ExternalLinkProps {
-  readonly isMobile: "mobile" | "desktop" | undefined
-}
 
 const NavTop = styled.div`
   display: flex;
   justify-content: space-between;
 `
 
-const StyledExternalLink = styled(ExternalLink)<ExternalLinkProps>`
+const StyledExternalLink = styled(ExternalLink)<StyledProps>`
   &.EjaasLogo {
     position: ${props =>
       props.isMobile === "mobile" ? "relative" : "absolute"};
@@ -229,7 +226,7 @@ const Vertical = styled.h2`
   }
 `
 
-const Headline = styled.h1`
+const Headline = styled.h1<StyledProps>`
   position: absolute;
   text-shadow: var(--text-shadow-primary);
   z-index: 3;
@@ -260,11 +257,7 @@ const CircleWrapper = styled.div`
   inset: 0;
 `
 
-interface Circle1Props {
-  readonly isMobile: "mobile" | "desktop" | undefined
-}
-
-const Circle1 = styled.div<Circle1Props>`
+const Circle1 = styled.div<StyledProps>`
   height: 0;
   padding-top: ${props =>
     props.isMobile === "mobile" ? "calc(280% - 12px)" : "calc(166% - 12px)"};
@@ -287,13 +280,20 @@ const Circle1 = styled.div<Circle1Props>`
 
 interface Section1Props {
   readonly isMobile?: "mobile" | "desktop" | undefined
-  index: 1 | 2
-  hidden: true | false
-  className: string
+  index?: 1 | 2
+  hidden?: true | false
+  className?: string
   isError: boolean
+  location?: object
+}
+
+interface EventInterface {
+  currentTarget?: HTMLElement
+  keyCode?: number
 }
 
 const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
+  console.log(typeof location, location)
   const { t } = useTranslation()
   const { language } = useI18next()
   const { modalToggle } = useContext(GlobalContext)
@@ -304,13 +304,13 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
     //modalToggle(undefined, "error")
   }, [isError])
 
-  const handleEnterKey = e => {
+  const handleEnterKey = (e: EventInterface) => {
     console.log(e.currentTarget)
     e.currentTarget.click()
   }
 
   const keyListenersMap = new Map([[13, handleEnterKey]])
-  function keyListener(e) {
+  function keyListener(e: EventInterface) {
     console.log(e, e.keyCode)
     // get the listener corresponding to the pressed key
     const listener = keyListenersMap.get(e.keyCode)
@@ -359,8 +359,10 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
               tabIndex={0}
               height="32px"
               className="ShareIcon"
-              onClick={e => modalToggle(e.currentTarget, "share")}
-              onKeyPress={e => keyListener(e)}
+              onClick={(e: EventInterface) =>
+                modalToggle(e.currentTarget, "share")
+              }
+              onKeyPress={(e: EventInterface) => keyListener(e)}
             />
           </Navigation>
           <StyledExternalLink
@@ -411,8 +413,10 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
               tabIndex={0}
               height="24px"
               className="ShareIcon mobile"
-              onClick={e => modalToggle(e.currentTarget, "share")}
-              onKeyPress={e => keyListener(e)}
+              onClick={(e: EventInterface) =>
+                modalToggle(e.currentTarget, "share")
+              }
+              onKeyPress={(e: EventInterface) => keyListener(e)}
             />
             <Vertical
               tabIndex={0}

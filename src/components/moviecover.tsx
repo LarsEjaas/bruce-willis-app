@@ -1,6 +1,6 @@
 import * as React from "react"
-import { useState, useContext } from "react"
-import styled, { keyframes } from "styled-components"
+import { useContext } from "react"
+import styled from "styled-components"
 import { GlobalContext } from "./layout"
 
 const CoverCard = styled.div<CoverProps>`
@@ -55,7 +55,12 @@ interface CoverProps {
   id: string
   title: string
   poster_path: string
-  release_date: Date
+  release_date: string
+}
+
+interface EventInterface {
+  currentTarget?: HTMLElement
+  keyCode?: number
 }
 
 const Cover = ({
@@ -65,8 +70,6 @@ const Cover = ({
   id,
   release_date,
 }: CoverProps) => {
-  const [active, setActive] = useState<boolean>(false)
-
   const { modalToggle } = useContext(GlobalContext)
   console.log(
     release_date,
@@ -75,12 +78,12 @@ const Cover = ({
     typeof new Date(release_date)
   )
   const year = new Date(release_date).getFullYear()
-  const handleEnterKey = e => {
+  const handleEnterKey = (e: EventInterface) => {
     e.currentTarget.click()
   }
 
   const keyListenersMap = new Map([[13, handleEnterKey]])
-  function keyListener(e) {
+  function keyListener(e: EventInterface) {
     // get the listener corresponding to the pressed key
     const listener = keyListenersMap.get(e.keyCode)
     // call the listener if it exists
@@ -90,7 +93,6 @@ const Cover = ({
   return (
     <CoverCard
       tabIndex={0}
-      className={active}
       onClick={e => modalToggle(e.currentTarget, "movie")}
       onKeyPress={e => keyListener(e)}
       onTouchMove={e => e.currentTarget.focus({ preventScroll: true })}
@@ -107,7 +109,6 @@ const Cover = ({
             isMobile === "mobile" ? "(max-width: 432px)" : "(max-width: 865px)"
           }
           srcSet={`https://image.tmdb.org/t/p/w200${poster_path}`}
-          loading="lazy"
         />
         <source
           media={
@@ -116,19 +117,16 @@ const Cover = ({
               : "(min-width: 866px)"
           }
           srcSet={`https://image.tmdb.org/t/p/w300${poster_path}`}
-          loading="lazy"
         />
         {isMobile === "mobile" && (
           <>
             <source
               media="(min-width: 649px) and (max-width: 864px)"
               srcSet={`https://image.tmdb.org/t/p/w400${poster_path}`}
-              loading="lazy"
             />
             <source
               media="(min-width: 865px)"
               srcSet={`https://image.tmdb.org/t/p/w500${poster_path}`}
-              loading="lazy"
             />
           </>
         )}

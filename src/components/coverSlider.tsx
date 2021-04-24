@@ -1,6 +1,5 @@
 import * as React from "react"
 import styled, { keyframes } from "styled-components"
-import { useTranslation, useI18next } from "gatsby-plugin-react-i18next"
 import Cover from "./moviecover"
 
 const sliderFadeIn = keyframes`
@@ -78,43 +77,32 @@ const Slider = styled.div<SliderProps>`
 
 interface MovieCoverProps {
   isMobile: "mobile" | "desktop" | undefined
-  index: "1" | "2"
-  movieData: any
+  index: 1 | 2
+  movieData: Array<object>
 }
 
 const MovieCovers = ({ isMobile, index, movieData }: MovieCoverProps) => {
-  const { language } = useI18next()
   console.log(movieData)
-  // if (movieData !== null) {
-  //   console.log(movieData)
-  //   localStorage.setItem(
-  //     `movieStorageData-${language}`,
-  //     JSON.stringify(movieData)
-  //   )
-  // }
 
-  const consoleList =
-    movieData !== null
-      ? movieData.map(listMovie =>
-          listMovie !== null ? console.log(listMovie.release_date) : null
-        )
-      : null
-
-  const movieList =
-    movieData !== null
-      ? movieData.map(listMovie =>
-          listMovie !== null ? (
+  const movieList = !!movieData
+    ? movieData.map(
+        (listMovie: {
+          poster_path?: string
+          title?: string
+          id?: string
+          release_date?: string
+        }) =>
+          !!listMovie ? (
             <Cover
               poster_path={listMovie.poster_path}
               title={listMovie.title}
               isMobile={isMobile}
               id={listMovie.id}
-              movieData={movieData}
               release_date={listMovie.release_date}
             />
           ) : null
-        )
-      : null
+      )
+    : null
   console.log(movieList)
 
   return (

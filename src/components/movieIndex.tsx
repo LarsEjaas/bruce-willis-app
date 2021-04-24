@@ -8,6 +8,7 @@ const MoviePin = styled.div`
   outline: 1px solid #fff3;
   outline-offset: -4px;
   float: right;
+  cursor: pointer;
   &:hover {
     outline-width: 3px;
     outline-color: var(--movie-paragraph-color);
@@ -35,19 +36,23 @@ const IndexSlider = styled.div<IndexSliderProps>`
 
 interface MovieIndexProps {
   isMobile: "mobile" | "desktop" | undefined
-  index: "1" | "2"
   movieData: any
 }
 
-const MovieIndex = ({ isMobile, index, movieData }: MovieIndexProps) => {
-  const SmoothScrollToAnchor = (e: MouseEvent) => {
-    if (e.currentTarget === null || typeof window === `undefined`) return
+interface EventInterface {
+  currentTarget: HTMLElement
+}
+
+const MovieIndex = ({ isMobile, movieData }: MovieIndexProps) => {
+  const SmoothScrollToAnchor = (e: EventInterface) => {
+    if (!e.currentTarget || typeof window === `undefined`) return
     const hash = e.currentTarget.getAttribute("data-movieId")
     const target: HTMLElement | null = document.querySelector(`#mc${hash}`)
 
-    target?.addEventListener("scroll", scrollListener(e), { passive: true })
-    console.log(target?.nextElementSibling !== null, target.previousSibling)
-    if (target?.nextElementSibling !== null) {
+    // target?.addEventListener("scroll", scrollListener(e), { passive: true })
+    // console.log(target?.nextElementSibling !== null, target)
+    if (!!target.nextElementSibling) {
+      target?.focus({ preventScroll: true })
       target?.scrollIntoView({
         behavior: "smooth",
         block: "center",
@@ -55,6 +60,7 @@ const MovieIndex = ({ isMobile, index, movieData }: MovieIndexProps) => {
       })
     } else {
       console.log(target?.previousSibling)
+      target?.focus({ preventScroll: true })
       target?.previousSibling.scrollIntoView({
         behavior: "smooth",
         block: "start",
@@ -62,38 +68,33 @@ const MovieIndex = ({ isMobile, index, movieData }: MovieIndexProps) => {
       })
     }
 
-    let scrollTimeout: number
+    // let scrollTimeout: number
 
-    function scrollListener(this: Event) {
-      clearTimeout(scrollTimeout)
-      scrollTimeout = setTimeout(function () {
-        target?.focus({ preventScroll: true })
-        console.log(isMobile)
-      }, 700)
-    }
+    // function scrollListener(this: Event) {
+    //   clearTimeout(scrollTimeout)
+    //   scrollTimeout = setTimeout(function () {
+    //     target?.focus({ preventScroll: true })
+    //     console.log(isMobile)
+    //   }, 700)
+    // }
 
-    target?.removeEventListener("scroll", scrollListener(e))
-    // if (target === null) return
-    // smoothScroll(target)
-    // console.log(target)
+    // target?.removeEventListener("scroll", scrollListener(e))
   }
 
-  const ListItems =
-    movieData !== null
-      ? movieData.map(listMovie =>
-          listMovie !== null ? (
-            <a
-              onClick={(e: MouseEvent) => SmoothScrollToAnchor(e)}
-              tabIndex={-1}
-              title={listMovie.title}
-              data-movieId={listMovie.id}
-              //   className="moviePin"
-            >
-              <MoviePin />
-            </a>
-          ) : null
-        )
-      : null
+  const ListItems = !!movieData
+    ? movieData.map(listMovie =>
+        !!listMovie ? (
+          <a
+            onClick={(e: EventInterface) => SmoothScrollToAnchor(e)}
+            tabIndex={-1}
+            title={listMovie.title}
+            data-movieId={listMovie.id}
+          >
+            <MoviePin />
+          </a>
+        ) : null
+      )
+    : null
 
   return <IndexSlider isMobile={isMobile}>{ListItems}</IndexSlider>
 }

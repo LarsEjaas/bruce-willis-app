@@ -335,6 +335,21 @@ interface MovieDetailsProps {
   readonly isMobile: "mobile" | "desktop" | undefined
 }
 
+interface InterfaceMovieDetails {
+  release_date?: string
+  genre_ids?: Array<string>
+  backdrop_path?: string
+  original_title?: string
+  character?: string
+  poster_path?: string
+  overview?: string
+  title?: string
+}
+
+interface InterfaceMovie {
+  id: number
+}
+
 const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
   const { t } = useTranslation()
   const id = movieId !== 0 ? movieId : Number(backDropRef.current.id)
@@ -351,14 +366,15 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
       })
   console.log(movieDetailedData, isLoading, isError, isMobile)
 
-  const movieData = JSON.parse(
-    localStorage.getItem(`movieStorageData-${language}`)
-  )
-  console.log(movieData)
-  const movieDetails = movieData ? movieData.find(findMovie) : null
+  const movieData: Array<object> = getWithExpiry(`movieStorageData-${language}`)
+
+  console.log(movieData, !!movieData)
+  const movieDetails: InterfaceMovieDetails = !!movieData
+    ? movieData.find(findMovie)
+    : null
   console.log(movieId, id)
 
-  function findMovie(movie) {
+  function findMovie(movie: InterfaceMovie) {
     console.log(movie.id, id)
     return movie.id === id
   }
@@ -367,9 +383,11 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
 
   console.log(movieDetailedData !== null ? movieDetailedData : null)
 
-  const movieYear = movieDetails.release_date.split("-")[0]
+  const movieYear = movieDetails?.release_date.split("-")[0]
 
-  const genreList = movieDetails.genre_ids
+  const genreList = movieDetails?.genre_ids
+
+  console.log(genreList)
 
   genreList.forEach((genre_id, index) => {
     let genre = getGenre(language, genre_id.toString())

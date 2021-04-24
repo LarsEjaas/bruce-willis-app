@@ -28,12 +28,12 @@ to {
 }
 `
 
-interface SectionProps {
+interface StyledProps {
   readonly left?: boolean
-  readonly isMobile?: "mobile" | "desktop" | undefined
+  readonly isMobile: "mobile" | "desktop" | undefined
 }
 
-const Section = styled.section<SectionProps>`
+const Section = styled.section<StyledProps>`
   position: relative;
   background: ${props =>
     props.left ? "var(--background1)" : "var(--background2)"};
@@ -90,11 +90,7 @@ const CircleWrapper = styled.div`
   z-index: 2;
 `
 
-interface Circle2Props {
-  readonly isMobile: "mobile" | "desktop" | undefined
-}
-
-const Circle2 = styled.div<Circle2Props>`
+const Circle2 = styled.div<StyledProps>`
   height: 0;
   padding-top: ${props =>
     props.isMobile === "mobile" ? "calc(280% - 12px)" : "calc(166% - 12px)"};
@@ -115,11 +111,7 @@ const Circle2 = styled.div<Circle2Props>`
   }
 `
 
-interface Circle3Props {
-  readonly isMobile: "mobile" | "desktop" | undefined
-}
-
-const Circle3 = styled.div<Circle3Props>`
+const Circle3 = styled.div<StyledProps>`
   height: 0;
   padding-top: ${props =>
     props.isMobile === "mobile" ? "calc(280% - 12px)" : "calc(200% - 12px)"};
@@ -140,11 +132,7 @@ const Circle3 = styled.div<Circle3Props>`
   }
 `
 
-interface Circle4Props {
-  readonly isMobile: "mobile" | "desktop" | undefined
-}
-
-const Circle4 = styled.div<Circle4Props>`
+const Circle4 = styled.div<StyledProps>`
   height: 0;
   padding-top: ${props =>
     props.isMobile === "mobile" ? "calc(280% - 12px)" : "calc(233% - 12px)"};
@@ -207,12 +195,7 @@ const Section2 = ({
     {isMobile === "desktop" && (
       <LanguageToggle location={location} className={isMobile} />
     )}
-    <MovieCovers
-      movieData={movieData}
-      isLoading={isLoading}
-      index={index}
-      isMobile={isMobile}
-    />
+    <MovieCovers movieData={movieData} index={index} isMobile={isMobile} />
     <MovieIndex isMobile={isMobile} movieData={movieData} />
     <MovieLabel isMobile={isMobile} />
   </Section>

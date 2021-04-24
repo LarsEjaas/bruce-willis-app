@@ -17,6 +17,10 @@ interface MainProps {
   isError: boolean
 }
 
+interface EventInterface {
+  currentTarget?: HTMLElement
+}
+
 export const Main = ({
   isMobile,
   movieData,
@@ -26,14 +30,12 @@ export const Main = ({
 }: MainProps) => {
   const [index, setIndex] = useState(1)
   const [hidden, setHidden] = useState(true)
-  const togglePage = (e: MouseEvent) => {
+  const togglePage = (e: EventInterface) => {
     if (typeof window !== undefined) {
       let body = document.querySelector("body")
-      body !== null && body.classList.length > 0
+      !!body && body.classList.length > 0
         ? undefined
-        : body !== null
-        ? body.classList.add("move")
-        : undefined
+        : body.classList.add("move")
     }
     setIndex(parseFloat(e.currentTarget.id))
     hidden === true

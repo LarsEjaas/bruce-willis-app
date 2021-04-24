@@ -18,7 +18,17 @@ import { SkeletonTheme } from "react-loading-skeleton"
 import { NavigateButton, Paragraph } from "./externalLink"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 
-const Crossbutton = styled.button`
+interface CrossbuttonProps {
+  modalType:
+    | "about"
+    | "share"
+    | "offline"
+    | "credits"
+    | "movieContent"
+    | "error"
+}
+
+const Crossbutton = styled.button<CrossbuttonProps>`
   position: absolute;
   right: 24px;
   top: 24px;
@@ -56,7 +66,7 @@ const Headline2 = styled.h2`
 `
 
 interface ModalContainerProps {
-  language: "da" | "en"
+  language: string
 }
 
 const ModalContainer = ({ language }: ModalContainerProps) => {
@@ -110,7 +120,6 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
     )
       return
 
-    //FIND A WAY TO PREVENT THIS WHEN CLOSING EXTERN MODAL!
     document.querySelector(".modal-container").classList.add("fadeOut")
     document.querySelector(".modal-content").classList.add("fadeOut")
     document.querySelector("main").classList.remove("blur")
@@ -125,78 +134,80 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
     <>
       {isModalVisible && (
         <Modal modalType={modalType} onModalClose={e => closeModal(e)}>
-          <Modal.Header modalType={modalType} />
-          {modalType === "movie" && (
-            <Modal.Body
-              type={modalType}
-              movieId={Number(clickedElement.id)}
-              movieContent={
-                <>
-                  <MovieDetails
-                    isMobile={isMobile}
-                    movieId={Number(clickedElement.getAttribute("data-id"))}
-                  />
-                </>
-              }
-            />
-          )}
-          {modalType === "credits" && (
-            <Modal.Body
-              type={modalType}
-              credits={
-                <>
-                  <Headline2>This is credits</Headline2>
-                </>
-              }
-            />
-          )}
-          {modalType === "about" && (
-            <Modal.Body
-              type={modalType}
-              about={
-                <>
-                  <AboutView isMobile={isMobile} language={language} />
-                </>
-              }
-            />
-          )}
-          {modalType === "share" && (
-            <Modal.Body
-              type={modalType}
-              share={
-                <>
-                  <Backdrop
-                    isMobile={isMobile}
-                    original_title="Social share background"
-                    backdrop_path="socialShare.jpg"
-                    internUrl
-                  />
-                  <Headline2>Share on Social Media</Headline2>
-                  <ShareButtons isMobile={isMobile} />
-                </>
-              }
-            />
-          )}
-          {modalType === "error" && (
-            <Modal.Body
-              type={modalType}
-              error={
-                <>
-                  <Backdrop
-                    isMobile={isMobile}
-                    original_title="404 error background"
-                    backdrop_path="404.jpg"
-                    internUrl
-                  />
-                  <Headline2>An error occured</Headline2>
-                  <Paragraph>Please reload the page to retry...</Paragraph>
-                  <NavigateButton onClick={() => location.reload()}>
-                    {t("RELOAD")}
-                  </NavigateButton>
-                </>
-              }
-            />
-          )}
+          <>
+            <Modal.Header modalType={modalType} />
+            {modalType === "movie" && (
+              <Modal.Body
+                type={modalType}
+                movieId={Number(clickedElement.id)}
+                movieContent={
+                  <>
+                    <MovieDetails
+                      isMobile={isMobile}
+                      movieId={Number(clickedElement.getAttribute("data-id"))}
+                    />
+                  </>
+                }
+              />
+            )}
+            {modalType === "credits" && (
+              <Modal.Body
+                type={modalType}
+                credits={
+                  <>
+                    <Headline2>This is credits</Headline2>
+                  </>
+                }
+              />
+            )}
+            {modalType === "about" && (
+              <Modal.Body
+                type={modalType}
+                about={
+                  <>
+                    <AboutView isMobile={isMobile} language={language} />
+                  </>
+                }
+              />
+            )}
+            {modalType === "share" && (
+              <Modal.Body
+                type={modalType}
+                share={
+                  <>
+                    <Backdrop
+                      isMobile={isMobile}
+                      original_title="Social share background"
+                      backdrop_path="socialShare.jpg"
+                      internUrl
+                    />
+                    <Headline2>Share on Social Media</Headline2>
+                    <ShareButtons isMobile={isMobile} />
+                  </>
+                }
+              />
+            )}
+            {modalType === "error" && (
+              <Modal.Body
+                type={modalType}
+                error={
+                  <>
+                    <Backdrop
+                      isMobile={isMobile}
+                      original_title="404 error background"
+                      backdrop_path="404.jpg"
+                      internUrl
+                    />
+                    <Headline2>An error occured</Headline2>
+                    <Paragraph>Please reload the page to retry...</Paragraph>
+                    <NavigateButton onClick={() => location.reload()}>
+                      {t("RELOAD")}
+                    </NavigateButton>
+                  </>
+                }
+              />
+            )}
+          </>
         </Modal>
       )}
     </>
@@ -211,9 +222,15 @@ interface ModalContentFrameProps {
     | "credits"
     | "about"
     | "error"
+  ref?: JSX.Element | null
 }
 
-const StyledModalContainer = styled.div`
+interface StyledModalContainerProps {
+  ref: HTMLElement | null
+  onClick: React.MouseEventHandler
+}
+
+const StyledModalContainer = styled.div<StyledModalContainerProps>`
   position: fixed;
   width: 100vw;
   height: 100%;
@@ -296,12 +313,12 @@ interface ModalProps {
 
 function Modal({ children, onModalClose, modalType }: ModalProps) {
   const { isMobile, clickedElement } = useContext(GlobalContext)
-  const modalRef = createRef()
-  const modalContainerRef = createRef()
+  const modalRef = createRef<HTMLElement | null>()
+  const modalContainerRef = createRef<HTMLElement | null>()
 
   console.log(clickedElement)
   useEffect(() => {
-    function keyListener(e) {
+    function keyListener(e: KeyboardEvent) {
       if (e.keyCode === 27) {
         onModalClose(e)
       }
@@ -312,12 +329,12 @@ function Modal({ children, onModalClose, modalType }: ModalProps) {
     return () => document.removeEventListener("keydown", keyListener)
   }, [])
 
-  const handleTabKey = e => {
-    let focusableModalElements = []
+  const handleTabKey = (e: KeyboardEvent) => {
+    let focusableModalElements: Array<HTMLElement> = []
     const allFocusableModalElements = modalRef.current.querySelectorAll(
       'a[href], button, textarea, input[type="text"], input[type="radio"],input[type="email"], input[type="checkbox"], select'
     )
-    allFocusableModalElements.forEach(element => {
+    allFocusableModalElements.forEach((element: HTMLElement) => {
       if (window.getComputedStyle(element).display !== "none") {
         focusableModalElements.push(element)
       }
@@ -341,7 +358,7 @@ function Modal({ children, onModalClose, modalType }: ModalProps) {
     [9, handleTabKey],
   ])
 
-  function keyListener(e) {
+  function keyListener(e: KeyboardEvent) {
     if (modalRef.current === null) return
     // get the listener corresponding to the pressed key
     const listener = keyListenersMap.get(e.keyCode)
@@ -410,14 +427,14 @@ Modal.Header = function ModalHeader({ modalType }: ModalHeaderProps) {
 }
 
 interface ModalBodyProps {
-  share: JSX.Element
-  movieContent: JSX.Element
-  offline: JSX.Element
-  credits: JSX.Element
-  about: JSX.Element
-  error: JSX.Element
+  share?: JSX.Element
+  movieContent?: JSX.Element
+  offline?: JSX.Element
+  credits?: JSX.Element
+  about?: JSX.Element
+  error?: JSX.Element
   type: string
-  movieId: number
+  movieId?: number
 }
 
 Modal.Body = function ModalBody({
