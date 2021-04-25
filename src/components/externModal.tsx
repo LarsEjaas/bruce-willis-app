@@ -6,7 +6,7 @@ import {
   useContext,
   createRef,
 } from "react"
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import ReactDOM from "react-dom"
 import Cross from "../svg/cross.inline.svg"
 import { GlobalContext } from "./layout"
@@ -46,17 +46,17 @@ const ExternModalContainer = ({}) => {
 
   useEffect(() => {
     if (isMobile === undefined) return
-    externModalVisible
-      ? document.querySelector(".modal-content.movie")
-        ? document.querySelector(".modal-content.movie").classList.add("blur")
-        : document.querySelector("main").classList.add("blur")
-      : undefined
-    console.log(
-      "extern modalVisible changed",
-      isExternModalVisible,
-      externModalVisible,
-      document.querySelector(".modal-body.extern")
-    )
+    // externModalVisible
+    //   ? document.querySelector(".modal-content.movie")
+    //     ? document.querySelector(".modal-content.movie").classList.add("blur")
+    //     : document.querySelector("main").classList.add("blur")
+    //   : undefined
+    // console.log(
+    //   "extern modalVisible changed",
+    //   isExternModalVisible,
+    //   externModalVisible,
+    //   document.querySelector(".modal-body.extern")
+    // )
     setIsExternModalVisible(externModalVisible)
   }, [externModalVisible])
 
@@ -101,9 +101,9 @@ const ExternModalContainer = ({}) => {
 
     document.querySelector(".extern.modal-container").classList.add("fadeOut")
     document.querySelector(".modal-content.extern").classList.add("fadeOut")
-    document.querySelector(".modal-content.movie") !== null
-      ? document.querySelector(".modal-content.movie").classList.remove("blur")
-      : document.querySelector("main").classList.remove("blur")
+    // document.querySelector(".modal-content.movie") !== null
+    // ? document.querySelector(".modal-content.movie").classList.remove("blur")
+    // : document.querySelector("main").classList.remove("blur")
     setTimeout(function () {
       setIsExternModalVisible(false)
       externModalToggle()
@@ -125,6 +125,15 @@ const ExternModalContainer = ({}) => {
   )
 }
 
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`
+
 const StyledExternModalContainer = styled.div`
   position: fixed;
   width: 100vw;
@@ -136,6 +145,14 @@ const StyledExternModalContainer = styled.div`
   will-change: opacity;
   overflow-x: hidden;
   overflow-y: scroll;
+  backdrop-filter: blur(30px);
+  @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    background-color: var(--modal-container-back);
+  }
+  &.fadeOut {
+    animation: ${fadeOut} ease-in 0.4s;
+    animation-fill-mode: both;
+  }
 `
 
 const ModalContentFrame = styled.div`
@@ -156,6 +173,10 @@ const ModalContentFrame = styled.div`
   }
   &.desktop {
     max-width: 1080px;
+  }
+  &.fadeOut {
+    animation: ${fadeOut} ease-in 0.4s;
+    animation-fill-mode: both;
   }
 `
 

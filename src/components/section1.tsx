@@ -11,6 +11,15 @@ import { GlobalContext } from "./layout"
 import { useTranslation, useI18next } from "gatsby-plugin-react-i18next"
 import LanguageToggle from "./languageToggle"
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
+
 const slideIn = keyframes`
 from {
   opacity: 0;
@@ -87,6 +96,14 @@ const Section = styled.section<StyledProps>`
     position: absolute;
     left: 0;
   }
+  .BruceW.right img {
+    animation: ${fadeIn} 0.5s ease-out 0.4s;
+    animation-fill-mode: both;
+  }
+  .BruceW.desktop img {
+    animation: ${fadeIn} 0.5s ease-out 0.2s;
+    animation-fill-mode: both;
+  }
   .BruceW.mobile {
     top: 0;
     bottom: 0;
@@ -140,9 +157,14 @@ const StyledExternalLink = styled(ExternalLink)<StyledProps>`
   }
   &.desktop&.EjaasLogo&.left {
     animation: ${slideUp} 1s ease-out;
+    animation-fill-mode: both;
   }
   &.mobile&.EjaasLogo&.right {
     animation: ${slideDown} 1s ease-out 0.4s;
+    animation-fill-mode: both;
+  }
+  &:not(.mobile).EjaasLogo {
+    animation: ${slideUp} 0.6s ease-out 0.2s;
     animation-fill-mode: both;
   }
   &.mobile&.TMDBlogo {
@@ -198,6 +220,8 @@ const Navigation = styled.nav`
     right: 1px;
     cursor: pointer;
     padding: 24px;
+    animation: ${slideDown} 0.7s ease-out 0.1s;
+    animation-fill-mode: both;
   }
 `
 const Vertical = styled.h2`
@@ -354,9 +378,8 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
               {t("MAIN.CREDITS")}
             </Vertical>
           </Navigation>
-          <Navigation className="desktopShare">
+          <Navigation tabIndex={0} className="desktopShare">
             <ShareIcon
-              tabIndex={0}
               height="32px"
               className="ShareIcon"
               onClick={(e: EventInterface) =>
@@ -449,7 +472,11 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
         formats={["auto", "webp", "avif"]}
         width={572}
       /> */}
-      <picture>
+      <picture
+        className={
+          index === 1 ? `BruceW ${isMobile} right` : `BruceW ${isMobile} left`
+        }
+      >
         <source
           type="image/avif"
           srcSet="../286_Bruce_Willis.avif 286w, ../572_Bruce_Willis.avif 572w"
@@ -462,7 +489,7 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
           sizes="(min-width: 572px) 572px, 100vw"
         />
         <img
-          className="BruceW desktop left"
+          // className="BruceW desktop left"
           // width="572"
           // height="806"
           data-main-image=""

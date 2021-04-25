@@ -86,7 +86,7 @@ const Backdrop = ({
                 ? original_title
                 : `Background image from the movie "${original_title}"`
             }
-            loading="lazy"
+            loading="eager"
           />
         </StyledBackDrop>
       )}

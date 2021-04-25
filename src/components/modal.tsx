@@ -8,7 +8,7 @@ import {
   lazy,
   Suspense,
 } from "react"
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import ReactDOM from "react-dom"
 import Cross from "../svg/cross.inline.svg"
 import { GlobalContext } from "./layout"
@@ -88,10 +88,10 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
 
   useEffect(() => {
     if (isMobile === undefined) return
-    modalVisible
-      ? document.querySelector("main").classList.add("blur")
-      : undefined
-    console.log("modalVisible changed", isModalVisible, modalVisible)
+    // modalVisible
+    //   ? document.querySelector("main").classList.add("blur")
+    //   : undefined
+    // console.log("modalVisible changed", isModalVisible, modalVisible)
     setIsModalVisible(modalVisible)
   }, [modalVisible])
 
@@ -105,7 +105,8 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
             ? document.querySelector(".modal-header > .cross-btn").focus()
             : document.querySelector(".modal-body.error button").focus()
         }, 400)
-      : document.querySelector("main").classList.remove("blur")
+      : null
+    // : document.querySelector("main").classList.remove("blur")
   }, [isModalVisible])
 
   const handleChange = e => {
@@ -128,7 +129,6 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
 
     document.querySelector(".modal-container").classList.add("fadeOut")
     document.querySelector(".modal-content").classList.add("fadeOut")
-    document.querySelector("main").classList.remove("blur")
     setTimeout(function () {
       setIsModalVisible(false)
       modalToggle()
@@ -250,6 +250,15 @@ interface StyledModalContainerProps {
   onClick: React.MouseEventHandler
 }
 
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`
+
 const StyledModalContainer = styled.div<StyledModalContainerProps>`
   position: fixed;
   width: 100vw;
@@ -261,6 +270,14 @@ const StyledModalContainer = styled.div<StyledModalContainerProps>`
   will-change: opacity;
   overflow-x: hidden;
   overflow-y: scroll;
+  backdrop-filter: blur(30px);
+  @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    background-color: var(--modal-container-back);
+  }
+  &.fadeOut {
+    animation: ${fadeOut} ease-in 0.4s;
+    animation-fill-mode: both;
+  }
 `
 
 const ModalContentFrame = styled.div<ModalContentFrameProps>`
@@ -274,7 +291,6 @@ const ModalContentFrame = styled.div<ModalContentFrameProps>`
   background: var(--background2);
   border: 2px solid var(--icon-hover-color2);
   will-change: opacity;
-  will-change: filter;
   overflow: hidden;
   transition: all 0.4s;
   :not(.extern, .credits, .share) {
@@ -311,10 +327,17 @@ const ModalContentFrame = styled.div<ModalContentFrameProps>`
     opacity: 0.7;
     -mask-image: linear-gradient(to top, transparent 12%, black 100%);
     -webkit-mask-image: linear-gradient(to top, transparent 12%, black 100%);
+  }&.fadeOut {
+    animation: ${fadeOut} ease-in 0.4s;
+    animation-fill-mode: both;
   }
 `
+
 const ModalBodyContent = styled.div`
   padding: 24px;
+  &.movie {
+    min-height: 100vh;
+  }
 `
 
 const modalContext = createContext(null)

@@ -94,13 +94,28 @@ const LanguageToggle = ({ location, className }: LanguageToggleProps) => {
   const { t } = useTranslation()
   const { language } = useI18next()
 
+  const noMove = () => {
+    if (typeof window !== undefined) {
+      let body = document.querySelector("body")
+      !!body && body.classList.contains("move")
+        ? body.classList.remove("move")
+        : null
+    }
+  }
+
   console.log(location.pathname, typeof location, language, typeof language)
   const imageFlag = language === "da" ? "DKK.png" : "GBP.png"
   const linkPath = location.pathname === "/" ? "/en/" : "../"
 
   return (
     <StyledNav aria-label={t("LANGUAGE_ARIA_LABEL")} className={className}>
-      <Link tabIndex="-1" to={linkPath} activeClassName="active" title="Dansk">
+      <Link
+        tabIndex={-1}
+        to={linkPath}
+        onClick={(e: MouseEvent) => noMove(e)}
+        activeClassName="active"
+        title="Dansk"
+      >
         <LanguageButton>
           <img src={`../${imageFlag}`} />
         </LanguageButton>

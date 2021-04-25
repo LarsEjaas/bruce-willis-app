@@ -25,8 +25,8 @@ height: 50px;
 margin: 0.5em 0;
 `
 
-const HorizontalRule = styled.hr`
-    margin-left: 3em;
+const HorizontalRule = styled.hr<StreamLinksProps>`
+    margin-left: ${props => (props.isMobile === "mobile" ? "1em" : "3em")};
     width: calc(100% - 6em);
     @media (max-width: 455px) {
       width: unset;
@@ -51,9 +51,10 @@ interface StreamLinksProps {
   languageCode: "DK" | "US"
   movieDetails: object | null
   movieYear: string | null
+  readonly isMobile: "mobile" | "desktop" | undefined
 }
 
-const StreamLinks = ({movieDetailedData, language, languageCode,movieYear, movieDetails}: StreamLinksProps) => {
+const StreamLinks = ({movieDetailedData, language, languageCode,movieYear, movieDetails, isMobile}: StreamLinksProps) => {
 
 const { t } = useTranslation()
 
@@ -75,14 +76,14 @@ const buyList = buyLinks !== null? buyLinks.map((link: { provider_name: string; 
       return (
         <>
         {buyList && (
-          <IconHeadline fullWidth>
+          <IconHeadline fullWidth isMobile={isMobile}>
             <span>
               <Television style={{ top: "0" }} />
               <Headline3>{t("MOVIEDETAILS.BUY_OR_STREAM")}</Headline3>
             </span>
             <CenteredText>Du kan i øjeblikket leje eler købe titlen med danske undertekster her:</CenteredText>
             {buyList}
-            <HorizontalRule/>
+            <HorizontalRule isMobile={isMobile}/>
             <span>
               <CenteredText>Besøg TMDB for direkte links til køb og leje af denne titel:</CenteredText>
               <StyledExternalLink tabIndex={-1} href={streamLink} title={`Go to TMDb.com to get streaming links for ${movieDetails.title}`}><NavigateButton><StyledTmdbLogo /></NavigateButton></StyledExternalLink>

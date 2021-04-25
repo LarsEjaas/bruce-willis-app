@@ -18,6 +18,7 @@ import StreamLinks from "./streamingLinks"
 import Backdrop from "./backdrop"
 import { useI18next, useTranslation } from "gatsby-plugin-react-i18next"
 import { getWithExpiry } from "./localStorage"
+import AlsoStarring from "./alsoStarring"
 
 const PosterCover = styled.img`
   border-radius: 10px;
@@ -144,6 +145,7 @@ const Paragraph = styled.p`
 `
 interface IconHeadlineProps {
   readonly fullWidth?: boolean | undefined
+  readonly isMobile: "mobile" | "desktop" | undefined
 }
 
 export const IconHeadline = styled.div<IconHeadlineProps>`
@@ -169,13 +171,13 @@ export const IconHeadline = styled.div<IconHeadlineProps>`
     position: relative;
     filter: drop-shadow(4px 4px 4px var(--border-main));
   }
-  & p {
+  & p:not(.starringAs) {
     white-space: break-spaces;
     color: var(--movie-paragraph-color);
     margin-block-start: auto;
     margin-block-end: auto;
     font-size: 16px;
-    margin-left: 3em;
+    margin-left: ${props => (props.isMobile === "mobile" ? "1em" : "3em")};
     flex-basis: 500px;
   }
   & .FullHeight {
@@ -190,8 +192,8 @@ const MovieWrapper = styled.div`
   position: relative;
   & div {
     position: absolute;
-    width: 90%;
-    height: 90%;
+    width: 100%;
+    height: 100%;
     top: 0;
     border-radius: 12px;
     overflow: hidden;
@@ -209,12 +211,12 @@ const MovieWrapper = styled.div`
   }
 `
 
-const CastlistWrapper = styled.div`
-  display: inline-flex;
-  flex-wrap: wrap;
-  width: 100%;
-  justify-content: space-evenly;
-`
+// const CastlistWrapper = styled.div`
+//   display: inline-flex;
+//   flex-wrap: wrap;
+//   width: 100%;
+//   justify-content: space-evenly;
+// `
 
 export const Headline3 = styled.h3`
   font-family: "Passion One", cursive;
@@ -413,12 +415,12 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
     movieDetailedData !== null ? Number(movieDetailedData.runtime) % 60 : null
 
   //console.log(`${hours}h ${minutes}m`)
-  const castListData =
-    movieDetailedData !== null
-      ? movieDetailedData.credits.cast.length > 1
-        ? movieDetailedData.credits.cast
-        : null
-      : null
+  // const castListData =
+  //   movieDetailedData !== null
+  //     ? movieDetailedData.credits.cast.length > 1
+  //       ? movieDetailedData.credits.cast
+  //       : null
+  //     : null
   //console.log(castListData)
 
   const trailerLinkID =
@@ -456,37 +458,37 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
         : null
       : null
 
-  const castList =
-    castListData !== null
-      ? castListData.map((cast, index) =>
-          cast.original_name !== "Bruce Willis" ? (
-            index < 7 ? (
-              cast.profile_path !== null ? (
-                <>
-                  <CastCard isMobile={isMobile}>
-                    <ExternalLink
-                      href={`https://www.themoviedb.org/person/${cast.id}`}
-                      title={`Details about ${cast.original_name}`} //skal oversættes
-                    >
-                      <div>
-                        <Profile />
-                        <img
-                          src={`https://www.themoviedb.org/t/p/w180_and_h180_face${cast.profile_path}`}
-                        />
-                      </div>
-                    </ExternalLink>
-                    <h2>{cast.original_name}</h2>
-                    <p>{t("MOVIEDETAILS.STARRING_AS")}</p>
-                    <h3>{cast.character}</h3>
-                  </CastCard>
-                </>
-              ) : null
-            ) : null
-          ) : null
-        )
-      : null
+  // const castList =
+  //   castListData !== null
+  //     ? castListData.map((cast, index) =>
+  //         cast.original_name !== "Bruce Willis" ? (
+  //           index < 7 ? (
+  //             cast.profile_path !== null ? (
+  //               <>
+  //                 <CastCard isMobile={isMobile}>
+  //                   <ExternalLink
+  //                     href={`https://www.themoviedb.org/person/${cast.id}`}
+  //                     title={`Details about ${cast.original_name}`} //skal oversættes
+  //                   >
+  //                     <div>
+  //                       <Profile />
+  //                       <img
+  //                         src={`https://www.themoviedb.org/t/p/w180_and_h180_face${cast.profile_path}`}
+  //                       />
+  //                     </div>
+  //                   </ExternalLink>
+  //                   <h2>{cast.original_name}</h2>
+  //                   <p>{t("MOVIEDETAILS.STARRING_AS")}</p>
+  //                   <h3>{cast.character}</h3>
+  //                 </CastCard>
+  //               </>
+  //             ) : null
+  //           ) : null
+  //         ) : null
+  //       )
+  //     : null
 
-  console.log(castList !== null && castList.length === 1)
+  // console.log(castList !== null && castList.length === 1)
 
   const languageCode = language === "da" ? "DK" : "US"
 
@@ -515,7 +517,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
       <PosterCover
         src={`https://image.tmdb.org/t/p/w200${movieDetails.poster_path}`}
         alt={`Movie poster from ${movieDetails.original_title}`}
-        loading="lazy"
+        loading="eager"
       />
       {!movieDetails.overview && language === "da" && (
         <Note>{t("MOVIEDETAILS.ONLY_ENGLISH_DESCRIPTION")}</Note>
@@ -523,16 +525,32 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
       <Paragraph>
         {movieDetails.overview ? movieDetails.overview : enDescription}
       </Paragraph>
-      {Director && (
-        <IconHeadline>
+      {!!isLoading ? (
+        <IconHeadline isMobile={isMobile}>
           <span>
             <ChairDirector />
             <Headline3>{t("MOVIEDETAILS.DIRECTOR")}</Headline3>
           </span>
-          <p>{Director}</p>
+          <Skeleton
+            style={{
+              fontSize: "16px",
+              marginLeft: "2em",
+            }}
+            width={"130px"}
+          />
         </IconHeadline>
+      ) : (
+        Director && (
+          <IconHeadline isMobile={isMobile}>
+            <span>
+              <ChairDirector />
+              <Headline3>{t("MOVIEDETAILS.DIRECTOR")}</Headline3>
+            </span>
+            <p>{Director}</p>
+          </IconHeadline>
+        )
       )}
-      <IconHeadline>
+      <IconHeadline isMobile={isMobile}>
         <span>
           <SandTime />
           <Headline3>{`${hours}${t(
@@ -540,17 +558,13 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
           )} ${minutes}m`}</Headline3>
         </span>
       </IconHeadline>
-      {castList && (
-        <IconHeadline fullWidth>
-          <span>
-            <FemaleMale />
-            <Headline3>{t("MOVIEDETAILS.ALSO_STARRING")}</Headline3>
-          </span>
-          <CastlistWrapper>{castList}</CastlistWrapper>
-        </IconHeadline>
-      )}
+      <AlsoStarring
+        movieDetailedData={movieDetailedData}
+        isMobile={isMobile}
+        isLoading={isLoading}
+      />
       {trailerLink && (
-        <IconHeadline fullWidth>
+        <IconHeadline fullWidth isMobile={isMobile}>
           <span>
             <PlayTrailer />
             <Headline3>{t("MOVIEDETAILS.TRAILER")}</Headline3>
@@ -571,8 +585,9 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
         movieYear={movieYear}
         language={language}
         languageCode={languageCode}
+        isMobile={isMobile}
       />
-      <IconHeadline fullWidth>
+      <IconHeadline fullWidth isMobile={isMobile}>
         <span>
           <Books />
           <Headline3>{t("MOVIEDETAILS.READ_MORE")}</Headline3>

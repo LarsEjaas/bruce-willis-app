@@ -6,9 +6,10 @@ const MoviePin = styled.div`
   height: 2px;
   padding: 3px;
   outline: 1px solid #fff3;
-  outline-offset: -4px;
+  outline-offset: -3px;
   float: right;
   cursor: pointer;
+  transition: outline-color 0.15s ease-in-out;
   &:hover {
     outline-width: 3px;
     outline-color: var(--movie-paragraph-color);

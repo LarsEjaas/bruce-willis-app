@@ -43,7 +43,7 @@ export const Main = ({
       : setTimeout(function () {
           setHidden(true)
           console.log("section 2 hidden")
-        }, 1000)
+        }, 1300)
   }
 
   return (

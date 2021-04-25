@@ -71,12 +71,12 @@ const Cover = ({
   release_date,
 }: CoverProps) => {
   const { modalToggle } = useContext(GlobalContext)
-  console.log(
-    release_date,
-    typeof release_date,
-    new Date(release_date),
-    typeof new Date(release_date)
-  )
+  // console.log(
+  //   release_date,
+  //   typeof release_date,
+  //   new Date(release_date),
+  //   typeof new Date(release_date)
+  // )
   const year = new Date(release_date).getFullYear()
   const handleEnterKey = (e: EventInterface) => {
     e.currentTarget.click()
