@@ -1,8 +1,8 @@
 import * as React from "react"
 
 interface IframeMovieProps {
-  trailerLink: string
-  language: "da" | "en"
+  readonly trailerLink: string
+  readonly language: string
 }
 
 const IframeMovie = ({ trailerLink, language }: IframeMovieProps) => {
@@ -10,7 +10,7 @@ const IframeMovie = ({ trailerLink, language }: IframeMovieProps) => {
     <iframe
       controls={1}
       color="white"
-      fs="1"
+      fs={1}
       hl={language}
       cc_lang_pref={language}
       src={`https://www.youtube.com/embed/${trailerLink}?controls=0`}

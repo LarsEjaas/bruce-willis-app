@@ -5,7 +5,7 @@ import FemaleMale from "../images/female_male.inline.svg"
 import Profile from "../images/profile.inline.svg"
 import ExternalLink from "./externalLink"
 import { IconHeadline, Headline3 } from "./movieDetails"
-import { useI18next, useTranslation } from "gatsby-plugin-react-i18next"
+import { useTranslation } from "gatsby-plugin-react-i18next"
 
 const CastlistWrapper = styled.div`
   display: inline-flex;
@@ -26,7 +26,7 @@ const CastCard = styled.div<CastCardProps>`
   min-width: 70px;
   display: flex;
   flex-direction: column;
-  margin-right: 12px;
+  margin: 0 12px 0.8em 0;
   & a {
     margin: 0 auto;
     width: 100%;
@@ -102,6 +102,10 @@ const CastCard = styled.div<CastCardProps>`
     margin-block-end: 0.4em;
     color: var(--movie-paragraph-color);
   }
+  & span {
+    line-height: 0.9;
+    text-align: center;
+  }
 `
 
 interface StarringProps {
@@ -116,47 +120,43 @@ const AlsoStarring = ({
   isLoading,
 }: StarringProps) => {
   const { t } = useTranslation()
-  const castListData =
-    movieDetailedData !== null
-      ? movieDetailedData.credits.cast.length > 1
-        ? movieDetailedData.credits.cast
-        : null
+  const castListData = !!movieDetailedData
+    ? movieDetailedData.credits?.cast.length > 1
+      ? movieDetailedData.credits?.cast
       : null
+    : null
   //console.log(castListData)
 
-  const castList =
-    castListData !== null
-      ? castListData.map((cast, index) =>
-          cast.original_name !== "Bruce Willis" ? (
-            index < 7 ? (
-              cast.profile_path !== null ? (
-                <>
-                  <CastCard isMobile={isMobile}>
-                    <ExternalLink
-                      href={`https://www.themoviedb.org/person/${cast.id}`}
-                      title={`Details about ${cast.original_name}`} //skal oversættes
-                    >
-                      <div>
-                        <Profile className="profile" />
-                        <img
-                          src={`https://www.themoviedb.org/t/p/w180_and_h180_face${cast.profile_path}`}
-                        />
-                      </div>
-                    </ExternalLink>
-                    <h2>{cast.original_name}</h2>
-                    <p className="starringAs">
-                      {t("MOVIEDETAILS.STARRING_AS")}
-                    </p>
-                    <h3>{cast.character}</h3>
-                  </CastCard>
-                </>
-              ) : null
+  const castList = !!castListData
+    ? castListData.map((cast: any, index: number) =>
+        cast.original_name !== "Bruce Willis" ? (
+          index < 7 ? (
+            !!cast.profile_path ? (
+              <>
+                <CastCard isMobile={isMobile}>
+                  <ExternalLink
+                    href={`https://www.themoviedb.org/person/${cast.id}`}
+                    title={`Details about ${cast.original_name}`} //skal oversættes
+                  >
+                    <div>
+                      <Profile className="profile" />
+                      <img
+                        src={`https://www.themoviedb.org/t/p/w180_and_h180_face${cast.profile_path}`}
+                      />
+                    </div>
+                  </ExternalLink>
+                  <h2>{cast.original_name}</h2>
+                  <p className="starringAs">{t("MOVIEDETAILS.STARRING_AS")}</p>
+                  <h3>{cast.character}</h3>
+                </CastCard>
+              </>
             ) : null
           ) : null
-        )
-      : null
+        ) : null
+      )
+    : null
 
-  console.log(castList !== null && castList.length === 1)
+  console.log(!!castList && castList.length === 1)
 
   return (
     <>
@@ -180,9 +180,32 @@ const AlsoStarring = ({
                 />
                 <Profile className="profile" />
               </div>
-              <h2>CAST NAME</h2>
-              <p className="starringAs">AS</p>
-              <h3>CAST CARACTER</h3>
+              <Skeleton
+                style={{
+                  fontSize: "0.9em",
+                  lineHeight: "0.9",
+                  marginBlock: "0 0.2em",
+                  maxWidth: "100px",
+                }}
+                count={2}
+              />
+              <Skeleton
+                style={{
+                  fontSize: "1em",
+                  width: "30px",
+                  lineHeight: "1",
+                  marginBlock: "0.7em",
+                }}
+              />
+              <Skeleton
+                style={{
+                  fontSize: "0.9em",
+                  lineHeight: "0.9",
+                  marginBlock: "0 0.2em",
+                  maxWidth: "100px",
+                }}
+                count={2}
+              />
             </CastCard>
             <CastCard isMobile={isMobile}>
               <div>
@@ -197,9 +220,32 @@ const AlsoStarring = ({
                 />
                 <Profile className="profile" />
               </div>
-              <h2>CAST NAME</h2>
-              <p className="starringAs">AS</p>
-              <h3>CAST CARACTER</h3>
+              <Skeleton
+                style={{
+                  fontSize: "0.9em",
+                  lineHeight: "0.9",
+                  marginBlock: "0 0.2em",
+                  maxWidth: "100px",
+                }}
+                count={2}
+              />
+              <Skeleton
+                style={{
+                  fontSize: "1em",
+                  width: "30px",
+                  lineHeight: "1",
+                  marginBlock: "0.7em",
+                }}
+              />
+              <Skeleton
+                style={{
+                  fontSize: "0.9em",
+                  lineHeight: "0.9",
+                  marginBlock: "0 0.2em",
+                  maxWidth: "100px",
+                }}
+                count={2}
+              />
             </CastCard>
             <CastCard isMobile={isMobile}>
               <div>
@@ -214,9 +260,32 @@ const AlsoStarring = ({
                 />
                 <Profile className="profile" />
               </div>
-              <h2>CAST NAME</h2>
-              <p className="starringAs">AS</p>
-              <h3>CAST CARACTER</h3>
+              <Skeleton
+                style={{
+                  fontSize: "0.9em",
+                  lineHeight: "0.9",
+                  marginBlock: "0 0.2em",
+                  maxWidth: "100px",
+                }}
+                count={2}
+              />
+              <Skeleton
+                style={{
+                  fontSize: "1em",
+                  width: "30px",
+                  lineHeight: "1",
+                  marginBlock: "0.7em",
+                }}
+              />
+              <Skeleton
+                style={{
+                  fontSize: "0.9em",
+                  lineHeight: "0.9",
+                  marginBlock: "0 0.2em",
+                  maxWidth: "100px",
+                }}
+                count={2}
+              />
             </CastCard>
             <CastCard isMobile={isMobile}>
               <div>
@@ -231,9 +300,32 @@ const AlsoStarring = ({
                 />
                 <Profile className="profile" />
               </div>
-              <h2>CAST NAME</h2>
-              <p className="starringAs">AS</p>
-              <h3>CAST CARACTER</h3>
+              <Skeleton
+                style={{
+                  fontSize: "0.9em",
+                  lineHeight: "0.9",
+                  marginBlock: "0 0.2em",
+                  maxWidth: "100px",
+                }}
+                count={2}
+              />
+              <Skeleton
+                style={{
+                  fontSize: "1em",
+                  width: "30px",
+                  lineHeight: "1",
+                  marginBlock: "0.7em",
+                }}
+              />
+              <Skeleton
+                style={{
+                  fontSize: "0.9em",
+                  lineHeight: "0.9",
+                  marginBlock: "0 0.2em",
+                  maxWidth: "100px",
+                }}
+                count={2}
+              />
             </CastCard>
             <CastCard isMobile={isMobile}>
               <div>
@@ -248,9 +340,32 @@ const AlsoStarring = ({
                 />
                 <Profile className="profile" />
               </div>
-              <h2>CAST NAME</h2>
-              <p className="starringAs">AS</p>
-              <h3>CAST CARACTER</h3>
+              <Skeleton
+                style={{
+                  fontSize: "0.9em",
+                  lineHeight: "0.9",
+                  marginBlock: "0 0.2em",
+                  maxWidth: "100px",
+                }}
+                count={2}
+              />
+              <Skeleton
+                style={{
+                  fontSize: "1em",
+                  width: "30px",
+                  lineHeight: "1",
+                  marginBlock: "0.7em",
+                }}
+              />
+              <Skeleton
+                style={{
+                  fontSize: "0.9em",
+                  lineHeight: "0.9",
+                  marginBlock: "0 0.2em",
+                  maxWidth: "100px",
+                }}
+                count={2}
+              />
             </CastCard>
           </CastlistWrapper>
         </IconHeadline>

@@ -1,98 +1,191 @@
 import * as React from "react"
+import Skeleton from "react-loading-skeleton"
 import styled from "styled-components"
 import Television from "../images/television.inline.svg"
 import { IconHeadline, Headline3, StyledTmdbLogo } from "./movieDetails"
 import ExternalLink, { NavigateButton } from "./externalLink"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 
-const StreamName = styled.p `
-white-space: break-spaces;
-    color: var(--movie-paragraph-color);
-    text-shadow: 6px 6px 6px var(--border-main),
-      -6px -6px 6px var(--border-main);
-    position: inline;
-    line-height: 1.5;
-    font-size: 16px;
-    margin: auto 0 auto 3em;
-    margin-left: 3em;
-    flex-basis: 250px !important;
+const StreamName = styled.p`
+  white-space: break-spaces;
+  color: var(--movie-paragraph-color);
+  text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
+  position: inline;
+  line-height: 1.5;
+  font-size: 16px;
+  margin: auto 0 auto 3em;
+  margin-left: 3em;
+  flex-basis: 250px !important;
 `
 
-const StreamLogo = styled.img `
-border-radius: 14px;
-width: 50px;
-height: 50px;
-margin: 0.5em 0;
+const StreamLogo = styled.img`
+  border-radius: 14px;
+  width: 50px;
+  height: 50px;
+  margin: 0.5em 0;
 `
 
-const HorizontalRule = styled.hr<StreamLinksProps>`
-    margin-left: ${props => (props.isMobile === "mobile" ? "1em" : "3em")};
-    width: calc(100% - 6em);
-    @media (max-width: 455px) {
-      width: unset;
-      max-width: 300px;
-    }
-    margin-bottom: 2em;
-`
-
-const StyledExternalLink = styled(ExternalLink)`
-margin: auto;
-`
-
-const CenteredText = styled.p`
-    line-height: 1;
-    margin-block-start: auto;
-    margin-block-end: auto;
-`
-
-interface StreamLinksProps {
-  movieDetailedData: object | null
-  language: string
-  languageCode: "DK" | "US"
-  movieDetails: object | null
-  movieYear: string | null
+interface HorizontalRuleProps {
   readonly isMobile: "mobile" | "desktop" | undefined
 }
 
-const StreamLinks = ({movieDetailedData, language, languageCode,movieYear, movieDetails, isMobile}: StreamLinksProps) => {
+const HorizontalRule = styled.hr<HorizontalRuleProps>`
+  margin-left: ${props => (props.isMobile === "mobile" ? "1em" : "3em")};
+  width: calc(100% - 6em);
+  @media (max-width: 455px) {
+    width: unset;
+    max-width: 300px;
+  }
+  margin-bottom: 2em;
+`
 
-const { t } = useTranslation()
+const StyledExternalLink = styled(ExternalLink)`
+  margin: auto;
+`
 
-const buyLinks =
-    !!movieDetailedData ?
-    (movieDetailedData.["watch/providers"].results.[languageCode] !== undefined
-      ? movieDetailedData.["watch/providers"].results.[languageCode].buy : null)
+const SpacedText = styled.p`
+  padding-bottom: 2em;
+`
+
+export interface InterfaceMovieDetails {
+  title: string
+}
+
+enum LanguageCodeEnum {
+  DK = "DK",
+  US = "US",
+}
+
+interface resultsByLanguageInterface {
+  buy?: buyInterface
+  link?: string
+}
+
+interface buyArrayInterface {
+  logo_path?: string
+  provider_name?: string
+}
+
+interface buyInterface {
+  [index: number]: buyArrayInterface
+  map?: Function
+}
+
+interface InterfacemovieDetailedData {
+  [index: string]: {
+    [results: string]: {
+      [key in LanguageCodeEnum]: resultsByLanguageInterface
+    }
+  }
+}
+
+interface StreamLinksProps {
+  movieDetailedData: InterfacemovieDetailedData
+  languageCode: "DK" | "US"
+  movieDetails: InterfaceMovieDetails
+  readonly isMobile: "mobile" | "desktop" | undefined
+  isLoading: boolean
+}
+
+const StreamLinks = ({
+  movieDetailedData,
+  languageCode,
+  movieDetails,
+  isMobile,
+  isLoading,
+}: StreamLinksProps) => {
+  const { t } = useTranslation()
+
+  const buyLinks = !!movieDetailedData
+    ? !!movieDetailedData["watch/providers"]?.results[languageCode]
+      ? movieDetailedData["watch/providers"]?.results[languageCode].buy
       : null
-
-const buyList = buyLinks !== null? buyLinks.map((link: { provider_name: string; logo_path: string }) =>
-  <span><StreamName><b>{link.provider_name}</b></StreamName><StreamLogo src={`https://www.themoviedb.org/t/p/original${link.logo_path}`} alt={`${link.provider_name} logo`}/></span>)
     : null
 
-  const streamLink =
-  movieDetailedData !== null
-      ? (movieDetailedData.["watch/providers"].results.[languageCode] !== undefined? movieDetailedData.["watch/providers"].results.[languageCode].link: null)
-      : null
+  console.log(movieDetailedData, buyLinks, typeof buyLinks)
 
-      return (
-        <>
-        {buyList && (
+  const buyList: JSX.Element[] = !!buyLinks
+    ? buyLinks.map((link: { provider_name: string; logo_path: string }) => (
+        <span>
+          <StreamName>
+            <b>{link.provider_name}</b>
+          </StreamName>
+          <StreamLogo
+            src={`https://www.themoviedb.org/t/p/original${link.logo_path}`}
+            alt={`${link.provider_name} logo`}
+          />
+        </span>
+      ))
+    : null
+
+  const streamLink = !!movieDetailedData
+    ? !!movieDetailedData["watch/providers"]?.results[languageCode]
+      ? movieDetailedData["watch/providers"].results[languageCode].link
+      : null
+    : null
+
+  return (
+    <>
+      {isLoading ? (
+        <IconHeadline fullWidth isMobile={isMobile}>
+          <span>
+            <Television style={{ top: "0" }} />
+            <Headline3>{t("MOVIEDETAILS.BUY_OR_STREAM")}</Headline3>
+          </span>
+          {Array(...Array(4)).map(() => (
+            <Skeleton
+              style={{
+                fontSize: "1em",
+                width: "80%",
+                lineHeight: "1",
+                marginBlock: "0.7em",
+                marginLeft: "3em",
+              }}
+            />
+          ))}
+          <HorizontalRule isMobile={isMobile} />
+          <Skeleton
+            style={{
+              fontSize: "1em",
+              width: "80%",
+              lineHeight: "1",
+              marginBlock: "0.7em",
+              marginLeft: "3em",
+            }}
+          />
+        </IconHeadline>
+      ) : (
+        buyList && (
           <IconHeadline fullWidth isMobile={isMobile}>
             <span>
               <Television style={{ top: "0" }} />
               <Headline3>{t("MOVIEDETAILS.BUY_OR_STREAM")}</Headline3>
             </span>
-            <CenteredText>Du kan i øjeblikket leje eler købe titlen med danske undertekster her:</CenteredText>
+            <SpacedText>
+              Du kan i øjeblikket leje eler købe titlen med danske undertekster
+              her:
+            </SpacedText>
             {buyList}
-            <HorizontalRule isMobile={isMobile}/>
+            <HorizontalRule isMobile={isMobile} />
             <span>
-              <CenteredText>Besøg TMDB for direkte links til køb og leje af denne titel:</CenteredText>
-              <StyledExternalLink tabIndex={-1} href={streamLink} title={`Go to TMDb.com to get streaming links for ${movieDetails.title}`}><NavigateButton><StyledTmdbLogo /></NavigateButton></StyledExternalLink>
+              <p>
+                Besøg TMDB for direkte links til køb og leje af denne titel:
+              </p>
+              <StyledExternalLink
+                tabIndex={-1}
+                href={streamLink}
+                title={`Go to TMDb.com to get streaming links for ${movieDetails.title}`}
+              >
+                <NavigateButton>
+                  <StyledTmdbLogo />
+                </NavigateButton>
+              </StyledExternalLink>
             </span>
           </IconHeadline>
-        )}
-        </>
-      )
-
+        )
+      )}
+    </>
+  )
 }
 
 export default StreamLinks

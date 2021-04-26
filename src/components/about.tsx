@@ -40,9 +40,11 @@ const BruceImage = styled.div`
   shape-image-threshold: 0.9;
   shape-margin: calc(30px + 2%);
   @media (max-width: 599px) {
-    margin-right: 25px;
     margin-bottom: 30px;
     padding-top: 32%;
+  }
+  @media (max-width: 373px) {
+    padding-top: 100px;
   }
   @media (min-width: 600px) {
     margin-right: 40px;
@@ -188,6 +190,14 @@ const AboutView = ({ isMobile, language }: AboutViewProps) => {
       />
       {isLoading ? (
         <ProfileFrame>
+          <Skeleton
+            width={"100%"}
+            height={"100%"}
+            style={{
+              position: "absolute",
+              top: "0",
+            }}
+          />
           <Profile />
         </ProfileFrame>
       ) : (

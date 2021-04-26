@@ -31,7 +31,6 @@ export const useFetchAbout = ({ type, id, language }: useFetchProps) => {
         `${BASE_URL}${type}/${id}?api_key=${process.env.GATSBY_TMDB_API_KEY}&language=${translation}`
       )
       const APIdata = await response.json()
-      console.log(APIdata), setWithExpiry(`movieAbout-${language}`, APIdata)
       setData({
         name: APIdata.name,
         biography: APIdata.biography,
@@ -54,7 +53,7 @@ export const useFetchAbout = ({ type, id, language }: useFetchProps) => {
 }
 
 export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
-  const [data, setData] = useState<Idata | null>(null)
+  const [data, setData] = useState<object | null>(null)
   const [isLoading, setLoading] = useState<boolean>(false)
   const [isError, setIsError] = useState<boolean>(false)
   const translation = language === "da" ? "da-DK" : "en-US"
@@ -67,19 +66,11 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
         `${BASE_URL}${type}/${id}?api_key=${process.env.GATSBY_TMDB_API_KEY}&language=${translation}&append_to_response=details`
       )
       const APIdata = await response.json()
-      console.log(response)
-      const cleanedDATA = CleanData(APIdata.cast, language)
-      console.log(cleanedDATA)
+      const cleanedDATA: object = CleanData(APIdata.cast, language)
       setData(cleanedDATA)
       setWithExpiry(`movieStorageData-${language}`, cleanedDATA)
     } catch (error) {
       setIsError(true)
-      console.log(
-        "An error occurred while fetching data:",
-        error,
-        typeof error,
-        isError
-      )
     }
     setLoading(false)
   }

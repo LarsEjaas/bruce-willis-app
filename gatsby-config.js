@@ -67,7 +67,13 @@ module.exports = {
         name: `locale`,
       },
     },
-    'gatsby-plugin-styled-components',
+    {
+      resolve: 'gatsby-plugin-styled-components',
+      options: {
+        pure: true,
+        displayName: false
+      }
+    },
     {
       resolve: "gatsby-plugin-react-svg",
       options: {

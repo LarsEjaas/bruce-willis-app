@@ -42,7 +42,7 @@ const da_DK = {
   37: "Western",
 }
 
-export function getGenre(language: "en" | "da", genreId: string) {
+export function getGenre(language: string, genreId: string) {
   const genreList_en_US = new RegExp(Object.keys(en_US).join("|"), "gi")
   const genreList_da_DK = new RegExp(Object.keys(da_DK).join("|"), "gi")
   let genre = null

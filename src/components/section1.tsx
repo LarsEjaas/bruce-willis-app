@@ -96,7 +96,7 @@ const Section = styled.section<StyledProps>`
     position: absolute;
     left: 0;
   }
-  .BruceW.right img {
+  body:not(.move) & .BruceW.right img {
     animation: ${fadeIn} 0.5s ease-out 0.4s;
     animation-fill-mode: both;
   }
@@ -106,9 +106,9 @@ const Section = styled.section<StyledProps>`
   }
   .BruceW.mobile {
     top: 0;
-    bottom: 0;
-    right: 0;
-    width: 90vw;
+    bottom: 2.5em;
+    left: 0;
+    width: 80vw;
     margin: auto;
     max-width: 549px;
     max-height: 749px;
@@ -270,7 +270,7 @@ const Headline = styled.h1<StyledProps>`
     font-size: clamp(5.5rem, 4.4655rem + 4.5977vw, 8rem);
     bottom: 72px;
   }
-  &.mobile&.right {
+  body:not(.move) &.mobile&.right {
     animation: ${HeadlineslideIn} 0.5s ease-out;
     animation-fill-mode: both;
   }

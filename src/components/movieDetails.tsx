@@ -1,12 +1,10 @@
 import * as React from "react"
 import Skeleton from "react-loading-skeleton"
 import styled from "styled-components"
-import FemaleMale from "../images/female_male.inline.svg"
 import FilmStrip from "../images/filmStrip.inline.svg"
 import ChairDirector from "../images/chair_director.inline.svg"
 import PlayTrailer from "../images/play_trailer.inline.svg"
 import SandTime from "../images/sand_time.inline.svg"
-import Profile from "../images/profile.inline.svg"
 import Books from "../images/books.inline.svg"
 import TmdbLogo from "../images/tmdb.inline.svg"
 import ImdbLogo from "../images/IMDB.inline.svg"
@@ -157,7 +155,7 @@ export const IconHeadline = styled.div<IconHeadlineProps>`
   line-height: 1.5;
   width: ${props => (props.fullWidth ? "100%" : "unset")};
   min-width: ${props => (props.fullWidth ? "unset" : "30%")};
-  & span {
+  > span {
     display: inline-flex;
     width: 100%;
     margin-right: 1em;
@@ -180,6 +178,10 @@ export const IconHeadline = styled.div<IconHeadlineProps>`
     margin-left: ${props => (props.isMobile === "mobile" ? "1em" : "3em")};
     flex-basis: 500px;
   }
+  & p.director {
+    margin-block-start: -0.6em;
+    margin-left: 3em;
+  }
   & .FullHeight {
     margin: auto;
   }
@@ -190,6 +192,7 @@ const MovieWrapper = styled.div`
   padding-top: 56.25%;
   display: block;
   position: relative;
+  margin: 1em 0 2em 0;
   & div {
     position: absolute;
     width: 100%;
@@ -211,13 +214,6 @@ const MovieWrapper = styled.div`
   }
 `
 
-// const CastlistWrapper = styled.div`
-//   display: inline-flex;
-//   flex-wrap: wrap;
-//   width: 100%;
-//   justify-content: space-evenly;
-// `
-
 export const Headline3 = styled.h3`
   font-family: "Passion One", cursive;
   font-weight: 400;
@@ -228,92 +224,6 @@ export const Headline3 = styled.h3`
   line-height: 1;
   color: var(--movie-paragraph-color);
   text-shadow: 4px 4px 4px var(--border-main);
-`
-
-interface CastCardProps {
-  readonly movieId: number
-  readonly isMobile: "mobile" | "desktop" | undefined
-}
-
-const CastCard = styled.div<CastCardProps>`
-  height: fit-content;
-  width: 20%;
-  max-width: ${props => (props.isMobile === "mobile" ? "188px" : "196px")};
-  min-width: 70px;
-  display: flex;
-  flex-direction: column;
-  margin-right: 12px;
-  & a {
-    margin: 0 auto;
-    width: 100%;
-    transition: transform 0.2s ease-in-out;
-  }
-  & a:hover {
-    transform: scale(1.1);
-  }
-  & div {
-    box-shadow: 8px 8px 6px var(--border-main);
-    border-radius: 50%;
-    border: ${props =>
-      props.isMobile === "mobile"
-        ? "4px solid var(--movie-paragraph-color)"
-        : "8px solid var(--movie-paragraph-color)"};
-    width: 100%;
-    padding-top: ${props =>
-      props.isMobile === "mobile" ? "calc(100% - 8px)" : "calc(100% - 16px)"};
-    min-width: 72px;
-    max-width: ${props => (props.isMobile === "mobile" ? "188px" : "196px")};
-    overflow: hidden;
-    position: relative;
-    margin-bottom: 0.5em;
-  }
-  & a:hover div {
-    box-shadow: 6px 12px 6px var(--border-main);
-  }
-  & svg {
-    width: 80%;
-    height: 80%;
-    position: absolute;
-    top: 6%;
-    left: 10%;
-    margin: 0;
-  }
-  & img {
-    position: absolute;
-    top: 0;
-    height: 100%;
-  }
-  & h2 {
-    font-family: "Passion One", cursive;
-    font-weight: 400;
-    font-size: 1.2em;
-    margin: 0;
-    margin-block-start: 0;
-    margin-block-end: 0;
-    line-height: 0.9;
-    color: var(--movie-paragraph-color);
-    text-shadow: 4px 4px 4px var(--border-main);
-    text-align: center;
-  }
-  & h3 {
-    font-family: "Open Sans", sans-serif;
-    font-weight: 700;
-    font-size: 1em;
-    margin: 0;
-    margin-block-start: 0;
-    margin-block-end: 0.8em;
-    line-height: 1.1;
-    color: var(--movie-paragraph-color);
-    text-shadow: 4px 4px 4px var(--border-main);
-    text-align: center;
-  }
-  & p {
-    text-align: center;
-    margin-block-start: 0.2em;
-    margin-block-end: 0.4em;
-    margin-left: 0;
-    flex-basis: 20px;
-  }
 `
 
 const ImdbNavigateButton = styled(NavigateButton)`
@@ -337,24 +247,24 @@ interface MovieDetailsProps {
   readonly isMobile: "mobile" | "desktop" | undefined
 }
 
-interface InterfaceMovieDetails {
-  release_date?: string
-  genre_ids?: Array<string>
-  backdrop_path?: string
-  original_title?: string
-  character?: string
-  poster_path?: string
-  overview?: string
-  title?: string
-}
+// interface InterfaceMovieDetails {
+//   release_date?: string
+//   genre_ids?: Array<string>
+//   backdrop_path?: string
+//   original_title?: string
+//   character?: string
+//   poster_path?: string
+//   overview?: string
+//   title?: string
+// }
 
 interface InterfaceMovie {
-  id: number
+  id?: number
 }
 
 const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
   const { t } = useTranslation()
-  const id = movieId !== 0 ? movieId : Number(backDropRef.current.id)
+  const id = movieId !== 0 ? movieId : null
   const type = "movie"
   const { language } = useI18next()
   const [movieDetailedData, isLoading, isError] = getWithExpiry(
@@ -383,7 +293,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
 
   console.log(movieDetails)
 
-  console.log(movieDetailedData !== null ? movieDetailedData : null)
+  console.log(!!movieDetailedData ? movieDetailedData : null)
 
   const movieYear = movieDetails?.release_date.split("-")[0]
 
@@ -398,97 +308,54 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
 
   const genreTypes = genreList.map(genre => <h3>{genre}</h3>)
 
-  let keys =
-    movieDetailedData !== null
-      ? movieDetailedData.credits.crew.map((crew, index) =>
-          crew.job === "Director" ? crew.name : null
-        )
-      : null
-  const Director =
-    movieDetailedData !== null ? keys.find(element => element !== null) : null
+  let keys = !!movieDetailedData
+    ? movieDetailedData.credits?.crew.map((crew: any) =>
+        crew.job === "Director" ? crew.name : null
+      )
+    : null
+  const Director = !!movieDetailedData
+    ? keys?.find((element: any) => !!element)
+    : null
 
-  const hours =
-    movieDetailedData !== null
-      ? Math.floor(Number(movieDetailedData.runtime) / 60)
-      : null
-  const minutes =
-    movieDetailedData !== null ? Number(movieDetailedData.runtime) % 60 : null
+  const hours = !!movieDetailedData
+    ? Math.floor(Number(movieDetailedData.runtime) / 60)
+    : null
+  const minutes = !!movieDetailedData
+    ? Number(movieDetailedData.runtime) % 60
+    : null
 
-  //console.log(`${hours}h ${minutes}m`)
-  // const castListData =
-  //   movieDetailedData !== null
-  //     ? movieDetailedData.credits.cast.length > 1
-  //       ? movieDetailedData.credits.cast
-  //       : null
-  //     : null
-  //console.log(castListData)
-
-  const trailerLinkID =
-    movieDetailedData !== null
-      ? movieDetailedData.videos.results.map(movie =>
-          movie.iso_639_1 === "en"
-            ? movie.site === "YouTube"
-              ? movie.type === "Trailer"
-                ? movie.key
-                : null
+  const trailerLinkID = !!movieDetailedData
+    ? movieDetailedData.videos?.results.map((movie: any) =>
+        movie.iso_639_1 === "en"
+          ? movie.site === "YouTube"
+            ? movie.type === "Trailer"
+              ? movie.key
               : null
             : null
-        )
-      : null
+          : null
+      )
+    : null
 
-  const trailerLink =
-    movieDetailedData !== null
-      ? trailerLinkID.find(element => element !== null)
-      : null
+  const trailerLink = !!movieDetailedData
+    ? trailerLinkID?.find((element: any) => !!element)
+    : null
 
   console.log(trailerLink)
 
-  const imdbId = movieDetailedData !== null ? movieDetailedData.imdb_id : null
+  const imdbId = !!movieDetailedData ? movieDetailedData.imdb_id : null
 
   console.log(
-    movieDetailedData !== null ? movieDetailedData : null,
-    movieDetailedData !== null ? movieDetailedData.imdb_id : null,
+    !!movieDetailedData ? movieDetailedData : null,
+    !!movieDetailedData ? movieDetailedData.imdb_id : null,
     imdbId
   )
 
   const enDescription =
     language === "da"
-      ? movieDetailedData !== null
+      ? !!movieDetailedData
         ? movieDetailedData.overview
         : null
       : null
-
-  // const castList =
-  //   castListData !== null
-  //     ? castListData.map((cast, index) =>
-  //         cast.original_name !== "Bruce Willis" ? (
-  //           index < 7 ? (
-  //             cast.profile_path !== null ? (
-  //               <>
-  //                 <CastCard isMobile={isMobile}>
-  //                   <ExternalLink
-  //                     href={`https://www.themoviedb.org/person/${cast.id}`}
-  //                     title={`Details about ${cast.original_name}`} //skal oversættes
-  //                   >
-  //                     <div>
-  //                       <Profile />
-  //                       <img
-  //                         src={`https://www.themoviedb.org/t/p/w180_and_h180_face${cast.profile_path}`}
-  //                       />
-  //                     </div>
-  //                   </ExternalLink>
-  //                   <h2>{cast.original_name}</h2>
-  //                   <p>{t("MOVIEDETAILS.STARRING_AS")}</p>
-  //                   <h3>{cast.character}</h3>
-  //                 </CastCard>
-  //               </>
-  //             ) : null
-  //           ) : null
-  //         ) : null
-  //       )
-  //     : null
-
-  // console.log(castList !== null && castList.length === 1)
 
   const languageCode = language === "da" ? "DK" : "US"
 
@@ -501,7 +368,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
           original_title={movieDetails ? movieDetails.original_title : null}
         />
       )}
-      {genreList !== null && (
+      {!!genreList && (
         <GenreArray>
           <FilmStrip />
           {genreTypes}
@@ -525,7 +392,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
       <Paragraph>
         {movieDetails.overview ? movieDetails.overview : enDescription}
       </Paragraph>
-      {!!isLoading ? (
+      {isLoading ? (
         <IconHeadline isMobile={isMobile}>
           <span>
             <ChairDirector />
@@ -546,38 +413,74 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
               <ChairDirector />
               <Headline3>{t("MOVIEDETAILS.DIRECTOR")}</Headline3>
             </span>
-            <p>{Director}</p>
+            <p className="director">{Director}</p>
           </IconHeadline>
         )
       )}
-      <IconHeadline isMobile={isMobile}>
-        <span>
-          <SandTime />
-          <Headline3>{`${hours}${t(
-            "MOVIEDETAILS.HOURS"
-          )} ${minutes}m`}</Headline3>
-        </span>
-      </IconHeadline>
+      {isLoading ? (
+        <IconHeadline isMobile={isMobile}>
+          <span>
+            <SandTime />
+            <Skeleton
+              style={{
+                fontSize: "1.8em",
+                marginBlock: "0.4em 0",
+              }}
+              width={"110px"}
+            />
+          </span>
+        </IconHeadline>
+      ) : (
+        <IconHeadline isMobile={isMobile}>
+          <span>
+            <SandTime />
+            <Headline3>{`${hours}${t(
+              "MOVIEDETAILS.HOURS"
+            )} ${minutes}m`}</Headline3>
+          </span>
+        </IconHeadline>
+      )}
       <AlsoStarring
         movieDetailedData={movieDetailedData}
         isMobile={isMobile}
         isLoading={isLoading}
       />
-      {trailerLink && (
+      {isLoading ? (
         <IconHeadline fullWidth isMobile={isMobile}>
           <span>
             <PlayTrailer />
             <Headline3>{t("MOVIEDETAILS.TRAILER")}</Headline3>
           </span>
-          {language === "da" && (
-            <Note>{t("MOVIEDETAILS.ONLY_ENGLISH_TRAILER")}</Note>
-          )}
           <MovieWrapper>
             <div>
-              <IframeMovie trailerLink={trailerLink} language={language} />
+              <Skeleton
+                width={"100%"}
+                height={"100%"}
+                style={{
+                  position: "absolute",
+                  top: "0",
+                }}
+              />
             </div>
           </MovieWrapper>
         </IconHeadline>
+      ) : (
+        trailerLink && (
+          <IconHeadline fullWidth isMobile={isMobile}>
+            <span>
+              <PlayTrailer />
+              <Headline3>{t("MOVIEDETAILS.TRAILER")}</Headline3>
+            </span>
+            {language === "da" && (
+              <Note>{t("MOVIEDETAILS.ONLY_ENGLISH_TRAILER")}</Note>
+            )}
+            <MovieWrapper>
+              <div>
+                <IframeMovie trailerLink={trailerLink} language={language} />
+              </div>
+            </MovieWrapper>
+          </IconHeadline>
+        )
       )}
       <StreamLinks
         movieDetailedData={movieDetailedData}
@@ -586,33 +489,46 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
         language={language}
         languageCode={languageCode}
         isMobile={isMobile}
+        isLoading={isLoading}
       />
       <IconHeadline fullWidth isMobile={isMobile}>
         <span>
           <Books />
           <Headline3>{t("MOVIEDETAILS.READ_MORE")}</Headline3>
         </span>
-        {imdbId && (
-          <>
-            <span>
-              <p>
-                Læs mere om denne titel hos <b>IMDB</b>:&nbsp;
-              </p>
-              <ExternalLink
-                tabIndex={-1}
-                href={`https://www.imdb.com/title/${imdbId}/`}
-                title={`Read about ${movieDetails.title} at TMDb`}
-                className="FullHeight"
-              >
-                <ImdbNavigateButton>
-                  <StyledImdbLogo />
-                </ImdbNavigateButton>
-              </ExternalLink>
-            </span>
-            {language === "da" && (
-              <Note>OBS: IMDb er kun tilgængelig på engelsk</Note>
-            )}
-          </>
+        {isLoading ? (
+          <Skeleton
+            style={{
+              fontSize: "1em",
+              width: "80%",
+              lineHeight: "1",
+              marginBlock: "0.7em",
+              marginLeft: "3em",
+            }}
+          />
+        ) : (
+          imdbId && (
+            <>
+              <span>
+                <p>
+                  Læs mere om denne titel hos <b>IMDB</b>:&nbsp;
+                </p>
+                <ExternalLink
+                  tabIndex={-1}
+                  href={`https://www.imdb.com/title/${imdbId}/`}
+                  title={`Read about ${movieDetails.title} at TMDb`}
+                  className="FullHeight"
+                >
+                  <ImdbNavigateButton>
+                    <StyledImdbLogo />
+                  </ImdbNavigateButton>
+                </ExternalLink>
+              </span>
+              {language === "da" && (
+                <Note>OBS: IMDb er kun tilgængelig på engelsk</Note>
+              )}
+            </>
+          )
         )}
         <Note>&nbsp;</Note>
         <span>
