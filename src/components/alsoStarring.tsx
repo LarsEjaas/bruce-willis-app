@@ -136,12 +136,17 @@ const AlsoStarring = ({
                 <CastCard isMobile={isMobile}>
                   <ExternalLink
                     href={`https://www.themoviedb.org/person/${cast.id}`}
-                    title={`Details about ${cast.original_name}`} //skal oversættes
+                    title={`${t("MOVIEDETAILS.ALSO_STARRING_TITLE")}${
+                      cast.original_name
+                    }`}
                   >
                     <div>
                       <Profile className="profile" />
                       <img
                         src={`https://www.themoviedb.org/t/p/w180_and_h180_face${cast.profile_path}`}
+                        alt={`${t("MOVIEDETAILS.ALSO_STARRING_ALT")}${
+                          cast.original_name
+                        }`}
                       />
                     </div>
                   </ExternalLink>

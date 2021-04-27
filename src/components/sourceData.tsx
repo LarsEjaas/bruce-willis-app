@@ -31,6 +31,8 @@ export const useFetchAbout = ({ type, id, language }: useFetchProps) => {
         `${BASE_URL}${type}/${id}?api_key=${process.env.GATSBY_TMDB_API_KEY}&language=${translation}`
       )
       const APIdata = await response.json()
+      console.log(APIdata)
+      setWithExpiry(`movieAbout-${language}`, APIdata)
       setData({
         name: APIdata.name,
         biography: APIdata.biography,

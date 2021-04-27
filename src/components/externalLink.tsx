@@ -1,8 +1,9 @@
 import * as React from "react"
-import { ReactNode, useContext } from "react"
+import { ReactNode, useContext, MouseEvent } from "react"
 import { GlobalContext } from "./layout"
 import styled from "styled-components"
 import Backdrop from "./backdrop"
+import { useTranslation } from "gatsby-plugin-react-i18next"
 
 type ExternalLinkProps = {
   className?: string
@@ -21,16 +22,16 @@ const ExternalLink = ({
   tabIndex,
 }: ExternalLinkProps) => {
   const { externModalToggle } = useContext(GlobalContext)
-  const sureToLeave = e => {
+  const sureToLeave = (e: MouseEvent<HTMLAnchorElement>): void => {
     e.preventDefault()
-    externModalToggle(e.currentTarget, "externLink")
+    externModalToggle(e.currentTarget)
   }
 
   return (
     <a
       tabIndex={tabIndex}
       className={className}
-      onClick={e => sureToLeave(e)}
+      onClick={(e: MouseEvent<HTMLAnchorElement>): void => sureToLeave(e)}
       href={href}
       title={title}
       aria-label={title}
@@ -53,7 +54,7 @@ const ButtonContainer = styled.div`
 export const NavigateButton = styled.button`
   border-radius: 30px;
   transition: 0.2s ease-in;
-  padding: 14px;
+  padding: 14px 20px;
   border: 2px solid var(--icon-hover-color2);
   margin: 0.5em;
   background-color: transparent;
@@ -96,8 +97,10 @@ const Headline2 = styled.h2`
 
 export const Paragraph = styled.p`
   white-space: break-spaces;
-  color: var(--movie-paragraph-color);
+  color: var(--movie-header1-color);
+  //color: var(--movie-paragraph-color);
   text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
+  font-weight: 600;
   position: inline;
   line-height: 1.5;
   font-size: 16px;
@@ -106,7 +109,7 @@ export const Paragraph = styled.p`
 `
 
 interface closeExternModalProps {
-  closeExternModal: (e: any) => void
+  closeExternModal: (e: MouseEvent<HTMLButtonElement>) => void
   isMobile: "desktop" | "mobile" | undefined
 }
 
@@ -114,16 +117,21 @@ export const GoExtern = ({
   closeExternModal,
   isMobile,
 }: closeExternModalProps) => {
+  const { t } = useTranslation()
   const { clickedExternLink } = useContext(GlobalContext)
 
-  const openUrl = e => {
+  const openUrl = (e: MouseEvent<HTMLButtonElement>) => {
     closeExternModal(e)
     clickedExternLink.href
       ? window.open(`${clickedExternLink.href}`, "_blank")
       : undefined
   }
 
-  let domain = new URL(`${clickedExternLink.href}`)
+  const Title =
+    clickedExternLink.title.charAt(0).toLowerCase() +
+    clickedExternLink.title.slice(1)
+
+  let domain: string | URL = new URL(`${clickedExternLink.href}`)
   domain = domain.hostname
 
   console.log(domain)
@@ -134,38 +142,44 @@ export const GoExtern = ({
         {domain === "larsejaas.com" && (
           <Backdrop
             isMobile={isMobile}
-            original_title="Ejaas logo background"
+            original_title={`Ejaas logo${t("MODAL.EXTERNAL_LOGO_ALT")}`}
             backdrop_path="ejaas_logo.png"
             internUrl
-            style={{ opacity: "0.3" }}
+            style={{ opacity: "0.7" }}
           />
         )}
         {domain === "www.themoviedb.org" && (
           <Backdrop
             isMobile={isMobile}
-            original_title="The Movie Database logo background"
+            original_title={`The Movie Database${t("MODAL.EXTERNAL_LOGO_ALT")}`}
             backdrop_path="tmdb_back.png"
             internUrl
-            style={{ opacity: "0.3" }}
+            style={{ opacity: "0.7" }}
           />
         )}
         {domain === "www.imdb.com" && (
           <Backdrop
             isMobile={isMobile}
-            original_title="IMDb logo background"
+            original_title={`IMDb${t("MODAL.EXTERNAL_LOGO_ALT")}`}
             backdrop_path="imdb_back.png"
             internUrl
-            style={{ opacity: "0.3" }}
+            style={{ opacity: "0.7" }}
           />
         )}
-        <Headline2>Are you sure?</Headline2>
+        <Headline2>{t("MODAL.EXTERNAL_HEADER")}</Headline2>
         <Paragraph>
-          You are about to navigate away from this page to {domain} and '
-          {clickedExternLink.title}'.
+          {t("MODAL.EXTERNAL_PARAGRAPH1")}
+          {Title}
+          {t("MODAL.EXTERNAL_PARAGRAPH2")}
+          {domain}.
         </Paragraph>
         <ButtonContainer>
-          <NavigateButton onClick={closeExternModal}>No Thanks</NavigateButton>
-          <NavigateButton onClick={openUrl}>Yes Please</NavigateButton>
+          <NavigateButton onClick={closeExternModal}>
+            {t("MODAL.EXTERNAL_BUTTON_NO")}
+          </NavigateButton>
+          <NavigateButton onClick={openUrl}>
+            {t("MODAL.EXTERNAL_BUTTON_YES")}
+          </NavigateButton>
         </ButtonContainer>
       </div>
     </>

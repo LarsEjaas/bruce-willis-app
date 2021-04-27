@@ -75,7 +75,7 @@ const Header1 = styled.h1`
   font-size: clamp(2.5rem, 1.2273rem + 6.3636vw, 6rem);
 `
 
-const Note = styled.p`
+export const Note = styled.p`
   white-space: break-spaces;
   color: var(--icon-hover-color1) !important;
   text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
@@ -226,7 +226,7 @@ export const Headline3 = styled.h3`
   text-shadow: 4px 4px 4px var(--border-main);
 `
 
-const ImdbNavigateButton = styled(NavigateButton)`
+export const ImdbNavigateButton = styled(NavigateButton)`
   padding: 11px 14px 5px;
 `
 
@@ -236,7 +236,7 @@ export const StyledTmdbLogo = styled(TmdbLogo)`
   height: 13px;
 `
 
-const StyledImdbLogo = styled(ImdbLogo)`
+export const StyledImdbLogo = styled(ImdbLogo)`
   width: 100px !important;
   transform: translateY(-7px);
   height: 29px;
@@ -246,17 +246,6 @@ interface MovieDetailsProps {
   readonly movieId: number
   readonly isMobile: "mobile" | "desktop" | undefined
 }
-
-// interface InterfaceMovieDetails {
-//   release_date?: string
-//   genre_ids?: Array<string>
-//   backdrop_path?: string
-//   original_title?: string
-//   character?: string
-//   poster_path?: string
-//   overview?: string
-//   title?: string
-// }
 
 interface InterfaceMovie {
   id?: number
@@ -383,7 +372,9 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
       </HeadlineDetails>
       <PosterCover
         src={`https://image.tmdb.org/t/p/w200${movieDetails.poster_path}`}
-        alt={`Movie poster from ${movieDetails.original_title}`}
+        alt={`${t("MOVIEDETAILS.MOVIE_POSTER_ALT")}${
+          movieDetails.original_title
+        }`}
         loading="eager"
       />
       {!movieDetails.overview && language === "da" && (
@@ -511,12 +502,15 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
             <>
               <span>
                 <p>
-                  Læs mere om denne titel hos <b>IMDB</b>:&nbsp;
+                  {t("MOVIEDETAILS.READ_MORE_AT")}
+                  <b>IMDb</b>:
                 </p>
                 <ExternalLink
                   tabIndex={-1}
                   href={`https://www.imdb.com/title/${imdbId}/`}
-                  title={`Read about ${movieDetails.title} at TMDb`}
+                  title={`${t("MOVIEDETAILS.READ_ABOUT")}${
+                    movieDetails.title
+                  }${t("MOVIEDETAILS.AT")}IMDb`}
                   className="FullHeight"
                 >
                   <ImdbNavigateButton>
@@ -525,7 +519,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
                 </ExternalLink>
               </span>
               {language === "da" && (
-                <Note>OBS: IMDb er kun tilgængelig på engelsk</Note>
+                <Note>{t("MOVIEDETAILS.IMDB_ONLY_IN_ENGLISH")}</Note>
               )}
             </>
           )
@@ -533,12 +527,15 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
         <Note>&nbsp;</Note>
         <span>
           <p>
-            Læs mere om denne titel hos <b>The Movie Database (TMDb)</b>:&nbsp;
+            {t("MOVIEDETAILS.READ_MORE_AT")}
+            <b>The Movie Database (TMDb)</b>:
           </p>
           <ExternalLink
             tabIndex={-1}
             href={`https://www.themoviedb.org/movie/${id}/${language}`}
-            title={`Read about ${movieDetails.title} at TMDB`}
+            title={`${t("MOVIEDETAILS.READ_ABOUT")}${movieDetails.title}${t(
+              "MOVIEDETAILS.AT"
+            )}TMDB`}
             className="FullHeight"
           >
             <NavigateButton>

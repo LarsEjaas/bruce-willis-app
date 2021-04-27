@@ -7,6 +7,8 @@ import {
   createRef,
   lazy,
   Suspense,
+  MouseEvent,
+  KeyboardEvent,
 } from "react"
 import styled, { keyframes } from "styled-components"
 import ReactDOM from "react-dom"
@@ -24,13 +26,7 @@ const Backdrop = lazy(() => import("./backdrop"))
 const MovieDetails = lazy(() => import("./movieDetails"))
 
 interface CrossbuttonProps {
-  modalType:
-    | "about"
-    | "share"
-    | "offline"
-    | "credits"
-    | "movieContent"
-    | "error"
+  modalType: "about" | "share" | "offline" | "credits" | "movie" | "error"
 }
 
 const Crossbutton = styled.button<CrossbuttonProps>`
@@ -63,7 +59,7 @@ const Headline2 = styled.h2`
   margin: 0;
   margin-block-start: 0;
   margin-block-end: 0.4em;
-  line-height: 0.7;
+  line-height: 0.8;
   color: var(--movie-header1-color);
   text-shadow: 4px 4px 4px var(--border-main);
   text-align: center;
@@ -83,46 +79,50 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
     modalType,
     isMobile,
     clickedElement,
+    clickedExternLink,
   } = useContext(GlobalContext)
   const [isModalVisible, setIsModalVisible] = useState(modalVisible)
 
   useEffect(() => {
     if (isMobile === undefined) return
-    // modalVisible
-    //   ? document.querySelector("main").classList.add("blur")
-    //   : undefined
-    // console.log("modalVisible changed", isModalVisible, modalVisible)
+
     setIsModalVisible(modalVisible)
   }, [modalVisible])
 
-  const [state, setState] = useState({})
   useEffect(() => {
     if (isMobile === undefined) return
-    console.log("modal visible changed")
-    document.querySelector(".modal-body") !== null
+    !!document.querySelector(".modal-body")
       ? setTimeout(function () {
-          document.querySelector(".cross-btn") !== null
-            ? document.querySelector(".modal-header > .cross-btn").focus()
-            : document.querySelector(".modal-body.error button").focus()
+          if (!!document.querySelector(".cross-btn")) {
+            let element: HTMLElement = document.querySelector(
+              ".modal-header > .cross-btn"
+            )
+            element?.focus()
+          } else {
+            let element: HTMLElement = document.querySelector(
+              ".modal-body.error button"
+            )
+            element?.focus()
+          }
         }, 400)
       : null
-    // : document.querySelector("main").classList.remove("blur")
   }, [isModalVisible])
 
-  const handleChange = e => {
-    setState({ ...state, [e.target.name]: e.target.value })
-  }
-
-  const closeModal = e => {
+  const closeModal = (e: MouseEvent | KeyboardEvent) => {
     console.log(
       "closemodal running (not externModal",
       document.querySelector(".extern.modal-container"),
       e.target,
-      e.currentTarget
+      e.currentTarget,
+      document.querySelector(".extern.modal-container"),
+      clickedElement,
+      clickedExternLink
     )
+    //avoid layered modals closing in cascade and make the error modal impossible to close when clicking outside
     if (
       (e.currentTarget === document.querySelector(".modal-container") &&
-        e.target !== e.currentTarget) ||
+        e.target !== e.currentTarget &&
+        !!clickedExternLink) ||
       modalType === "error"
     )
       return
@@ -139,7 +139,10 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
   return (
     <>
       {isModalVisible && (
-        <Modal modalType={modalType} onModalClose={e => closeModal(e)}>
+        <Modal
+          modalType={modalType}
+          onModalClose={(e: MouseEvent | KeyboardEvent) => closeModal(e)}
+        >
           <>
             <Modal.Header modalType={modalType} />
             {modalType === "movie" && (
@@ -191,13 +194,14 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
                       <Suspense fallback={<div />}>
                         <Backdrop
                           isMobile={isMobile}
-                          original_title="Social share background"
+                          original_title={t("MODAL.SOCIAL_SHARE_ALT")}
                           backdrop_path="socialShare.jpg"
                           internUrl
                         />
                       </Suspense>
                     )}
-                    <Headline2>Share on Social Media</Headline2>
+                    <Headline2>{t("MODAL.SHARE_HEADER")}</Headline2>
+                    <Paragraph>{t("MODAL.SHARE_PARAGRAPH")}</Paragraph>
                     <ShareButtons isMobile={isMobile} />
                   </>
                 }
@@ -237,12 +241,12 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
 interface ModalContentFrameProps {
   readonly modalType:
     | "share"
-    | "movieContent"
+    | "movie"
     | "offline"
     | "credits"
     | "about"
     | "error"
-  ref?: JSX.Element | null
+  ref?: HTMLDivElement | null
 }
 
 interface StyledModalContainerProps {
@@ -266,7 +270,7 @@ const StyledModalContainer = styled.div<StyledModalContainerProps>`
   top: 0;
   left: 0;
   z-index: 5000;
-  animation: fadeIn ease-out 0.4s;
+  animation: fadeIn ease-out 0.3s;
   will-change: opacity;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -287,7 +291,7 @@ const ModalContentFrame = styled.div<ModalContentFrameProps>`
   transform: translate(-50%, -50%);
   border-radius: 40px;
   padding: 0;
-  animation: fadeIn ease-out 0.4s;
+  animation: fadeIn ease-out 0.3s;
   background: var(--background2);
   border: 2px solid var(--icon-hover-color2);
   will-change: opacity;
@@ -304,13 +308,13 @@ const ModalContentFrame = styled.div<ModalContentFrameProps>`
   &.desktop {
     max-width: 1080px;
   }
-  &.desktop.movie, &.desktop.about {
+  &.desktop.movie,
+  &.desktop.about {
     width: calc(100% - 8px);
     margin-bottom: 200px;
     @media (min-height: 720px) {
-      top: calc((100vh - 720px) / 2 );
+      top: calc((100vh - 720px) / 2);
     }
-  }
   }
   &.share,
   &.error,
@@ -325,9 +329,10 @@ const ModalContentFrame = styled.div<ModalContentFrameProps>`
     left: 0;
     z-index: -1;
     opacity: 0.7;
-    -mask-image: linear-gradient(to top, transparent 12%, black 100%);
+    mask-image: linear-gradient(to top, transparent 12%, black 100%);
     -webkit-mask-image: linear-gradient(to top, transparent 12%, black 100%);
-  }&.fadeOut {
+  }
+  &.fadeOut {
     animation: ${fadeOut} ease-in 0.4s;
     animation-fill-mode: both;
   }
@@ -345,18 +350,18 @@ const modalContext = createContext(null)
 interface ModalProps {
   readonly modalType:
     | "share"
-    | "movieContent"
+    | "movie"
     | "offline"
     | "credits"
     | "about"
     | "error"
   children: JSX.Element
-  onModalClose: (e: Event) => void
+  onModalClose: (e: MouseEvent | KeyboardEvent) => void
 }
 
 function Modal({ children, onModalClose, modalType }: ModalProps) {
   const { isMobile, clickedElement } = useContext(GlobalContext)
-  const modalRef = createRef<HTMLElement | null>()
+  const modalRef = createRef<HTMLDivElement | null>()
   const modalContainerRef = createRef<HTMLElement | null>()
 
   console.log(clickedElement)
@@ -440,13 +445,7 @@ function Modal({ children, onModalClose, modalType }: ModalProps) {
 }
 
 interface ModalHeaderProps {
-  modalType:
-    | "share"
-    | "movieContent"
-    | "offline"
-    | "credits"
-    | "about"
-    | "error"
+  modalType: "share" | "movie" | "offline" | "credits" | "about" | "error"
 }
 
 Modal.Header = function ModalHeader({ modalType }: ModalHeaderProps) {

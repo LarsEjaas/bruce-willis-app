@@ -5,6 +5,7 @@ import {
   createContext,
   useContext,
   createRef,
+  MouseEvent,
 } from "react"
 import styled, { keyframes } from "styled-components"
 import ReactDOM from "react-dom"
@@ -21,6 +22,7 @@ const Crossbutton = styled.button`
   transition: all 0.2s ease-in;
   padding: 0;
   z-index: 3;
+  filter: drop-shadow(3px 3px 2px var(--border-main));
   &:hover {
     transition: 0.3s ease-out;
     transform: scale(1.2);
@@ -46,21 +48,9 @@ const ExternModalContainer = ({}) => {
 
   useEffect(() => {
     if (isMobile === undefined) return
-    // externModalVisible
-    //   ? document.querySelector(".modal-content.movie")
-    //     ? document.querySelector(".modal-content.movie").classList.add("blur")
-    //     : document.querySelector("main").classList.add("blur")
-    //   : undefined
-    // console.log(
-    //   "extern modalVisible changed",
-    //   isExternModalVisible,
-    //   externModalVisible,
-    //   document.querySelector(".modal-body.extern")
-    // )
     setIsExternModalVisible(externModalVisible)
   }, [externModalVisible])
 
-  const [state, setState] = useState({})
   useEffect(() => {
     if (isMobile === undefined) return
     console.log(
@@ -71,18 +61,17 @@ const ExternModalContainer = ({}) => {
     )
     document.querySelector(".modal-body.extern") !== null
       ? setTimeout(function () {
-          document.querySelector(".extern.modal-header > .cross-btn").focus()
+          let element: HTMLElement = document.querySelector(
+            ".extern.modal-header > .cross-btn"
+          )
+          element?.focus()
         }, 400)
       : document.querySelector(".modal-content.movie") === null
       ? document.querySelector("main").classList.remove("blur")
       : null
   }, [isExternModalVisible])
 
-  const handleChange = e => {
-    setState({ ...state, [e.target.name]: e.target.value })
-  }
-
-  const closeExternModal = e => {
+  const closeExternModal = (e: MouseEvent | KeyboardEvent) => {
     console.log(
       "closeExternModal running",
       e.currentTarget,
@@ -101,9 +90,6 @@ const ExternModalContainer = ({}) => {
 
     document.querySelector(".extern.modal-container").classList.add("fadeOut")
     document.querySelector(".modal-content.extern").classList.add("fadeOut")
-    // document.querySelector(".modal-content.movie") !== null
-    // ? document.querySelector(".modal-content.movie").classList.remove("blur")
-    // : document.querySelector("main").classList.remove("blur")
     setTimeout(function () {
       setIsExternModalVisible(false)
       externModalToggle()
@@ -114,10 +100,19 @@ const ExternModalContainer = ({}) => {
   return (
     <>
       {isExternModalVisible && (
-        <Modal onModalExternClose={e => closeExternModal(e)}>
+        <Modal
+          onModalExternClose={(e: MouseEvent | KeyboardEvent) =>
+            closeExternModal(e)
+          }
+        >
           <Modal.Header />
           <Modal.Body>
-            <GoExtern closeExternModal={e => closeExternModal(e)} />
+            <GoExtern
+              isMobile={isMobile}
+              closeExternModal={(e: MouseEvent | KeyboardEvent) =>
+                closeExternModal(e)
+              }
+            />
           </Modal.Body>
         </Modal>
       )}
@@ -141,7 +136,7 @@ const StyledExternModalContainer = styled.div`
   top: 0;
   left: 0;
   z-index: 6000;
-  animation: fadeIn ease-out 0.4s;
+  animation: fadeIn ease-out 0.3s;
   will-change: opacity;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -160,8 +155,7 @@ const ModalContentFrame = styled.div`
   left: 50%;
   border-radius: 40px;
   padding: 24px;
-  animation: fadeIn ease-out 0.4s;
-  /* transform-origin: center center; */
+  animation: fadeIn ease-out 0.3s;
   background: var(--background2);
   border: 2px solid var(--icon-hover-color2);
   will-change: opacity;
@@ -183,18 +177,17 @@ const ModalContentFrame = styled.div`
 const externModalContext = createContext(null)
 
 interface ModalProps {
-  children: JSX.Element
-  onModalExternClose: (e: Event) => void
-  movieId: number
+  children: JSX.Element[]
+  onModalExternClose: (e: MouseEvent | KeyboardEvent) => void
 }
 
-function Modal({ children, onModalExternClose, movieId }: ModalProps) {
+function Modal({ children, onModalExternClose }: ModalProps) {
   const { isMobile, clickedExternLink } = useContext(GlobalContext)
   console.log(clickedExternLink)
   useEffect(() => {
-    function keyListener(e) {
+    function keyListener(e: KeyboardEvent) {
       if (e.keyCode === 27) {
-        onModalExternClose()
+        onModalExternClose(e)
       }
     }
     document.addEventListener("keydown", keyListener)
@@ -202,14 +195,14 @@ function Modal({ children, onModalExternClose, movieId }: ModalProps) {
     return () => document.removeEventListener("keydown", keyListener)
   })
 
-  const modalRef = createRef()
-  const externModalContainerRef = createRef()
-  const handleTabKey = e => {
-    let focusableModalElements = []
-    const allFocusableModalElements = modalRef.current.querySelectorAll(
+  const modalRef = createRef<HTMLDivElement>()
+  const externModalContainerRef = createRef<HTMLDivElement>()
+  const handleTabKey = (e: KeyboardEvent) => {
+    let focusableModalElements: Array<HTMLElement> = []
+    const allFocusableModalElements: NodeListOf<HTMLElement> = modalRef.current.querySelectorAll(
       'a[href], button, textarea, input[type="text"], input[type="radio"],input[type="email"], input[type="checkbox"], select'
     )
-    allFocusableModalElements.forEach(element => {
+    allFocusableModalElements.forEach((element: HTMLElement) => {
       if (window.getComputedStyle(element).display !== "none") {
         focusableModalElements.push(element)
       }
@@ -233,7 +226,7 @@ function Modal({ children, onModalExternClose, movieId }: ModalProps) {
     [9, handleTabKey],
   ])
 
-  function keyListener(e) {
+  function keyListener(e: KeyboardEvent) {
     if (modalRef.current === null) return
     // get the listener corresponding to the pressed key
     const listener = keyListenersMap.get(e.keyCode)
@@ -250,7 +243,7 @@ function Modal({ children, onModalExternClose, movieId }: ModalProps) {
       role="dialog"
       aria-modal="true"
       ref={externModalContainerRef}
-      style={{ movieId }}
+      //style={{ movieId }}
       onClick={onModalExternClose}
     >
       <ModalContentFrame
@@ -283,7 +276,8 @@ Modal.Header = function ModalHeader() {
 }
 
 interface ModalBodyProps {
-  linkDescription: string
+  //linkDescription: string
+  children: JSX.Element | JSX.Element[]
 }
 
 Modal.Body = function ModalBody({ children }: ModalBodyProps) {

@@ -1,7 +1,6 @@
 import * as React from "react"
 import { useContext, useEffect } from "react"
 import styled, { keyframes } from "styled-components"
-import { StaticImage } from "gatsby-plugin-image"
 import EjaasLogo from "../svg/ejaas_logo.inline.svg"
 import TMDBlogoVertical from "../svg/tmdb_logo_upright.inline.svg"
 import TMDBlogo from "../svg/tmdb_logo.inline.svg"
@@ -103,6 +102,7 @@ const Section = styled.section<StyledProps>`
   .BruceW.desktop img {
     animation: ${fadeIn} 0.5s ease-out 0.2s;
     animation-fill-mode: both;
+    width: 103%;
   }
   .BruceW.mobile {
     top: 0;
@@ -378,21 +378,22 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
               {t("MAIN.CREDITS")}
             </Vertical>
           </Navigation>
-          <Navigation tabIndex={0} className="desktopShare">
-            <ShareIcon
-              height="32px"
-              className="ShareIcon"
-              onClick={(e: EventInterface) =>
-                modalToggle(e.currentTarget, "share")
-              }
-              onKeyPress={(e: EventInterface) => keyListener(e)}
-            />
+          <Navigation
+            tabIndex={0}
+            className="desktopShare"
+            onClick={(e: EventInterface) =>
+              modalToggle(e.currentTarget, "share")
+            }
+            onKeyPress={(e: EventInterface) => keyListener(e)}
+            title={t("MODAL.SHARE_HEADER")}
+          >
+            <ShareIcon height="32px" className="ShareIcon" />
           </Navigation>
           <StyledExternalLink
             className="EjaasLogo"
             isMobile={isMobile}
             href="https://larsejaas.com/"
-            title="Made by Lars Ejaas"
+            title={t("MAIN.MADE_BY_ALT")}
           >
             <EjaasLogo width="64" />
           </StyledExternalLink>
@@ -426,12 +427,15 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
                   ? "https://larsejaas.com/"
                   : "https://larsejaas.com/en/"
               }
-              title="Made by Lars Ejaas"
+              title={t("MAIN.MADE_BY_ALT")}
             >
               <EjaasLogo width="64" />
             </StyledExternalLink>
           </NavTop>
-          <Navigation className={index === 1 ? `mobile right` : `mobile left`}>
+          <Navigation
+            className={index === 1 ? `mobile right` : `mobile left`}
+            title={t("MODAL.SHARE_HEADER")}
+          >
             <ShareIcon
               tabIndex={0}
               height="24px"
@@ -460,18 +464,6 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
           </Navigation>
         </>
       )}
-      {/* <StaticImage
-        className={
-          index === 1 ? `BruceW ${isMobile} right` : `BruceW ${isMobile} left`
-        }
-        src="../images/Bruce_Willis.png"
-        alt="portrait of Bruce Willis"
-        loading="eager"
-        placeholder="none"
-        layout="constrained"
-        formats={["auto", "webp", "avif"]}
-        width={572}
-      /> */}
       <picture
         className={
           index === 1 ? `BruceW ${isMobile} right` : `BruceW ${isMobile} left`
@@ -489,15 +481,11 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
           sizes="(min-width: 572px) 572px, 100vw"
         />
         <img
-          // className="BruceW desktop left"
-          // width="572"
-          // height="806"
-          data-main-image=""
           sizes="(min-width: 572px) 572px, 100vw"
           loading="eager"
           src="../572_Bruce_Willis.png"
           srcSet="../286_Bruce_Willis.png 286w, ../572_Bruce_Willis.png 572w"
-          alt="portrait of Bruce Willis"
+          alt={t("MAIN.PORTRAIT_ALT")}
           style={{ objectFit: "cover", opacity: "1" }}
         />
       </picture>

@@ -1,5 +1,7 @@
 import * as React from "react"
+import { CSSProperties } from "react"
 import styled from "styled-components"
+import { useTranslation } from "gatsby-plugin-react-i18next"
 
 type StyledBackDrop = {
   readonly internUrl?: boolean
@@ -12,8 +14,8 @@ const StyledBackDrop = styled.picture<StyledBackDrop>`
   left: 0;
   z-index: -1;
   opacity: ${props => (props.internUrl ? "0.5" : "0.7")};
+  mask-image: linear-gradient(to top, transparent 12%, black 100%);
   -webkit-mask-image: linear-gradient(to top, transparent 12%, black 100%);
-  -mask-image: linear-gradient(to top, transparent 12%, black 100%);
   & img {
     width: 100%;
   }
@@ -24,6 +26,7 @@ interface BackdropProps {
   backdrop_path: string | null
   original_title: string | null
   internUrl?: boolean
+  style?: CSSProperties
 }
 
 const Backdrop = ({
@@ -31,7 +34,9 @@ const Backdrop = ({
   original_title,
   backdrop_path,
   internUrl = false,
+  style,
 }: BackdropProps) => {
+  const { t } = useTranslation()
   return (
     <>
       {original_title && backdrop_path && (
@@ -84,9 +89,12 @@ const Backdrop = ({
             alt={
               internUrl
                 ? original_title
-                : `Background image from the movie "${original_title}"`
+                : `${t(
+                    "MOVIEDETAILS.MOVIE_BACKGROUND_ALT"
+                  )} "${original_title}"`
             }
             loading="eager"
+            style={style}
           />
         </StyledBackDrop>
       )}

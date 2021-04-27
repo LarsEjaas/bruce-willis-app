@@ -1,8 +1,7 @@
-import { useI18next } from "gatsby-plugin-react-i18next"
-
 interface InterfaceObj {
   index: number
   sort?: Function
+  [index: number]: { original_title: string }
 }
 
 interface IsortedObj {
@@ -10,7 +9,6 @@ interface IsortedObj {
 }
 
 const CleanData = (obj: InterfaceObj, language: string) => {
-  //console.log(obj)
   const entries = Object.entries(obj)
   entries.forEach(function callback(entry, index) {
     //delete not yet released movies
@@ -24,10 +22,8 @@ const CleanData = (obj: InterfaceObj, language: string) => {
     } else if (
       entry[1]?.genre_ids.find((element: number) => element === 99) === 99
     ) {
-      //console.log(`${index}: ${entry[1].genre_ids}`)
       obj[index] = undefined
     } else if (new Date(entry[1].release_date) > new Date(Date.now())) {
-      console.log("this is a future release", entry[1].original_title)
       obj[index] = undefined
     } else {
       //clean up character field:
@@ -35,18 +31,11 @@ const CleanData = (obj: InterfaceObj, language: string) => {
         entry[1].character = entry[1].character.replace("(uncredited)", "")
       }
       if (language === "da") {
-        console.log("language is danish", entry[1].character, index)
         if (
           entry[1].character.indexOf("(") !== -1 ||
           entry[1].character.indexOf("Himself") !== -1
         ) {
-          console.log("indexOf('(') !== -1", entry[1].character, index)
           if (entry[1].character.indexOf("Himself") !== -1) {
-            console.log(
-              "replacing himself",
-              entry[1].character,
-              entry[1].original_title
-            )
             entry[1].character = entry[1].character.replace(
               "Himself",
               "Bruce Willis"
@@ -70,8 +59,6 @@ const CleanData = (obj: InterfaceObj, language: string) => {
     }
     return a.release_date < b.release_date ? 1 : -1
   })
-
-  console.log(sortedObj)
 
   return sortedObj
 }

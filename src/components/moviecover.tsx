@@ -2,6 +2,7 @@ import * as React from "react"
 import { useContext } from "react"
 import styled from "styled-components"
 import { GlobalContext } from "./layout"
+import { useTranslation } from "gatsby-plugin-react-i18next"
 
 const CoverCard = styled.div<CoverProps>`
   position: relative;
@@ -70,6 +71,7 @@ const Cover = ({
   id,
   release_date,
 }: CoverProps) => {
+  const { t } = useTranslation()
   const { modalToggle } = useContext(GlobalContext)
   const year = new Date(release_date).getFullYear()
   const handleEnterKey = (e: EventInterface) => {
@@ -126,7 +128,7 @@ const Cover = ({
         )}
         <img
           src={`https://image.tmdb.org/t/p/w300${poster_path}`}
-          alt={`Movie poster from ${title}`}
+          alt={`${t("MOVIEDETAILS.MOVIE_POSTER_ALT")}${title}`}
           loading="lazy"
         />
       </picture>

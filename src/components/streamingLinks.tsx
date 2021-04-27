@@ -48,7 +48,7 @@ const SpacedText = styled.p`
 `
 
 export interface InterfaceMovieDetails {
-  title: string
+  readonly title: string
 }
 
 enum LanguageCodeEnum {
@@ -57,34 +57,34 @@ enum LanguageCodeEnum {
 }
 
 interface resultsByLanguageInterface {
-  buy?: buyInterface
-  link?: string
+  readonly buy?: buyInterface
+  readonly link?: string
 }
 
 interface buyArrayInterface {
-  logo_path?: string
-  provider_name?: string
+  readonly logo_path?: string
+  readonly provider_name?: string
 }
 
 interface buyInterface {
-  [index: number]: buyArrayInterface
-  map?: Function
+  readonly [index: number]: buyArrayInterface
+  readonly map?: Function
 }
 
 interface InterfacemovieDetailedData {
-  [index: string]: {
-    [results: string]: {
+  readonly [index: string]: {
+    readonly [results: string]: {
       [key in LanguageCodeEnum]: resultsByLanguageInterface
     }
   }
 }
 
 interface StreamLinksProps {
-  movieDetailedData: InterfacemovieDetailedData
-  languageCode: "DK" | "US"
-  movieDetails: InterfaceMovieDetails
+  readonly movieDetailedData: InterfacemovieDetailedData
+  readonly languageCode: "DK" | "US"
+  readonly movieDetails: { title: string }
   readonly isMobile: "mobile" | "desktop" | undefined
-  isLoading: boolean
+  readonly isLoading: boolean
 }
 
 const StreamLinks = ({
@@ -161,20 +161,17 @@ const StreamLinks = ({
               <Television style={{ top: "0" }} />
               <Headline3>{t("MOVIEDETAILS.BUY_OR_STREAM")}</Headline3>
             </span>
-            <SpacedText>
-              Du kan i øjeblikket leje eler købe titlen med danske undertekster
-              her:
-            </SpacedText>
+            <SpacedText>{t("MOVIEDETAILS.RENT_HERE")}</SpacedText>
             {buyList}
             <HorizontalRule isMobile={isMobile} />
             <span>
-              <p>
-                Besøg TMDB for direkte links til køb og leje af denne titel:
-              </p>
+              <p>{t("MOVIEDETAILS.VISIT_TMDB")}</p>
               <StyledExternalLink
                 tabIndex={-1}
                 href={streamLink}
-                title={`Go to TMDb.com to get streaming links for ${movieDetails.title}`}
+                title={`${t("MOVIEDETAILS.TMDB_STRAMING_BUTTON")}${
+                  movieDetails.title
+                }`}
               >
                 <NavigateButton>
                   <StyledTmdbLogo />

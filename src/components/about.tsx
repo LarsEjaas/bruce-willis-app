@@ -6,10 +6,16 @@ import Backdrop from "./backdrop"
 import Profile from "../images/profile.inline.svg"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 import { getWithExpiry } from "./localStorage"
+import {
+  IconHeadline,
+  ImdbNavigateButton,
+  StyledImdbLogo,
+  Note,
+} from "./movieDetails"
+import ExternalLink from "./externalLink"
 
 const backdrop_path = "/ifBIpsuutQlul3Mexjw2QdkFXG4.jpg"
-const original_title =
-  "background image in the about Modal - picture from the movie Trauma Center"
+const original_title = "Trauma Center"
 
 const StyledBackDrop = styled(Backdrop)`
   position: absolute;
@@ -18,7 +24,7 @@ const StyledBackDrop = styled(Backdrop)`
   left: 0;
   z-index: -1;
   opacity: 0.7;
-  -mask-image: linear-gradient(to top, transparent 12%, black 100%);
+  mask-image: linear-gradient(to top, transparent 12%, black 100%);
   -webkit-mask-image: linear-gradient(to top, transparent 12%, black 100%);
   & img {
     width: 100%;
@@ -168,7 +174,12 @@ const AboutView = ({ isMobile, language }: AboutViewProps) => {
         id,
         language,
       })
-  console.log(data, isLoading, isMobile)
+  console.log(
+    data,
+    isLoading,
+    isMobile,
+    !isLoading ? data.profilePicture : null
+  )
 
   let biographyText =
     data !== null ? data.biography.match(/[^\s.!?]+[^.!?\r\n]+[.!?]*/g) : null
@@ -213,7 +224,7 @@ const AboutView = ({ isMobile, language }: AboutViewProps) => {
             />
             <img
               src={`https://www.themoviedb.org/t/p/w300_and_h450_face${data.profile_path}`}
-              alt={`Profile Picture of ${data.name}`}
+              alt={`${t("MOVIEDETAILS.ALSO_STARRING_ALT")}${data.name}`}
             />
           </picture>
         </BruceImage>
@@ -246,7 +257,35 @@ const AboutView = ({ isMobile, language }: AboutViewProps) => {
       {isLoading ? (
         <Skeleton style={{ fontSize: 16, marginBlock: "0.2em" }} count={10} />
       ) : (
-        <Paragraph>{biographyText}</Paragraph>
+        <>
+          <Paragraph>{biographyText}</Paragraph>
+          <IconHeadline fullWidth isMobile={isMobile}>
+            <span>
+              <p>
+                {t("MOVIEDETAILS.READ_MORE_ABOUT")}
+                <b>{data.name}</b>
+                {`${t("MOVIEDETAILS.AT")}IMDb`}
+              </p>
+              <ExternalLink
+                tabIndex={-1}
+                href={`https://www.imdb.com/name/${data.imdb_id}/bio`}
+                title={`${t("MOVIEDETAILS.READ_ABOUT")}${data.name}${t(
+                  "MOVIEDETAILS.AT"
+                )}IMDb`}
+                className="FullHeight"
+              >
+                <ImdbNavigateButton>
+                  <StyledImdbLogo />
+                </ImdbNavigateButton>
+              </ExternalLink>
+            </span>
+            {language === "da" && (
+              <Note>{t("MOVIEDETAILS.IMDB_ONLY_IN_ENGLISH")}</Note>
+            )}
+            <Note>&nbsp;</Note>
+            <Note>&nbsp;</Note>
+          </IconHeadline>
+        </>
       )}
     </>
   )

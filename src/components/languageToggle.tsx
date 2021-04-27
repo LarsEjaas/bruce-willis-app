@@ -105,6 +105,7 @@ const LanguageToggle = ({ location, className }: LanguageToggleProps) => {
 
   console.log(location.pathname, typeof location, language, typeof language)
   const imageFlag = language === "da" ? "DKK.png" : "GBP.png"
+  const flagAlt = language === "da" ? "dansk flag" : "British Flag"
   const linkPath = location.pathname === "/" ? "/en/" : "../"
 
   return (
@@ -114,10 +115,14 @@ const LanguageToggle = ({ location, className }: LanguageToggleProps) => {
         to={linkPath}
         onClick={(e: MouseEvent) => noMove(e)}
         activeClassName="active"
-        title="Dansk"
+        title={
+          language === "da"
+            ? "Change Language to English"
+            : "Skift til dansk sprog"
+        }
       >
         <LanguageButton>
-          <img src={`../${imageFlag}`} />
+          <img src={`../${imageFlag}`} alt={flagAlt} />
         </LanguageButton>
       </Link>
     </StyledNav>

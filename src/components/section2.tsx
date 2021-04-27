@@ -5,6 +5,7 @@ import LanguageToggle from "./languageToggle"
 import MovieCovers from "./coverSlider"
 import MovieIndex from "./movieIndex"
 import MovieLabel from "./movieLabel"
+import { useTranslation } from "gatsby-plugin-react-i18next"
 
 const circleFadeIn = keyframes`
 from {
@@ -167,38 +168,40 @@ const Section2 = ({
   movieData,
   isLoading,
   location,
-}: Section2Props) => (
-  <Section
-    isMobile={isMobile}
-    className={index === 2 ? `${isMobile} left` : `${isMobile} right`}
-  >
-    <StaticImage
-      className={index === 1 ? "grunge right" : "grunge left"}
-      src="../images/grunge-texture.png"
-      alt="grunge background-texture"
-      loading="eager"
-      placeholder="none"
-      formats={["auto", "webp", "avif"]}
-      layout="constrained"
-    />
-    <CircleWrapper>
-      <Circle2
-        className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
-      ></Circle2>
-      <Circle3
-        className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
-      ></Circle3>
-      <Circle4
-        className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
-      ></Circle4>
-    </CircleWrapper>
-    {isMobile === "desktop" && (
-      <LanguageToggle location={location} className={isMobile} />
-    )}
-    <MovieCovers movieData={movieData} index={index} isMobile={isMobile} />
-    <MovieIndex isMobile={isMobile} movieData={movieData} />
-    <MovieLabel isMobile={isMobile} />
-  </Section>
-)
-
+}: Section2Props) => {
+  const { t } = useTranslation()
+  return (
+    <Section
+      isMobile={isMobile}
+      className={index === 2 ? `${isMobile} left` : `${isMobile} right`}
+    >
+      <StaticImage
+        className={index === 1 ? "grunge right" : "grunge left"}
+        src="../images/grunge-texture.png"
+        alt={t("MAIN.GRUNGE_ALT")}
+        loading="eager"
+        placeholder="none"
+        formats={["auto", "webp", "avif"]}
+        layout="constrained"
+      />
+      <CircleWrapper>
+        <Circle2
+          className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
+        ></Circle2>
+        <Circle3
+          className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
+        ></Circle3>
+        <Circle4
+          className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
+        ></Circle4>
+      </CircleWrapper>
+      {isMobile === "desktop" && (
+        <LanguageToggle location={location} className={isMobile} />
+      )}
+      <MovieCovers movieData={movieData} index={index} isMobile={isMobile} />
+      <MovieIndex isMobile={isMobile} movieData={movieData} />
+      <MovieLabel isMobile={isMobile} />
+    </Section>
+  )
+}
 export default Section2

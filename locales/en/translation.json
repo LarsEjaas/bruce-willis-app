@@ -1,20 +1,45 @@
 {
   "MAIN": {
     "ABOUT": "About",
-    "CREDITS": "Credits"
+    "CREDITS": "Credits",
+    "MADE_BY_ALT" : "Made with ❤ by Lars Ejaas",
+    "PORTRAIT_ALT" : "Portrait of Bruce Willis",
+    "GRUNGE_ALT" : "Grunge background texture"
   },
   "MOVIEDETAILS" : {
     "BRUCE_STARRING_AS" : "As",
+    "MOVIE_BACKGROUND_ALT" : "Movie Background Image from the Movie",
+    "MOVIE_POSTER_ALT" : "Movie Poster from the Movie ",
     "ONLY_ENGLISH_DESCRIPTION" : "",
     "DIRECTOR" : "Director",
     "HOURS" : "h",
     "ALSO_STARRING" : "Also Starring",
+    "ALSO_STARRING_ALT" : "Profile Picture of ",
+    "ALSO_STARRING_TITLE" : "Details about ",
     "STARRING_AS" : "as",
     "TRAILER" : "Trailer",
     "ONLY_ENGLISH_TRAILER" : "",
     "BUY_OR_STREAM" : "Buy or Stream this Movie",
-    "READ_MORE" : "Read More"
-
+    "RENT_HERE" : "This movie title is currently available to buy or stream here:",
+    "TMDB_STRAMING_BUTTON" : "Go to TMDb.com to get streaming links for ",
+    "VISIT_TMDB" : "Visit TMDB for direct links to streaming services featuring this title:",
+    "READ_MORE" : "Read More",
+    "READ_MORE_AT" : "Read more about this movie title at ",
+    "IMDB_ONLY_IN_ENGLISH" : " ",
+    "READ_ABOUT" : "Read about ",
+    "READ_MORE_ABOUT" : "Read more about ",
+      "AT" : " at "
+  },
+  "MODAL" : {
+    "SHARE_HEADER" : "Share on Social Media",
+    "SHARE_PARAGRAPH" : "Why not share this page with other movie fans?",
+    "SOCIAL_SHARE_ALT" : "Social share background",
+    "EXTERNAL_HEADER" : " Are You Sure You Want to Leave this Page?",
+    "EXTERNAL_PARAGRAPH1" : "This will take you to ",
+    "EXTERNAL_PARAGRAPH2" : " at ",
+    "EXTERNAL_BUTTON_NO" : "No Thanks",
+    "EXTERNAL_BUTTON_YES" : "Yes Please",
+    "EXTERNAL_LOGO_ALT" : " logo background"
   },
   "BORN" : "born",
   "LANGUAGE_ARIA_LABEL": "Change language",

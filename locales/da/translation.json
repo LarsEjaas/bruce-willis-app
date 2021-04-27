@@ -1,23 +1,49 @@
 {
     "MAIN": {
       "ABOUT": "About",
-      "CREDITS": "Credits"
+      "CREDITS": "Credits",
+      "MADE_BY_ALT" : "Udviklet med ❤ af Lars Ejaas",
+      "PORTRAIT_ALT" : "Portræt af Bruce Willis",
+      "GRUNGE_ALT" : "Grunge baggrunds-tekstur"
     },
     "MOVIEDETAILS" : {
       "BRUCE_STARRING_AS" : "Som",
+      "MOVIE_BACKGROUND_ALT" : "Baggrundsbillede fra filmen",
+      "MOVIE_POSTER_ALT" : "Filmplakat fra filmen ",
       "ONLY_ENGLISH_DESCRIPTION" : "Beskrivelsen er desværre kun tilgængelig på engelsk",
       "DIRECTOR" : "Instruktør",
       "HOURS" : "t",
       "ALSO_STARRING" : "I øvrigt medvirkende",
+      "ALSO_STARRING_ALT" : "Profilbillede af ",
+      "ALSO_STARRING_TITLE" : "Detaljer om ",
       "STARRING_AS" : "som",
       "TRAILER" : "Trailer",
       "ONLY_ENGLISH_TRAILER" : "Traileren er desværre kun tilgængelig uden danske undertekster",
       "BUY_OR_STREAM" : "Køb eller stream denne film",
-      "READ_MORE" : "Læs mere"
-      
+      "RENT_HERE" : "Du kan i øjeblikket leje eler købe titlen med danske undertekster her:",
+      "TMDB_STRAMING_BUTTON" : "Gå til TMDb.com for direkte streaming links til ",
+      "VISIT_TMDB" : "Besøg TMDB for direkte links til køb og leje af denne titel:",
+      "READ_MORE" : "Læs mere",
+      "READ_MORE_AT" : "Læs mere om denne titel hos ",
+      "IMDB_ONLY_IN_ENGLISH" : "OBS: IMDb er kun tilgængelig på engelsk",
+      "READ_ABOUT" : "Læs om ",
+      "READ_MORE_ABOUT" : "Læs mere om ",
+      "AT" : " hos "
+    },
+    "MODAL" : {
+      "SHARE_HEADER" : "Del denne side på sociale medier",
+      "SHARE_PARAGRAPH" : "Del denne side med andre som sætter pris på en god film!",
+      "SOCIAL_SHARE_ALT" : "Social share baggrund",
+      "EXTERNAL_HEADER" : "Er du sikker på du vil forlade denne side?",
+      "EXTERNAL_PARAGRAPH1" : "Du er på vej til ",
+      "EXTERNAL_PARAGRAPH2" : " på ",
+      "EXTERNAL_BUTTON_NO" : "Nej tak",
+      "EXTERNAL_BUTTON_YES" : "Ja tak",
+      "EXTERNAL_LOGO_ALT" : " logo baggrund"
     },
     "BORN" : "født",
     "LANGUAGE_ARIA_LABEL": "Skift sprog",
     "RELOAD" : "Genindlæs"
+    
 }
     

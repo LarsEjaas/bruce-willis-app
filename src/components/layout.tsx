@@ -231,25 +231,18 @@ const Layout = ({ children }: LayoutProps) => {
     undefined
   )
   const [clickedExternLink, setclickedExternLink] = useState<
-    HTMLElement | undefined
+    HTMLAnchorElement | undefined
   >(undefined)
   const modalToggle = (
     domNode: HTMLElement,
-    typeOfModal:
-      | "share"
-      | "movie"
-      | "externLink"
-      | "offline"
-      | "credits"
-      | "about"
-      | "error"
+    typeOfModal: "share" | "movie" | "offline" | "credits" | "about" | "error"
   ) => {
     console.log("modal toggled"),
       setClickedElement(domNode),
       setModalVisible(!modalVisible),
       setModalType(typeOfModal)
   }
-  const externModalToggle = (domNode: HTMLElement | undefined) => {
+  const externModalToggle = (domNode?: HTMLAnchorElement | undefined) => {
     console.log("externModalToggle running", domNode, externModalVisible),
       setclickedExternLink(domNode),
       setExternModalVisible(!externModalVisible)
@@ -296,18 +289,16 @@ type GlobalContextProps = {
   modalType:
     | "share"
     | "movie"
-    | "externLink"
     | "offline"
     | "credits"
     | "about"
     | "error"
     | undefined
   modalToggle: (
-    DOMnode: HTMLElement,
-    modalType:
+    DOMnode?: HTMLElement,
+    modalType?:
       | "share"
       | "movie"
-      | "externLink"
       | "offline"
       | "credits"
       | "about"
@@ -316,18 +307,17 @@ type GlobalContextProps = {
   ) => void
   externModalVisible: boolean
   externModalVisibleInitial: boolean
-  externModalToggle: (DOMnode: HTMLElement) => void
+  externModalToggle: (DOMnode?: HTMLAnchorElement) => void
   changeModalType: () =>
     | "share"
     | "movie"
-    | "externLink"
     | "offline"
     | "credits"
     | "about"
     | "error"
     | undefined
   clickedElement: HTMLElement | undefined
-  clickedExternLink: HTMLElement | undefined
+  clickedExternLink: HTMLAnchorElement | undefined
   storeClickedElement: () => void
 }
 
@@ -336,7 +326,6 @@ const externModalVisibleInitial: boolean = false
 const modalType:
   | "share"
   | "movie"
-  | "externLink"
   | "offline"
   | "credits"
   | "about"
@@ -344,7 +333,7 @@ const modalType:
   | undefined = undefined
 const isMobile: "mobile" | "desktop" | undefined = "mobile"
 const clickedElement: HTMLElement | undefined = undefined
-const clickedExternLink: HTMLElement | undefined = undefined
+const clickedExternLink: HTMLAnchorElement | undefined = undefined
 
 export const GlobalContext = createContext<Partial<GlobalContextProps>>({
   isMobile,

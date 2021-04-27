@@ -1,19 +1,23 @@
 import { useState, useEffect } from "react"
 
-function debounce(fn, ms) {
-  let timer
-  return _ => {
+function debounce(fn: Function, ms: number) {
+  let timer: NodeJS.Timeout | null
+  //return _ => {
+  return () => {
     clearTimeout(timer)
-    timer = setTimeout(_ => {
+    timer = setTimeout(() => {
       timer = null
-      fn.apply(this, arguments)
+      fn.apply(undefined, arguments)
+      //fn.apply(this, arguments)
     }, ms)
   }
 }
 
 export const DeviceDetectHook = () => {
   //const [isMobile, setMobile] = useState("mobile")
-  const [isMobile, setMobile] = useState(undefined)
+  const [isMobile, setMobile] = useState<"mobile" | "desktop" | undefined>(
+    undefined
+  )
 
   useEffect(() => {
     const userAgent =
