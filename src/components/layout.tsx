@@ -11,13 +11,13 @@ import "@fontsource/passion-one/700.css"
 import "@fontsource/passion-one/400.css"
 import "@fontsource/open-sans/400.css"
 import { createGlobalStyle } from "styled-components"
-import { DeviceDetectHook } from "../components/deviceDetect"
+import { DeviceDetectHook } from "./Hooks/deviceDetect"
 // import ModalContainer from "./modal"
 // import ExternModalContainer from "./externModal"
 import { useI18next } from "gatsby-plugin-react-i18next"
 
-const ModalContainer = lazy(() => import("./modal"))
-const ExternModalContainer = lazy(() => import("./externModal"))
+const ModalContainer = lazy(() => import("./Modal/modal"))
+const ExternModalContainer = lazy(() => import("./ExternModal/externModal"))
 
 const GlobalStyle = createGlobalStyle`
 * {

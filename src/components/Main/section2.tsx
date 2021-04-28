@@ -4,7 +4,7 @@ import { StaticImage } from "gatsby-plugin-image"
 import LanguageToggle from "./languageToggle"
 import MovieCovers from "./coverSlider"
 import MovieIndex from "./movieIndex"
-import MovieLabel from "./movieLabel"
+import MovieLabel from "../Modal/movieLabel"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 
 const circleFadeIn = keyframes`

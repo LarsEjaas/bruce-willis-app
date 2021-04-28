@@ -50,8 +50,6 @@ const MovieIndex = ({ isMobile, movieData }: MovieIndexProps) => {
     const hash = e.currentTarget.getAttribute("data-movieId")
     const target: HTMLElement | null = document.querySelector(`#mc${hash}`)
 
-    // target?.addEventListener("scroll", scrollListener(e), { passive: true })
-    // console.log(target?.nextElementSibling !== null, target)
     if (!!target.nextElementSibling) {
       target?.focus({ preventScroll: true })
       target?.scrollIntoView({
@@ -68,18 +66,6 @@ const MovieIndex = ({ isMobile, movieData }: MovieIndexProps) => {
         inline: "nearest",
       })
     }
-
-    // let scrollTimeout: number
-
-    // function scrollListener(this: Event) {
-    //   clearTimeout(scrollTimeout)
-    //   scrollTimeout = setTimeout(function () {
-    //     target?.focus({ preventScroll: true })
-    //     console.log(isMobile)
-    //   }, 700)
-    // }
-
-    // target?.removeEventListener("scroll", scrollListener(e))
   }
 
   const ListItems = !!movieData

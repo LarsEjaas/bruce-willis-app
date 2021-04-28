@@ -9,8 +9,8 @@ import {
 } from "react"
 import styled, { keyframes } from "styled-components"
 import ReactDOM from "react-dom"
-import Cross from "../svg/cross.inline.svg"
-import { GlobalContext } from "./layout"
+import Cross from "../../svg/cross.inline.svg"
+import { GlobalContext } from "../layout"
 import { GoExtern } from "./externalLink"
 
 const Crossbutton = styled.button`
@@ -150,7 +150,7 @@ const StyledExternModalContainer = styled.div`
   }
 `
 
-const ModalContentFrame = styled.div`
+const ExternModalContentFrame = styled.div`
   position: absolute;
   left: 50%;
   border-radius: 40px;
@@ -243,17 +243,16 @@ function Modal({ children, onModalExternClose }: ModalProps) {
       role="dialog"
       aria-modal="true"
       ref={externModalContainerRef}
-      //style={{ movieId }}
       onClick={onModalExternClose}
     >
-      <ModalContentFrame
+      <ExternModalContentFrame
         className={`${isMobile} modal-content extern`}
         ref={modalRef}
       >
         <externModalContext.Provider value={{ onModalExternClose }}>
           {children}
         </externModalContext.Provider>
-      </ModalContentFrame>
+      </ExternModalContentFrame>
     </StyledExternModalContainer>,
     document.body
   )

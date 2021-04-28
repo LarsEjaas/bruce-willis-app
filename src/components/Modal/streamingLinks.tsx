@@ -1,9 +1,9 @@
 import * as React from "react"
 import Skeleton from "react-loading-skeleton"
 import styled from "styled-components"
-import Television from "../images/television.inline.svg"
+import Television from "../../images/television.inline.svg"
 import { IconHeadline, Headline3, StyledTmdbLogo } from "./movieDetails"
-import ExternalLink, { NavigateButton } from "./externalLink"
+import ExternalLink, { NavigateButton } from "../ExternModal/externalLink"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 
 const StreamName = styled.p`

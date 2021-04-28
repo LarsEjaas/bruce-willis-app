@@ -1,9 +1,9 @@
 import * as React from "react"
 import Skeleton from "react-loading-skeleton"
 import styled from "styled-components"
-import FemaleMale from "../images/female_male.inline.svg"
-import Profile from "../images/profile.inline.svg"
-import ExternalLink from "./externalLink"
+import FemaleMale from "../../images/female_male.inline.svg"
+import Profile from "../../images/profile.inline.svg"
+import ExternalLink from "../ExternModal/externalLink"
 import { IconHeadline, Headline3 } from "./movieDetails"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 

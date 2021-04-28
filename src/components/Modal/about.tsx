@@ -1,18 +1,18 @@
 import * as React from "react"
 import Skeleton from "react-loading-skeleton"
-import { useFetchAbout } from "./sourceData"
+import { useFetchAbout } from "../Data/sourceData"
 import styled from "styled-components"
 import Backdrop from "./backdrop"
-import Profile from "../images/profile.inline.svg"
+import Profile from "../../images/profile.inline.svg"
 import { useTranslation } from "gatsby-plugin-react-i18next"
-import { getWithExpiry } from "./localStorage"
+import { getWithExpiry } from "../Data/localStorage"
 import {
   IconHeadline,
   ImdbNavigateButton,
   StyledImdbLogo,
   Note,
 } from "./movieDetails"
-import ExternalLink from "./externalLink"
+import ExternalLink from "../ExternModal/externalLink"
 
 const backdrop_path = "/ifBIpsuutQlul3Mexjw2QdkFXG4.jpg"
 const original_title = "Trauma Center"

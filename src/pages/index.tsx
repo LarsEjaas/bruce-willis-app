@@ -1,12 +1,12 @@
 import * as React from "react"
-import { DeviceDetectHook } from "../components/deviceDetect"
+import { DeviceDetectHook } from "../components/Hooks/deviceDetect"
 import { graphql } from "gatsby"
 import { useI18next } from "gatsby-plugin-react-i18next"
 import Layout from "../components/layout"
-import { Main } from "../components/main"
+import { Main } from "../components/Main/main"
 import SEO from "../components/seo"
-import { useFetchMovieCredits } from "../components/sourceData"
-import { getWithExpiry } from "../components/localStorage"
+import { useFetchMovieCredits } from "../components/Data/sourceData"
+import { getWithExpiry } from "../components/Data/localStorage"
 
 //Bruce Willis has id: 62
 const id = "62/movie_credits"

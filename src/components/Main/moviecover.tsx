@@ -1,7 +1,7 @@
 import * as React from "react"
 import { useContext } from "react"
 import styled from "styled-components"
-import { GlobalContext } from "./layout"
+import { GlobalContext } from "../layout"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 
 const CoverCard = styled.div<CoverProps>`

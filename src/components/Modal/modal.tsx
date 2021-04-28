@@ -8,18 +8,17 @@ import {
   lazy,
   Suspense,
   MouseEvent,
-  KeyboardEvent,
 } from "react"
 import styled, { keyframes } from "styled-components"
 import ReactDOM from "react-dom"
-import Cross from "../svg/cross.inline.svg"
-import { GlobalContext } from "./layout"
+import Cross from "../../svg/cross.inline.svg"
+import { GlobalContext } from "../layout"
 import AboutView from "./about"
 import ShareButtons from "./share"
 //import MovieDetails from "./movieDetails"
 //import Backdrop from "./backdrop"
 import { SkeletonTheme } from "react-loading-skeleton"
-import { NavigateButton, Paragraph } from "./externalLink"
+import { NavigateButton, Paragraph } from "../ExternModal/externalLink"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 
 const Backdrop = lazy(() => import("./backdrop"))
@@ -238,22 +237,6 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
   )
 }
 
-interface ModalContentFrameProps {
-  readonly modalType:
-    | "share"
-    | "movie"
-    | "offline"
-    | "credits"
-    | "about"
-    | "error"
-  ref?: HTMLDivElement | null
-}
-
-interface StyledModalContainerProps {
-  ref: HTMLElement | null
-  onClick: React.MouseEventHandler
-}
-
 const fadeOut = keyframes`
   from {
     opacity: 1;
@@ -263,7 +246,7 @@ const fadeOut = keyframes`
   }
 `
 
-const StyledModalContainer = styled.div<StyledModalContainerProps>`
+const StyledModalContainer = styled.div`
   position: fixed;
   width: 100vw;
   height: 100%;
@@ -284,7 +267,7 @@ const StyledModalContainer = styled.div<StyledModalContainerProps>`
   }
 `
 
-const ModalContentFrame = styled.div<ModalContentFrameProps>`
+const ModalContentFrame = styled.div`
   position: relative;
   left: 50%;
   top: 50%;
@@ -361,8 +344,6 @@ interface ModalProps {
 
 function Modal({ children, onModalClose, modalType }: ModalProps) {
   const { isMobile, clickedElement } = useContext(GlobalContext)
-  const modalRef = createRef<HTMLDivElement | null>()
-  const modalContainerRef = createRef<HTMLElement | null>()
 
   console.log(clickedElement)
   useEffect(() => {
@@ -377,9 +358,11 @@ function Modal({ children, onModalClose, modalType }: ModalProps) {
     return () => document.removeEventListener("keydown", keyListener)
   }, [])
 
+  const externModalRef = createRef<HTMLDivElement>()
+  const modalContainerRef = createRef<HTMLDivElement>()
   const handleTabKey = (e: KeyboardEvent) => {
     let focusableModalElements: Array<HTMLElement> = []
-    const allFocusableModalElements = modalRef.current.querySelectorAll(
+    const allFocusableModalElements: NodeListOf<HTMLElement> = externModalRef.current.querySelectorAll(
       'a[href], button, textarea, input[type="text"], input[type="radio"],input[type="email"], input[type="checkbox"], select'
     )
     allFocusableModalElements.forEach((element: HTMLElement) => {
@@ -407,7 +390,7 @@ function Modal({ children, onModalClose, modalType }: ModalProps) {
   ])
 
   function keyListener(e: KeyboardEvent) {
-    if (modalRef.current === null) return
+    if (externModalRef.current === null) return
     // get the listener corresponding to the pressed key
     const listener = keyListenersMap.get(e.keyCode)
 
@@ -431,8 +414,7 @@ function Modal({ children, onModalClose, modalType }: ModalProps) {
       >
         <ModalContentFrame
           className={`${isMobile} modal-content ${modalType}`}
-          ref={modalRef}
-          modalType={modalType}
+          ref={externModalRef}
         >
           <modalContext.Provider value={{ onModalClose }}>
             {children}
@@ -487,7 +469,6 @@ Modal.Body = function ModalBody({
   about,
   error,
   type,
-  movieId,
 }: ModalBodyProps) {
   return (
     <ModalBodyContent className={`modal-body ${type}`}>

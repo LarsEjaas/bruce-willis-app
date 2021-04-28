@@ -1,8 +1,8 @@
 import * as React from "react"
 import { ReactNode, useContext, MouseEvent } from "react"
-import { GlobalContext } from "./layout"
+import { GlobalContext } from "../layout"
 import styled from "styled-components"
-import Backdrop from "./backdrop"
+import Backdrop from "../Modal/backdrop"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 
 type ExternalLinkProps = {
