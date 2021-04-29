@@ -13,7 +13,8 @@ const id = "62/movie_credits"
 const type = "person"
 
 interface IndexProps {
-  location: any
+  location: { pathname: string }
+  data: any
 }
 
 const Index = ({ location, data }: IndexProps) => {

@@ -4,7 +4,9 @@
     "CREDITS": "Credits",
     "MADE_BY_ALT" : "Made with ❤ by Lars Ejaas",
     "PORTRAIT_ALT" : "Portrait of Bruce Willis",
-    "GRUNGE_ALT" : "Grunge background texture"
+    "GRUNGE_ALT" : "Grunge background texture",
+    "NAVIGATE_TO_NEXT_PAGE" : "Navigate to next page",
+    "NAVIGATE_TO_PREVIOUS_PAGE" : "Navigate to previous page"
   },
   "MOVIEDETAILS" : {
     "BRUCE_STARRING_AS" : "As",
@@ -49,5 +51,6 @@
   },
   "BORN" : "born",
   "LANGUAGE_ARIA_LABEL": "Change language",
-  "RELOAD" : "Reload Page"
+  "RELOAD" : "Reload Page",
+  "SHARE_BUTTON_TITLE" : "Share this page on "
 }

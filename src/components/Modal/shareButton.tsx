@@ -1,0 +1,113 @@
+import * as React from "react"
+import styled from "styled-components"
+import { useTranslation } from "gatsby-plugin-react-i18next"
+import Facebook from "../../svg/facebook.inline.svg"
+import Messenger from "../../svg/messenger.inline.svg"
+import Twitter from "../../svg/twitter.inline.svg"
+import Mail from "../../svg/mail.inline.svg"
+import Pinterest from "../../svg/pinterest.inline.svg"
+import LinkedIn from "../../svg/linkedIn.inline.svg"
+import Reddit from "../../svg/reddit.inline.svg"
+import WhatsApp from "../../svg/whatsApp.inline.svg"
+import Telegram from "../../svg/telegram.inline.svg"
+
+const ShareButtonLink = styled.a`
+  display: inline-block;
+  text-decoration: none;
+  margin: 0.5em;
+  & .resp_sharing_button {
+    border-radius: 50%;
+    transition: 0.2s ease-in;
+    padding: 14px;
+    box-shadow: var(--icon-shadow);
+    border: 2px solid var(--icon-hover-color2);
+    background: var(--background2);
+  }
+  & .resp_sharing_button:hover {
+    transition: all 0.3s ease-out;
+    transform: scale(1.3);
+    border-color: var(--movie-paragraph-color);
+  }
+  & .resp_sharing_button__icon svg {
+    width: 24px;
+    height: 24px;
+    margin-right: 0.4em;
+    vertical-align: top;
+  }
+  & .resp_sharing_button__small svg {
+    margin: 0;
+    vertical-align: middle;
+  }
+  & .resp_sharing_button__icon {
+    stroke: var(--icon-hover-color2);
+    fill: none;
+    transition: all 0.2s ease-in;
+  }
+  &:hover .resp_sharing_button__icon {
+    stroke: var(--movie-paragraph-color);
+    fill: none;
+    transition: all 0.3s ease-out;
+  }
+  & .resp_sharing_button__icon__solid,
+  .resp_sharing_button__icon__solidcircle {
+    fill: var(--icon-hover-color2);
+    stroke: none;
+    transition: all 0.2s ease-in;
+  }
+  &:hover .resp_sharing_button__icon__solid,
+  .resp_sharing_button__icon__solidcircle {
+    fill: var(--movie-paragraph-color);
+    stroke: none;
+    transition: all 0.3s ease-out;
+  }
+`
+
+interface ShareButtonProps {
+  buttonType:
+    | "Facebook"
+    | "Messenger"
+    | "Twitter"
+    | "Mail"
+    | "Pinterest"
+    | "LinkedIn"
+    | "Reddit"
+    | "WhatsApp"
+    | "Telegram"
+  URL: string
+}
+
+const ShareButton = ({ buttonType, URL }: ShareButtonProps) => {
+  const { t } = useTranslation()
+  return (
+    <ShareButtonLink
+      id={buttonType}
+      className="resp_sharing_button__link"
+      href={URL}
+      target="_blank"
+      rel="noopener"
+      aria-label={`${t("SHARE_BUTTON_TITLE")}${buttonType}`}
+      title={`${t("SHARE_BUTTON_TITLE")}${buttonType}`}
+    >
+      <div
+        className={`resp_sharing_button resp_sharing_button__${buttonType} resp_sharing_button__small`}
+      >
+        <div
+          aria-hidden="true"
+          className="resp_sharing_button__icon resp_sharing_button__icon__solid"
+        >
+          {buttonType === "Facebook" && <Facebook />}
+          {buttonType === "Messenger" && <Messenger />}
+          {buttonType === "Twitter" && <Twitter />}
+          {buttonType === "Mail" && <Mail />}
+          {buttonType === "Pinterest" && <Pinterest />}
+          {buttonType === "LinkedIn" && <LinkedIn />}
+          {buttonType === "Reddit" && <Reddit />}
+          {buttonType === "WhatsApp" && <WhatsApp />}
+          {buttonType === "Telegram" && <Telegram />}
+        </div>
+      </div>
+    </ShareButtonLink>
+  )
+}
+
+export default ShareButton

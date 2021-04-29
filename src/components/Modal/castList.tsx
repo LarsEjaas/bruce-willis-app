@@ -1,16 +1,21 @@
 import * as React from "react"
-import styled from "styled-components"
 import Profile from "../../images/profile.inline.svg"
 import ExternalLink from "../ExternModal/externalLink"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 import { CastCard } from "./alsoStarring"
 
 interface CastListProps {
-  readonly castListData: object | null
+  readonly castListData: CastListDataInterface
   readonly isMobile: "mobile" | "desktop" | undefined
 }
 
+interface CastListDataInterface {
+  map(arg: (cast: any, index: number) => JSX.Element): any
+  [index: number]: { string: number | string }
+}
+
 const CastList = ({ castListData, isMobile }: CastListProps) => {
+  console.log(castListData, typeof castListData)
   const { t } = useTranslation()
 
   return !!castListData

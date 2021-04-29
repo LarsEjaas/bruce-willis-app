@@ -1,6 +1,7 @@
 import * as React from "react"
 import { useEffect } from "react"
 import styled from "styled-components"
+import { useTranslation } from "gatsby-plugin-react-i18next"
 
 const Navigation = styled.nav`
   z-index: 10;
@@ -39,6 +40,7 @@ interface NavigationProps {
 
 const MobileNavigation = ({ togglePage, index }: NavigationProps) => {
   useEffect(() => {}, [index])
+  const { t } = useTranslation()
 
   return (
     <Navigation className={`position${index}`}>
@@ -47,12 +49,14 @@ const MobileNavigation = ({ togglePage, index }: NavigationProps) => {
         id="1"
         index={index}
         onClick={e => togglePage(e)}
+        aria-label={t("NAVIGATE_TO_NEXT_PAGE")}
       />
       <NavBtn
         className={`${index} two`}
         id="2"
         index={index}
         onClick={e => togglePage(e)}
+        aria-label={t("NAVIGATE_TO_PREVIOUS_PAGE")}
       />
     </Navigation>
   )
