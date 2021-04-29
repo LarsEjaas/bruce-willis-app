@@ -14,9 +14,6 @@ import {
 } from "./movieDetails"
 import ExternalLink from "../ExternModal/externalLink"
 
-const backdrop_path = "/ifBIpsuutQlul3Mexjw2QdkFXG4.jpg"
-const original_title = "Trauma Center"
-
 const StyledBackDrop = styled(Backdrop)`
   position: absolute;
   width: 100%;
@@ -181,24 +178,36 @@ const AboutView = ({ isMobile, language }: AboutViewProps) => {
     !isLoading ? data.profilePicture : null
   )
 
+  const imageId = 641790 //Id is referring to the movie "trauma center"
+  const movieData: Array<object> = getWithExpiry(`movieStorageData-${language}`)
+
+  const movieDetails: InterfaceMovieDetails = !!movieData
+    ? movieData.find(findBackgroundimage)
+    : null
+
+  function findBackgroundimage(movie: InterfaceMovie) {
+    return movie.id === imageId
+  }
+
+  console.log(movieDetails.backdrop_path)
+
   let biographyText =
     data !== null ? data.biography.match(/[^\s.!?]+[^.!?\r\n]+[.!?]*/g) : null
-  const birthday = data !== null ? `${t("BORN")} ${data.birthday}` : null
-  console.log(biographyText)
+  const birthday = !!data ? new Date(data.birthday) : null
+  const localeBirthday = !!data ? birthday.toLocaleDateString(language) : null
+  const birthdayString = !!data ? `${t("BORN")} ${localeBirthday}` : null
+
   biographyText = biographyText !== null ? biographyText.join("\n") : null
-  console.log(
-    data !== null ? data.biography : null,
-    data !== null ? data : null,
-    biographyText
-  )
 
   return (
     <>
-      <StyledBackDrop
-        isMobile={isMobile}
-        original_title={original_title}
-        backdrop_path={backdrop_path}
-      />
+      {!!movieData && (
+        <StyledBackDrop
+          isMobile={isMobile}
+          original_title={movieDetails.original_title}
+          backdrop_path={movieDetails.backdrop_path}
+        />
+      )}
       {isLoading ? (
         <ProfileFrame>
           <Skeleton
@@ -250,9 +259,11 @@ const AboutView = ({ isMobile, language }: AboutViewProps) => {
           }}
         />
       ) : (
-        <Div>
-          <Born>{birthday}</Born>
-        </Div>
+        !!birthdayString && (
+          <Div>
+            <Born>{birthdayString}</Born>
+          </Div>
+        )
       )}
       {isLoading ? (
         <Skeleton style={{ fontSize: 16, marginBlock: "0.2em" }} count={10} />

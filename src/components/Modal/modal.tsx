@@ -14,6 +14,7 @@ import ReactDOM from "react-dom"
 import Cross from "../../svg/cross.inline.svg"
 import { GlobalContext } from "../layout"
 import AboutView from "./about"
+import CreditsView from "./credits.tsx"
 import ShareButtons from "./share"
 //import MovieDetails from "./movieDetails"
 //import Backdrop from "./backdrop"
@@ -22,7 +23,7 @@ import { NavigateButton, Paragraph } from "../ExternModal/externalLink"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 
 const Backdrop = lazy(() => import("./backdrop"))
-const MovieDetails = lazy(() => import("./movieDetails"))
+const MovieDetailsWrapper = lazy(() => import("./movieDetailsWrapper"))
 
 interface CrossbuttonProps {
   modalType: "about" | "share" | "offline" | "credits" | "movie" | "error"
@@ -152,7 +153,7 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
                   <>
                     {!isSSR && (
                       <Suspense fallback={<div />}>
-                        <MovieDetails
+                        <MovieDetailsWrapper
                           isMobile={isMobile}
                           movieId={Number(
                             clickedElement.getAttribute("data-id")
@@ -169,7 +170,7 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
                 type={modalType}
                 credits={
                   <>
-                    <Headline2>This is credits</Headline2>
+                    <CreditsView isMobile={isMobile} language={language} />
                   </>
                 }
               />
@@ -280,7 +281,7 @@ const ModalContentFrame = styled.div`
   will-change: opacity;
   overflow: hidden;
   transition: all 0.4s;
-  :not(.extern, .credits, .share) {
+  :not(.extern, .share) {
     top: 4px;
     transform: translate(-50%, 0);
   }
@@ -292,16 +293,16 @@ const ModalContentFrame = styled.div`
     max-width: 1080px;
   }
   &.desktop.movie,
-  &.desktop.about {
+  &.desktop.about,
+  &.desktop.credits {
     width: calc(100% - 8px);
     margin-bottom: 200px;
     @media (min-height: 720px) {
       top: calc((100vh - 720px) / 2);
     }
   }
-  &.share,
   &.error,
-  &.credits {
+  &.share {
     transform: translate(-50%, calc((100vh - 100%) / 2));
     width: fit-content;
   }

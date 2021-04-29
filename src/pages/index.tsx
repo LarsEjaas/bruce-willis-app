@@ -16,8 +16,11 @@ interface IndexProps {
   location: any
 }
 
-const Index = ({ location }: IndexProps) => {
+const Index = ({ location, data }: IndexProps) => {
   const { language } = useI18next()
+  const siteMetadata = data.site.siteMetadata
+
+  console.log(siteMetadata)
 
   const [movieData, isLoading, isError] = getWithExpiry(
     `movieStorageData-${language}`
@@ -29,18 +32,34 @@ const Index = ({ location }: IndexProps) => {
         language,
       })
 
-  console.log(movieData, isLoading, isError)
+  console.log(
+    movieData,
+    isLoading,
+    isError,
+    siteMetadata.seo_image_da,
+    siteMetadata.seo_image_en
+  )
 
   const isMobile = DeviceDetectHook()
 
   return (
     <>
       <SEO
-        title="THIS IS THE TITLE"
-        description="THIS IS THE DESCRIPTION"
+        title={
+          language === "da" ? siteMetadata.title_da : siteMetadata.title_en
+        }
+        description={
+          language === "da"
+            ? siteMetadata.description_da
+            : siteMetadata.description_en
+        }
         pathName={location.pathname}
-        image="THIS IS THE IMAGE URL"
-        published={location.published}
+        image={
+          language === "da"
+            ? siteMetadata.seo_image_da
+            : siteMetadata.seo_image_en
+        }
+        //published={location.published}
       />
       <Layout>
         <Main
@@ -57,7 +76,7 @@ const Index = ({ location }: IndexProps) => {
 
 export default Index
 
-export const query = graphql`
+export const queryData = graphql`
   query($language: String!) {
     locales: allLocale(filter: { language: { eq: $language } }) {
       edges {
@@ -66,6 +85,16 @@ export const query = graphql`
           data
           language
         }
+      }
+    }
+    site {
+      siteMetadata {
+        title_en
+        title_da
+        description_en
+        description_da
+        seo_image_en
+        seo_image_da
       }
     }
   }

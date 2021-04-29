@@ -1,4 +1,5 @@
 import * as React from "react"
+import { MouseEvent } from "react"
 import { Link } from "gatsby"
 import styled, { keyframes } from "styled-components"
 import { useTranslation, useI18next } from "gatsby-plugin-react-i18next"
@@ -94,7 +95,7 @@ const LanguageToggle = ({ location, className }: LanguageToggleProps) => {
   const { t } = useTranslation()
   const { language } = useI18next()
 
-  const noMove = () => {
+  const noMove = (e: MouseEvent<HTMLAnchorElement>) => {
     if (typeof window !== undefined) {
       let body = document.querySelector("body")
       !!body && body.classList.contains("move")
@@ -103,17 +104,16 @@ const LanguageToggle = ({ location, className }: LanguageToggleProps) => {
     }
   }
 
-  console.log(location.pathname, typeof location, language, typeof language)
   const imageFlag = language === "da" ? "DKK.png" : "GBP.png"
   const flagAlt = language === "da" ? "dansk flag" : "British Flag"
-  const linkPath = location.pathname === "/" ? "/en/" : "../"
+  const linkPath = language === "da" ? "/en/" : "../"
 
   return (
     <StyledNav aria-label={t("LANGUAGE_ARIA_LABEL")} className={className}>
       <Link
         tabIndex={-1}
         to={linkPath}
-        onClick={(e: MouseEvent) => noMove(e)}
+        onClick={(e: MouseEvent<HTMLAnchorElement>) => noMove(e)}
         activeClassName="active"
         title={
           language === "da"

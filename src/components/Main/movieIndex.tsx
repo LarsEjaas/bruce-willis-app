@@ -33,6 +33,12 @@ const IndexSlider = styled.div<IndexSliderProps>`
   max-height: ${props =>
     props.isMobile === "mobile" ? "calc(100% - 80px)" : "100%"};
   overflow: auto;
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 interface MovieIndexProps {

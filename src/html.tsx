@@ -1,5 +1,4 @@
 import * as React from "react"
-import Helmet from "react-helmet"
 
 const config = require("../gatsby-config.js")
 
@@ -11,7 +10,7 @@ interface HtmlProps {
 
 export default (props: HtmlProps) => {
   return (
-    <html lang="en">
+    <html>
       <head>
         <meta charSet="utf-8" />
         <meta httpEquiv="x-ua-compatible" content="IE=edge" />

@@ -4,12 +4,17 @@ require('dotenv').config({
 
 module.exports = {
   siteMetadata: {
-    title:  'A tribute to Bruce Willis',
-    description: `Celebrating one of Hollywood's Greatest Movie Stars`,
-    siteUrl: 'https://bruce-willis.com', //to be changed
+    title_en:  'A tribute to Bruce Willis',
+    title_da:  'En hyldest til Bruce Willis',
+    description_en: `This page is celebrating one of Hollywood's Greatest Movie Stars.`,
+    description_da: `Denne side fejrer en af Hollywood's største filmstjerner.`,
+    siteUrl: 'https://bruce-willis.rocks', 
     author: 'Lars Ejaas',
     logo: '/logo.png',
-    right: 'All rights reserved Lars Ejaas. Please contact me directly to get my consent before using any content from this page',
+    right_en: 'All rights reserved Lars Ejaas. Please contact me directly to get my consent before using any content from this page',
+    right_da: 'Alle rettigheder forbeholdt Lars Ejaas. Please contact me directly to get my consent before using any content from this page',
+    seo_image_en: '/SoMe_english.png',
+    seo_image_da: '/SoMe_dansk.png'
   },
   plugins: [
     'gatsby-plugin-react-helmet',
@@ -32,7 +37,7 @@ module.exports = {
       localeJsonSourceName: `locale`,
       languages: [`en`, `da`],
       redirect: true,
-      siteUrl: 'https://bruce-willis.com', //to be changed,
+      siteUrl: 'https://bruce-willis.rocks', //to be changed,
       defaultLanguage: `da`,
       // you can pass any i18next options
       // pass following options to allow message content as a key
@@ -93,56 +98,56 @@ module.exports = {
         display: 'standalone',
         orientation: `portrait`,
         icon: `src/images/favicon.png`,
-        // icons: [
-        //   {
-        //     src: `icons/icon-48x48.png`,
-        //     sizes: `48x48`,
-        //     type: `image/png`,
-        //     purpose: `maskable any`
-        //   },
-        //   {
-        //     src: `icons/icon-72x72.png`,
-        //     sizes: `72x72`,
-        //     type: `image/png`,
-        //     purpose: `maskable any`
-        //   },
-        //   {
-        //     src: `icons/icon-96x96.png`,
-        //     sizes: `96x96`,
-        //     type: `image/png`,
-        //     purpose: `maskable any`
-        //   },
-        //   {
-        //     src: `icons/icon-144x144.png`,
-        //     sizes: `144x144`,
-        //     type: `image/png`,
-        //     purpose: `maskable any`
-        //   },
-	      //   {
-        //     src: `icons/icon-192x192.png`,
-        //     sizes: `192x192`,
-        //     type: `image/png`,
-        //     purpose: `maskable any`
-        //   },
-        //   {
-        //     src: `icons/icon-256x256.png`,
-        //     sizes: `256x256`,
-        //     type: `image/png`,
-        //     purpose: `maskable any`
-        //   },
-        //   {
-        //     src: `icons/icon-384x384.png`,
-        //     sizes: `384x384`,
-        //     type: `image/png`,
-        //     purpose: `maskable any`
-        //   },
-        //   {
-        //     src: `icons/icon-512x512.png`,
-        //     sizes: `512x512`,
-        //     type: `image/png`,
-        //     purpose: `maskable any`
-        //   },
-        // ],
+        icons: [
+          {
+            src: `icons/icon-48x48.png`,
+            sizes: `48x48`,
+            type: `image/png`,
+            purpose: `maskable any`
+          },
+          {
+            src: `icons/icon-72x72.png`,
+            sizes: `72x72`,
+            type: `image/png`,
+            purpose: `maskable any`
+          },
+          {
+            src: `icons/icon-96x96.png`,
+            sizes: `96x96`,
+            type: `image/png`,
+            purpose: `maskable any`
+          },
+          {
+            src: `icons/icon-144x144.png`,
+            sizes: `144x144`,
+            type: `image/png`,
+            purpose: `maskable any`
+          },
+	        {
+            src: `icons/icon-192x192.png`,
+            sizes: `192x192`,
+            type: `image/png`,
+            purpose: `maskable any`
+          },
+          {
+            src: `icons/icon-256x256.png`,
+            sizes: `256x256`,
+            type: `image/png`,
+            purpose: `maskable any`
+          },
+          {
+            src: `icons/icon-384x384.png`,
+            sizes: `384x384`,
+            type: `image/png`,
+            purpose: `maskable any`
+          },
+          {
+            src: `icons/icon-512x512.png`,
+            sizes: `512x512`,
+            type: `image/png`,
+            purpose: `maskable any`
+          },
+        ],
         cache_busting_mode: 'none'
       },
     },

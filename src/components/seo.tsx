@@ -2,23 +2,24 @@ import * as React from "react"
 import { graphql, useStaticQuery } from "gatsby"
 import { Helmet } from "react-helmet"
 import { globalHistory as history } from "@reach/router"
+import { useI18next } from "gatsby-plugin-react-i18next"
 
-const removeBackSlashEnd = path => {
+const removeBackSlashEnd = (path: string) => {
   if (path === undefined) return
   return path.endsWith("/") ? path.slice(0, path.length - 1) : path
 }
 
-const removeBackSlashStart = path => {
+const removeBackSlashStart = (path: string) => {
   if (path === undefined) return
   return path.startsWith("/") ? path.slice(1, path.length) : path
 }
 
-const httpsTohttp = path => {
+const httpsTohttp = (path: string) => {
   if (path === undefined) return
   return path.replace(/^https:\/\//i, "http://")
 }
 
-const getImageType = path => {
+const getImageType = (path: string) => {
   if (path === undefined) return
   let regexp = /jpeg|png?/gi
   return path.match(regexp)
@@ -32,30 +33,30 @@ const SEO = props => {
       query {
         site {
           siteMetadata {
-            title
-            description
+            title_en
+            title_da
+            description_en
+            description_da
             siteUrl
             author
-            right
+            logo
+            right_en
+            right_da
+            seo_image_en
+            seo_image_da
           }
         }
       }
     `
   )
 
+  const { language } = useI18next()
   const siteMetadata = data.site.siteMetadata
-
   const siteUrl = removeBackSlashEnd(siteMetadata.siteUrl)
   const NoSecuresiteUrl = httpsTohttp(siteUrl)
-
-  //console.log({props},`${siteUrl}${location.pathname}`, location.pathname, siteMetadata.siteUrl, siteMetadata.siteUrl.endsWith("/"));
-
   const children = props.childen
   const title = props.title || `${siteMetadata.title}`
   const description = props.description || `${siteMetadata.description}`
-  const pathName = props.pathName
-  const canonical = props.canonical || `${siteUrl}${location.pathname}`
-  const image = props.image
   const contentType = props.contentType || "article"
   const published = props.published || new Date().toISOString()
   const updated = new Date().toISOString()
@@ -63,7 +64,7 @@ const SEO = props => {
   const tags = props.tags
   const twitter = props.twitter
   const author = props.author || `${siteMetadata.author}`
-  const rights = `${siteMetadata.right}`
+  const rights = siteMetadata[`right_${language}`]
   const imageType = `image/${getImageType(props.image)}` || `image/png`
   const imageWidth = "1200"
   const imageHeight = "630"
@@ -72,25 +73,29 @@ const SEO = props => {
     return url.endsWith("/") ? url : `${url}/`
   }
 
+  console.log(props)
+
   const canonicalUrl = `${siteUrl}${location.pathname}` //this CANNOT be overwritten from SEO props!!
 
   return (
-    <Helmet
-      htmlAttributes={{ lang: "en" }}
-      title={`${siteMetadata.author} | ${title}`}
-    >
-      {children}
+    <Helmet htmlAttributes={{ lang: language }} title={title}>
       <link rel="preload" as="image" href="../286_Bruce_Willis.avif" />
       <link rel="preload" as="image" href="/572_Bruce_Willis.avif" />
-      <link rel="preconnect" href="https://api.themoviedb.org" crossorigin />
+      <link
+        rel="preconnect"
+        href="https://api.themoviedb.org"
+        crossOrigin="true"
+      />
+      {children}
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="language" content={language}></meta>
+      <meta name="distribution" content="Global"></meta>
+      <meta name="application-name" content={title}></meta>
       <meta name="rights" content={rights}></meta>
+      <meta name="copyright" content={siteMetadata.author}></meta>
       <meta name="description" content={description} />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta
-        name="twitter:title"
-        content={`${siteMetadata.author} | ${title}`}
-      />
+      <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:creator" content={twitter || siteMetadata.author} />
       <meta
@@ -103,11 +108,7 @@ const SEO = props => {
       {tags && <meta name="article:tag" content={tags} />}
       <meta
         property="og:title"
-        content={
-          props.title
-            ? `${author} | ${title}`
-            : `${author} | ${siteMetadata.title}`
-        }
+        content={props.title ? `${title}` : `${siteMetadata.title}`}
       />
       <meta
         property="og:type"
@@ -128,17 +129,13 @@ const SEO = props => {
       <meta property="og:image:width" content={imageWidth} />
       <meta property="og:image:height" content={imageHeight} />
       <meta property="og:description" content={description} />
-      <meta property="og:site_name" content={`${siteMetadata.title}`} />
-      <meta
-        itemProp="name"
-        content={
-          props.title
-            ? `${author} | ${title}`
-            : `${author} | ${siteMetadata.title}`
-        }
-      />
+      <meta property="og:site_name" content={`${title}`} />
+      <meta itemProp="name" content={`${title}`} />
       <meta itemProp="description" content={description} />
-      <meta itemProp="image" content={`${siteUrl}/${props.image}`} />
+      <meta
+        itemProp="image"
+        content={`${siteUrl}/${removeBackSlashStart(props.image)}`}
+      />
 
       <script type="application/ld+json">
         {`

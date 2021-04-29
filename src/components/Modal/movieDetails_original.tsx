@@ -8,12 +8,15 @@ import SandTime from "../../images/sand_time.inline.svg"
 import Books from "../../images/books.inline.svg"
 import TmdbLogo from "../../images/tmdb.inline.svg"
 import ImdbLogo from "../../images/IMDB.inline.svg"
+import { useFetchMovieDetails } from "../Data/sourceData"
+import { getGenre } from "../Data/genres"
 import ExternalLink, { NavigateButton } from "../ExternModal/externalLink"
 import IframeMovie from "./youtubeVideo"
 import StreamLinks from "./streamingLinks"
 import Backdrop from "./backdrop"
+import { useI18next, useTranslation } from "gatsby-plugin-react-i18next"
+import { getWithExpiry } from "../Data/localStorage"
 import AlsoStarring from "./alsoStarring"
-import { useTranslation } from "gatsby-plugin-react-i18next"
 
 const PosterCover = styled.img`
   border-radius: 10px;
@@ -242,42 +245,109 @@ export const StyledImdbLogo = styled(ImdbLogo)`
 interface MovieDetailsProps {
   readonly movieId: number
   readonly isMobile: "mobile" | "desktop" | undefined
-  readonly movieDetails
-  readonly genreList
-  readonly genreTypes
-  readonly movieYear
-  readonly Director: string
-  readonly hours
-  readonly minutes
-  readonly enDescription: string
-  readonly languageCode: "DK" | "US"
-  readonly isLoading: boolean
-  readonly movieDetailedData
-  readonly trailerLink: string
-  readonly language: string
-  readonly imdbId: number
-  readonly id: number
 }
 
-const MovieDetails = ({
-  movieDetails,
-  isMobile,
-  genreList,
-  genreTypes,
-  movieYear,
-  Director,
-  hours,
-  minutes,
-  enDescription,
-  languageCode,
-  isLoading,
-  movieDetailedData,
-  trailerLink,
-  language,
-  imdbId,
-  id,
-}: MovieDetailsProps) => {
+interface InterfaceMovie {
+  id?: number
+}
+
+const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
   const { t } = useTranslation()
+  const id = movieId !== 0 ? movieId : null
+  const type = "movie"
+  const { language } = useI18next()
+  const [movieDetailedData, isLoading, isError] = getWithExpiry(
+    `movieDetailsData-${id}-${language}`
+  )
+    ? [getWithExpiry(`movieDetailsData-${id}-${language}`), false, false]
+    : useFetchMovieDetails({
+        type,
+        id,
+        language,
+      })
+  console.log(movieDetailedData, isLoading, isError, isMobile)
+
+  const movieData: Array<object> = getWithExpiry(`movieStorageData-${language}`)
+
+  console.log(movieData, !!movieData)
+  const movieDetails: InterfaceMovieDetails = !!movieData
+    ? movieData.find(findMovie)
+    : null
+  console.log(movieId, id)
+
+  function findMovie(movie: InterfaceMovie) {
+    console.log(movie.id, id)
+    return movie.id === id
+  }
+
+  console.log(movieDetails)
+
+  console.log(!!movieDetailedData ? movieDetailedData : null)
+
+  const movieYear = movieDetails?.release_date.split("-")[0]
+
+  const genreList = movieDetails?.genre_ids
+
+  console.log(genreList)
+
+  genreList.forEach((genre_id, index) => {
+    let genre = getGenre(language, genre_id.toString())
+    genreList[index] = genre
+  })
+
+  const genreTypes = genreList.map(genre => <h3>{genre}</h3>)
+
+  let keys = !!movieDetailedData
+    ? movieDetailedData.credits?.crew.map((crew: any) =>
+        crew.job === "Director" ? crew.name : null
+      )
+    : null
+  const Director = !!movieDetailedData
+    ? keys?.find((element: any) => !!element)
+    : null
+
+  const hours = !!movieDetailedData
+    ? Math.floor(Number(movieDetailedData.runtime) / 60)
+    : null
+  const minutes = !!movieDetailedData
+    ? Number(movieDetailedData.runtime) % 60
+    : null
+
+  const trailerLinkID = !!movieDetailedData
+    ? movieDetailedData.videos?.results.map((movie: any) =>
+        movie.iso_639_1 === "en"
+          ? movie.site === "YouTube"
+            ? movie.type === "Trailer"
+              ? movie.key
+              : null
+            : null
+          : null
+      )
+    : null
+
+  const trailerLink = !!movieDetailedData
+    ? trailerLinkID?.find((element: any) => !!element)
+    : null
+
+  console.log(trailerLink)
+
+  const imdbId = !!movieDetailedData ? movieDetailedData.imdb_id : null
+
+  console.log(
+    !!movieDetailedData ? movieDetailedData : null,
+    !!movieDetailedData ? movieDetailedData.imdb_id : null,
+    imdbId
+  )
+
+  const enDescription =
+    language === "da"
+      ? !!movieDetailedData
+        ? movieDetailedData.overview
+        : null
+      : null
+
+  const languageCode = language === "da" ? "DK" : "US"
+
   return (
     <>
       {movieDetails.backdrop_path && (
@@ -406,6 +476,8 @@ const MovieDetails = ({
       <StreamLinks
         movieDetailedData={movieDetailedData}
         movieDetails={movieDetails}
+        movieYear={movieYear}
+        language={language}
         languageCode={languageCode}
         isMobile={isMobile}
         isLoading={isLoading}

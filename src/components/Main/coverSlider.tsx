@@ -57,11 +57,13 @@ const Slider = styled.div<SliderProps>`
     }
     overflow: auto;
     overflow: -moz-scrollbars-none;
+    scrollbar-width: none;
     -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
   .desktop.sliderContainer {
-    /* animation: ${sliderFadeIn} 0.7s ease-out 0.4s;
-    animation-fill-mode: both; */
     position: relative;
   }
   .mobile.sliderContainer.left {
@@ -82,8 +84,6 @@ interface MovieCoverProps {
 }
 
 const MovieCovers = ({ isMobile, index, movieData }: MovieCoverProps) => {
-  console.log(movieData)
-
   const movieList = !!movieData
     ? movieData.map(
         (listMovie: {
@@ -103,7 +103,6 @@ const MovieCovers = ({ isMobile, index, movieData }: MovieCoverProps) => {
           ) : null
       )
     : null
-  console.log(movieList)
 
   return (
     <Slider isMobile={isMobile}>
