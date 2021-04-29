@@ -412,7 +412,6 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
               <TMDBlogo height="16" />
             </StyledExternalLink>
             <LanguageToggle
-              location={location}
               className={index === 1 ? "language right" : "language left"}
             />
             <StyledExternalLink

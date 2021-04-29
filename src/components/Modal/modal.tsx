@@ -66,6 +66,15 @@ const Headline2 = styled.h2`
   width: 80%;
 `
 
+const Headline3 = styled.h3`
+  font-family: "Passion One", cursive;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--movie-header1-color);
+  text-shadow: 4px 4px 4px var(--border-main);
+  text-align: center;
+`
+
 interface ModalContainerProps {
   language: string
 }
@@ -201,7 +210,7 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
                       </Suspense>
                     )}
                     <Headline2>{t("MODAL.SHARE_HEADER")}</Headline2>
-                    <Paragraph>{t("MODAL.SHARE_PARAGRAPH")}</Paragraph>
+                    <Headline3 centered>{t("MODAL.SHARE_PARAGRAPH")}</Headline3>
                     <ShareButtons isMobile={isMobile} />
                   </>
                 }

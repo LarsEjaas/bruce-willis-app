@@ -25,6 +25,10 @@ const ShareButtons = ({ isMobile }: ShareButtonProps) => {
         site {
           siteMetadata {
             siteUrl
+            title_da
+            title_en
+            description_da
+            description_en
           }
         }
       }
@@ -44,6 +48,7 @@ const ShareButtons = ({ isMobile }: ShareButtonProps) => {
   const image = siteMetadata[`seo_image_${language}`]
   const descriptionURL = encodeURIComponent(description)
   const title = siteMetadata[`title_${language}`]
+  console.log(title, `title_${language}`, siteMetadata)
   const titleURL = encodeURIComponent(title)
 
   const facebookBaseURL = "https://facebook.com/sharer/sharer.php?u="
@@ -66,19 +71,43 @@ const ShareButtons = ({ isMobile }: ShareButtonProps) => {
 
   return (
     <ButtonContainer>
-      <ShareButton buttonType="Facebook" URL={facebookURL} />
+      <ShareButton
+        isMobile={isMobile}
+        buttonType="Facebook"
+        URL={facebookURL}
+      />
       {isMobile === "mobile" && (
-        <ShareButton buttonType="Messenger" URL={messengerURL} />
+        <ShareButton
+          isMobile={isMobile}
+          buttonType="Messenger"
+          URL={messengerURL}
+        />
       )}
-      <ShareButton buttonType="Twitter" URL={twitterURL} />
-      <ShareButton buttonType="Mail" URL={mailURL} />
-      <ShareButton buttonType="Pinterest" URL={pinterestURL} />
-      <ShareButton buttonType="LinkedIn" URL={linkedInURL} />
-      <ShareButton buttonType="Reddit" URL={redditURL} />
+      <ShareButton isMobile={isMobile} buttonType="Twitter" URL={twitterURL} />
+      <ShareButton isMobile={isMobile} buttonType="Mail" URL={mailURL} />
+      <ShareButton
+        isMobile={isMobile}
+        buttonType="Pinterest"
+        URL={pinterestURL}
+      />
+      <ShareButton
+        isMobile={isMobile}
+        buttonType="LinkedIn"
+        URL={linkedInURL}
+      />
+      <ShareButton isMobile={isMobile} buttonType="Reddit" URL={redditURL} />
       {isMobile === "mobile" && (
         <>
-          <ShareButton buttonType="WhatsApp" URL={whatsAppURL} />
-          <ShareButton buttonType="Telegram" URL={telegramURL} />
+          <ShareButton
+            isMobile={isMobile}
+            buttonType="WhatsApp"
+            URL={whatsAppURL}
+          />
+          <ShareButton
+            isMobile={isMobile}
+            buttonType="Telegram"
+            URL={telegramURL}
+          />
         </>
       )}
     </ButtonContainer>

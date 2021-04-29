@@ -87,11 +87,10 @@ const LanguageButton = styled.button<LanguageButtonProps>`
 `
 
 interface LanguageToggleProps {
-  location: object
   className?: string
 }
 
-const LanguageToggle = ({ location, className }: LanguageToggleProps) => {
+const LanguageToggle = ({ className }: LanguageToggleProps) => {
   const { t } = useTranslation()
   const { language } = useI18next()
 

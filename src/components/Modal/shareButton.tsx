@@ -11,7 +11,21 @@ import Reddit from "../../svg/reddit.inline.svg"
 import WhatsApp from "../../svg/whatsApp.inline.svg"
 import Telegram from "../../svg/telegram.inline.svg"
 
-const ShareButtonLink = styled.a`
+interface shareButtonLinkProps {
+  readonly isMobile: "mobile" | "desktop" | undefined
+  readonly id:
+    | "Facebook"
+    | "Messenger"
+    | "Twitter"
+    | "Mail"
+    | "Pinterest"
+    | "LinkedIn"
+    | "Reddit"
+    | "WhatsApp"
+    | "Telegram"
+}
+
+const ShareButtonLink = styled.a<shareButtonLinkProps>`
   display: inline-block;
   text-decoration: none;
   margin: 0.5em;
@@ -29,8 +43,8 @@ const ShareButtonLink = styled.a`
     border-color: var(--movie-paragraph-color);
   }
   & .resp_sharing_button__icon svg {
-    width: 24px;
-    height: 24px;
+    width: ${props => (props.isMobile === "mobile" ? "24px" : "48px")};
+    height: ${props => (props.isMobile === "mobile" ? "24px" : "48px")};
     margin-right: 0.4em;
     vertical-align: top;
   }
@@ -74,9 +88,10 @@ interface ShareButtonProps {
     | "WhatsApp"
     | "Telegram"
   URL: string
+  readonly isMobile: "mobile" | "desktop" | undefined
 }
 
-const ShareButton = ({ buttonType, URL }: ShareButtonProps) => {
+const ShareButton = ({ buttonType, URL, isMobile }: ShareButtonProps) => {
   const { t } = useTranslation()
   return (
     <ShareButtonLink
@@ -87,6 +102,7 @@ const ShareButton = ({ buttonType, URL }: ShareButtonProps) => {
       rel="noopener"
       aria-label={`${t("SHARE_BUTTON_TITLE")}${buttonType}`}
       title={`${t("SHARE_BUTTON_TITLE")}${buttonType}`}
+      isMobile={isMobile}
     >
       <div
         className={`resp_sharing_button resp_sharing_button__${buttonType} resp_sharing_button__small`}

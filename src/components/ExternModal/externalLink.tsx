@@ -95,7 +95,11 @@ const Headline2 = styled.h2`
   text-align: center;
 `
 
-export const Paragraph = styled.p`
+interface ParagraphProps {
+  centered: boolean
+}
+
+export const Paragraph = styled.p<ParagraphProps>`
   white-space: break-spaces;
   color: var(--movie-header1-color);
   //color: var(--movie-paragraph-color);
@@ -106,6 +110,7 @@ export const Paragraph = styled.p`
   font-size: 16px;
   margin-block-start: 1em;
   margin-block-end: 1em;
+  text-align: ${props => (props.centered ? "center" : "left")};
 `
 
 interface closeExternModalProps {
