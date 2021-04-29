@@ -3,9 +3,9 @@ import Skeleton from "react-loading-skeleton"
 import styled from "styled-components"
 import FemaleMale from "../../images/female_male.inline.svg"
 import Profile from "../../images/profile.inline.svg"
-import ExternalLink from "../ExternModal/externalLink"
 import { IconHeadline, Headline3 } from "./movieDetails"
 import { useTranslation } from "gatsby-plugin-react-i18next"
+import CastList from "./castList"
 
 const CastlistWrapper = styled.div`
   display: inline-flex;
@@ -15,11 +15,10 @@ const CastlistWrapper = styled.div`
 `
 
 interface CastCardProps {
-  readonly movieId: number
   readonly isMobile: "mobile" | "desktop" | undefined
 }
 
-const CastCard = styled.div<CastCardProps>`
+export const CastCard = styled.div<CastCardProps>`
   height: fit-content;
   width: 20%;
   max-width: ${props => (props.isMobile === "mobile" ? "188px" : "196px")};
@@ -120,48 +119,12 @@ const AlsoStarring = ({
   isLoading,
 }: StarringProps) => {
   const { t } = useTranslation()
+
   const castListData = !!movieDetailedData
     ? movieDetailedData.credits?.cast.length > 1
       ? movieDetailedData.credits?.cast
       : null
     : null
-  //console.log(castListData)
-
-  const castList = !!castListData
-    ? castListData.map((cast: any, index: number) =>
-        cast.original_name !== "Bruce Willis" ? (
-          index < 7 ? (
-            !!cast.profile_path ? (
-              <>
-                <CastCard isMobile={isMobile}>
-                  <ExternalLink
-                    href={`https://www.themoviedb.org/person/${cast.id}`}
-                    title={`${t("MOVIEDETAILS.ALSO_STARRING_TITLE")}${
-                      cast.original_name
-                    }`}
-                  >
-                    <div>
-                      <Profile className="profile" />
-                      <img
-                        src={`https://www.themoviedb.org/t/p/w180_and_h180_face${cast.profile_path}`}
-                        alt={`${t("MOVIEDETAILS.ALSO_STARRING_ALT")}${
-                          cast.original_name
-                        }`}
-                      />
-                    </div>
-                  </ExternalLink>
-                  <h2>{cast.original_name}</h2>
-                  <p className="starringAs">{t("MOVIEDETAILS.STARRING_AS")}</p>
-                  <h3>{cast.character}</h3>
-                </CastCard>
-              </>
-            ) : null
-          ) : null
-        ) : null
-      )
-    : null
-
-  console.log(!!castList && castList.length === 1)
 
   return (
     <>
@@ -380,7 +343,9 @@ const AlsoStarring = ({
             <FemaleMale />
             <Headline3>{t("MOVIEDETAILS.ALSO_STARRING")}</Headline3>
           </span>
-          <CastlistWrapper>{castList}</CastlistWrapper>
+          <CastlistWrapper>
+            <CastList castListData={castListData} isMobile={isMobile} />
+          </CastlistWrapper>
         </IconHeadline>
       )}
     </>

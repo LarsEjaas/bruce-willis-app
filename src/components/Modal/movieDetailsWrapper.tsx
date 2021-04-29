@@ -8,7 +8,6 @@ import MovieDetails from "./movieDetails"
 interface MovieDetailsProps {
   readonly movieId: number
   readonly isMobile: "mobile" | "desktop" | undefined
-  children: React.ReactNode
 }
 
 interface InterfaceMovie {

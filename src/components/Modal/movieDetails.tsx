@@ -242,20 +242,20 @@ export const StyledImdbLogo = styled(ImdbLogo)`
 interface MovieDetailsProps {
   readonly movieId: number
   readonly isMobile: "mobile" | "desktop" | undefined
-  readonly movieDetails
-  readonly genreList
-  readonly genreTypes
-  readonly movieYear
+  readonly movieDetails: object
+  readonly genreList: Array<string>
+  readonly genreTypes: JSX.Element[]
+  readonly movieYear: string
   readonly Director: string
-  readonly hours
-  readonly minutes
+  readonly hours: number
+  readonly minutes: number
   readonly enDescription: string
   readonly languageCode: "DK" | "US"
   readonly isLoading: boolean
-  readonly movieDetailedData
+  readonly movieDetailedData: object
   readonly trailerLink: string
   readonly language: string
-  readonly imdbId: number
+  readonly imdbId: string
   readonly id: number
 }
 
@@ -278,6 +278,7 @@ const MovieDetails = ({
   id,
 }: MovieDetailsProps) => {
   const { t } = useTranslation()
+
   return (
     <>
       {movieDetails.backdrop_path && (
