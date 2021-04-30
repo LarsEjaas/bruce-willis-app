@@ -5,14 +5,14 @@ function PushToFullScreen(isMobile: "mobile" | "desktop" | undefined) {
     console.log("not possible to push page to fullscreen")
     return
   }
-  const main = document.querySelector("main.mobile")
-  if (!main) return
-  main.addEventListener("click", FullScreenActivate)
+  const body = document.body
+  if (!body) return
+  body.addEventListener("click", FullScreenActivate)
   // make the element go to full-screen mode
   function FullScreenActivate() {
     const isBodyInFullScreen = document.fullscreenElement
     if (!!isBodyInFullScreen) return
-    main
+    body
       .requestFullscreen()
       .then(function () {
         console.log("window was pushed to fullScreen")

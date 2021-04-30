@@ -155,38 +155,6 @@ const SEO = props => {
         itemProp="image"
         content={`${siteUrl}/${removeBackSlashStart(props.image)}`}
       />
-
-      <script type="application/ld+json">
-        {`
-        {
-          "@context": "https://schema.org",
-          "@type": "WebPage",
-          "mainEntityOfPage": {
-          "@type": "${contentType}",
-          "@id": "${canonicalUrl}"
-        },
-          "headline": "${title}",
-          "image": "${`${siteUrl}/${removeBackSlashStart(props.image)}`}",
-          "datePublished": "${published}",
-          "dateModified": "${updated}",
-          "author": {
-            "@type": "Person",
-            "name": "${author ? author : `${siteMetadata.author}`}"
-          },
-          "publisher": {
-            "@type": "Person",
-            "name": "${siteMetadata.author}",
-            "logo": {
-              "@type": "ImageObject",
-              "url": "${siteUrl}/icons/icon-512x512.png?v=4db9887fdc702424d8fa53e12b3563e0"},
-              "description": "${description
-                .replace(/"/g, '\\"')
-                .replace(/(\r\n|\n|\r)/gm, "")}"
-            }
-          }, 
-        }
-        `}
-      </script>
     </Helmet>
   )
 }
