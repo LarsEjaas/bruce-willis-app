@@ -36,7 +36,7 @@ module.exports = {
     options: {
       localeJsonSourceName: `locale`,
       languages: [`en`, `da`],
-      redirect: true,
+      redirect: false,
       siteUrl: 'https://bruce-willis.rocks', //to be changed,
       defaultLanguage: `da`,
       // you can pass any i18next options
