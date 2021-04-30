@@ -44,10 +44,16 @@
     "EXTERNAL_LOGO_ALT" : " logo background"
   },
   "CREDITS" : {
-"HEADLINE" : "I am a Fan!",
-"PARAGRAPH1" : "This application was made as a tribute to Bruce Willis. Since I was young I have enjoyed watching movies starring Bruce Willis and I admire how he’s been able to keep his career going for so many years. He is on the role-list of more than 100 Hollywood productions - an impressive feat for sure! Bruce Willis has starred in a long list of movies in a wide range of genres like action, comedy, sci-fi and drama. My favorite movie is no doubt the 1994 Tarantino’s production ‘Pulp Fiction’ starring Bruce Willis in the role as Butch Coolidge - a boxer on the run after winning a fixed boxing match where he was paid a lot of money to loose intentionally. But also recent movies like Death Wish from 2018 have made an impression on me. This is quite an accomplishment that he has been able to keep going at the top of his game for so many years with no signs of slowing down. I always feel inspired when someone. 'Bruce, thanks for all the great moments you have given us! I always enjoy watching movies with you on the role-list and always feel entertained . It’s very inspirational how you just keep going: You truly are an inspiration and I already look forward to more great movies with you in a leading role'.",
-"CREDITS_HEADLINE" : "Credits",
-"GAGE_SKIDMORE_PROFILE_ALT" : "Photo of Willis from the 2018 San Diego Comic-Con taken by photographer Gage Skidmore"
+    "HEADLINE" : "I am a Fan!",
+    "PARAGRAPH1" : "This application was made as a tribute to Bruce Willis. Since I was young I have enjoyed watching movies starring Bruce Willis and I admire how he’s been able to keep his career going for so many years. He is on the role-list of more than 100 Hollywood productions - an impressive feat for sure! Bruce Willis has starred in a long list of movies in a wide range of genres like action, comedy, sci-fi and drama. My favorite movie is no doubt the 1994 Tarantino’s production ‘Pulp Fiction’ starring Bruce Willis in the role as Butch Coolidge - a boxer on the run after winning a fixed boxing match where he was paid a lot of money to loose intentionally. But also recent movies like Death Wish from 2018 have made an impression on me. This is quite an accomplishment that he has been able to keep going at the top of his game for so many years with no signs of slowing down. I always feel inspired when someone. 'Bruce, thanks for all the great moments you have given us! I always enjoy watching movies with you on the role-list and always feel entertained . It’s very inspirational how you just keep going: You truly are an inspiration and I already look forward to more great movies with you in a leading role'.",
+    "CREDITS_HEADLINE" : "Credits",
+    "GAGE_SKIDMORE_PROFILE_ALT" : "Photo of Willis from the 2018 San Diego Comic-Con taken by photographer Gage Skidmore"
+  },
+  "404" : {
+    "SEO_TITLE" : "404: Page not found",
+    "LAPTOP_ALT" : "Laptop-pc with 404 error-code on the screen",
+    "URL_CHANGED" :"The url you clicked may be broken or the page may have been removed.",
+    "TO_MAIN_PAGE" : "Main Page"
   },
   "BORN" : "born",
   "LANGUAGE_ARIA_LABEL": "Change language",
