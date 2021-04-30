@@ -40,6 +40,7 @@ const Section = styled.section<StyledProps>`
     props.left ? "var(--background1)" : "var(--background2)"};
   border-radius: ${props => (props.left ? "40px 0 0 40px" : "0 40px 40px 0")};
   height: ${props => (props.isMobile === "mobile" ? "100%" : "unset")};
+  width: 100%;
   &.mobile {
     border-radius: 0;
   }

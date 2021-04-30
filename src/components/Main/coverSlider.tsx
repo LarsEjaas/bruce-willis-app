@@ -2,17 +2,6 @@ import * as React from "react"
 import styled, { keyframes } from "styled-components"
 import Cover from "./moviecover"
 
-const sliderFadeIn = keyframes`
-from {
-  opacity: 0;
-  transform: translateX(-250px) rotate(9deg);
-}
-to {
-  opacity: 1;
-  transform: translateX(calc(8.33% * -1)) rotate(9deg);
-}
-`
-
 const sliderFadeInMobile = keyframes`
 from {
   opacity: 0;
@@ -38,6 +27,7 @@ const Slider = styled.div<SliderProps>`
   }
   inset: 0;
   z-index: 3;
+  width: 100%;
   .sliderContainer {
     transform: ${props =>
       props.isMobile === "mobile"
