@@ -318,7 +318,6 @@ const ModalContentFrame = styled.div`
   }
   &.error,
   &.share {
-    //transform: translate(-50%, calc((100vh - 100%) / 2));
     width: fit-content;
   }
   & .gatsby-image-wrapper {
