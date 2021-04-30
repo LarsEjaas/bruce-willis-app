@@ -6,6 +6,7 @@ import {
   useState,
   lazy,
   Suspense,
+  useEffect,
 } from "react"
 import "@fontsource/passion-one/700.css"
 import "@fontsource/passion-one/400.css"
@@ -15,6 +16,7 @@ import { DeviceDetectHook } from "./Hooks/deviceDetect"
 // import ModalContainer from "./modal"
 // import ExternModalContainer from "./externModal"
 import { useI18next } from "gatsby-plugin-react-i18next"
+import PushToFullScreen from "./Hooks/pushToFullScreen"
 
 const ModalContainer = lazy(() => import("./Modal/modal"))
 const ExternModalContainer = lazy(() => import("./ExternModal/externModal"))
@@ -230,6 +232,10 @@ const Layout = ({ children }: LayoutProps) => {
   const [clickedElement, setClickedElement] = useState<HTMLElement | undefined>(
     undefined
   )
+
+  useEffect(() => {
+    PushToFullScreen(isMobile)
+  }, [isMobile])
   const [clickedExternLink, setclickedExternLink] = useState<
     HTMLAnchorElement | undefined
   >(undefined)
