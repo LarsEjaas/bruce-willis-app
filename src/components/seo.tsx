@@ -50,7 +50,8 @@ const SEO = props => {
     `
   )
 
-  const { language } = useI18next()
+  const { languages, language } = useI18next()
+  console.log(languages)
   const siteMetadata = data.site.siteMetadata
   const siteUrl = removeBackSlashEnd(siteMetadata.siteUrl)
   const NoSecuresiteUrl = httpsTohttp(siteUrl)
@@ -69,7 +70,7 @@ const SEO = props => {
   const imageWidth = "1200"
   const imageHeight = "630"
   const createUrlWithLang = lng => {
-    const url = `${siteUrl}${location.pathname}`
+    const url = lng === "da" ? `${siteUrl}` : `${siteUrl}/${lng}`
     return url.endsWith("/") ? url : `${url}/`
   }
 
@@ -98,6 +99,20 @@ const SEO = props => {
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:creator" content={twitter || siteMetadata.author} />
+      <link
+        rel="alternate"
+        href={createUrlWithLang("en")}
+        hrefLang="x-default"
+      />
+      <link rel="canonical" href={canonicalUrl} />
+      {languages.map(lng => (
+        <link
+          rel="alternate"
+          key={lng}
+          href={createUrlWithLang(lng)}
+          hrefLang={lng}
+        />
+      ))}
       <meta
         name="twitter:image"
         content={`${siteUrl}/${removeBackSlashStart(props.image)}`}

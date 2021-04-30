@@ -6,7 +6,7 @@ import { useTranslation } from "gatsby-plugin-react-i18next"
 const Navigation = styled.nav`
   z-index: 10;
   position: absolute;
-  bottom: 28px;
+  bottom: 24px;
   right: calc(100vw + 24px);
   @media (max-width: 360px) {
     right: calc(100vw + 8px);
@@ -23,7 +23,7 @@ const NavBtn = styled.button<NavBtnProps>`
   width: 24px;
   border-radius: 50%;
   border: 4px solid var(--icon-color1);
-  margin: 0 4px;
+  margin: 4px;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
   background-color: ${props =>

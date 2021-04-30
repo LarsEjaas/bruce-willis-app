@@ -17,12 +17,11 @@ import AboutView from "./about"
 import CreditsView from "./credits.tsx"
 import ShareButtons from "./share"
 //import MovieDetails from "./movieDetails"
-//import Backdrop from "./backdrop"
+import Backdrop from "./backdrop"
 import { SkeletonTheme } from "react-loading-skeleton"
 import { NavigateButton, Paragraph } from "../ExternModal/externalLink"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 
-const Backdrop = lazy(() => import("./backdrop"))
 const MovieDetailsWrapper = lazy(() => import("./movieDetailsWrapper"))
 
 interface CrossbuttonProps {
