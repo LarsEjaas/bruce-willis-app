@@ -34,8 +34,24 @@ const ShareButtonLink = styled.a<shareButtonLinkProps>`
     transition: 0.2s ease-in;
     padding: 14px;
     box-shadow: var(--icon-shadow);
-    border: 2px solid var(--icon-hover-color2);
+    border-color: var(--icon-hover-color2);
+    border-style: solid;
+    border-width: ${props => (props.isMobile === "mobile" ? "2px" : "4px")};
     background: var(--background2);
+    position: relative;
+  }
+  & .resp_sharing_button::after {
+    content: "";
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-shadow: ${props =>
+      props.isMobile === "mobile"
+        ? "inset -1px 4px 7px 0px var(--background1)"
+        : "inset 0px 4px 6px rgb(0 0 0 / 50%), inset 0px 12px 13px rgb(0 0 0 / 34%), inset 0px -3px 5px rgb(0 0 0 / 27%)"};
   }
   & .resp_sharing_button:hover {
     transition: all 0.3s ease-out;

@@ -21,8 +21,9 @@ const LabelContainer = styled.div<MovieLabelProps>`
   height: fit-content;
   width: fit-content;
   position: absolute;
-  left: ${props => (props.isMobile === "mobile" ? "52%" : "55%")};
-  bottom: 48px;
+  left: ${props => (props.isMobile === "mobile" ? "unset" : "55%")};
+  right: ${props => (props.isMobile === "mobile" ? "70px" : "unset")};
+  bottom: ${props => (props.isMobile === "mobile" ? "55px " : "48px")};
   z-index: 25;
   display: flex;
   flex-direction: column;

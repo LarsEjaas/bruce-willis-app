@@ -16,7 +16,7 @@ const IframeMovie = ({ trailerLink, language }: IframeMovieProps) => {
       src={`https://www.youtube.com/embed/${trailerLink}?controls=0`}
       title="YouTube video player"
       frameborder="0"
-      allow="accelerometer; encrypted-media; gyroscope"
+      allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
       iv_load_policy="3"
       modestbranding="0" //<-- has to be 0 to allow for accessible keyboard nav
       allowfullscreen

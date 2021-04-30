@@ -4,7 +4,7 @@ import { StaticImage } from "gatsby-plugin-image"
 import LanguageToggle from "./languageToggle"
 import MovieCovers from "./coverSlider"
 import MovieIndex from "./movieIndex"
-import MovieLabel from "../Modal/movieLabel"
+import MovieLabel from "./movieLabel"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 
 const circleFadeIn = keyframes`
@@ -177,7 +177,7 @@ const Section2 = ({
     >
       <StaticImage
         className={index === 1 ? "grunge right" : "grunge left"}
-        src="../images/grunge-texture.png"
+        src="../../images/grunge-texture.png"
         alt={t("MAIN.GRUNGE_ALT")}
         loading="eager"
         placeholder="none"

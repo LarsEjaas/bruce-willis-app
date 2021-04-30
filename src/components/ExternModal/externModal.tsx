@@ -22,7 +22,7 @@ const Crossbutton = styled.button`
   transition: all 0.2s ease-in;
   padding: 0;
   z-index: 3;
-  filter: drop-shadow(3px 3px 2px var(--border-main));
+  filter: drop-shadow(3px 3px 2px var(--background1));
   &:hover {
     transition: 0.3s ease-out;
     transform: scale(1.2);

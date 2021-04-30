@@ -65,8 +65,18 @@ const LanguageButton = styled.button<LanguageButtonProps>`
   margin: 0;
   cursor: pointer;
   overflow: hidden;
-  background-color: var(--background1);
+  background-color: transparent;
   transition: transform 0.2s ease-in-out;
+  &::after {
+    content: "";
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-shadow: inset 0 6px 6px var(--border-main);
+  }
   &:hover {
     transform: scale(1.1);
     border-color: ${props =>
@@ -77,9 +87,16 @@ const LanguageButton = styled.button<LanguageButtonProps>`
   & img {
     position: absolute;
     top: 0;
-    left: -13px;
-    height: 32px;
+    left: 0;
+    height: 100%;
     opacity: 0.7;
+  }
+  & img::after {
+    content: "";
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    background-color: var(--background1);
   }
   &:hover img {
     opacity: 1;
@@ -103,7 +120,7 @@ const LanguageToggle = ({ className }: LanguageToggleProps) => {
     }
   }
 
-  const imageFlag = language === "da" ? "DKK.png" : "GBP.png"
+  const imageFlag = language === "da" ? "DKK_full.png" : "GBP_full.png"
   const flagAlt = language === "da" ? "dansk flag" : "British Flag"
   const linkPath = language === "da" ? "/en/" : "../"
 

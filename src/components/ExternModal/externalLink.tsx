@@ -96,20 +96,15 @@ const Headline2 = styled.h2`
 `
 
 interface ParagraphProps {
-  centered: boolean
+  centered?: boolean
 }
 
 export const Paragraph = styled.p<ParagraphProps>`
   white-space: break-spaces;
   color: var(--movie-header1-color);
-  //color: var(--movie-paragraph-color);
   text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
   font-weight: 600;
-  position: inline;
-  line-height: 1.5;
   font-size: 16px;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
   text-align: ${props => (props.centered ? "center" : "left")};
 `
 
@@ -150,7 +145,6 @@ export const GoExtern = ({
             original_title={`Ejaas logo${t("MODAL.EXTERNAL_LOGO_ALT")}`}
             backdrop_path="ejaas_logo.png"
             internUrl
-            style={{ opacity: "0.7" }}
           />
         )}
         {domain === "www.themoviedb.org" && (
@@ -159,7 +153,6 @@ export const GoExtern = ({
             original_title={`The Movie Database${t("MODAL.EXTERNAL_LOGO_ALT")}`}
             backdrop_path="tmdb_back.png"
             internUrl
-            style={{ opacity: "0.7" }}
           />
         )}
         {domain === "www.imdb.com" && (
@@ -168,11 +161,10 @@ export const GoExtern = ({
             original_title={`IMDb${t("MODAL.EXTERNAL_LOGO_ALT")}`}
             backdrop_path="imdb_back.png"
             internUrl
-            style={{ opacity: "0.7" }}
           />
         )}
         <Headline2>{t("MODAL.EXTERNAL_HEADER")}</Headline2>
-        <Paragraph>
+        <Paragraph centered>
           {t("MODAL.EXTERNAL_PARAGRAPH1")}
           {Title}
           {t("MODAL.EXTERNAL_PARAGRAPH2")}

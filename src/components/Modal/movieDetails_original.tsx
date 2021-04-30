@@ -357,7 +357,7 @@ const MovieDetails = ({ movieId, isMobile }: MovieDetailsProps) => {
           original_title={movieDetails ? movieDetails.original_title : null}
         />
       )}
-      {!!genreList && (
+      {genreList && (
         <GenreArray>
           <FilmStrip />
           {genreTypes}

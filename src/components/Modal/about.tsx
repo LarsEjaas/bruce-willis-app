@@ -201,7 +201,7 @@ const AboutView = ({ isMobile, language }: AboutViewProps) => {
 
   return (
     <>
-      {!!movieData && (
+      {movieData && (
         <StyledBackDrop
           isMobile={isMobile}
           original_title={movieDetails.original_title}

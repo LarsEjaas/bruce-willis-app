@@ -33,7 +33,7 @@ const Crossbutton = styled.button<CrossbuttonProps>`
   position: absolute;
   right: 24px;
   top: 24px;
-  filter: drop-shadow(3px 3px 2px var(--border-main));
+  filter: drop-shadow(3px 3px 2px var(--background1));
   background-color: unset;
   border: unset;
   cursor: pointer;
@@ -61,7 +61,7 @@ const Headline2 = styled.h2`
   margin-block-end: 0.4em;
   line-height: 0.8;
   color: var(--movie-header1-color);
-  text-shadow: 4px 4px 4px var(--border-main);
+  text-shadow: 4px 4px 8px var(--background1);
   text-align: center;
   width: 80%;
 `
@@ -71,7 +71,7 @@ const Headline3 = styled.h3`
   font-size: 22px;
   font-weight: 400;
   color: var(--movie-header1-color);
-  text-shadow: 4px 4px 4px var(--border-main);
+  text-shadow: 4px 4px 8px var(--background1);
   text-align: center;
 `
 
@@ -210,7 +210,7 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
                       </Suspense>
                     )}
                     <Headline2>{t("MODAL.SHARE_HEADER")}</Headline2>
-                    <Headline3 centered>{t("MODAL.SHARE_PARAGRAPH")}</Headline3>
+                    <Headline3>{t("MODAL.SHARE_PARAGRAPH")}</Headline3>
                     <ShareButtons isMobile={isMobile} />
                   </>
                 }
@@ -231,8 +231,10 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
                         />
                       </Suspense>
                     )}
-                    <Headline2>An error occured</Headline2>
-                    <Paragraph>Please reload the page to retry...</Paragraph>
+                    <Headline2>An Error Occured</Headline2>
+                    <Paragraph centered>
+                      Please reload the page to retry...
+                    </Paragraph>
                     <NavigateButton onClick={() => location.reload()}>
                       {t("RELOAD")}
                     </NavigateButton>
