@@ -127,11 +127,16 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
       clickedExternLink
     )
     //avoid layered modals closing in cascade and make the error modal impossible to close when clicking outside
+    console.log(
+      e.target,
+      e.currentTarget,
+      e.currentTarget !== document.querySelector(".modal-container") ||
+        e.target !== document.querySelector(".modal-container")
+    )
     if (
-      (e.currentTarget === document.querySelector(".modal-container") &&
-        e.target !== e.currentTarget &&
-        !!clickedExternLink) ||
-      modalType === "error"
+      (e.currentTarget !== document.querySelector(".modal-container") ||
+        e.target !== document.querySelector(".modal-container")) &&
+      e.currentTarget !== document.querySelector(".cross-btn")
     )
       return
 
@@ -313,7 +318,7 @@ const ModalContentFrame = styled.div`
   }
   &.error,
   &.share {
-    transform: translate(-50%, calc((100vh - 100%) / 2));
+    //transform: translate(-50%, calc((100vh - 100%) / 2));
     width: fit-content;
   }
   & .gatsby-image-wrapper {
@@ -419,19 +424,18 @@ function Modal({ children, onModalClose, modalType }: ModalProps) {
       ref={modalContainerRef}
       onClick={onModalClose}
     >
-      <SkeletonTheme
-        color="var(--image-cover-color)"
-        highlightColor="var(--icon-hover-color1)"
+      <ModalContentFrame
+        className={`${isMobile} modal-content ${modalType}`}
+        ref={externModalRef}
       >
-        <ModalContentFrame
-          className={`${isMobile} modal-content ${modalType}`}
-          ref={externModalRef}
-        >
-          <modalContext.Provider value={{ onModalClose }}>
-            {children}
-          </modalContext.Provider>
-        </ModalContentFrame>
-      </SkeletonTheme>
+        <SkeletonTheme
+          color="var(--image-cover-color)"
+          highlightColor="var(--icon-hover-color1)"
+        ></SkeletonTheme>
+        <modalContext.Provider value={{ onModalClose }}>
+          {children}
+        </modalContext.Provider>
+      </ModalContentFrame>
     </StyledModalContainer>,
     document.body
   )

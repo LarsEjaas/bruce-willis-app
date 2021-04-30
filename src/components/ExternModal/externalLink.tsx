@@ -171,10 +171,16 @@ export const GoExtern = ({
           {domain}.
         </Paragraph>
         <ButtonContainer>
-          <NavigateButton onClick={closeExternModal}>
+          <NavigateButton
+            onClick={closeExternModal}
+            className="externalLink__NavigateButton"
+          >
             {t("MODAL.EXTERNAL_BUTTON_NO")}
           </NavigateButton>
-          <NavigateButton onClick={openUrl}>
+          <NavigateButton
+            onClick={openUrl}
+            className="externalLink__NavigateButton"
+          >
             {t("MODAL.EXTERNAL_BUTTON_YES")}
           </NavigateButton>
         </ButtonContainer>

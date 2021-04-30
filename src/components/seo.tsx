@@ -89,6 +89,10 @@ const SEO = props => {
       />
       {children}
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+      <meta
+        name="google-site-verification"
+        content={process.env.GOOGLE_SITE_VERIFICATION}
+      />
       <meta name="language" content={language}></meta>
       <meta name="distribution" content="Global"></meta>
       <meta name="application-name" content={title}></meta>
