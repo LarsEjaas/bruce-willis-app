@@ -54,13 +54,11 @@ const Index = ({ location, data }: IndexProps) => {
             ? siteMetadata.description_da
             : siteMetadata.description_en
         }
-        pathName={location.pathname}
         image={
           language === "da"
             ? siteMetadata.seo_image_da
             : siteMetadata.seo_image_en
         }
-        //published={location.published}
       />
       <Layout>
         <Main

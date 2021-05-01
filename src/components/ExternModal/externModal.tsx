@@ -42,7 +42,7 @@ const ExternModalContainer = ({}) => {
     isMobile,
     clickedExternLink,
   } = useContext(GlobalContext)
-  const [isExternModalVisible, setIsExternModalVisible] = useState(
+  const [isExternModalVisible, setIsExternModalVisible] = useState<boolean>(
     externModalVisible
   )
 

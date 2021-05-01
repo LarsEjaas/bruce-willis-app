@@ -1,31 +1,56 @@
 import * as React from "react"
+import { ReactNode } from "react"
 import { graphql, useStaticQuery } from "gatsby"
 import { Helmet } from "react-helmet"
 import { globalHistory as history } from "@reach/router"
 import { useI18next } from "gatsby-plugin-react-i18next"
 
 const removeBackSlashEnd = (path: string) => {
-  if (path === undefined) return
+  if (!path) return
   return path.endsWith("/") ? path.slice(0, path.length - 1) : path
 }
 
 const removeBackSlashStart = (path: string) => {
-  if (path === undefined) return
+  if (!path) return
   return path.startsWith("/") ? path.slice(1, path.length) : path
 }
 
 const httpsTohttp = (path: string) => {
-  if (path === undefined) return
+  if (!path) return
   return path.replace(/^https:\/\//i, "http://")
 }
 
 const getImageType = (path: string) => {
-  if (path === undefined) return
+  if (!path) return
   let regexp = /jpeg|png?/gi
   return path.match(regexp)
 }
 
-const SEO = props => {
+interface SeoProps {
+  children?: ReactNode
+  title: string
+  description?: string
+  contentType?: string
+  published?: string
+  category?: string
+  tags?: string
+  twitter?: string
+  author?: string
+  image?: string
+}
+
+const SEO = ({
+  children,
+  title,
+  description,
+  contentType,
+  published,
+  category,
+  tags,
+  twitter,
+  author,
+  image,
+}: SeoProps) => {
   const { location } = history
 
   const data = useStaticQuery(
@@ -55,31 +80,29 @@ const SEO = props => {
   const siteMetadata = data.site.siteMetadata
   const siteUrl = removeBackSlashEnd(siteMetadata.siteUrl)
   const NoSecuresiteUrl = httpsTohttp(siteUrl)
-  const children = props.childen
-  const title = props.title || `${siteMetadata.title}`
-  const description = props.description || `${siteMetadata.description}`
-  const contentType = props.contentType || "article"
-  const published = props.published || new Date().toISOString()
+  const pageTitle = title || `${siteMetadata.title}`
+  const pageDescription = description || `${siteMetadata.description}`
+  const pageContentType = contentType || "article"
+  const pagePublished = published || new Date().toISOString()
   const updated = new Date().toISOString()
-  const category = props.category
-  const tags = props.tags
-  const twitter = props.twitter
-  const author = props.author || `${siteMetadata.author}`
+  const pageCategory = category
+  const pageTags = tags
+  const pageTwitter = twitter
+  const pageAuthor = author || `${siteMetadata.author}`
   const rights = siteMetadata[`right_${language}`]
-  const imageType = `image/${getImageType(props.image)}` || `image/png`
+  const imageType = `image/${getImageType(image)}` || `image/png`
   const imageWidth = "1200"
   const imageHeight = "630"
-  const createUrlWithLang = lng => {
+
+  const createUrlWithLang = (lng: string) => {
     const url = lng === "da" ? `${siteUrl}` : `${siteUrl}/${lng}`
     return url.endsWith("/") ? url : `${url}/`
   }
 
-  console.log(props)
-
   const canonicalUrl = `${siteUrl}${location.pathname}` //this CANNOT be overwritten from SEO props!!
 
   return (
-    <Helmet htmlAttributes={{ lang: language }} title={title}>
+    <Helmet htmlAttributes={{ lang: language }} title={pageTitle}>
       <link rel="preload" as="image" href="../286_Bruce_Willis.avif" />
       <link rel="preload" as="image" href="/572_Bruce_Willis.avif" />
       <link
@@ -95,14 +118,17 @@ const SEO = props => {
       />
       <meta name="language" content={language}></meta>
       <meta name="distribution" content="Global"></meta>
-      <meta name="application-name" content={title}></meta>
+      <meta name="application-name" content={pageTitle}></meta>
       <meta name="rights" content={rights}></meta>
       <meta name="copyright" content={siteMetadata.author}></meta>
-      <meta name="description" content={description} />
+      <meta name="description" content={pageDescription} />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:creator" content={twitter || siteMetadata.author} />
+      <meta name="twitter:title" content={pageTitle} />
+      <meta name="twitter:description" content={pageDescription} />
+      <meta
+        name="twitter:creator"
+        content={pageTwitter || siteMetadata.author}
+      />
       <link
         rel="alternate"
         href={createUrlWithLang("en")}
@@ -119,41 +145,48 @@ const SEO = props => {
       ))}
       <meta
         name="twitter:image"
-        content={`${siteUrl}/${removeBackSlashStart(props.image)}`}
+        content={`${siteUrl}/${removeBackSlashStart(image)}`}
       />
-      {published && <meta name="article:published_time" content={published} />}
+      {pagePublished && (
+        <meta name="article:published_time" content={pagePublished} />
+      )}
       {updated && <meta name="article:modified_time" content={updated} />}
-      {category && <meta name="article:section" content={category} />}
-      {tags && <meta name="article:tag" content={tags} />}
-      <meta
-        property="og:title"
-        content={props.title ? `${title}` : `${siteMetadata.title}`}
-      />
+      {pageCategory && <meta name="article:section" content={pageCategory} />}
+      {pageTags && <meta name="article:tag" content={pageTags} />}
+      <meta property="og:title" content={pageTitle} />
       <meta
         property="og:type"
-        content={contentType ? contentType : "website"}
+        content={contentType ? pageContentType : "website"}
       />
       <meta property="og:url" content={canonicalUrl} />
-      <meta property="og:author" content={author} />
+      <meta property="og:author" content={pageAuthor} />
       <meta
         property="og:image"
-        content={`${NoSecuresiteUrl}/${removeBackSlashStart(props.image)}`}
+        content={`${NoSecuresiteUrl}/${removeBackSlashStart(image)}`}
       />
       <meta property="og:image:type" content={imageType} />
       <meta
         property="og:image:secure_url"
-        content={`${siteUrl}/${removeBackSlashStart(props.image)}`}
+        content={`${siteUrl}/${removeBackSlashStart(image)}`}
       />
 
       <meta property="og:image:width" content={imageWidth} />
       <meta property="og:image:height" content={imageHeight} />
-      <meta property="og:description" content={description} />
-      <meta property="og:site_name" content={`${title}`} />
-      <meta itemProp="name" content={`${title}`} />
-      <meta itemProp="description" content={description} />
+      <meta property="og:description" content={pageDescription} />
+      <meta property="og:site_name" content={pageTitle} />
+      <meta
+        property="og:locale"
+        content={language === "da" ? "da_DK" : "en_GB"}
+      />
+      {/* <meta
+        property="og:locale:alternate"
+        content={language === "da" ? "en_GB" : "da_DK"}
+      /> */}
+      <meta itemProp="name" content={pageTitle} />
+      <meta itemProp="description" content={pageDescription} />
       <meta
         itemProp="image"
-        content={`${siteUrl}/${removeBackSlashStart(props.image)}`}
+        content={`${siteUrl}/${removeBackSlashStart(image)}`}
       />
     </Helmet>
   )

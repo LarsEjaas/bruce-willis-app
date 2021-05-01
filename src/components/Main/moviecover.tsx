@@ -55,8 +55,10 @@ interface CoverProps {
   active?: boolean
   id: string
   title: string
-  poster_path: string
-  release_date: string
+  poster_path?: string
+  release_date?: string
+  data_id?: string
+  data_year?: string
 }
 
 interface EventInterface {
@@ -98,6 +100,7 @@ const Cover = ({
       id={`mc${id}`}
       data-id={id}
       data-year={year}
+      isMobile={isMobile}
     >
       <picture className={isMobile}>
         <source

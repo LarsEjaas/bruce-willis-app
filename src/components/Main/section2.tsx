@@ -159,17 +159,9 @@ interface Section2Props {
   readonly isMobile: "mobile" | "desktop" | undefined
   index: 1 | 2
   movieData: any
-  isLoading: true | false
-  location: any
 }
 
-const Section2 = ({
-  isMobile,
-  index,
-  movieData,
-  isLoading,
-  location,
-}: Section2Props) => {
+const Section2 = ({ isMobile, index, movieData }: Section2Props) => {
   const { t } = useTranslation()
   return (
     <Section
@@ -187,18 +179,19 @@ const Section2 = ({
       />
       <CircleWrapper>
         <Circle2
+          isMobile={isMobile}
           className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
         ></Circle2>
         <Circle3
+          isMobile={isMobile}
           className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
         ></Circle3>
         <Circle4
+          isMobile={isMobile}
           className={index === 1 ? `${isMobile} right` : `${isMobile} left`}
         ></Circle4>
       </CircleWrapper>
-      {isMobile === "desktop" && (
-        <LanguageToggle location={location} className={isMobile} />
-      )}
+      {isMobile === "desktop" && <LanguageToggle className={isMobile} />}
       <MovieCovers movieData={movieData} index={index} isMobile={isMobile} />
       <MovieIndex isMobile={isMobile} movieData={movieData} />
       <MovieLabel isMobile={isMobile} />

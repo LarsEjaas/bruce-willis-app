@@ -6,8 +6,8 @@ const BASE_URL = "https://api.themoviedb.org/3/"
 
 interface useFetchProps {
   type: "person" | "movie"
-  id: number | null
-  data?: null | object
+  id: number
+  data?: object
   language?: string
 }
 
@@ -55,7 +55,7 @@ export const useFetchAbout = ({ type, id, language }: useFetchProps) => {
 }
 
 export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
-  const [data, setData] = useState<object | null>(null)
+  const [data, setData] = useState<Idata | null>(null)
   const [isLoading, setLoading] = useState<boolean>(false)
   const [isError, setIsError] = useState<boolean>(false)
   const translation = language === "da" ? "da-DK" : "en-US"
@@ -68,7 +68,7 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
         `${BASE_URL}${type}/${id}?api_key=${process.env.GATSBY_TMDB_API_KEY}&language=${translation}&append_to_response=details`
       )
       const APIdata = await response.json()
-      const cleanedDATA: object = CleanData(APIdata.cast, language)
+      const cleanedDATA: any = CleanData(APIdata.cast, language)
       setData(cleanedDATA)
       setWithExpiry(`movieStorageData-${language}`, cleanedDATA)
     } catch (error) {

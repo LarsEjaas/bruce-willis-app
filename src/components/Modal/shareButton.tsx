@@ -13,16 +13,6 @@ import Telegram from "../../svg/telegram.inline.svg"
 
 interface shareButtonLinkProps {
   readonly isMobile: "mobile" | "desktop" | undefined
-  readonly id:
-    | "Facebook"
-    | "Messenger"
-    | "Twitter"
-    | "Mail"
-    | "Pinterest"
-    | "LinkedIn"
-    | "Reddit"
-    | "WhatsApp"
-    | "Telegram"
 }
 
 const ShareButtonLink = styled.a<shareButtonLinkProps>`

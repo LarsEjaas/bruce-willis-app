@@ -125,16 +125,16 @@ const Section = styled.section<StyledProps>`
     border-radius: 0 40px 40px 0;
     opacity: 0.6;
   }
-  SVG {
+  svg {
     transition: all 0.2s ease-in-out;
   }
-  SVG path {
+  svg path {
     fill: var(--icon-color1);
   }
-  SVG:hover path {
+  svg:hover path {
     fill: var(--icon-hover-color1);
   }
-  SVG:hover {
+  svg:hover {
     transform: scale(1.2);
   }
 `
@@ -306,7 +306,6 @@ interface Section1Props {
   readonly isMobile?: "mobile" | "desktop" | undefined
   index?: 1 | 2
   hidden?: true | false
-  className?: string
   isError: boolean
   location?: object
 }

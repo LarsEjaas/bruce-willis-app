@@ -63,7 +63,7 @@ const ShareButtons = ({ isMobile }: ShareButtonProps) => {
   const pinterestURL = `https://pinterest.com/pin/create/button/?url=${thisURL}&amp;media=${image}&description=${descriptionURL}`
   const linkedInURL = `https://www.linkedin.com/shareArticle?mini=true&url=
     ${thisURL}&title=${titleURL}&summary=${descriptionURL}`
-  const redditURL = `https://reddit.com/submit/url=${thisURL}&title=${titleURL}`
+  const redditURL = `https://reddit.com/submit/?url=${thisURL}&title=${titleURL}`
   const whatsAppURL = `whatsapp://send?text=${descriptionURL}%20${thisURL}`
   const telegramURL = `https://t.me/share/url?url=${thisURL}&text=${descriptionURL}`
 

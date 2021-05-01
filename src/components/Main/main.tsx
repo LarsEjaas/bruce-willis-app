@@ -21,15 +21,9 @@ interface EventInterface {
   currentTarget?: HTMLElement
 }
 
-export const Main = ({
-  isMobile,
-  movieData,
-  isLoading,
-  location,
-  isError,
-}: MainProps) => {
-  const [index, setIndex] = useState(1)
-  const [hidden, setHidden] = useState(true)
+export const Main = ({ isMobile, movieData, location, isError }: MainProps) => {
+  const [index, setIndex] = useState<1 | 2>(1)
+  const [hidden, setHidden] = useState<boolean>(true)
   const togglePage = (e: EventInterface) => {
     if (typeof window !== undefined) {
       let body = document.querySelector("body")
@@ -37,7 +31,7 @@ export const Main = ({
         ? undefined
         : body.classList.add("move")
     }
-    setIndex(parseFloat(e.currentTarget.id))
+    setIndex(Number(e.currentTarget.id))
     hidden === true
       ? setHidden(false)
       : setTimeout(function () {
@@ -52,33 +46,20 @@ export const Main = ({
         <>
           <MobileNavigation index={index} togglePage={togglePage} />
           <Section1
-            className={`${index} one`}
             index={index}
             isMobile={isMobile}
             location={location}
             isError={isError}
           />
           {hidden === false && (
-            <Section2
-              className={`${index} two`}
-              index={index}
-              isMobile={isMobile}
-              movieData={movieData}
-              isLoading={isLoading}
-            />
+            <Section2 index={index} isMobile={isMobile} movieData={movieData} />
           )}
         </>
       )}
       {isMobile === "desktop" && (
         <>
           <Section1 isMobile={isMobile} isError={isError} />
-          <Section2
-            isMobile={isMobile}
-            movieData={movieData}
-            isLoading={isLoading}
-            location={location}
-            index={index}
-          />
+          <Section2 isMobile={isMobile} movieData={movieData} index={index} />
         </>
       )}
     </>

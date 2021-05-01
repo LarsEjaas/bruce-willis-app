@@ -1,7 +1,5 @@
 import * as React from "react"
 
-const config = require("../gatsby-config.js")
-
 interface HtmlProps {
   body: any
   postBodyComponents: any
@@ -16,7 +14,7 @@ export default (props: HtmlProps) => {
         <meta httpEquiv="x-ua-compatible" content="IE=edge" />
         <meta
           name="viewport"
-          content="width=device-width, initial-scale=1, viewport-fit=cover"
+          content="width=device-width, initial-scale=1, viewport-fit=cover maximum-scale=1,user-scalable=0"
         />
         {props.headComponents}
         <style

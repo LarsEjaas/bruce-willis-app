@@ -26,16 +26,14 @@ const NavBtn = styled.button<NavBtnProps>`
   margin: 4px;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
+  padding: 6px;
   background-color: ${props =>
     props.index === parseFloat(props.id) ? "var(--icon-color1)" : "unset"};
 `
 
 interface NavigationProps {
   togglePage: Function
-  onClick(event: React.MouseEvent<HTMLButtonElement>): void
   index: 1 | 2
-  className: string
-  id: "1" | "2"
 }
 
 const MobileNavigation = ({ togglePage, index }: NavigationProps) => {

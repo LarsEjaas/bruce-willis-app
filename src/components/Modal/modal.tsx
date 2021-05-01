@@ -14,7 +14,7 @@ import ReactDOM from "react-dom"
 import Cross from "../../svg/cross.inline.svg"
 import { GlobalContext } from "../layout"
 import AboutView from "./about"
-import CreditsView from "./credits.tsx"
+import CreditsView from "./credits"
 import ShareButtons from "./share"
 //import MovieDetails from "./movieDetails"
 import Backdrop from "./backdrop"
@@ -89,7 +89,7 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
     clickedElement,
     clickedExternLink,
   } = useContext(GlobalContext)
-  const [isModalVisible, setIsModalVisible] = useState(modalVisible)
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(modalVisible)
 
   useEffect(() => {
     if (isMobile === undefined) return

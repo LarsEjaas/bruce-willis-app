@@ -43,18 +43,18 @@ const IndexSlider = styled.div<IndexSliderProps>`
 
 interface MovieIndexProps {
   isMobile: "mobile" | "desktop" | undefined
-  movieData: any
+  movieData: movieDataInterface
 }
 
 interface EventInterface {
-  currentTarget: HTMLElement
+  currentTarget: HTMLAnchorElement
 }
 
 const MovieIndex = ({ isMobile, movieData }: MovieIndexProps) => {
   const SmoothScrollToAnchor = (e: EventInterface) => {
     if (!e.currentTarget || typeof window === `undefined`) return
     const hash = e.currentTarget.getAttribute("data-movieId")
-    const target: HTMLElement | null = document.querySelector(`#mc${hash}`)
+    const target: HTMLDivElement | null = document.querySelector(`#mc${hash}`)
 
     if (!!target.nextElementSibling) {
       target?.focus({ preventScroll: true })
@@ -66,11 +66,13 @@ const MovieIndex = ({ isMobile, movieData }: MovieIndexProps) => {
     } else {
       console.log(target?.previousSibling)
       target?.focus({ preventScroll: true })
-      target?.previousSibling.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-        inline: "nearest",
-      })
+      let previousSibling = target.previousSibling
+      if (!!previousSibling)
+        previousSibling.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+          inline: "nearest",
+        })
     }
   }
 

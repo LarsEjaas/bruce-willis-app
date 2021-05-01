@@ -225,10 +225,12 @@ const Layout = ({ children }: LayoutProps) => {
   const { language } = useI18next()
   const isMobile = DeviceDetectHook()
   const [modalVisible, setModalVisible] = useState<boolean>(ModalVisibleInitial)
-  const [externModalVisible, setExternModalVisible] = useState(
+  const [externModalVisible, setExternModalVisible] = useState<boolean>(
     externModalVisibleInitial
   )
-  const [modalType, setModalType] = useState(undefined)
+  const [modalType, setModalType] = useState<
+    "share" | "movie" | "offline" | "credits" | "about" | "error" | undefined
+  >(undefined)
   const [clickedElement, setClickedElement] = useState<HTMLElement | undefined>(
     undefined
   )
@@ -292,24 +294,10 @@ type GlobalContextProps = {
   setIsMobile: () => void
   ModalVisibleInitial: boolean
   modalVisible: boolean
-  modalType:
-    | "share"
-    | "movie"
-    | "offline"
-    | "credits"
-    | "about"
-    | "error"
-    | undefined
+  modalType: "share" | "movie" | "offline" | "credits" | "about" | "error"
   modalToggle: (
     DOMnode?: HTMLElement,
-    modalType?:
-      | "share"
-      | "movie"
-      | "offline"
-      | "credits"
-      | "about"
-      | "error"
-      | undefined
+    modalType?: "share" | "movie" | "offline" | "credits" | "about" | "error"
   ) => void
   externModalVisible: boolean
   externModalVisibleInitial: boolean
@@ -321,7 +309,6 @@ type GlobalContextProps = {
     | "credits"
     | "about"
     | "error"
-    | undefined
   clickedElement: HTMLElement | undefined
   clickedExternLink: HTMLAnchorElement | undefined
   storeClickedElement: () => void
