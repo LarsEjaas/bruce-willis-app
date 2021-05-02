@@ -129,11 +129,7 @@ const SEO = ({
         name="twitter:creator"
         content={pageTwitter || siteMetadata.author}
       />
-      <link
-        rel="alternate"
-        href={createUrlWithLang("en")}
-        hrefLang="x-default"
-      />
+      <link rel="alternate" href={siteUrl} hrefLang="x-default" />
       <link rel="canonical" href={canonicalUrl} />
       {languages.map(lng => (
         <link

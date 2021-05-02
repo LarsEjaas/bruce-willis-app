@@ -21,14 +21,12 @@ const LabelContainer = styled.div<MovieLabelProps>`
   height: fit-content;
   width: fit-content;
   position: absolute;
-  left: ${props => (props.isMobile === "mobile" ? "unset" : "55%")};
-  right: ${props => (props.isMobile === "mobile" ? "70px" : "unset")};
+  left: ${props => (props.isMobile === "mobile" ? "52%" : "55%")};
   bottom: ${props => (props.isMobile === "mobile" ? "55px " : "48px")};
   z-index: 25;
   display: flex;
   flex-direction: column;
   max-width: 30%;
-  z-index: 1;
 `
 
 const Year = styled.h2<MovieLabelProps>`
@@ -50,7 +48,7 @@ const Year = styled.h2<MovieLabelProps>`
 
 const Title = styled.h3`
   font-family: "Passion One", cursive;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 0.8;
   color: var(--movie-paragraph-color);
   font-size: clamp(1rem, 0.6364rem + 1.8182vw, 2rem);

@@ -1,7 +1,7 @@
 <!-- AUTO-GENERATED-CONTENT:START (STARTER) -->
 <p align="center">
-  <a href="bruce-willis.netlify.app">
-    <img alt="BW icon" src="./public/icons/icon-72x72.png" width="72" />
+  <a href="https://bruce-willis.rocks">
+    <img alt="BW icon" src="https://bruce-willis.rocks/icons/icon-512x512.png" width="144" />
   </a>
 </p>
 <h1 align="center">
@@ -14,11 +14,11 @@ _Have another more specific idea? You may want to check out our vibrant collecti
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/77d5bec5-2470-4202-ad27-2842509e3a02/deploy-status)](https://app.netlify.com/sites/bruce-willis/deploys)
 
-[![generator: Gatsby](./public/static/gatsby.svg)](https://github.com/gatsbyjs)
+[![generator: Gatsby](https://bruce-willis.rocks/gatsby.svg)](https://github.com/gatsbyjs)
 
 [![style: styled-components](https://img.shields.io/badge/style-%F0%9F%92%85%20styled--components-orange.svg?colorB=daa357&colorA=db748e)](https://github.com/styled-components/styled-components)
 
-[![api: Gatsby](./public/static/tmdb.svg)](https://www.themoviedb.org/)
+[![api: Gatsby](https://bruce-willis.rocks/tmdb.svg)](https://www.themoviedb.org/)
 
 ## 🚀 Quick start
 

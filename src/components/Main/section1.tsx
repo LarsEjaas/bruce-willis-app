@@ -33,12 +33,10 @@ to {
 const HeadlineslideIn = keyframes`
 from {
   opacity: 0;
-  color: var(--primary-font);
   transform: translateX(-120px);
 }
 to {
   opacity: 1;
-  color: var(--primary-font-focused);
   transform: translateX(0);
 }
 `
@@ -158,14 +156,17 @@ const StyledExternalLink = styled(ExternalLink)<StyledProps>`
   &.desktop&.EjaasLogo&.left {
     animation: ${slideUp} 1s ease-out;
     animation-fill-mode: both;
+    will-change: transform, opacity;
   }
   &.mobile&.EjaasLogo&.right {
     animation: ${slideDown} 1s ease-out 0.4s;
     animation-fill-mode: both;
+    will-change: transform, opacity;
   }
   &:not(.mobile).EjaasLogo {
     animation: ${slideUp} 0.6s ease-out 0.2s;
     animation-fill-mode: both;
+    will-change: transform, opacity;
   }
   &.mobile&.TMDBlogo {
     z-index: 3;
@@ -175,6 +176,7 @@ const StyledExternalLink = styled(ExternalLink)<StyledProps>`
   &.mobile&.TMDBlogo&.right {
     animation: ${slideIn} 1s ease-out 0.6s;
     animation-fill-mode: both;
+    will-change: transform, opacity;
   }
 `
 
@@ -189,6 +191,7 @@ const Navigation = styled.nav`
     padding: 24px;
     top: 8px;
     left: 0;
+    will-change: transform, opacity;
   }
   &.mobile.right {
     animation: ${HeadlineslideIn} 0.7s ease-out 0.5s;
@@ -196,6 +199,7 @@ const Navigation = styled.nav`
     padding: 16px;
     bottom: 13px;
     left: 6vw;
+    will-change: transform, opacity;
     @media (max-width: 360px) {
       left: 0;
     }
@@ -254,7 +258,7 @@ const Headline = styled.h1<StyledProps>`
   position: absolute;
   text-shadow: var(--text-shadow-primary);
   z-index: 3;
-  will-change: opacity;
+  will-change: transform, opacity;
   &.desktop {
     left: -48px;
     @media (max-width: 1200px) {
@@ -264,6 +268,7 @@ const Headline = styled.h1<StyledProps>`
     font-size: clamp(3.5rem, -0.7857rem + 11.4286vw, 8rem);
     animation: ${HeadlineslideIn} 0.5s ease-out 0.4s;
     animation-fill-mode: both;
+    will-change: transform, opacity;
   }
   &.mobile {
     left: 10%;
@@ -273,6 +278,7 @@ const Headline = styled.h1<StyledProps>`
   body:not(.move) &.mobile&.right {
     animation: ${HeadlineslideIn} 0.5s ease-out;
     animation-fill-mode: both;
+    will-change: transform, opacity;
   }
 `
 const CircleWrapper = styled.div`
@@ -295,10 +301,12 @@ const Circle1 = styled.div<StyledProps>`
   transform: translateY(-50%);
   &.desktop {
     animation: ${circleFadeIn} 1s ease-out;
+    will-change: transform, opacity;
   }
   &.mobile&.right {
     animation: ${circleFadeIn} 1s ease-out 0.3s;
     animation-fill-mode: both;
+    will-change: transform, opacity;
   }
 `
 
@@ -430,11 +438,9 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
               <EjaasLogo width="64" />
             </StyledExternalLink>
           </NavTop>
-          <Navigation
-            className={index === 1 ? `mobile right` : `mobile left`}
-            title={t("MODAL.SHARE_HEADER")}
-          >
+          <Navigation className={index === 1 ? `mobile right` : `mobile left`}>
             <ShareIcon
+              title={t("MODAL.SHARE_HEADER")}
               tabIndex={0}
               height="24px"
               className="ShareIcon mobile"

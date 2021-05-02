@@ -60,6 +60,7 @@ const Slider = styled.div<SliderProps>`
     animation: ${sliderFadeInMobile} 1s ease-out 0.2s;
     animation-fill-mode: both;
     position: relative;
+    will-change: transform, opacity;
   }
   .sliderContainer::-webkit-scrollbar {
     width: 0 !important;

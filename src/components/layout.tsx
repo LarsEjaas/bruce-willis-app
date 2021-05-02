@@ -118,7 +118,7 @@ H1 {
   font-size: clamp(1rem, -0.875rem + 8.333vw, 3.5rem);
   line-height: 0.7;
   margin: 0;
-  color: var(--primary-font);
+  color: var(--primary-font-focused);
   margin-block-start: 0;
   margin-block-end: 0;
   }
