@@ -6,7 +6,7 @@ const BASE_URL = "https://api.themoviedb.org/3/"
 
 interface useFetchProps {
   type: "person" | "movie"
-  id: number
+  id: string
   data?: object
   language?: string
 }

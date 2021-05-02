@@ -1,5 +1,4 @@
 import * as React from "react"
-import { MouseEvent } from "react"
 import { Link } from "gatsby"
 import styled, { keyframes } from "styled-components"
 import { useTranslation, useI18next } from "gatsby-plugin-react-i18next"
@@ -111,7 +110,7 @@ const LanguageToggle = ({ className }: LanguageToggleProps) => {
   const { t } = useTranslation()
   const { language } = useI18next()
 
-  const noMove = (e: MouseEvent<HTMLAnchorElement>) => {
+  const noMove = () => {
     if (typeof window !== undefined) {
       let body = document.querySelector("body")
       !!body && body.classList.contains("move")
@@ -129,7 +128,7 @@ const LanguageToggle = ({ className }: LanguageToggleProps) => {
       <Link
         tabIndex={-1}
         to={linkPath}
-        onClick={(e: MouseEvent<HTMLAnchorElement>) => noMove(e)}
+        onClick={() => noMove()}
         activeClassName="active"
         title={
           language === "da"

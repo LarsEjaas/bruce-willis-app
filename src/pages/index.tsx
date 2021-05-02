@@ -8,7 +8,7 @@ import SEO from "../components/seo"
 import { useFetchMovieCredits } from "../components/Data/sourceData"
 import { getWithExpiry } from "../components/Data/localStorage"
 
-//Bruce Willis has id: 62
+//Bruce Willis has id: 62 on TMDB
 const id = "62/movie_credits"
 const type = "person"
 
