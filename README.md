@@ -14,14 +14,9 @@ I also made this project to start learning TypeScript. Furthermore I have had li
 Page-speed optimization has been a focus of this project. Check out PageSpeed insights to test the performance of Bruce-willis.rocks:
 
 </p>
-<div style="display: inline-table; width:56%; 
-    margin-left:22%; 
-    margin-right:22%;">
-<a href=https://developers.google.com/speed/pagespeed/insights/?url=http%3A%2F%2Fbruce-willis.rocks%2F><img src="https://www.gstatic.com/images/icons/material/product/2x/pagespeed_64dp.png" alt="PageSpeed Insights logo" height="48" width= 48 style="transform: translateY(8px); "></a>
-<a href="https://developers.google.com/speed/pagespeed/insights/?url=http%3A%2F%2Fbruce-willis.rocks%2F" style="color: #757575;
-    display: inline-block;
-    font: 20px/36px Google Sans,sans-serif; font-size:36px
-    letter-spacing: 0;">PageSpeed Insights</a>
+<div align="center">
+<a href=https://developers.google.com/speed/pagespeed/insights/?url=http%3A%2F%2Fbruce-willis.rocks%2F><img src="https://www.gstatic.com/images/icons/material/product/2x/pagespeed_64dp.png" alt="PageSpeed Insights logo" height="48" width= 48 style="transform: translateY(10px);"></a>
+<a href="https://developers.google.com/speed/pagespeed/insights/?url=http%3A%2F%2Fbruce-willis.rocks%2F" justify="top" style="color: gray; font-size: 32px">PageSpeed Insights</a>
 </div>
 
 <p>I have used the power of Gatsby.js and server-side rendering along with concepts like React Lazy to make a fast page with great speed scores. But there are also a lot of small *tricks* I have used like preconnecting to the REST API url in the header, preloading the portrait image of Bruce Willis used on the mainpage, and using Preact instead of React in production.</p>
