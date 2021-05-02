@@ -163,6 +163,22 @@ export const GoExtern = ({
             internUrl
           />
         )}
+        {domain === "github.com" && (
+          <Backdrop
+            isMobile={isMobile}
+            original_title={`Github${t("MODAL.EXTERNAL_LOGO_ALT")}`}
+            backdrop_path="Github_background.png"
+            internUrl
+          />
+        )}
+        {domain === "www.gageskidmore.com" && (
+          <Backdrop
+            isMobile={isMobile}
+            original_title={`Gage Skidmore${t("MODAL.EXTERNAL_LOGO_ALT")}`}
+            backdrop_path="Gage_skidmore_background.png"
+            internUrl
+          />
+        )}
         <Headline2>{t("MODAL.EXTERNAL_HEADER")}</Headline2>
         <Paragraph centered>
           {t("MODAL.EXTERNAL_PARAGRAPH1")}
