@@ -39,7 +39,7 @@ const Year = styled.h2<MovieLabelProps>`
       ? "clamp(2.7rem, -0.2647rem + 14.8235vw, 9rem)"
       : "clamp(2.1rem, -0.7750rem + 7.6667vw, 4.4rem)"};
   text-shadow: #000 -8px 8px 20px;
-  margin-block: 0;
+  margin: 0;
   width: 100%;
   text-align: center;
   animation: ${fadeIn} 0.4s ease-out;
@@ -53,7 +53,7 @@ const Title = styled.h3`
   color: var(--movie-paragraph-color);
   font-size: clamp(1rem, 0.6364rem + 1.8182vw, 2rem);
   text-shadow: #000 -8px 8px 12px;
-  margin-block: 0;
+  margin: 0;
   max-width: 100%;
   text-align: center;
   animation: ${fadeIn} 0.4s ease-out;
