@@ -430,10 +430,11 @@ function Modal({ children, onModalClose, modalType }: ModalProps) {
         <SkeletonTheme
           color="var(--image-cover-color)"
           highlightColor="var(--icon-hover-color1)"
-        ></SkeletonTheme>
-        <modalContext.Provider value={{ onModalClose }}>
-          {children}
-        </modalContext.Provider>
+        >
+          <modalContext.Provider value={{ onModalClose }}>
+            {children}
+          </modalContext.Provider>
+        </SkeletonTheme>
       </ModalContentFrame>
     </StyledModalContainer>,
     document.body

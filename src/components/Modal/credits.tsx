@@ -1,19 +1,10 @@
 import * as React from "react"
-import Skeleton from "react-loading-skeleton"
-import { useFetchAbout } from "../Data/sourceData"
 import styled from "styled-components"
 import Backdrop from "./backdrop"
-import Profile from "../../images/profile.inline.svg"
-import Quote from "../svg/quote.inline.svg"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 import { getWithExpiry } from "../Data/localStorage"
-import {
-  IconHeadline,
-  ImdbNavigateButton,
-  StyledImdbLogo,
-  Note,
-} from "./movieDetails"
 import ExternalLink from "../ExternModal/externalLink"
+import Quote from "../../svg/quote.inline.svg"
 
 const StyledBackDrop = styled(Backdrop)`
   position: absolute;
@@ -55,12 +46,10 @@ const TmdbImage = styled.div`
 `
 
 const BruceImage = styled.div`
-  border-radius: 22px;
-  position: inline;
+  height: 0;
   float: left;
   transform: rotate(-9deg) translate(-24%, 2%);
   width: 32%;
-  /* min-width: 100px; */
   z-index: 1;
   -webkit-filter: drop-shadow(12px 12px 6px var(--image-cover-color));
   filter: drop-shadow(12px 12px 6px var(--image-cover-color));
@@ -71,12 +60,44 @@ const BruceImage = styled.div`
   margin-bottom: 5%;
   padding-top: 45%;
   transform-origin: top right;
-  overflow: hidden;
   & img {
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
+    border-radius: 22px;
+  }
+`
+const BruceImageDescription = styled.div`
+  display: block;
+  background: linear-gradient(
+    180deg,
+    var(--primary-font) 0%,
+    var(--primary-font-focused) 100%
+  );
+  border-radius: 22px;
+  transform: rotate(6deg);
+  width: 110%;
+  z-index: 2;
+  filter: drop-shadow(12px 12px 6px var(--image-cover-color));
+  shape-outside: polygon(59.86% 7.13%, 0.72% 87.62%, 78.24% 81.26%);
+  shape-image-threshold: 0.9;
+  shape-margin: calc(30px + 6%);
+  margin-right: 8%;
+  margin-bottom: 5%;
+  margin-left: -5%;
+  padding: 16px;
+  transform-origin: top right;
+  position: relative;
+  & a.descUrl {
+    display: block;
+    position: relative;
+    color: var(--border-main);
+    line-height: 1;
+    max-width: 100%;
+  }
+  & a.descUrl:focus-visible {
+    outline-offset: 0;
   }
 `
 
@@ -131,7 +152,7 @@ const EjaasImage = styled.div`
   }
 `
 
-const Header1 = styled.h1`
+const Header2 = styled.h2`
   text-shadow: 4px 4px 4px var(--border-main);
   color: var(--movie-header1-color);
   margin: 0;
@@ -187,9 +208,15 @@ const Section = styled.div`
 `
 
 const Paragraph = styled.p`
+  font-size: 16px;
   color: var(--movie-paragraph-color);
   line-height: 1.5;
   margin-block: 1em;
+  white-space: break-spaces;
+  display: inline;
+`
+
+const ParagraphWithInitial = styled(Paragraph)`
   &::first-letter {
     font-family: "Passion One", cursive;
     float: left;
@@ -200,6 +227,48 @@ const Paragraph = styled.p`
     padding-left: 0px;
     /* margin-left: calc(10px - 4%); */
     text-shadow: 6px 6px 6px var(--border-main);
+  }
+`
+const Citation = styled.cite`
+  font-family: "Passion One", cursive;
+  font-weight: 400;
+  font-size: clamp(1rem, 0.6364rem + 1.8182vw, 2rem);
+  margin: 0;
+  margin-block-start: 0.5em;
+  margin-inline-end: 0;
+  line-height: 1;
+  color: var(--movie-paragraph-color);
+  text-shadow: 4px 4px 4px var(--border-main);
+  font-style: italic;
+  letter-spacing: 1px;
+  position: relative;
+`
+const QuoteContainer = styled.div`
+  margin: 2em 3em;
+`
+const StyledQuote = styled(Quote)`
+  filter: drop-shadow(6px 6px 6px var(--border-main));
+  & path {
+    fill: var(--movie-paragraph-color);
+  }
+`
+const StyledQuoteEnd = styled(StyledQuote)`
+  transform: translateY(20px);
+  margin-top: -20px;
+`
+
+const UrlExternalLink = styled(ExternalLink)`
+  color: var(--primary-font-focused);
+  font-family: "Passion One", cursive;
+  font-size: 20px;
+  font-weight: 400;
+  display: inline;
+  transition: color 0.3s ease-in-out;
+  text-shadow: none;
+  cursor: pointer;
+  &:hover,
+  &:active {
+    color: var(--movie-header1-color);
   }
 `
 
@@ -238,8 +307,14 @@ const CreditsView = ({ isMobile, language }: AboutViewProps) => {
           backdrop_path={movieDetails.backdrop_path}
         />
       )}
-      <Header1>{t("CREDITS.HEADLINE")}</Header1>
-      <Paragraph>{t("CREDITS.PARAGRAPH1")}</Paragraph>
+      <Header2>{t("CREDITS.HEADLINE")}</Header2>
+      <ParagraphWithInitial>{t("CREDITS.PARAGRAPH1")}</ParagraphWithInitial>
+      <QuoteContainer>
+        <StyledQuote />
+        <Citation>{t("CREDITS.CITATION")}</Citation>
+        <StyledQuoteEnd />
+      </QuoteContainer>
+      <Paragraph>{t("CREDITS.PARAGRAPH2")}</Paragraph>
       <Section>
         <Headline3>{t("CREDITS.CREDITS_HEADLINE")}</Headline3>
         <TmdbImage>
@@ -253,9 +328,13 @@ const CreditsView = ({ isMobile, language }: AboutViewProps) => {
             />
           </ExternalLink>
         </TmdbImage>
-        <Paragraph>{t("CREDITS.PARAGRAPH1")}</Paragraph>
-      </Section>
-      <Section>
+        <ParagraphWithInitial>{t("CREDITS.PARAGRAPH3")}</ParagraphWithInitial>
+        <UrlExternalLink
+          href="https://www.themoviedb.org/"
+          title="The Movie Database (TMDB)"
+        >
+          www.themoviedb.org/
+        </UrlExternalLink>
         <BruceImage>
           <ExternalLink
             href="http://www.gageskidmore.com/"
@@ -276,11 +355,30 @@ const CreditsView = ({ isMobile, language }: AboutViewProps) => {
               />
             </picture>
           </ExternalLink>
+          <BruceImageDescription>
+            <UrlExternalLink
+              className="descUrl"
+              title={`${t("CREDITS.ABOUT_THIS_IMAGE")}Wikimedia Commons`}
+              href="https://commons.wikimedia.org/w/index.php?curid=71131203"
+            >
+              By Gage Skidmore, CC BY-SA 3.0
+            </UrlExternalLink>
+          </BruceImageDescription>
         </BruceImage>
-        <Headline3>{t("CREDITS.CREDITS_HEADLINE")}</Headline3>
-        <Paragraph>{t("CREDITS.PARAGRAPH1")}</Paragraph>
-      </Section>
-      <Section>
+        <Paragraph>{t("CREDITS.PARAGRAPH4")}</Paragraph>
+        <UrlExternalLink
+          href="http://www.gageskidmore.com"
+          title={t("CREDITS.VISIT_GAGE_SKIDMORE")}
+        >
+          www.gageskidmore.com
+        </UrlExternalLink>
+        <Paragraph>{t("CREDITS.PARAGRAPH5")}</Paragraph>
+        <UrlExternalLink
+          href="https://www.gofundme.com/f/vs2kw-lost-photography-gigs-to-coronavirus-cancellations?utm_campaign=p_cp_url&utm_medium=os&utm_source=customer"
+          title={t("CREDITS.DONATE_TO_GAGE_SKIDMORE")}
+        >
+          gofundme donation
+        </UrlExternalLink>
         <GitHubImage>
           <ExternalLink
             href="https://github.com/LarsEjaas/bruce-willis-app"
@@ -289,6 +387,7 @@ const CreditsView = ({ isMobile, language }: AboutViewProps) => {
             <img src="../Github_logo.svg" alt="Github logo" />
           </ExternalLink>
         </GitHubImage>
+        <Paragraph>{t("CREDITS.PARAGRAPH6")}</Paragraph>
         <EjaasImage>
           <ExternalLink
             href={
@@ -301,6 +400,13 @@ const CreditsView = ({ isMobile, language }: AboutViewProps) => {
             <img src="../w400ejaas_logo.png" alt="Ejaas logo" />
           </ExternalLink>
         </EjaasImage>
+        <UrlExternalLink
+          href="https://github.com/LarsEjaas/bruce-willis-app"
+          title={t("CREDITS.VISIT_GITHUB")}
+        >
+          GitHub
+        </UrlExternalLink>
+        <Paragraph>{t("CREDITS.PARAGRAPH7")}</Paragraph>
       </Section>
     </>
   )

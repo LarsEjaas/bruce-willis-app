@@ -93,9 +93,10 @@ const Section = styled.section<StyledProps>`
     position: absolute;
     left: 0;
   }
-  body:not(.move) & .BruceW.right img {
+  body.move & .BruceW.right img {
     animation: ${fadeIn} 0.5s ease-out 0.4s;
     animation-fill-mode: both;
+    will-change: opacity;
   }
   .BruceW.desktop img {
     animation: ${fadeIn} 0.5s ease-out 0.2s;

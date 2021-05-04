@@ -125,7 +125,7 @@ const Div = styled.div`
   justify-content: flex-end;
 `
 
-const Born = styled.h3`
+const Born = styled.h2`
   font-family: "Passion One", cursive;
   font-weight: 400;
   line-height: 0.8;

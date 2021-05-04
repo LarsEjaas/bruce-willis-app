@@ -47,7 +47,7 @@ const MovieDetailsWrapper = ({ movieId, isMobile }: MovieDetailsProps) => {
     genreList[index] = genre
   })
 
-  const genreTypes = genreList.map(genre => <h3>{genre}</h3>)
+  const genreTypes = genreList.map(genre => <li>{genre}</li>)
 
   let keys = !!movieDetailedData
     ? movieDetailedData.credits?.crew.map((crew: any) =>

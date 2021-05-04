@@ -2,8 +2,12 @@ import * as React from "react"
 import Skeleton from "react-loading-skeleton"
 import styled from "styled-components"
 import Television from "../../images/television.inline.svg"
-import { IconHeadline, Headline3, StyledTmdbLogo } from "./movieDetails"
-import ExternalLink, { NavigateButton } from "../ExternModal/externalLink"
+import {
+  IconHeadline,
+  Headline3,
+  StyledTmdbLogo,
+  LinkButton,
+} from "./movieDetails"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 
 const StreamName = styled.p`
@@ -37,10 +41,6 @@ const HorizontalRule = styled.hr<HorizontalRuleProps>`
     max-width: 300px;
   }
   margin-bottom: 2em;
-`
-
-const StyledExternalLink = styled(ExternalLink)`
-  margin: auto;
 `
 
 const SpacedText = styled.p`
@@ -166,17 +166,15 @@ const StreamLinks = ({
             <HorizontalRule isMobile={isMobile} />
             <span>
               <p>{t("MOVIEDETAILS.VISIT_TMDB")}</p>
-              <StyledExternalLink
+              <LinkButton
                 tabIndex={-1}
                 href={streamLink}
                 title={`${t("MOVIEDETAILS.TMDB_STRAMING_BUTTON")}${
                   movieDetails.title
                 }`}
               >
-                <NavigateButton>
-                  <StyledTmdbLogo />
-                </NavigateButton>
-              </StyledExternalLink>
+                <StyledTmdbLogo />
+              </LinkButton>
             </span>
           </IconHeadline>
         )

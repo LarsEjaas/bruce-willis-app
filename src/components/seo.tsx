@@ -174,10 +174,6 @@ const SEO = ({
         property="og:locale"
         content={language === "da" ? "da_DK" : "en_GB"}
       />
-      {/* <meta
-        property="og:locale:alternate"
-        content={language === "da" ? "en_GB" : "da_DK"}
-      /> */}
       <meta itemProp="name" content={pageTitle} />
       <meta itemProp="description" content={pageDescription} />
       <meta

@@ -8,7 +8,7 @@ import SandTime from "../../images/sand_time.inline.svg"
 import Books from "../../images/books.inline.svg"
 import TmdbLogo from "../../images/tmdb.inline.svg"
 import ImdbLogo from "../../images/IMDB.inline.svg"
-import ExternalLink, { NavigateButton } from "../ExternModal/externalLink"
+import ExternalLink from "../ExternModal/externalLink"
 import IframeMovie from "./youtubeVideo"
 import StreamLinks from "./streamingLinks"
 import Backdrop from "./backdrop"
@@ -35,7 +35,12 @@ const PosterCover = styled.img`
 const GenreArray = styled.div`
   display: flex;
   flex-wrap: wrap;
-  & h3 {
+  & ul {
+    display: inline-flex;
+    padding-left: 0;
+    margin: 0;
+  }
+  & li {
     font-family: "Passion One", cursive;
     font-size: 20px;
     font-weight: 400;
@@ -45,8 +50,9 @@ const GenreArray = styled.div`
     line-height: 1;
     color: var(--movie-header1-color);
     text-shadow: 4px 4px 4px var(--border-main);
+    display: block;
   }
-  & h3:nth-child(2) {
+  & li:nth-child(1) {
     margin-left: 6px;
   }
   & svg {
@@ -106,7 +112,7 @@ const Year = styled.h3`
   transform: rotate(-4deg);
 `
 
-const StarringAs = styled.h3`
+const StarringAs = styled.h2`
   font-family: "Passion One", cursive;
   font-weight: 400;
   font-size: clamp(1rem, 0.6364rem + 1.8182vw, 2rem);
@@ -138,6 +144,36 @@ const Paragraph = styled.p`
     text-shadow: 6px 6px 6px var(--border-main);
   }
 `
+
+export const LinkButton = styled(ExternalLink)`
+  border-radius: 30px;
+  transition: 0.2s ease-in;
+  padding: 10px 16px;
+  border: 2px solid var(--icon-hover-color2);
+  margin: auto;
+  background-color: transparent;
+  font-family: "Passion One", cursive;
+  font-weight: 400;
+  cursor: pointer;
+  font-size: 20px;
+  color: var(--movie-paragraph-color);
+  float: right;
+  &:nth-child(1) {
+    color: var(--icon-hover-color2);
+    background-color: #ffffff08;
+    border-color: var(--icon-hover-color1);
+  }
+  &:hover {
+    color: var(--movie-header1-color);
+    border-color: var(--movie-paragraph-color);
+    transform: scale(1.1);
+  }
+`
+
+export const ImdbNavigateButton = styled(LinkButton)`
+  padding: 11px 16px 1px;
+`
+
 interface IconHeadlineProps {
   readonly fullWidth?: boolean | undefined
   readonly isMobile: "mobile" | "desktop" | undefined
@@ -145,10 +181,6 @@ interface IconHeadlineProps {
 
 export const IconHeadline = styled.div<IconHeadlineProps>`
   display: inline-table;
-  white-space: break-spaces;
-  color: var(--movie-paragraph-color);
-  text-shadow: 6px 6px 6px var(--border-main), -6px -6px 6px var(--border-main);
-  position: inline;
   line-height: 1.5;
   width: ${props => (props.fullWidth ? "100%" : "unset")};
   min-width: ${props => (props.fullWidth ? "unset" : "30%")};
@@ -178,9 +210,6 @@ export const IconHeadline = styled.div<IconHeadlineProps>`
   & p.director {
     margin-block-start: -0.6em;
     margin-left: 3em;
-  }
-  & .FullHeight {
-    margin: auto;
   }
 `
 
@@ -221,10 +250,6 @@ export const Headline3 = styled.h3`
   line-height: 1;
   color: var(--movie-paragraph-color);
   text-shadow: 4px 4px 4px var(--border-main);
-`
-
-export const ImdbNavigateButton = styled(NavigateButton)`
-  padding: 11px 14px 5px;
 `
 
 export const StyledTmdbLogo = styled(TmdbLogo)`
@@ -291,7 +316,7 @@ const MovieDetails = ({
       {!!genreList && (
         <GenreArray>
           <FilmStrip />
-          {genreTypes}
+          <ul>{genreTypes}</ul>
         </GenreArray>
       )}
       <Header1>{movieDetails.title}</Header1>
@@ -434,18 +459,15 @@ const MovieDetails = ({
                   {t("MOVIEDETAILS.READ_MORE_AT")}
                   <b>IMDb</b>:
                 </p>
-                <ExternalLink
+                <ImdbNavigateButton
                   tabIndex={-1}
                   href={`https://www.imdb.com/title/${imdbId}/`}
                   title={`${t("MOVIEDETAILS.READ_ABOUT")}${
                     movieDetails.title
                   }${t("MOVIEDETAILS.AT")}IMDb`}
-                  className="FullHeight"
                 >
-                  <ImdbNavigateButton>
-                    <StyledImdbLogo />
-                  </ImdbNavigateButton>
-                </ExternalLink>
+                  <StyledImdbLogo />
+                </ImdbNavigateButton>
               </span>
               {language === "da" && (
                 <Note>{t("MOVIEDETAILS.IMDB_ONLY_IN_ENGLISH")}</Note>
@@ -459,18 +481,15 @@ const MovieDetails = ({
             {t("MOVIEDETAILS.READ_MORE_AT")}
             <b>The Movie Database (TMDb)</b>:
           </p>
-          <ExternalLink
+          <LinkButton
             tabIndex={-1}
             href={`https://www.themoviedb.org/movie/${id}/${language}`}
             title={`${t("MOVIEDETAILS.READ_ABOUT")}${movieDetails.title}${t(
               "MOVIEDETAILS.AT"
             )}TMDB`}
-            className="FullHeight"
           >
-            <NavigateButton>
-              <StyledTmdbLogo />
-            </NavigateButton>
-          </ExternalLink>
+            <StyledTmdbLogo />
+          </LinkButton>
         </span>
       </IconHeadline>
     </>

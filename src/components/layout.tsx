@@ -70,15 +70,15 @@ const GlobalStyle = createGlobalStyle`
 /*Auto adjust height on chrome Android*/
 height: 100%; 
 
-  /* Hide scrollbar for Chrome, Safari and Opera */
+  /* Hide scrollbar for Chrome, Safari and Opera 
 ::-webkit-scrollbar {
   display: none;
-}
+}*/
 
 /* Hide scrollbar for IE, Edge and Firefox */
 /* .example { */
-  -ms-overflow-style: none;  /*IE and Edge */
-  scrollbar-width: none;   /*Firefox*/ 
+ /* -ms-overflow-style: none;  
+  scrollbar-width: none;   
   
 /*}  */
 }

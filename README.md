@@ -44,4 +44,8 @@ Page-speed optimization has been a focus of this project. Check out PageSpeed in
 
 [![generator: Gatsby](https://bruce-willis.rocks/gatsby.svg)](https://github.com/gatsbyjs)
 
+<br/>
+
+[![Web Accessibility Evaluation: Wave](https://wave.webaim.org/img/wavelogo.svg)](https://wave.webaim.org/)
+
 </div>

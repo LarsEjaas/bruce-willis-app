@@ -95,7 +95,7 @@ const Cover = ({
       onKeyPress={e => keyListener(e)}
       onTouchMove={e => e.currentTarget.focus({ preventScroll: true })}
       onMouseEnter={e => e.currentTarget.focus({ preventScroll: true })}
-      aria-label=""
+      aria-label={`${title}${t("FROM")}${year}`}
       title={title}
       id={`mc${id}`}
       data-id={id}
