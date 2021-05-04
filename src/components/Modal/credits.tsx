@@ -29,10 +29,10 @@ const TmdbImage = styled.div`
   z-index: 1;
   -webkit-filter: drop-shadow(12px 12px 6px var(--image-cover-color));
   filter: drop-shadow(12px 12px 6px var(--image-cover-color));
-  shape-outside: polygon(39.06% 9.55%, 27.45% 69.09%, 83.52% 76.94%);
+  shape-outside: polygon(42.21% 8.38%, 33.14% 70.07%, 83.52% 76.94%);
   shape-image-threshold: 0.9;
   shape-margin: calc(30px + 2%);
-  margin-left: 2%;
+  margin-left: 4%;
   margin-bottom: 6%;
   padding-top: 32%;
   transform-origin: bottom center;
@@ -45,20 +45,38 @@ const TmdbImage = styled.div`
   }
 `
 
-const BruceImage = styled.div`
+interface PropsInterface {
+  readonly isMobile: "desktop" | "mobile" | undefined
+}
+
+const BruceImage = styled.div<PropsInterface>`
   height: 0;
   float: left;
-  transform: rotate(-9deg) translate(-24%, 2%);
-  width: 32%;
+  transform: rotate(-9deg) translate(-24%, -2%);
+  width: ${props => (props.isMobile === "mobile" ? "32%" : "22%")};
+  padding-top: ${props => (props.isMobile === "mobile" ? "45%" : "31%")};
+  margin-bottom: ${props =>
+    props.isMobile === "mobile" ? "calc(130px - 15%)" : "63px;"};
+  margin-right: ${props => (props.isMobile === "mobile" ? "7%" : "3%")};
+  /* @media (max-width: 599px) {
+    width: 32%;
+    padding-top: 45%;
+    margin-bottom: calc(130px - 15%);
+    margin-right: 7%;
+  }
+  @media (min-width: 600px) {
+    width: 22%;
+    padding-top: 31%;
+    margin-bottom: 63px;
+    margin-right: 3%;
+  } */
   z-index: 1;
   -webkit-filter: drop-shadow(12px 12px 6px var(--image-cover-color));
   filter: drop-shadow(12px 12px 6px var(--image-cover-color));
-  shape-outside: polygon(59.86% 7.13%, 0.72% 87.62%, 78.24% 81.26%);
+  shape-outside: polygon(46.12% 3.09%, 5.06% 112.03%, 66.22% 100.06%);
   shape-image-threshold: 0.9;
   shape-margin: calc(30px + 6%);
-  margin-right: 8%;
-  margin-bottom: 5%;
-  padding-top: 45%;
+
   transform-origin: top right;
   & img {
     position: absolute;
@@ -69,24 +87,18 @@ const BruceImage = styled.div`
   }
 `
 const BruceImageDescription = styled.div`
-  display: block;
   background: linear-gradient(
     180deg,
     var(--primary-font) 0%,
     var(--primary-font-focused) 100%
   );
-  border-radius: 22px;
+  border-radius: 16px;
   transform: rotate(6deg);
   width: 110%;
   z-index: 2;
-  filter: drop-shadow(12px 12px 6px var(--image-cover-color));
-  shape-outside: polygon(59.86% 7.13%, 0.72% 87.62%, 78.24% 81.26%);
-  shape-image-threshold: 0.9;
-  shape-margin: calc(30px + 6%);
-  margin-right: 8%;
-  margin-bottom: 5%;
+  /* filter: drop-shadow(12px 12px 6px var(--image-cover-color)); */
   margin-left: -5%;
-  padding: 16px;
+  padding: 12px;
   transform-origin: top right;
   position: relative;
   & a.descUrl {
@@ -96,16 +108,20 @@ const BruceImageDescription = styled.div`
     line-height: 1;
     max-width: 100%;
   }
+  & a.descUrl:hover,
+  a.descUrl:active {
+    color: var(--movie-header1-color);
+  }
   & a.descUrl:focus-visible {
     outline-offset: 0;
   }
 `
 
-const GitHubImage = styled.div`
+const GitHubImage = styled.div<PropsInterface>`
   border-radius: 18px;
   position: inline;
   float: left;
-  transform: rotate(-9deg) translateX(-24%);
+  transform: rotate(-9deg) translate(-24%, -60%);
   width: 23%;
   z-index: 1;
   -webkit-filter: drop-shadow(12px 12px 6px var(--image-cover-color));
@@ -113,7 +129,8 @@ const GitHubImage = styled.div`
   shape-outside: polygon(39.06% 9.55%, 27.45% 69.09%, 83.52% 76.94%);
   shape-image-threshold: 0.9;
   shape-margin: calc(30px + 2%);
-  margin-bottom: 6%;
+  margin-bottom: -8%;
+  margin-top: ${props => (props.isMobile === "mobile" ? "unset" : "5%")};
   padding-top: 23%;
   background-image: linear-gradient(160deg, #dae1ec 0%, #8193b2 100%);
   transform-origin: top right;
@@ -127,7 +144,7 @@ const GitHubImage = styled.div`
   }
 `
 
-const EjaasImage = styled.div`
+const RightImage = styled.div`
   border-radius: 18px;
   position: inline;
   float: right;
@@ -136,11 +153,12 @@ const EjaasImage = styled.div`
   z-index: 1;
   -webkit-filter: drop-shadow(12px 12px 6px var(--image-cover-color));
   filter: drop-shadow(12px 12px 6px var(--image-cover-color));
-  shape-outside: polygon(39.06% 9.55%, 27.45% 69.09%, 83.52% 76.94%);
+  shape-outside: polygon(62.89% 8.13%, 52.95% 75.87%, 83.52% 76.94%);
   shape-image-threshold: 0.9;
   shape-margin: calc(30px + 2%);
-  margin-left: 2%;
+  margin-left: 3%;
   margin-bottom: 6%;
+  margin-top: 10px;
   padding-top: 23%;
   transform-origin: bottom center;
   overflow: hidden;
@@ -157,7 +175,7 @@ const Header2 = styled.h2`
   color: var(--movie-header1-color);
   margin: 0;
   margin-block-start: 2em;
-  margin-block-end: 0;
+  margin-block-end: 0.6em;
   text-align: center;
   position: relative;
   z-index: 2;
@@ -170,7 +188,7 @@ const Headline3 = styled.h3`
   font-size: clamp(1.8rem, 0.8737rem + 4.6316vw, 4rem);
   margin: 0;
   margin-block-start: 0.8em;
-  margin-block-end: 0.5em;
+  margin-block-end: 0.2em;
   line-height: 1;
   color: var(--movie-paragraph-color);
   text-shadow: 4px 4px 4px var(--border-main);
@@ -217,6 +235,8 @@ const Paragraph = styled.p`
 `
 
 const ParagraphWithInitial = styled(Paragraph)`
+  margin-block: 0.5em;
+  display: block;
   &::first-letter {
     font-family: "Passion One", cursive;
     float: left;
@@ -229,6 +249,14 @@ const ParagraphWithInitial = styled(Paragraph)`
     text-shadow: 6px 6px 6px var(--border-main);
   }
 `
+const Copyright = styled(Paragraph)`
+  font-family: "Passion One", cursive;
+  font-weight: 400;
+  font-size: clamp(1rem, 0.6364rem + 1.8182vw, 2rem);
+  display: block;
+  margin-left: 32%;
+`
+
 const Citation = styled.cite`
   font-family: "Passion One", cursive;
   font-weight: 400;
@@ -243,8 +271,8 @@ const Citation = styled.cite`
   letter-spacing: 1px;
   position: relative;
 `
-const QuoteContainer = styled.div`
-  margin: 2em 3em;
+const QuoteContainer = styled.div<PropsInterface>`
+  margin: ${props => (props.isMobile === "mobile" ? "2em 1em" : "2em 3em")};
 `
 const StyledQuote = styled(Quote)`
   filter: drop-shadow(6px 6px 6px var(--border-main));
@@ -260,7 +288,7 @@ const StyledQuoteEnd = styled(StyledQuote)`
 const UrlExternalLink = styled(ExternalLink)`
   color: var(--primary-font-focused);
   font-family: "Passion One", cursive;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 400;
   display: inline;
   transition: color 0.3s ease-in-out;
@@ -317,25 +345,7 @@ const CreditsView = ({ isMobile, language }: AboutViewProps) => {
       <Paragraph>{t("CREDITS.PARAGRAPH2")}</Paragraph>
       <Section>
         <Headline3>{t("CREDITS.CREDITS_HEADLINE")}</Headline3>
-        <TmdbImage>
-          <ExternalLink
-            href="https://www.themoviedb.org/"
-            title={t("CREDITS.VISIT_TMDB")}
-          >
-            <img
-              src="../w400tmdb_back.png"
-              alt="The Movie Database (TMDB) logo"
-            />
-          </ExternalLink>
-        </TmdbImage>
-        <ParagraphWithInitial>{t("CREDITS.PARAGRAPH3")}</ParagraphWithInitial>
-        <UrlExternalLink
-          href="https://www.themoviedb.org/"
-          title="The Movie Database (TMDB)"
-        >
-          www.themoviedb.org/
-        </UrlExternalLink>
-        <BruceImage>
+        <BruceImage isMobile={isMobile}>
           <ExternalLink
             href="http://www.gageskidmore.com/"
             title={t("CREDITS.VISIT_GAGE_SKIDMORE")}
@@ -365,6 +375,24 @@ const CreditsView = ({ isMobile, language }: AboutViewProps) => {
             </UrlExternalLink>
           </BruceImageDescription>
         </BruceImage>
+        <Paragraph>{t("CREDITS.PARAGRAPH3")}</Paragraph>
+        <UrlExternalLink
+          href="https://www.themoviedb.org/"
+          title="The Movie Database (TMDB)"
+        >
+          www.themoviedb.org
+        </UrlExternalLink>
+        <RightImage>
+          <ExternalLink
+            href="https://www.themoviedb.org/"
+            title={t("CREDITS.VISIT_TMDB")}
+          >
+            <img
+              src="../w400tmdb_back.png"
+              alt="The Movie Database (TMDB) logo"
+            />
+          </ExternalLink>
+        </RightImage>
         <Paragraph>{t("CREDITS.PARAGRAPH4")}</Paragraph>
         <UrlExternalLink
           href="http://www.gageskidmore.com"
@@ -379,16 +407,15 @@ const CreditsView = ({ isMobile, language }: AboutViewProps) => {
         >
           gofundme donation
         </UrlExternalLink>
-        <GitHubImage>
-          <ExternalLink
-            href="https://github.com/LarsEjaas/bruce-willis-app"
-            title={t("CREDITS.VISIT_GITHUB")}
-          >
-            <img src="../Github_logo.svg" alt="Github logo" />
-          </ExternalLink>
-        </GitHubImage>
         <Paragraph>{t("CREDITS.PARAGRAPH6")}</Paragraph>
-        <EjaasImage>
+        <UrlExternalLink
+          href="https://github.com/LarsEjaas/bruce-willis-app"
+          title={t("CREDITS.VISIT_GITHUB")}
+        >
+          GitHub
+        </UrlExternalLink>
+        <Paragraph>{t("CREDITS.PARAGRAPH7")}</Paragraph>
+        <RightImage>
           <ExternalLink
             href={
               language === "da"
@@ -399,14 +426,16 @@ const CreditsView = ({ isMobile, language }: AboutViewProps) => {
           >
             <img src="../w400ejaas_logo.png" alt="Ejaas logo" />
           </ExternalLink>
-        </EjaasImage>
-        <UrlExternalLink
-          href="https://github.com/LarsEjaas/bruce-willis-app"
-          title={t("CREDITS.VISIT_GITHUB")}
-        >
-          GitHub
-        </UrlExternalLink>
-        <Paragraph>{t("CREDITS.PARAGRAPH7")}</Paragraph>
+        </RightImage>
+        <Copyright>© Lars Ejaas 2021</Copyright>
+        <GitHubImage isMobile={isMobile}>
+          <ExternalLink
+            href="https://github.com/LarsEjaas/bruce-willis-app"
+            title={t("CREDITS.VISIT_GITHUB")}
+          >
+            <img src="../Github_logo.svg" alt="Github logo" />
+          </ExternalLink>
+        </GitHubImage>
       </Section>
     </>
   )

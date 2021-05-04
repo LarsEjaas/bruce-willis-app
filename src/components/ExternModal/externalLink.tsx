@@ -179,6 +179,23 @@ export const GoExtern = ({
             internUrl
           />
         )}
+        {domain === "www.gofundme.com" && (
+          <Backdrop
+            isMobile={isMobile}
+            original_title={`gofundme${t("MODAL.EXTERNAL_LOGO_ALT")}`}
+            backdrop_path="goFundMe_back.png"
+            internUrl
+          />
+        )}
+        {domain === "commons.wikimedia.org" && (
+          <Backdrop
+            isMobile={isMobile}
+            original_title={`Wikimedia Commons${t("MODAL.EXTERNAL_LOGO_ALT")}`}
+            backdrop_path="wikiCommons_back.png"
+            internUrl
+          />
+        )}
+
         <Headline2>{t("MODAL.EXTERNAL_HEADER")}</Headline2>
         <Paragraph centered>
           {t("MODAL.EXTERNAL_PARAGRAPH1")}
