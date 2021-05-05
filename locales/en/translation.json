@@ -50,17 +50,17 @@
     "PARAGRAPH2" : "Bruce Willis has starred in a long list of movies in a wide range of genres like action, comedy, sci-fi and drama.\nMy favorite movie is no doubt the 1994 Tarantino’s production ”Pulp Fiction” starring Bruce Willis in the role as Butch Coolidge - a struggling boxer on the run after killing his opponent in a fixed  boxing match.\nBut also recent movies like Death Wish from 2018 have made an impression on me. It’s a nice drama with a social commentary to the US weapons legislation.",
     "CREDITS_HEADLINE" : "Attribution",
     "PARAGRAPH3" : "This application was made possible with data from The Movie Database (TMDB) API. Please visit TMDB at ",
-    "PARAGRAPH4" : " - it’s a free-to-use, user editable database for movies and TV shows and highly recommended! \n\nThe main picture of Bruce Willis on the front of this application was taken by American photographer Gage Skidmore at the 2018 San Diego Comic-Con. Please check out Gage’s amazing photos at ",
+    "PARAGRAPH4" : " - it’s a free-to-use, user editable database for movies and TV shows and highly recommended! \n\nThe main portrait of Bruce Willis on the front of this application was taken by American photographer Gage Skidmore at the 2018 San Diego Comic-Con. Please check out Gage’s amazing photos at ",
     "VISIT_TMDB" : "Visit The Movie Data Base (TMDB)",
     "VISIT_GAGE_SKIDMORE" : "Visit homepage of Gage Skidmore",
     "GAGE_SKIDMORE_PROFILE_ALT" : "Portrait of Willis from the 2018 San Diego Comic-Con",
     "PARAGRAPH5" : ". Gage is one of many freelancers who have suffered large economic losses during the Covid Pandemic due to cancelled gigs. Please consider making a small donation to him here: ",
     "DONATE_TO_GAGE_SKIDMORE" : "Gofundme donation: Lost photography gigs to Coronavirus cancellations",
-    "ABOUT_THIS_IMAGE" : "About ths image at ",
-    "PARAGRAPH6" : "This application is an open Source project. If you love coding, please visit my repository at ",
+    "ABOUT_THIS_IMAGE" : "About this image at ",
+    "PARAGRAPH6" : "\n\nThis application is an open Source project. If you love coding, please visit my repository at ",
     "VISIT_GITHUB" : "Visit GitHub to inspect the source code for this app",
     "VISIT_MY_WEBPAGE" : "Visit my homepage",
-    "PARAGRAPH7" : " to learn more about how the app was made. The source-code is meant as an inspiration for others that would like to create similar web pages themselves. Please do not copy my work but feel free to use it for inspiration. Also visit my homepage to learn more about me and my frontend development skills."
+    "PARAGRAPH7" : " to learn more about how the app was made.\n\nThe source-code is meant as an inspiration for others that would like to create similar web pages themselves. Please do not copy my work but feel free to use it for inspiration. Also visit my homepage to learn more about me and my frontend development skills."
   },
   "404" : {
     "SEO_TITLE" : "404: Page not found",

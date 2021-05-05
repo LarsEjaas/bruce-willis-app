@@ -45,13 +45,22 @@
     },
     "CREDITS" : {
       "HEADLINE" : "Jeg er fan!",
-      "PARAGRAPH1" : "Denne applikation er udviklet som en hyldest til Bruce Willis. Since I was young I have enjoyed watching movies starring Bruce Willis and I admire how he’s been able to keep his career going for so many years. He is on the role-list of more than 100 Hollywood productions - an impressive feat for sure! Bruce Willis has starred in a long list of movies in a wide range of genres like action, comedy, sci-fi and drama. My favorite movie is no doubt the 1994 Tarantino’s production ‘Pulp Fiction’ starring Bruce Willis in the role as Butch Coolidge - a boxer on the run after winning a fixed boxing match where he was paid a lot of money to loose intentionally. But also recent movies like Death Wish from 2018 have made an impression on me. This is quite an accomplishment that he has been able to keep going at the top of his game for so many years with no signs of slowing down. I always feel inspired when someone. 'Bruce, thanks for all the great moments you have given us! I always enjoy watching movies with you on the role-list and always feel entertained . It’s very inspirational how you just keep going: You truly are an inspiration and I already look forward to more great movies with you in a leading role'.",
+      "PARAGRAPH1" : "Denne applikation er udviklet som en hyldest til Bruce Willis. Siden jeg var ung har jeg nydt at se film med Bruce Willis og jeg beundrer hvordan han har formået at holde sin karriere kørende i så mange år. Han er på rollelisten til over 100 Hollywood produktioner, hvilket må siges at være en meget imponerende bedrift!",
+      "CITATION" : "Bruce, tak for alle de store filmøjeblikke du har givet os! Jeg nyder at se film med dig på rollelisten og føler mig altid rigtigt godt underholdt. Jeg ser allerede frem til flere store film med dig i en hovedrolle ",
+      "PARAGRAPH2" : "Bruce Willis har medvirket i en lang række film i genre såsom action, komedie, science fiction og drama.\nMin favoritfilm er uden tvivl Tarantinos ‘Pulp Fiction’ fra 1994, hvor Bruce Willis spiller den hårdt prøvede bokser Butch Coolidge som er på flugt efter at have dræbt sin modstander i en fikset boksekamp.\nMen også nyere film såsom Death Wish fra 2018 har gjort sit indtryk på mig. Det er et fængende drama som også formår at sende en social kommentar til USA's våbenlovgivning.",
       "CREDITS_HEADLINE" : "Kildehenvisninger",
+      "PARAGRAPH3" : "Denne applikation er mulig gjort med data fra The Movie Database (TMDB)’s API. Besøg gerne TMDB på ",
+      "PARAGRAPH4" : " - det er en gratis database med brugertilføjet information om film og tv-serier som jeg kan stærkt anbefale!\n\nPortrættet af Bruce Willis på forsiden af denne app er taget af den amerikanske fotograf Gage Skidmore i 2018 ved San Diego Comic-Con. Se flere af Gage’s flotte fotografier på ",
       "VISIT_TMDB" : "Besøg The Movie Data Base (TMDB)",
       "VISIT_GAGE_SKIDMORE" : "Besøg Gage Skidmores hjemmeside",
       "GAGE_SKIDMORE_PROFILE_ALT" : "Portræt af Bruce Willis fra San Diego Comic-Con 2018",
+      "PARAGRAPH5" : ". Gage er en ud af utallige freelancere som har lidt store økonomiske tab i forbindelse med Covid-19 pandemien pga. aflyste foto-opgaver. Du kan donere et beløb til ham her:  ",
+      "DONATE_TO_GAGE_SKIDMORE" : "Gofundme donation: Tabte fotoopgaver grundet Coronavirus aflysninger",
+      "ABOUT_THIS_IMAGE" : "Mere om dette billede på ",
+      "PARAGRAPH6" : "\n\nDenne applikation er et Open Source projekt. Hvis du elsker at programmere kan du besøge mit depot på ",
       "VISIT_GITHUB" : "Besøg GitHub for at inspicere kildekoden til denne app",
-      "VISIT_MY_WEBPAGE" : "Besøg min hjemmeside på larsejaas.com"
+      "VISIT_MY_WEBPAGE" : "Besøg min hjemmeside",
+      "PARAGRAPH7" : "  for at lære mere om hvordan denne app er blevet til.\n\nKildekoden er tænkt som inspiration til andre der også gerne vil udvikle tilsvarende hjemmesider selv. Undlad venligst at kopiere mit arbejde, men benyt det gerne som en inspirationskilde. Besøg også gerne min hjemmeside for at lære mere om mig og mine evner indenfor frontend webudvikling."
     },
     "404" : {
       "SEO_TITLE" : "404: Siden ikke fundet",

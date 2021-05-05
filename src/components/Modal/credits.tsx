@@ -20,31 +20,6 @@ const StyledBackDrop = styled(Backdrop)`
   }
 `
 
-const TmdbImage = styled.div`
-  border-radius: 22px;
-  position: inline;
-  float: right;
-  transform: rotate(9deg) translateX(6%);
-  width: 32%;
-  z-index: 1;
-  -webkit-filter: drop-shadow(12px 12px 6px var(--image-cover-color));
-  filter: drop-shadow(12px 12px 6px var(--image-cover-color));
-  shape-outside: polygon(42.21% 8.38%, 33.14% 70.07%, 83.52% 76.94%);
-  shape-image-threshold: 0.9;
-  shape-margin: calc(30px + 2%);
-  margin-left: 4%;
-  margin-bottom: 6%;
-  padding-top: 32%;
-  transform-origin: bottom center;
-  overflow: hidden;
-  & img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-  }
-`
-
 interface PropsInterface {
   readonly isMobile: "desktop" | "mobile" | undefined
 }
@@ -56,20 +31,8 @@ const BruceImage = styled.div<PropsInterface>`
   width: ${props => (props.isMobile === "mobile" ? "32%" : "22%")};
   padding-top: ${props => (props.isMobile === "mobile" ? "45%" : "31%")};
   margin-bottom: ${props =>
-    props.isMobile === "mobile" ? "calc(130px - 15%)" : "63px;"};
+    props.isMobile === "mobile" ? "calc(130px - 15%)" : "72px"};
   margin-right: ${props => (props.isMobile === "mobile" ? "7%" : "3%")};
-  /* @media (max-width: 599px) {
-    width: 32%;
-    padding-top: 45%;
-    margin-bottom: calc(130px - 15%);
-    margin-right: 7%;
-  }
-  @media (min-width: 600px) {
-    width: 22%;
-    padding-top: 31%;
-    margin-bottom: 63px;
-    margin-right: 3%;
-  } */
   z-index: 1;
   -webkit-filter: drop-shadow(12px 12px 6px var(--image-cover-color));
   filter: drop-shadow(12px 12px 6px var(--image-cover-color));
@@ -96,7 +59,6 @@ const BruceImageDescription = styled.div`
   transform: rotate(6deg);
   width: 110%;
   z-index: 2;
-  /* filter: drop-shadow(12px 12px 6px var(--image-cover-color)); */
   margin-left: -5%;
   padding: 12px;
   transform-origin: top right;
@@ -187,7 +149,7 @@ const Headline3 = styled.h3`
   font-weight: 400;
   font-size: clamp(1.8rem, 0.8737rem + 4.6316vw, 4rem);
   margin: 0;
-  margin-block-start: 0.8em;
+  margin-block-start: 0.4em;
   margin-block-end: 0.2em;
   line-height: 1;
   color: var(--movie-paragraph-color);
@@ -245,16 +207,19 @@ const ParagraphWithInitial = styled(Paragraph)`
     padding-top: 16px;
     padding-right: 8px;
     padding-left: 0px;
-    /* margin-left: calc(10px - 4%); */
     text-shadow: 6px 6px 6px var(--border-main);
   }
 `
-const Copyright = styled(Paragraph)`
+const Copyright = styled(Paragraph)<PropsInterface>`
   font-family: "Passion One", cursive;
   font-weight: 400;
   font-size: clamp(1rem, 0.6364rem + 1.8182vw, 2rem);
   display: block;
-  margin-left: 32%;
+  width: fit-content;
+  margin-block: ${props =>
+    props.isMobile === "mobile" ? "1em 0.5em" : "3em 0"};
+  margin-left: 50%;
+  transform: translateX(-50%);
 `
 
 const Citation = styled.cite`
@@ -337,7 +302,7 @@ const CreditsView = ({ isMobile, language }: AboutViewProps) => {
       )}
       <Header2>{t("CREDITS.HEADLINE")}</Header2>
       <ParagraphWithInitial>{t("CREDITS.PARAGRAPH1")}</ParagraphWithInitial>
-      <QuoteContainer>
+      <QuoteContainer isMobile={isMobile}>
         <StyledQuote />
         <Citation>{t("CREDITS.CITATION")}</Citation>
         <StyledQuoteEnd />
@@ -427,7 +392,7 @@ const CreditsView = ({ isMobile, language }: AboutViewProps) => {
             <img src="../w400ejaas_logo.png" alt="Ejaas logo" />
           </ExternalLink>
         </RightImage>
-        <Copyright>© Lars Ejaas 2021</Copyright>
+        <Copyright isMobile={isMobile}>© Lars Ejaas 2021</Copyright>
         <GitHubImage isMobile={isMobile}>
           <ExternalLink
             href="https://github.com/LarsEjaas/bruce-willis-app"

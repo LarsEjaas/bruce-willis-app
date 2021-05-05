@@ -167,7 +167,7 @@ const StreamLinks = ({
             <span>
               <p>{t("MOVIEDETAILS.VISIT_TMDB")}</p>
               <LinkButton
-                tabIndex={-1}
+                tabIndex={0}
                 href={streamLink}
                 title={`${t("MOVIEDETAILS.TMDB_STRAMING_BUTTON")}${
                   movieDetails.title

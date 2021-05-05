@@ -12,7 +12,6 @@ import {
   StyledImdbLogo,
   Note,
 } from "./movieDetails"
-import ExternalLink from "../ExternModal/externalLink"
 
 const StyledBackDrop = styled(Backdrop)`
   position: absolute;
@@ -277,18 +276,15 @@ const AboutView = ({ isMobile, language }: AboutViewProps) => {
                 <b>{data.name}</b>
                 {`${t("MOVIEDETAILS.AT")}IMDb`}
               </p>
-              <ExternalLink
-                tabIndex={-1}
+              <ImdbNavigateButton
+                tabIndex={0}
                 href={`https://www.imdb.com/name/${data.imdb_id}/bio`}
                 title={`${t("MOVIEDETAILS.READ_ABOUT")}${data.name}${t(
                   "MOVIEDETAILS.AT"
                 )}IMDb`}
-                className="FullHeight"
               >
-                <ImdbNavigateButton>
-                  <StyledImdbLogo />
-                </ImdbNavigateButton>
-              </ExternalLink>
+                <StyledImdbLogo />
+              </ImdbNavigateButton>
             </span>
             {language === "da" && (
               <Note>{t("MOVIEDETAILS.IMDB_ONLY_IN_ENGLISH")}</Note>

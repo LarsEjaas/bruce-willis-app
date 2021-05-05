@@ -380,6 +380,7 @@ function Modal({ children, onModalClose, modalType }: ModalProps) {
     const allFocusableModalElements: NodeListOf<HTMLElement> = externModalRef.current.querySelectorAll(
       'a[href], button, textarea, input[type="text"], input[type="radio"],input[type="email"], input[type="checkbox"], select'
     )
+    console.log(allFocusableModalElements)
     allFocusableModalElements.forEach((element: HTMLElement) => {
       if (window.getComputedStyle(element).display !== "none") {
         focusableModalElements.push(element)

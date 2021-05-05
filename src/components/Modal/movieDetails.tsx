@@ -460,7 +460,7 @@ const MovieDetails = ({
                   <b>IMDb</b>:
                 </p>
                 <ImdbNavigateButton
-                  tabIndex={-1}
+                  tabIndex={0}
                   href={`https://www.imdb.com/title/${imdbId}/`}
                   title={`${t("MOVIEDETAILS.READ_ABOUT")}${
                     movieDetails.title
@@ -482,7 +482,7 @@ const MovieDetails = ({
             <b>The Movie Database (TMDb)</b>:
           </p>
           <LinkButton
-            tabIndex={-1}
+            tabIndex={0}
             href={`https://www.themoviedb.org/movie/${id}/${language}`}
             title={`${t("MOVIEDETAILS.READ_ABOUT")}${movieDetails.title}${t(
               "MOVIEDETAILS.AT"
