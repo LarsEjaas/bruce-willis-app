@@ -36,7 +36,6 @@ export const Main = ({ isMobile, movieData, location, isError }: MainProps) => {
       ? setHidden(false)
       : setTimeout(function () {
           setHidden(true)
-          console.log("section 2 hidden")
         }, 1300)
   }
 

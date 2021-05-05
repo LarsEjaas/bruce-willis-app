@@ -325,7 +325,6 @@ interface EventInterface {
 }
 
 const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
-  console.log(typeof location, location)
   const { t } = useTranslation()
   const { language } = useI18next()
   const { modalToggle } = useContext(GlobalContext)
@@ -337,13 +336,11 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
   }, [isError])
 
   const handleEnterKey = (e: EventInterface) => {
-    console.log(e.currentTarget)
     e.currentTarget.click()
   }
 
   const keyListenersMap = new Map([[13, handleEnterKey]])
   function keyListener(e: EventInterface) {
-    console.log(e, e.keyCode)
     // get the listener corresponding to the pressed key
     const listener = keyListenersMap.get(e.keyCode)
     // call the listener if it exists
@@ -374,6 +371,7 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
               onClick={e => modalToggle(e.currentTarget, "about")}
               onKeyPress={e => keyListener(e)}
               className="desktop"
+              title={t("MAIN.ABOUT_TITLE")}
             >
               {t("MAIN.ABOUT")}
             </Vertical>
@@ -382,6 +380,7 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
               onClick={e => modalToggle(e.currentTarget, "credits")}
               onKeyPress={e => keyListener(e)}
               className="desktop"
+              title={t("MAIN.CREDITS_TITLE")}
             >
               {t("MAIN.CREDITS")}
             </Vertical>
@@ -400,7 +399,11 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
           <StyledExternalLink
             className="EjaasLogo"
             isMobile={isMobile}
-            href="https://larsejaas.com/"
+            href={
+              language === "da"
+                ? "https://larsejaas.com/"
+                : "https://larsejaas.com/en/"
+            }
             title={t("MAIN.MADE_BY_ALT")}
           >
             <EjaasLogo width="64" />
@@ -455,6 +458,7 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
               onClick={e => modalToggle(e.currentTarget, "about")}
               onKeyPress={e => keyListener(e)}
               className="mobile"
+              title={t("MAIN.ABOUT_TITLE")}
             >
               {t("MAIN.ABOUT")}
             </Vertical>
@@ -463,6 +467,7 @@ const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
               onClick={e => modalToggle(e.currentTarget, "credits")}
               onKeyPress={e => keyListener(e)}
               className="mobile"
+              title={t("MAIN.CREDITS_TITLE")}
             >
               {t("MAIN.CREDITS")}
             </Vertical>

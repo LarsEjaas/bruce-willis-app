@@ -76,7 +76,6 @@ const SEO = ({
   )
 
   const { languages, language } = useI18next()
-  console.log(languages)
   const siteMetadata = data.site.siteMetadata
   const siteUrl = removeBackSlashEnd(siteMetadata.siteUrl)
   const NoSecuresiteUrl = httpsTohttp(siteUrl)

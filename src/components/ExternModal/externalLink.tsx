@@ -134,8 +134,6 @@ export const GoExtern = ({
   let domain: string | URL = new URL(`${clickedExternLink.href}`)
   domain = domain.hostname
 
-  console.log(domain)
-
   return (
     <>
       <div>

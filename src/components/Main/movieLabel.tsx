@@ -63,8 +63,6 @@ const Title = styled.h3`
 const MovieLabel = ({ isMobile }: MovieLabelProps) => {
   const [activeMovieId, activeMovieYear, activeMovieTitle] = ActiveElement()
 
-  console.log(activeMovieId, activeMovieYear, activeMovieTitle)
-
   return (
     <LabelContainer isMobile={isMobile}>
       {activeMovieId && (

@@ -15,7 +15,6 @@ interface CastListDataInterface {
 }
 
 const CastList = ({ castListData, isMobile }: CastListProps) => {
-  console.log(castListData, typeof castListData)
   const { t } = useTranslation()
 
   return !!castListData

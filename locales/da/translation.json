@@ -1,7 +1,9 @@
 {
     "MAIN": {
       "ABOUT": "Biografi",
+      "ABOUT_TITLE" : "Læs mere om Bruce Willis",
       "CREDITS": "Kilder",
+      "CREDITS_TITLE" : "Kildehenvisninger for denne app",
       "MADE_BY_ALT" : "Udviklet med ❤ af Lars Ejaas",
       "PORTRAIT_ALT" : "Portræt af Bruce Willis",
       "GRUNGE_ALT" : "Grunge baggrunds-tekstur",

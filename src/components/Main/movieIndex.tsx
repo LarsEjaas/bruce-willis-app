@@ -64,7 +64,6 @@ const MovieIndex = ({ isMobile, movieData }: MovieIndexProps) => {
         inline: "nearest",
       })
     } else {
-      console.log(target?.previousSibling)
       target?.focus({ preventScroll: true })
       let previousSibling = target.previousSibling
       if (!!previousSibling)

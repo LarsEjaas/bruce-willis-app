@@ -2,7 +2,6 @@ function PushToFullScreen(isMobile: "mobile" | "desktop" | undefined) {
   const fullscreenPossible =
     typeof window !== `undefined` ? document.fullscreenEnabled : null
   if (!fullscreenPossible || isMobile !== "mobile") {
-    console.log("not possible to push page to fullscreen")
     return
   }
   const body = document.body
@@ -14,14 +13,8 @@ function PushToFullScreen(isMobile: "mobile" | "desktop" | undefined) {
     if (!!isBodyInFullScreen) return
     body
       .requestFullscreen()
-      .then(function () {
-        console.log("window was pushed to fullScreen")
-      })
-      .catch(function (error) {
-        console.log(
-          `not possible to push page to fullscreen. Returned error: ${error}`
-        )
-      })
+      .then(function () {})
+      .catch(function (error) {})
   }
 }
 export default PushToFullScreen

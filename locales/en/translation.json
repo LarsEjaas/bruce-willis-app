@@ -1,7 +1,9 @@
 {
   "MAIN": {
     "ABOUT": "About",
+    "ABOUT_TITLE" : "Learn more about Bruce Willis",
     "CREDITS": "Credits",
+    "CREDITS_TITLE" : "Attribution details of this app",
     "MADE_BY_ALT" : "Made with ❤ by Lars Ejaas",
     "PORTRAIT_ALT" : "Portrait of Bruce Willis",
     "GRUNGE_ALT" : "Grunge background texture",

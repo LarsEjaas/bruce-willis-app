@@ -53,12 +53,6 @@ const ExternModalContainer = ({}) => {
 
   useEffect(() => {
     if (isMobile === undefined) return
-    console.log(
-      "externModal visible changed",
-      isExternModalVisible,
-      externModalVisible,
-      document.querySelector(".modal-body.extern")
-    )
     document.querySelector(".modal-body.extern") !== null
       ? setTimeout(function () {
           let element: HTMLElement = document.querySelector(
@@ -72,12 +66,6 @@ const ExternModalContainer = ({}) => {
   }, [isExternModalVisible])
 
   const closeExternModal = (e: MouseEvent | KeyboardEvent) => {
-    console.log(
-      "closeExternModal running",
-      e.currentTarget,
-      e.target,
-      clickedExternLink
-    )
     if (
       e.currentTarget === document.querySelector(".extern.modal-container") &&
       e.target !== e.currentTarget &&
@@ -85,8 +73,6 @@ const ExternModalContainer = ({}) => {
         document.querySelector("[class*=externalLink__NavigateButton]")
     )
       return
-
-    console.log(document.querySelector(".modal-content.movie"))
 
     document.querySelector(".extern.modal-container").classList.add("fadeOut")
     document.querySelector(".modal-content.extern").classList.add("fadeOut")
@@ -183,7 +169,6 @@ interface ModalProps {
 
 function Modal({ children, onModalExternClose }: ModalProps) {
   const { isMobile, clickedExternLink } = useContext(GlobalContext)
-  console.log(clickedExternLink)
   useEffect(() => {
     function keyListener(e: KeyboardEvent) {
       if (e.keyCode === 27) {

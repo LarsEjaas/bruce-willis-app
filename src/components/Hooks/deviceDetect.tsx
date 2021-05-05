@@ -42,8 +42,5 @@ export const DeviceDetectHook = () => {
       window.removeEventListener("resize", debouncedHandleResize)
     }
   }, [])
-  if (typeof window !== undefined) {
-    console.log(isMobile)
-  }
   return isMobile
 }

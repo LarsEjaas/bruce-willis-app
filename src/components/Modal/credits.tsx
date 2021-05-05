@@ -276,7 +276,6 @@ interface AboutViewProps {
 
 const CreditsView = ({ isMobile, language }: AboutViewProps) => {
   const { t } = useTranslation()
-  console.log(id, type)
 
   const imageId = 395990 //Id is referring to the movie "Death Wish"
   const movieData: Array<object> = getWithExpiry(`movieStorageData-${language}`)
@@ -288,8 +287,6 @@ const CreditsView = ({ isMobile, language }: AboutViewProps) => {
   function findBackgroundImage(movie: InterfaceMovie) {
     return movie.id === imageId
   }
-
-  console.log(movieDetails.backdrop_path)
 
   return (
     <>

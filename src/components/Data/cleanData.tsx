@@ -13,7 +13,6 @@ const CleanData = (obj: InterfaceObj, language: string) => {
   entries.forEach(function callback(entry, index) {
     //delete not yet released movies
     if (!entry[1].release_date) {
-      console.log(`${index} title: ${obj[index].original_title}`)
       obj[index] = undefined
       //delete if no genres are present
     } else if (entry[1].genre_ids.length === 0) {

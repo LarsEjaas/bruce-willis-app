@@ -31,7 +31,6 @@ export const useFetchAbout = ({ type, id, language }: useFetchProps) => {
         `${BASE_URL}${type}/${id}?api_key=${process.env.GATSBY_TMDB_API_KEY}&language=${translation}`
       )
       const APIdata = await response.json()
-      console.log(APIdata)
       setWithExpiry(`movieAbout-${language}`, APIdata)
       setData({
         name: APIdata.name,
@@ -41,7 +40,6 @@ export const useFetchAbout = ({ type, id, language }: useFetchProps) => {
         imdb_id: APIdata.imdb_id,
       })
     } catch (error) {
-      console.log("An error occurred while fetching data:", error)
       //REMEBER TO SET ERROR AN OPEN ERROR MODAL
     }
     setLoading(false)
@@ -61,7 +59,6 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
   const translation = language === "da" ? "da-DK" : "en-US"
 
   const fetchData = async () => {
-    console.log("getting data", data)
     setLoading(true)
     try {
       const response = await fetch(
@@ -80,7 +77,6 @@ export const useFetchMovieCredits = ({ type, id, language }: useFetchProps) => {
   useEffect(() => {
     fetchData()
   }, [])
-  console.log(data)
   return [data, isLoading, isError]
 }
 
@@ -102,7 +98,6 @@ export const useFetchMovieDetails = ({ type, id, language }: useFetchProps) => {
       setWithExpiry(`movieDetailsData-${id}-${language}`, APIdata)
     } catch (error) {
       setIsError(true)
-      console.log("An error occurred while fetching data:", error)
     }
     setLoading(false)
   }

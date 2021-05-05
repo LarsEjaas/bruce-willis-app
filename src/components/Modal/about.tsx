@@ -161,7 +161,6 @@ interface AboutViewProps {
 
 const AboutView = ({ isMobile, language }: AboutViewProps) => {
   const { t } = useTranslation()
-  console.log(id, type)
 
   const [data, isLoading] = getWithExpiry(`movieAbout-${language}`)
     ? [getWithExpiry(`movieAbout-${language}`), false]
@@ -170,12 +169,6 @@ const AboutView = ({ isMobile, language }: AboutViewProps) => {
         id,
         language,
       })
-  console.log(
-    data,
-    isLoading,
-    isMobile,
-    !isLoading ? data.profilePicture : null
-  )
 
   const imageId = 641790 //Id is referring to the movie "trauma center"
   const movieData: Array<object> = getWithExpiry(`movieStorageData-${language}`)
@@ -187,8 +180,6 @@ const AboutView = ({ isMobile, language }: AboutViewProps) => {
   function findBackgroundimage(movie: InterfaceMovie) {
     return movie.id === imageId
   }
-
-  console.log(movieDetails.backdrop_path)
 
   let biographyText =
     data !== null ? data.biography.match(/[^\s.!?]+[^.!?\r\n]+[.!?]*/g) : null

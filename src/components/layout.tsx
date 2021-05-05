@@ -244,17 +244,13 @@ const Layout = ({ children }: LayoutProps) => {
     domNode: HTMLElement,
     typeOfModal: "share" | "movie" | "offline" | "credits" | "about" | "error"
   ) => {
-    console.log("modal toggled"),
-      setClickedElement(domNode),
+    setClickedElement(domNode),
       setModalVisible(!modalVisible),
       setModalType(typeOfModal)
   }
   const externModalToggle = (domNode?: HTMLAnchorElement | undefined) => {
-    console.log("externModalToggle running", domNode, externModalVisible),
-      setclickedExternLink(domNode),
-      setExternModalVisible(!externModalVisible)
+    setclickedExternLink(domNode), setExternModalVisible(!externModalVisible)
   }
-  console.log(modalVisible)
 
   return (
     <>

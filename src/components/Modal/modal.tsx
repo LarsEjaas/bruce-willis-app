@@ -13,16 +13,15 @@ import styled, { keyframes } from "styled-components"
 import ReactDOM from "react-dom"
 import Cross from "../../svg/cross.inline.svg"
 import { GlobalContext } from "../layout"
-import AboutView from "./about"
-import CreditsView from "./credits"
-import ShareButtons from "./share"
-//import MovieDetails from "./movieDetails"
 import Backdrop from "./backdrop"
 import { SkeletonTheme } from "react-loading-skeleton"
 import { NavigateButton, Paragraph } from "../ExternModal/externalLink"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 
 const MovieDetailsWrapper = lazy(() => import("./movieDetailsWrapper"))
+const CreditsView = lazy(() => import("./credits"))
+const AboutView = lazy(() => import("./about"))
+const ShareButtons = lazy(() => import("./share"))
 
 interface CrossbuttonProps {
   modalType: "about" | "share" | "offline" | "credits" | "movie" | "error"
@@ -117,22 +116,7 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
   }, [isModalVisible])
 
   const closeModal = (e: MouseEvent | KeyboardEvent) => {
-    console.log(
-      "closemodal running (not externModal",
-      document.querySelector(".extern.modal-container"),
-      e.target,
-      e.currentTarget,
-      document.querySelector(".extern.modal-container"),
-      clickedElement,
-      clickedExternLink
-    )
     //avoid layered modals closing in cascade and make the error modal impossible to close when clicking outside
-    console.log(
-      e.target,
-      e.currentTarget,
-      e.currentTarget !== document.querySelector(".modal-container") ||
-        e.target !== document.querySelector(".modal-container")
-    )
     if (
       (e.currentTarget !== document.querySelector(".modal-container") ||
         e.target !== document.querySelector(".modal-container")) &&
@@ -183,7 +167,11 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
                 type={modalType}
                 credits={
                   <>
-                    <CreditsView isMobile={isMobile} language={language} />
+                    {!isSSR && (
+                      <Suspense fallback={<div />}>
+                        <CreditsView isMobile={isMobile} language={language} />
+                      </Suspense>
+                    )}
                   </>
                 }
               />
@@ -193,7 +181,11 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
                 type={modalType}
                 about={
                   <>
-                    <AboutView isMobile={isMobile} language={language} />
+                    {!isSSR && (
+                      <Suspense fallback={<div />}>
+                        <AboutView isMobile={isMobile} language={language} />
+                      </Suspense>
+                    )}
                   </>
                 }
               />
@@ -203,19 +195,19 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
                 type={modalType}
                 share={
                   <>
-                    {!isSSR && (
-                      <Suspense fallback={<div />}>
-                        <Backdrop
-                          isMobile={isMobile}
-                          original_title={t("MODAL.SOCIAL_SHARE_ALT")}
-                          backdrop_path="socialShare.jpg"
-                          internUrl
-                        />
-                      </Suspense>
-                    )}
+                    <Backdrop
+                      isMobile={isMobile}
+                      original_title={t("MODAL.SOCIAL_SHARE_ALT")}
+                      backdrop_path="socialShare.jpg"
+                      internUrl
+                    />
                     <Headline2>{t("MODAL.SHARE_HEADER")}</Headline2>
                     <Headline3>{t("MODAL.SHARE_PARAGRAPH")}</Headline3>
-                    <ShareButtons isMobile={isMobile} />
+                    {!isSSR && (
+                      <Suspense fallback={<div />}>
+                        <ShareButtons isMobile={isMobile} />
+                      </Suspense>
+                    )}
                   </>
                 }
               />
@@ -225,16 +217,12 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
                 type={modalType}
                 error={
                   <>
-                    {!isSSR && (
-                      <Suspense fallback={<div />}>
-                        <Backdrop
-                          isMobile={isMobile}
-                          original_title="404 error background"
-                          backdrop_path="404.jpg"
-                          internUrl
-                        />
-                      </Suspense>
-                    )}
+                    <Backdrop
+                      isMobile={isMobile}
+                      original_title="404 error background"
+                      backdrop_path="404.jpg"
+                      internUrl
+                    />
                     <Headline2>An Error Occured</Headline2>
                     <Paragraph centered>
                       Please reload the page to retry...
@@ -338,8 +326,15 @@ const ModalContentFrame = styled.div`
 
 const ModalBodyContent = styled.div`
   padding: 24px;
-  &.movie {
+  &.movie,
+  &.credits {
     min-height: 100vh;
+  }
+  &.about {
+    min-height: 50vh;
+  }
+  &.share {
+    min-height: 320px;
   }
 `
 
@@ -360,7 +355,6 @@ interface ModalProps {
 function Modal({ children, onModalClose, modalType }: ModalProps) {
   const { isMobile, clickedElement } = useContext(GlobalContext)
 
-  console.log(clickedElement)
   useEffect(() => {
     function keyListener(e: KeyboardEvent) {
       if (e.keyCode === 27) {
@@ -380,7 +374,6 @@ function Modal({ children, onModalClose, modalType }: ModalProps) {
     const allFocusableModalElements: NodeListOf<HTMLElement> = externModalRef.current.querySelectorAll(
       'a[href], button, textarea, input[type="text"], input[type="radio"],input[type="email"], input[type="checkbox"], select'
     )
-    console.log(allFocusableModalElements)
     allFocusableModalElements.forEach((element: HTMLElement) => {
       if (window.getComputedStyle(element).display !== "none") {
         focusableModalElements.push(element)
@@ -448,7 +441,6 @@ interface ModalHeaderProps {
 
 Modal.Header = function ModalHeader({ modalType }: ModalHeaderProps) {
   const { onModalClose } = useContext(modalContext)
-  console.log(modalType)
   return (
     <div className="modal-header">
       {modalType !== "error" && (

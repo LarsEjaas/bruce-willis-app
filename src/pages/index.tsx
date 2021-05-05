@@ -21,8 +21,6 @@ const Index = ({ location, data }: IndexProps) => {
   const { language } = useI18next()
   const siteMetadata = data.site.siteMetadata
 
-  console.log(siteMetadata)
-
   const [movieData, isLoading, isError] = getWithExpiry(
     `movieStorageData-${language}`
   )
@@ -32,14 +30,6 @@ const Index = ({ location, data }: IndexProps) => {
         id,
         language,
       })
-
-  console.log(
-    movieData,
-    isLoading,
-    isError,
-    siteMetadata.seo_image_da,
-    siteMetadata.seo_image_en
-  )
 
   const isMobile = DeviceDetectHook()
 

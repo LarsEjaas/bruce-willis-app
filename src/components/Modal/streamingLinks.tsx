@@ -102,8 +102,6 @@ const StreamLinks = ({
       : null
     : null
 
-  console.log(movieDetailedData, buyLinks, typeof buyLinks)
-
   const buyList: JSX.Element[] = !!buyLinks
     ? buyLinks.map((link: { provider_name: string; logo_path: string }) => (
         <span>

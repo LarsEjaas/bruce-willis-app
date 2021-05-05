@@ -48,7 +48,6 @@ const ShareButtons = ({ isMobile }: ShareButtonProps) => {
   const image = siteMetadata[`seo_image_${language}`]
   const descriptionURL = encodeURIComponent(description)
   const title = siteMetadata[`title_${language}`]
-  console.log(title, `title_${language}`, siteMetadata)
   const titleURL = encodeURIComponent(title)
 
   const facebookBaseURL = "https://facebook.com/sharer/sharer.php?u="
@@ -66,8 +65,6 @@ const ShareButtons = ({ isMobile }: ShareButtonProps) => {
   const redditURL = `https://reddit.com/submit/?url=${thisURL}&title=${titleURL}`
   const whatsAppURL = `whatsapp://send?text=${descriptionURL}%20${thisURL}`
   const telegramURL = `https://t.me/share/url?url=${thisURL}&text=${descriptionURL}`
-
-  console.log(isMobile)
 
   return (
     <ButtonContainer>
