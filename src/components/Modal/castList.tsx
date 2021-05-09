@@ -9,9 +9,10 @@ interface CastListProps {
   readonly isMobile: "mobile" | "desktop" | undefined
 }
 
-interface CastListDataInterface {
-  map(arg: (cast: any, index: number) => JSX.Element): any
-  [index: number]: { string: number | string }
+export interface CastListDataInterface {
+  map?(arg: (cast: any, index: number) => JSX.Element): any
+  [index: number]: { string: string }
+  length?: number
 }
 
 const CastList = ({ castListData, isMobile }: CastListProps) => {

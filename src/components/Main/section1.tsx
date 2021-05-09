@@ -313,10 +313,9 @@ const Circle1 = styled.div<StyledProps>`
 
 interface Section1Props {
   readonly isMobile?: "mobile" | "desktop" | undefined
-  index?: 1 | 2
+  index?: number
   hidden?: true | false
   isError: boolean
-  location?: object
 }
 
 interface EventInterface {
@@ -324,7 +323,7 @@ interface EventInterface {
   keyCode?: number
 }
 
-const Section1 = ({ isMobile, index, location, isError }: Section1Props) => {
+const Section1 = ({ isMobile, index, isError }: Section1Props) => {
   const { t } = useTranslation()
   const { language } = useI18next()
   const { modalToggle } = useContext(GlobalContext)

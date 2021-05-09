@@ -72,6 +72,8 @@
   },
   "BORN" : "born",
   "LANGUAGE_ARIA_LABEL": "Change language",
+  "ERROR_HEADLINE" : "An Error Occured",
+  "ERROR_PARAGRAPH" : "Error loading movie data.\n\nPlease reload the page to retry...",
   "RELOAD" : "Reload Page",
   "SHARE_BUTTON_TITLE" : "Share this page on ",
   "FROM" : " from "

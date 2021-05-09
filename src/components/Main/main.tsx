@@ -3,17 +3,18 @@ import { useState } from "react"
 import MobileNavigation from "./mobileNavigation"
 import Section1 from "./section1"
 import Section2 from "./section2"
+import { CastEntity } from ".././Data/sourceData"
 
 interface MainProps {
-  togglePage: Function
-  onClick(event: React.MouseEvent<HTMLButtonElement>): void
-  index: 1 | 2
-  className: string
-  id: "1" | "2"
-  isMobile: "mobile" | "desktop" | undefined
-  location: any
-  isLoading: boolean
-  movieData: any
+  togglePage?: Function
+  onClick?(event: React.MouseEvent<HTMLButtonElement>): void
+  index?: 1 | 2
+  className?: string
+  id?: "1" | "2"
+  isMobile?: "mobile" | "desktop" | undefined
+  location?: any
+  isLoading?: boolean
+  movieData: CastEntity[]
   isError: boolean
 }
 
@@ -21,8 +22,8 @@ interface EventInterface {
   currentTarget?: HTMLElement
 }
 
-export const Main = ({ isMobile, movieData, location, isError }: MainProps) => {
-  const [index, setIndex] = useState<1 | 2>(1)
+export const Main = ({ isMobile, movieData, isError }: MainProps) => {
+  const [index, setIndex] = useState<number>(1)
   const [hidden, setHidden] = useState<boolean>(true)
   const togglePage = (e: EventInterface) => {
     if (typeof window !== undefined) {
@@ -44,12 +45,7 @@ export const Main = ({ isMobile, movieData, location, isError }: MainProps) => {
       {isMobile === "mobile" && (
         <>
           <MobileNavigation index={index} togglePage={togglePage} />
-          <Section1
-            index={index}
-            isMobile={isMobile}
-            location={location}
-            isError={isError}
-          />
+          <Section1 index={index} isMobile={isMobile} isError={isError} />
           {hidden === false && (
             <Section2 index={index} isMobile={isMobile} movieData={movieData} />
           )}

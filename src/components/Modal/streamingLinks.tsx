@@ -9,6 +9,8 @@ import {
   LinkButton,
 } from "./movieDetails"
 import { useTranslation } from "gatsby-plugin-react-i18next"
+import { InterfaceMovieDetails } from "./movieDetails"
+import { CastListDataInterface } from "./castList"
 
 const StreamName = styled.p`
   white-space: break-spaces;
@@ -47,10 +49,6 @@ const SpacedText = styled.p`
   padding-bottom: 2em;
 `
 
-export interface InterfaceMovieDetails {
-  readonly title: string
-}
-
 enum LanguageCodeEnum {
   DK = "DK",
   US = "US",
@@ -59,6 +57,7 @@ enum LanguageCodeEnum {
 interface resultsByLanguageInterface {
   readonly buy?: buyInterface
   readonly link?: string
+  length?: number
 }
 
 interface buyArrayInterface {
@@ -71,7 +70,7 @@ interface buyInterface {
   readonly map?: Function
 }
 
-interface InterfacemovieDetailedData {
+export interface InterfaceMovieDetailedDataWatchP {
   readonly [index: string]: {
     readonly [results: string]: {
       [key in LanguageCodeEnum]: resultsByLanguageInterface
@@ -79,10 +78,16 @@ interface InterfacemovieDetailedData {
   }
 }
 
+export interface InterfaceMovieDetailedDataCredits {
+  readonly credits: { cast: CastListDataInterface }
+}
+
 interface StreamLinksProps {
-  readonly movieDetailedData: InterfacemovieDetailedData
+  readonly movieDetailedData:
+    | InterfaceMovieDetailedDataWatchP
+    | InterfaceMovieDetailedDataCredits
   readonly languageCode: "DK" | "US"
-  readonly movieDetails: { title: string }
+  readonly movieDetails: InterfaceMovieDetails
   readonly isMobile: "mobile" | "desktop" | undefined
   readonly isLoading: boolean
 }
@@ -153,7 +158,7 @@ const StreamLinks = ({
           />
         </IconHeadline>
       ) : (
-        buyList && (
+        !!buyList && (
           <IconHeadline fullWidth isMobile={isMobile}>
             <span>
               <Television style={{ top: "0" }} />

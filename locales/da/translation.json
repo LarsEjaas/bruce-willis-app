@@ -72,9 +72,10 @@
     },
     "BORN" : "født",
     "LANGUAGE_ARIA_LABEL": "Skift sprog",
+    "ERROR_HEADLINE" : "Der er opstået en fejl",
+    "ERROR_PARAGRAPH" : "Fejl ved indlæsning af filmdata.\n\nGenindlæs siden for at prøve igen...",
     "RELOAD" : "Genindlæs",
     "SHARE_BUTTON_TITLE" : "Del denne side på ",
-    "FROM" : " fra "
-    
+    "FROM" : " fra " 
 }
     

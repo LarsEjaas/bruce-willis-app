@@ -1,4 +1,6 @@
 import * as React from "react"
+import { graphql, useStaticQuery } from "gatsby"
+import { globalHistory as history } from "@reach/router"
 
 interface IframeMovieProps {
   readonly trailerLink: string
@@ -6,6 +8,20 @@ interface IframeMovieProps {
 }
 
 const IframeMovie = ({ trailerLink, language }: IframeMovieProps) => {
+  const { location } = history
+  const data = useStaticQuery(
+    graphql`
+      query {
+        site {
+          siteMetadata {
+            siteUrl
+          }
+        }
+      }
+    `
+  )
+  const sitePath = `${data.site.siteMetadata.siteUrl}${location.pathname}`
+  console.log(sitePath)
   return (
     <iframe
       controls={1}
@@ -17,12 +33,12 @@ const IframeMovie = ({ trailerLink, language }: IframeMovieProps) => {
       title="YouTube video player"
       frameborder="0"
       allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-      iv_load_policy="3"
-      modestbranding="0" //<-- has to be 0 to allow for accessible keyboard nav
+      iv_load_policy={3}
+      modestbranding={1} //<-- has to be 0 to allow for accessible keyboard nav
       allowfullscreen
-      rel="0"
-      disablekb="0"
-      widget_referrer="path" //set path!!!
+      rel={0}
+      disablekb={0}
+      widget_referrer={sitePath}
     ></iframe>
   )
 }

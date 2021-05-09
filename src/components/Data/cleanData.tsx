@@ -1,16 +1,8 @@
-interface InterfaceObj {
-  index: number
-  sort?: Function
-  [index: number]: { original_title: string }
-}
+import { CastEntity } from "./sourceData"
 
-interface IsortedObj {
-  release_date: { a: string }
-}
-
-const CleanData = (obj: InterfaceObj, language: string) => {
+const CleanData = (obj: CastEntity[], language: string): CastEntity[] => {
   const entries = Object.entries(obj)
-  entries.forEach(function callback(entry, index) {
+  entries.forEach(function callback(entry: CastEntity[], index: number) {
     //delete not yet released movies
     if (!entry[1].release_date) {
       obj[index] = undefined
@@ -50,7 +42,7 @@ const CleanData = (obj: InterfaceObj, language: string) => {
       }
     }
   })
-  const sortedObj: IsortedObj = obj.sort(function (a: any, b: any) {
+  const sortedObj = obj.sort(function (a: any, b: any) {
     a.release_date = new Date(a.release_date)
     b.release_date = new Date(b.release_date)
     if (a.release_date == b.release_date) {

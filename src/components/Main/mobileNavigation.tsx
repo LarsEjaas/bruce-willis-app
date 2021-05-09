@@ -14,7 +14,7 @@ const Navigation = styled.nav`
 `
 
 interface NavBtnProps {
-  readonly index: 1 | 2
+  readonly index: number
   readonly id: "1" | "2"
 }
 
@@ -33,7 +33,7 @@ const NavBtn = styled.button<NavBtnProps>`
 
 interface NavigationProps {
   togglePage: Function
-  index: 1 | 2
+  index: number
 }
 
 const MobileNavigation = ({ togglePage, index }: NavigationProps) => {

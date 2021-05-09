@@ -1,5 +1,5 @@
 import * as React from "react"
-import { useContext } from "react"
+import { useContext, useRef, useEffect, MutableRefObject } from "react"
 import styled from "styled-components"
 import { GlobalContext } from "../layout"
 import { useTranslation } from "gatsby-plugin-react-i18next"
@@ -74,6 +74,7 @@ const Cover = ({
   release_date,
 }: CoverProps) => {
   const { t } = useTranslation()
+  const coverRef: MutableRefObject<HTMLDivElement> = useRef()
   const { modalToggle } = useContext(GlobalContext)
   const year = new Date(release_date).getFullYear()
   const handleEnterKey = (e: EventInterface) => {
@@ -88,12 +89,23 @@ const Cover = ({
     return listener && listener(e)
   }
 
+  const focusElement = () => {
+    coverRef.current.focus({ preventScroll: true })
+  }
+
+  useEffect(() => {
+    coverRef.current.addEventListener("touchmove", focusElement, {
+      passive: true,
+    })
+    return coverRef.current.removeEventListener("touchMove", focusElement)
+  }, [])
+
   return (
     <CoverCard
       tabIndex={0}
+      ref={coverRef}
       onClick={e => modalToggle(e.currentTarget, "movie")}
       onKeyPress={e => keyListener(e)}
-      onTouchMove={e => e.currentTarget.focus({ preventScroll: true })}
       onMouseEnter={e => e.currentTarget.focus({ preventScroll: true })}
       aria-label={`${title}${t("FROM")}${year}`}
       title={title}

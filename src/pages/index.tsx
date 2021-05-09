@@ -17,7 +17,7 @@ interface IndexProps {
   data: any
 }
 
-const Index = ({ location, data }: IndexProps) => {
+const Index = ({ data }: IndexProps) => {
   const { language } = useI18next()
   const siteMetadata = data.site.siteMetadata
 
@@ -51,13 +51,7 @@ const Index = ({ location, data }: IndexProps) => {
         }
       />
       <Layout>
-        <Main
-          isMobile={isMobile}
-          movieData={movieData}
-          isLoading={isLoading}
-          isError={isError}
-          location={location}
-        />
+        <Main isMobile={isMobile} movieData={movieData} isError={isError} />
       </Layout>
     </>
   )

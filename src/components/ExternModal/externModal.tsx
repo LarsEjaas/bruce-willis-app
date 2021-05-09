@@ -168,7 +168,7 @@ interface ModalProps {
 }
 
 function Modal({ children, onModalExternClose }: ModalProps) {
-  const { isMobile, clickedExternLink } = useContext(GlobalContext)
+  const { isMobile } = useContext(GlobalContext)
   useEffect(() => {
     function keyListener(e: KeyboardEvent) {
       if (e.keyCode === 27) {

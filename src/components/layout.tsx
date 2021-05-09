@@ -105,6 +105,7 @@ body {
     }
 
 img, h1, h2, h3, h4, p, a, button, ul, li, figure, div {
+  user-select: none;
   -webkit-user-select: none;
   -webkit-user-drag: none;
   -webkit-touch-callout: none;

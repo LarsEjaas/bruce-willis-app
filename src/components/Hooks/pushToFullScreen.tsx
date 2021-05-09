@@ -13,8 +13,14 @@ function PushToFullScreen(isMobile: "mobile" | "desktop" | undefined) {
     if (!!isBodyInFullScreen) return
     body
       .requestFullscreen()
-      .then(function () {})
-      .catch(function (error) {})
+      .then(function () {
+        console.log("window was pushed to fullScreen")
+      })
+      .catch(function (error) {
+        console.log(
+          `not possible to push page to fullscreen. Returned error: ${error}`
+        )
+      })
   }
 }
 export default PushToFullScreen

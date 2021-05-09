@@ -1,0 +1,4 @@
+interface ChildNode {
+  scrollIntoView: Function;
+}
+  

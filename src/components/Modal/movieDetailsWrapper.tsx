@@ -4,18 +4,20 @@ import { getGenre } from "../Data/genres"
 import { useI18next } from "gatsby-plugin-react-i18next"
 import { getWithExpiry } from "../Data/localStorage"
 import MovieDetails from "./movieDetails"
+import { InterfaceMovieDetails } from "./movieDetails"
 
 interface MovieDetailsProps {
   readonly movieId: number
   readonly isMobile: "mobile" | "desktop" | undefined
 }
 
-interface InterfaceMovie {
+export interface InterfaceMovie {
   id?: number
 }
 
 const MovieDetailsWrapper = ({ movieId, isMobile }: MovieDetailsProps) => {
-  const id = movieId !== 0 ? movieId : null
+  const id = movieId !== 0 ? movieId.toString() : null
+  console.log(id)
   const type = "movie"
   const { language } = useI18next()
   const [movieDetailedData, isLoading, isError] = getWithExpiry(
@@ -30,24 +32,28 @@ const MovieDetailsWrapper = ({ movieId, isMobile }: MovieDetailsProps) => {
 
   const movieData: Array<object> = getWithExpiry(`movieStorageData-${language}`)
 
+  console.log(movieData)
+
   const movieDetails: InterfaceMovieDetails = !!movieData
     ? movieData.find(findMovie)
     : null
 
   function findMovie(movie: InterfaceMovie) {
-    return movie.id === id
+    return movie.id === Number(id)
   }
+  console.log(movieDetails)
 
   const movieYear = movieDetails?.release_date.split("-")[0]
 
-  const genreList = movieDetails?.genre_ids
+  const genreIdList = movieDetails?.genre_ids
 
-  genreList.forEach((genre_id, index) => {
-    let genre = getGenre(language, genre_id.toString())
-    genreList[index] = genre
+  const genreList: string[] = []
+  genreIdList.forEach((genre_id: number) => {
+    let genre = getGenre(language, genre_id)
+    genreList.push(genre)
   })
 
-  const genreTypes = genreList.map(genre => <li>{genre}</li>)
+  const genreTypes = genreList.map((genre: any) => <li>{genre}</li>)
 
   let keys = !!movieDetailedData
     ? movieDetailedData.credits?.crew.map((crew: any) =>

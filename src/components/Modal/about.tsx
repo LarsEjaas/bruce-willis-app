@@ -12,6 +12,8 @@ import {
   StyledImdbLogo,
   Note,
 } from "./movieDetails"
+import { InterfaceMovie } from "./movieDetailsWrapper"
+import { InterfaceMovieDetails } from "./movieDetails"
 
 const StyledBackDrop = styled(Backdrop)`
   position: absolute;
@@ -151,7 +153,7 @@ const Paragraph = styled.p`
 `
 
 //Bruce Willis has id: 62
-const id = 62
+const id: string = "62"
 const type = "person"
 
 interface AboutViewProps {
@@ -178,7 +180,7 @@ const AboutView = ({ isMobile, language }: AboutViewProps) => {
     : null
 
   function findBackgroundimage(movie: InterfaceMovie) {
-    return movie.id === imageId
+    return Number(movie.id) === imageId
   }
 
   let biographyText =

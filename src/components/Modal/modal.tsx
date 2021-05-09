@@ -86,7 +86,6 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
     modalType,
     isMobile,
     clickedElement,
-    clickedExternLink,
   } = useContext(GlobalContext)
   const [isModalVisible, setIsModalVisible] = useState<boolean>(modalVisible)
 
@@ -223,10 +222,8 @@ const ModalContainer = ({ language }: ModalContainerProps) => {
                       backdrop_path="404.jpg"
                       internUrl
                     />
-                    <Headline2>An Error Occured</Headline2>
-                    <Paragraph centered>
-                      Please reload the page to retry...
-                    </Paragraph>
+                    <Headline2>{t("ERROR_HEADLINE")}</Headline2>
+                    <Paragraph centered>{t("ERROR_PARAGRAPH")}</Paragraph>
                     <NavigateButton onClick={() => location.reload()}>
                       {t("RELOAD")}
                     </NavigateButton>
@@ -353,7 +350,7 @@ interface ModalProps {
 }
 
 function Modal({ children, onModalClose, modalType }: ModalProps) {
-  const { isMobile, clickedElement } = useContext(GlobalContext)
+  const { isMobile } = useContext(GlobalContext)
 
   useEffect(() => {
     function keyListener(e: KeyboardEvent) {

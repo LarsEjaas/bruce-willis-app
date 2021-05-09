@@ -5,6 +5,7 @@ import { useTranslation } from "gatsby-plugin-react-i18next"
 import { getWithExpiry } from "../Data/localStorage"
 import ExternalLink from "../ExternModal/externalLink"
 import Quote from "../../svg/quote.inline.svg"
+import { InterfaceMovieDetails } from "./movieDetails"
 
 const StyledBackDrop = styled(Backdrop)`
   position: absolute;
@@ -265,10 +266,6 @@ const UrlExternalLink = styled(ExternalLink)`
   }
 `
 
-//Bruce Willis has id: 62
-const id = 62
-const type = "person"
-
 interface AboutViewProps {
   isMobile: "desktop" | "mobile" | undefined
   language: string
@@ -284,7 +281,7 @@ const CreditsView = ({ isMobile, language }: AboutViewProps) => {
     ? movieData.find(findBackgroundImage)
     : null
 
-  function findBackgroundImage(movie: InterfaceMovie) {
+  function findBackgroundImage(movie: { id?: number }) {
     return movie.id === imageId
   }
 

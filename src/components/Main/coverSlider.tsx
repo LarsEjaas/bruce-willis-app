@@ -1,6 +1,7 @@
 import * as React from "react"
 import styled, { keyframes } from "styled-components"
 import Cover from "./moviecover"
+import { CastEntity } from ".././Data/sourceData"
 
 const sliderFadeInMobile = keyframes`
 from {
@@ -70,8 +71,8 @@ const Slider = styled.div<SliderProps>`
 
 interface MovieCoverProps {
   isMobile: "mobile" | "desktop" | undefined
-  index: 1 | 2
-  movieData: Array<object>
+  index: number
+  movieData: CastEntity[]
 }
 
 const MovieCovers = ({ isMobile, index, movieData }: MovieCoverProps) => {

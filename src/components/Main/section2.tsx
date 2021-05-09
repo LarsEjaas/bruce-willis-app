@@ -6,6 +6,7 @@ import MovieCovers from "./coverSlider"
 import MovieIndex from "./movieIndex"
 import MovieLabel from "./movieLabel"
 import { useTranslation } from "gatsby-plugin-react-i18next"
+import { CastEntity } from ".././Data/sourceData"
 
 const circleFadeIn = keyframes`
 from {
@@ -157,8 +158,8 @@ const Circle4 = styled.div<StyledProps>`
 
 interface Section2Props {
   readonly isMobile: "mobile" | "desktop" | undefined
-  index: 1 | 2
-  movieData: any
+  index: number
+  movieData: CastEntity[]
 }
 
 const Section2 = ({ isMobile, index, movieData }: Section2Props) => {

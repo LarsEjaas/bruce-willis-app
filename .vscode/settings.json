@@ -2,4 +2,5 @@
     "folders": [],
     "settings": {},
     "editor.formatOnSave": true,
+    "typescript.tsserver.experimental.enableProjectDiagnostics": true
   }

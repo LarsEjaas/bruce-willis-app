@@ -1,5 +1,6 @@
 import * as React from "react"
 import styled from "styled-components"
+import { CastEntity } from ".././Data/sourceData"
 
 const MoviePin = styled.div`
   width: 40px;
@@ -43,7 +44,7 @@ const IndexSlider = styled.div<IndexSliderProps>`
 
 interface MovieIndexProps {
   isMobile: "mobile" | "desktop" | undefined
-  movieData: movieDataInterface
+  movieData: CastEntity[]
 }
 
 interface EventInterface {
@@ -76,7 +77,7 @@ const MovieIndex = ({ isMobile, movieData }: MovieIndexProps) => {
   }
 
   const ListItems = !!movieData
-    ? movieData.map(listMovie =>
+    ? movieData.map((listMovie: CastEntity) =>
         !!listMovie ? (
           <a
             onClick={(e: EventInterface) => SmoothScrollToAnchor(e)}

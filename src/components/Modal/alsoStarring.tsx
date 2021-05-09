@@ -6,6 +6,10 @@ import Profile from "../../images/profile.inline.svg"
 import { IconHeadline, Headline3 } from "./movieDetails"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 import CastList from "./castList"
+import {
+  InterfaceMovieDetailedDataCredits,
+  InterfaceMovieDetailedDataWatchP,
+} from "./streamingLinks"
 
 const CastlistWrapper = styled.div`
   display: inline-flex;
@@ -108,7 +112,9 @@ export const CastCard = styled.div<CastCardProps>`
 `
 
 interface StarringProps {
-  movieDetailedData: object | null
+  movieDetailedData:
+    | InterfaceMovieDetailedDataCredits
+    | InterfaceMovieDetailedDataWatchP
   readonly isMobile: "mobile" | "desktop" | undefined
   isLoading: boolean
 }
@@ -119,12 +125,14 @@ const AlsoStarring = ({
   isLoading,
 }: StarringProps) => {
   const { t } = useTranslation()
-
+  console.log(movieDetailedData)
   const castListData = !!movieDetailedData
     ? movieDetailedData.credits?.cast.length > 1
       ? movieDetailedData.credits?.cast
       : null
     : null
+
+  console.log(castListData)
 
   return (
     <>

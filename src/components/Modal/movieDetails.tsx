@@ -14,6 +14,10 @@ import StreamLinks from "./streamingLinks"
 import Backdrop from "./backdrop"
 import AlsoStarring from "./alsoStarring"
 import { useTranslation } from "gatsby-plugin-react-i18next"
+import {
+  InterfaceMovieDetailedDataCredits,
+  InterfaceMovieDetailedDataWatchP,
+} from "./streamingLinks"
 
 const PosterCover = styled.img`
   border-radius: 10px;
@@ -174,6 +178,17 @@ export const ImdbNavigateButton = styled(LinkButton)`
   padding: 11px 16px 1px;
 `
 
+export interface InterfaceMovieDetails {
+  readonly title?: string
+  readonly original_title?: string
+  readonly backdrop_path?: string
+  readonly character?: string
+  readonly poster_path?: string
+  readonly overview?: string
+  readonly release_date?: string
+  readonly genre_ids?: number[]
+}
+
 interface IconHeadlineProps {
   readonly fullWidth?: boolean | undefined
   readonly isMobile: "mobile" | "desktop" | undefined
@@ -265,9 +280,9 @@ export const StyledImdbLogo = styled(ImdbLogo)`
 `
 
 interface MovieDetailsProps {
-  readonly movieId: number
+  // readonly movieId: number
   readonly isMobile: "mobile" | "desktop" | undefined
-  readonly movieDetails: object
+  readonly movieDetails: InterfaceMovieDetails
   readonly genreList: Array<string>
   readonly genreTypes: JSX.Element[]
   readonly movieYear: string
@@ -277,11 +292,13 @@ interface MovieDetailsProps {
   readonly enDescription: string
   readonly languageCode: "DK" | "US"
   readonly isLoading: boolean
-  readonly movieDetailedData: object
+  readonly movieDetailedData:
+    | InterfaceMovieDetailedDataCredits
+    | InterfaceMovieDetailedDataWatchP
   readonly trailerLink: string
   readonly language: string
   readonly imdbId: string
-  readonly id: number
+  readonly id: string
 }
 
 const MovieDetails = ({
@@ -303,7 +320,7 @@ const MovieDetails = ({
   id,
 }: MovieDetailsProps) => {
   const { t } = useTranslation()
-
+  console.log(movieDetails, movieDetailedData)
   return (
     <>
       {movieDetails.backdrop_path && (

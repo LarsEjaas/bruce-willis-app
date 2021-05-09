@@ -1,4 +1,8 @@
-const en_US = {
+interface GenreInterface {
+  [property: string]: string
+}
+
+const en_US: GenreInterface = {
   28: "Action",
   12: "Adventure",
   16: "Animation",
@@ -20,7 +24,7 @@ const en_US = {
   37: "Western",
 }
 
-const da_DK = {
+const da_DK: GenreInterface = {
   28: "Action",
   12: "Eventyr",
   16: "Animation",
@@ -42,20 +46,27 @@ const da_DK = {
   37: "Western",
 }
 
-export function getGenre(language: "da" | "en", genreId: string) {
+export function getGenre(language: string, genreId: number) {
   const genreList_en_US = new RegExp(Object.keys(en_US).join("|"), "gi")
   const genreList_da_DK = new RegExp(Object.keys(da_DK).join("|"), "gi")
   let genre = null
+  const genreIdAsString = genreId.toString()
 
   if (language === "da") {
-    genre = genreId.replace(genreList_da_DK, function (matched: string) {
-      return da_DK[matched]
-    })
+    genre = genreIdAsString.replace(
+      genreList_da_DK,
+      function (matched: string) {
+        return da_DK[matched]
+      }
+    )
   }
   if (language === "en") {
-    genre = genreId.replace(genreList_en_US, function (matched: string) {
-      return en_US[matched]
-    })
+    genre = genreIdAsString.replace(
+      genreList_en_US,
+      function (matched: string) {
+        return en_US[matched]
+      }
+    )
   }
   return genre
 }
