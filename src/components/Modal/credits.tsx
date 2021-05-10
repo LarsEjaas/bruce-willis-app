@@ -21,18 +21,18 @@ const StyledBackDrop = styled(Backdrop)`
   }
 `
 
-interface PropsInterface {
+interface ComponentProps {
   readonly isMobile: "desktop" | "mobile" | undefined
 }
 
-const BruceImage = styled.div<PropsInterface>`
+const BruceImage = styled.div<ComponentProps>`
   height: 0;
   float: left;
   transform: rotate(-9deg) translate(-24%, -2%);
   width: ${props => (props.isMobile === "mobile" ? "32%" : "22%")};
   padding-top: ${props => (props.isMobile === "mobile" ? "45%" : "31%")};
   margin-bottom: ${props =>
-    props.isMobile === "mobile" ? "calc(130px - 15%)" : "72px"};
+    props.isMobile === "mobile" ? "calc(130px - 13%)" : "72px"};
   margin-right: ${props => (props.isMobile === "mobile" ? "7%" : "3%")};
   z-index: 1;
   -webkit-filter: drop-shadow(12px 12px 6px var(--image-cover-color));
@@ -80,7 +80,7 @@ const BruceImageDescription = styled.div`
   }
 `
 
-const GitHubImage = styled.div<PropsInterface>`
+const GitHubImage = styled.div<ComponentProps>`
   border-radius: 18px;
   position: inline;
   float: left;
@@ -169,7 +169,6 @@ const Section = styled.div`
   & div a {
     height: 100%;
     width: 100%;
-    display: block;
     position: absolute;
     top: 0;
     border-radius: 18px;
@@ -211,7 +210,7 @@ const ParagraphWithInitial = styled(Paragraph)`
     text-shadow: 6px 6px 6px var(--border-main);
   }
 `
-const Copyright = styled(Paragraph)<PropsInterface>`
+const Copyright = styled(Paragraph)<ComponentProps>`
   font-family: "Passion One", cursive;
   font-weight: 400;
   font-size: clamp(1rem, 0.6364rem + 1.8182vw, 2rem);
@@ -237,7 +236,7 @@ const Citation = styled.cite`
   letter-spacing: 1px;
   position: relative;
 `
-const QuoteContainer = styled.div<PropsInterface>`
+const QuoteContainer = styled.div<ComponentProps>`
   margin: ${props => (props.isMobile === "mobile" ? "2em 1em" : "2em 3em")};
 `
 const StyledQuote = styled(Quote)`

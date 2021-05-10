@@ -10,7 +10,7 @@ import {
 } from "./movieDetails"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 import { InterfaceMovieDetails } from "./movieDetails"
-import { CastListDataInterface } from "./castList"
+import { MovieDetailsData } from ".././Data/sourceData"
 
 const StreamName = styled.p`
   white-space: break-spaces;
@@ -49,43 +49,8 @@ const SpacedText = styled.p`
   padding-bottom: 2em;
 `
 
-enum LanguageCodeEnum {
-  DK = "DK",
-  US = "US",
-}
-
-interface resultsByLanguageInterface {
-  readonly buy?: buyInterface
-  readonly link?: string
-  length?: number
-}
-
-interface buyArrayInterface {
-  readonly logo_path?: string
-  readonly provider_name?: string
-}
-
-interface buyInterface {
-  readonly [index: number]: buyArrayInterface
-  readonly map?: Function
-}
-
-export interface InterfaceMovieDetailedDataWatchP {
-  readonly [index: string]: {
-    readonly [results: string]: {
-      [key in LanguageCodeEnum]: resultsByLanguageInterface
-    }
-  }
-}
-
-export interface InterfaceMovieDetailedDataCredits {
-  readonly credits: { cast: CastListDataInterface }
-}
-
 interface StreamLinksProps {
-  readonly movieDetailedData:
-    | InterfaceMovieDetailedDataWatchP
-    | InterfaceMovieDetailedDataCredits
+  readonly movieDetailedData: MovieDetailsData
   readonly languageCode: "DK" | "US"
   readonly movieDetails: InterfaceMovieDetails
   readonly isMobile: "mobile" | "desktop" | undefined

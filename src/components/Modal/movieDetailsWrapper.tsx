@@ -1,10 +1,9 @@
 import * as React from "react"
-import { useFetchMovieDetails } from "../Data/sourceData"
+import { CastEntity, useFetchMovieDetails } from "../Data/sourceData"
 import { getGenre } from "../Data/genres"
 import { useI18next } from "gatsby-plugin-react-i18next"
 import { getWithExpiry } from "../Data/localStorage"
 import MovieDetails from "./movieDetails"
-import { InterfaceMovieDetails } from "./movieDetails"
 
 interface MovieDetailsProps {
   readonly movieId: number
@@ -17,7 +16,6 @@ export interface InterfaceMovie {
 
 const MovieDetailsWrapper = ({ movieId, isMobile }: MovieDetailsProps) => {
   const id = movieId !== 0 ? movieId.toString() : null
-  console.log(id)
   const type = "movie"
   const { language } = useI18next()
   const [movieDetailedData, isLoading, isError] = getWithExpiry(
@@ -30,15 +28,13 @@ const MovieDetailsWrapper = ({ movieId, isMobile }: MovieDetailsProps) => {
         language,
       })
 
-  const movieData: Array<object> = getWithExpiry(`movieStorageData-${language}`)
+  const movieData: CastEntity[] = getWithExpiry(`movieStorageData-${language}`)
 
-  console.log(movieData)
-
-  const movieDetails: InterfaceMovieDetails = !!movieData
+  const movieDetails: CastEntity = !!movieData
     ? movieData.find(findMovie)
     : null
 
-  function findMovie(movie: InterfaceMovie) {
+  function findMovie(movie: CastEntity) {
     return movie.id === Number(id)
   }
   console.log(movieDetails)

@@ -60,7 +60,7 @@ export interface CastEntity {
   credit_id: string
   order: number
 }
-export interface CrewEntity {
+interface CrewEntity {
   original_title: string
   poster_path: string
   video: boolean
@@ -80,7 +80,7 @@ export interface CrewEntity {
   job: string
 }
 
-interface MovieDetailsData {
+export interface MovieDetailsData {
   adult: boolean
   backdrop_path: string
   belongs_to_collection?: null
@@ -124,12 +124,12 @@ export interface ProductionCountriesEntity {
   iso_3166_1: string
   name: string
 }
-export interface SpokenLanguagesEntity {
+interface SpokenLanguagesEntity {
   english_name: string
   iso_639_1: string
   name: string
 }
-export interface Credits {
+interface Credits {
   cast?: CastEntity[] | null
   crew?: CrewEntity[] | null
 }
@@ -147,7 +147,7 @@ export interface CastEntity {
   credit_id: string
   order: number
 }
-export interface CrewEntity {
+interface CrewEntity {
   adult: boolean
   gender: number
   id: number
@@ -160,10 +160,10 @@ export interface CrewEntity {
   department: string
   job: string
 }
-export interface Videos {
+interface Videos {
   results?: ResultsEntity[] | null
 }
-export interface ResultsEntity {
+interface ResultsEntity {
   id: string
   iso_639_1: string
   iso_3166_1: string
@@ -173,10 +173,10 @@ export interface ResultsEntity {
   size: number
   type: string
 }
-export interface WatchProviders {
+interface WatchProviders {
   results: Results
 }
-export interface Results {
+interface Results {
   AT: ATOrDE
   BE: BEOrFROrGBOrIEOrNO
   CA: CAOrCHOrDKOrFIOrKROrSEOrUS
@@ -194,28 +194,28 @@ export interface Results {
   SE: CAOrCHOrDKOrFIOrKROrSEOrUS
   US: CAOrCHOrDKOrFIOrKROrSEOrUS
 }
-export interface ATOrDE {
+interface ATOrDE {
   link: string
   buy?: BuyEntityOrRentEntityOrFlatrateEntity[] | null
 }
-export interface BuyEntityOrRentEntityOrFlatrateEntity {
+interface BuyEntityOrRentEntityOrFlatrateEntity {
   display_priority: number
   logo_path: string
   provider_id: number
   provider_name: string
 }
-export interface BEOrFROrGBOrIEOrNO {
+interface BEOrFROrGBOrIEOrNO {
   link: string
   buy?: BuyEntityOrRentEntityOrFlatrateEntity[] | null
   rent?: BuyEntityOrRentEntityOrFlatrateEntity[] | null
   flatrate?: BuyEntityOrRentEntityOrFlatrateEntity[] | null
 }
-export interface CAOrCHOrDKOrFIOrKROrSEOrUS {
+interface CAOrCHOrDKOrFIOrKROrSEOrUS {
   link: string
   buy?: BuyEntityOrRentEntityOrFlatrateEntity[] | null
   rent?: BuyEntityOrRentEntityOrFlatrateEntity[] | null
 }
-export interface INOrIT {
+interface INOrIT {
   link: string
   flatrate?: BuyEntityOrRentEntityOrFlatrateEntity[] | null
 }
@@ -236,7 +236,6 @@ export const useFetchAbout = ({
         `${BASE_URL}${type}/${id}?api_key=${process.env.GATSBY_TMDB_API_KEY}&language=${translation}`
       )
       const APIdata: AboutRawdata = await response.json()
-      console.log(JSON.stringify(APIdata))
       setWithExpiry(`movieAbout-${language}`, APIdata)
       setData({
         name: APIdata.name,
@@ -275,7 +274,6 @@ export const useFetchMovieCredits = ({
         `${BASE_URL}${type}/${id}?api_key=${process.env.GATSBY_TMDB_API_KEY}&language=${translation}&append_to_response=details`
       )
       const APIdata: MovieCreditsData = await response.json()
-      console.log(JSON.stringify(APIdata))
       const cleanedDATA = CleanData(APIdata.cast, language)
       setData(cleanedDATA)
       setWithExpiry(`movieStorageData-${language}`, cleanedDATA)
@@ -309,7 +307,6 @@ export const useFetchMovieDetails = ({
         `${BASE_URL}${type}/${id}?api_key=${process.env.GATSBY_TMDB_API_KEY}&language=${translationDetails}&append_to_response=credits,videos,watch/providers`
       )
       const APIdata: MovieDetailsData = await response.json()
-      console.log(JSON.stringify(APIdata))
       setData(APIdata)
       setWithExpiry(`movieDetailsData-${id}-${language}`, APIdata)
     } catch (error) {

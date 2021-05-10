@@ -1,8 +1,8 @@
-interface GenreInterface {
+interface Genre {
   [property: string]: string
 }
 
-const en_US: GenreInterface = {
+const en_US: Genre = {
   28: "Action",
   12: "Adventure",
   16: "Animation",
@@ -24,7 +24,7 @@ const en_US: GenreInterface = {
   37: "Western",
 }
 
-const da_DK: GenreInterface = {
+const da_DK: Genre = {
   28: "Action",
   12: "Eventyr",
   16: "Animation",

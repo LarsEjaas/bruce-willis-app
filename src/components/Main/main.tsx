@@ -18,14 +18,14 @@ interface MainProps {
   isError: boolean
 }
 
-interface EventInterface {
+interface Event {
   currentTarget?: HTMLElement
 }
 
 export const Main = ({ isMobile, movieData, isError }: MainProps) => {
   const [index, setIndex] = useState<number>(1)
   const [hidden, setHidden] = useState<boolean>(true)
-  const togglePage = (e: EventInterface) => {
+  const togglePage = (e: Event) => {
     if (typeof window !== undefined) {
       let body = document.querySelector("body")
       !!body && body.classList.length > 0

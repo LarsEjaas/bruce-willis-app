@@ -4,7 +4,13 @@ import styled from "styled-components"
 import { GlobalContext } from "../layout"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 
-const CoverCard = styled.div<CoverProps>`
+interface CoverCardProps {
+  id: string
+  active?: boolean
+  isMobile: "mobile" | "desktop" | undefined
+}
+
+const CoverCard = styled.div<CoverCardProps>`
   position: relative;
   width: 46.3%;
   height: 0;
@@ -53,7 +59,7 @@ interface CoverProps {
   left?: boolean
   right?: boolean
   active?: boolean
-  id: string
+  id: number
   title: string
   poster_path?: string
   release_date?: string
@@ -61,7 +67,7 @@ interface CoverProps {
   data_year?: string
 }
 
-interface EventInterface {
+interface Event {
   currentTarget?: HTMLElement
   keyCode?: number
 }
@@ -77,12 +83,12 @@ const Cover = ({
   const coverRef: MutableRefObject<HTMLDivElement> = useRef()
   const { modalToggle } = useContext(GlobalContext)
   const year = new Date(release_date).getFullYear()
-  const handleEnterKey = (e: EventInterface) => {
+  const handleEnterKey = (e: Event) => {
     e.currentTarget.click()
   }
 
   const keyListenersMap = new Map([[13, handleEnterKey]])
-  function keyListener(e: EventInterface) {
+  function keyListener(e: Event) {
     // get the listener corresponding to the pressed key
     const listener = keyListenersMap.get(e.keyCode)
     // call the listener if it exists

@@ -14,10 +14,7 @@ import StreamLinks from "./streamingLinks"
 import Backdrop from "./backdrop"
 import AlsoStarring from "./alsoStarring"
 import { useTranslation } from "gatsby-plugin-react-i18next"
-import {
-  InterfaceMovieDetailedDataCredits,
-  InterfaceMovieDetailedDataWatchP,
-} from "./streamingLinks"
+import { CastEntity, MovieDetailsData } from "../Data/sourceData"
 
 const PosterCover = styled.img`
   border-radius: 10px;
@@ -280,9 +277,8 @@ export const StyledImdbLogo = styled(ImdbLogo)`
 `
 
 interface MovieDetailsProps {
-  // readonly movieId: number
   readonly isMobile: "mobile" | "desktop" | undefined
-  readonly movieDetails: InterfaceMovieDetails
+  readonly movieDetails: CastEntity
   readonly genreList: Array<string>
   readonly genreTypes: JSX.Element[]
   readonly movieYear: string
@@ -292,9 +288,7 @@ interface MovieDetailsProps {
   readonly enDescription: string
   readonly languageCode: "DK" | "US"
   readonly isLoading: boolean
-  readonly movieDetailedData:
-    | InterfaceMovieDetailedDataCredits
-    | InterfaceMovieDetailedDataWatchP
+  readonly movieDetailedData: MovieDetailsData
   readonly trailerLink: string
   readonly language: string
   readonly imdbId: string

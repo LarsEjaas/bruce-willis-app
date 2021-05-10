@@ -318,7 +318,7 @@ interface Section1Props {
   isError: boolean
 }
 
-interface EventInterface {
+interface Event {
   currentTarget?: HTMLElement
   keyCode?: number
 }
@@ -334,12 +334,12 @@ const Section1 = ({ isMobile, index, isError }: Section1Props) => {
     //modalToggle(undefined, "error")
   }, [isError])
 
-  const handleEnterKey = (e: EventInterface) => {
+  const handleEnterKey = (e: Event) => {
     e.currentTarget.click()
   }
 
   const keyListenersMap = new Map([[13, handleEnterKey]])
-  function keyListener(e: EventInterface) {
+  function keyListener(e: Event) {
     // get the listener corresponding to the pressed key
     const listener = keyListenersMap.get(e.keyCode)
     // call the listener if it exists
@@ -387,10 +387,8 @@ const Section1 = ({ isMobile, index, isError }: Section1Props) => {
           <Navigation
             tabIndex={0}
             className="desktopShare"
-            onClick={(e: EventInterface) =>
-              modalToggle(e.currentTarget, "share")
-            }
-            onKeyPress={(e: EventInterface) => keyListener(e)}
+            onClick={(e: Event) => modalToggle(e.currentTarget, "share")}
+            onKeyPress={(e: Event) => keyListener(e)}
             title={t("MODAL.SHARE_HEADER")}
           >
             <ShareIcon height="32px" className="ShareIcon" />
@@ -447,10 +445,8 @@ const Section1 = ({ isMobile, index, isError }: Section1Props) => {
               tabIndex={0}
               height="24px"
               className="ShareIcon mobile"
-              onClick={(e: EventInterface) =>
-                modalToggle(e.currentTarget, "share")
-              }
-              onKeyPress={(e: EventInterface) => keyListener(e)}
+              onClick={(e: Event) => modalToggle(e.currentTarget, "share")}
+              onKeyPress={(e: Event) => keyListener(e)}
             />
             <Vertical
               tabIndex={0}

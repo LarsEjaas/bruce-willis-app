@@ -3,23 +3,18 @@ import Profile from "../../images/profile.inline.svg"
 import ExternalLink from "../ExternModal/externalLink"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 import { CastCard } from "./alsoStarring"
+import { CastEntity } from "../Data/sourceData"
 
 interface CastListProps {
-  readonly castListData: CastListDataInterface
+  readonly castListData: CastEntity[]
   readonly isMobile: "mobile" | "desktop" | undefined
-}
-
-export interface CastListDataInterface {
-  map?(arg: (cast: any, index: number) => JSX.Element): any
-  [index: number]: { string: string }
-  length?: number
 }
 
 const CastList = ({ castListData, isMobile }: CastListProps) => {
   const { t } = useTranslation()
 
-  return !!castListData
-    ? castListData.map((cast: any, index: number) =>
+  const castListArray = !!castListData
+    ? castListData.map((cast: CastEntity, index: number) =>
         cast.original_name !== "Bruce Willis" ? (
           index < 7 ? (
             !!cast.profile_path ? (
@@ -51,5 +46,7 @@ const CastList = ({ castListData, isMobile }: CastListProps) => {
         ) : null
       )
     : null
+
+  return <>{castListArray}</>
 }
 export default CastList

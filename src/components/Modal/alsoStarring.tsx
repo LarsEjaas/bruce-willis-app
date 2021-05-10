@@ -6,10 +6,7 @@ import Profile from "../../images/profile.inline.svg"
 import { IconHeadline, Headline3 } from "./movieDetails"
 import { useTranslation } from "gatsby-plugin-react-i18next"
 import CastList from "./castList"
-import {
-  InterfaceMovieDetailedDataCredits,
-  InterfaceMovieDetailedDataWatchP,
-} from "./streamingLinks"
+import { MovieDetailsData } from ".././Data/sourceData"
 
 const CastlistWrapper = styled.div`
   display: inline-flex;
@@ -112,9 +109,7 @@ export const CastCard = styled.div<CastCardProps>`
 `
 
 interface StarringProps {
-  movieDetailedData:
-    | InterfaceMovieDetailedDataCredits
-    | InterfaceMovieDetailedDataWatchP
+  movieDetailedData: MovieDetailsData
   readonly isMobile: "mobile" | "desktop" | undefined
   isLoading: boolean
 }

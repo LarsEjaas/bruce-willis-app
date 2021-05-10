@@ -24,7 +24,6 @@ interface IndexSliderProps {
 
 const IndexSlider = styled.div<IndexSliderProps>`
   height: fit-content;
-  display: block;
   position: absolute;
   right: 24px;
   top: 16px;
@@ -47,12 +46,12 @@ interface MovieIndexProps {
   movieData: CastEntity[]
 }
 
-interface EventInterface {
+interface Event {
   currentTarget: HTMLAnchorElement
 }
 
 const MovieIndex = ({ isMobile, movieData }: MovieIndexProps) => {
-  const SmoothScrollToAnchor = (e: EventInterface) => {
+  const SmoothScrollToAnchor = (e: Event) => {
     if (!e.currentTarget || typeof window === `undefined`) return
     const hash = e.currentTarget.getAttribute("data-movieId")
     const target: HTMLDivElement | null = document.querySelector(`#mc${hash}`)
@@ -80,7 +79,7 @@ const MovieIndex = ({ isMobile, movieData }: MovieIndexProps) => {
     ? movieData.map((listMovie: CastEntity) =>
         !!listMovie ? (
           <a
-            onClick={(e: EventInterface) => SmoothScrollToAnchor(e)}
+            onClick={(e: Event) => SmoothScrollToAnchor(e)}
             tabIndex={-1}
             title={listMovie.title}
             data-movieId={listMovie.id}

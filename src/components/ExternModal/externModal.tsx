@@ -260,7 +260,6 @@ Modal.Header = function ModalHeader() {
 }
 
 interface ModalBodyProps {
-  //linkDescription: string
   children: JSX.Element | JSX.Element[]
 }
 

@@ -77,22 +77,16 @@ interface MovieCoverProps {
 
 const MovieCovers = ({ isMobile, index, movieData }: MovieCoverProps) => {
   const movieList = !!movieData
-    ? movieData.map(
-        (listMovie: {
-          poster_path?: string
-          title?: string
-          id?: string
-          release_date?: string
-        }) =>
-          !!listMovie ? (
-            <Cover
-              poster_path={listMovie.poster_path}
-              title={listMovie.title}
-              isMobile={isMobile}
-              id={listMovie.id}
-              release_date={listMovie.release_date}
-            />
-          ) : null
+    ? movieData.map((listMovie: CastEntity) =>
+        !!listMovie ? (
+          <Cover
+            poster_path={listMovie.poster_path}
+            title={listMovie.title}
+            isMobile={isMobile}
+            id={listMovie.id}
+            release_date={listMovie.release_date}
+          />
+        ) : null
       )
     : null
 

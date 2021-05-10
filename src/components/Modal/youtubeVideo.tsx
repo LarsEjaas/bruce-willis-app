@@ -21,7 +21,6 @@ const IframeMovie = ({ trailerLink, language }: IframeMovieProps) => {
     `
   )
   const sitePath = `${data.site.siteMetadata.siteUrl}${location.pathname}`
-  console.log(sitePath)
   return (
     <iframe
       controls={1}
@@ -34,7 +33,7 @@ const IframeMovie = ({ trailerLink, language }: IframeMovieProps) => {
       frameborder="0"
       allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
       iv_load_policy={3}
-      modestbranding={1} //<-- has to be 0 to allow for accessible keyboard nav
+      modestbranding={1}
       allowfullscreen
       rel={0}
       disablekb={0}
