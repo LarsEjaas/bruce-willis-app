@@ -37,7 +37,6 @@ const MovieDetailsWrapper = ({ movieId, isMobile }: MovieDetailsProps) => {
   function findMovie(movie: CastEntity) {
     return movie.id === Number(id)
   }
-  console.log(movieDetails)
 
   const movieYear = movieDetails?.release_date.split("-")[0]
 

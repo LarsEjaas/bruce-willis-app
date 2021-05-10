@@ -120,14 +120,11 @@ const AlsoStarring = ({
   isLoading,
 }: StarringProps) => {
   const { t } = useTranslation()
-  console.log(movieDetailedData)
   const castListData = !!movieDetailedData
     ? movieDetailedData.credits?.cast.length > 1
       ? movieDetailedData.credits?.cast
       : null
     : null
-
-  console.log(castListData)
 
   return (
     <>

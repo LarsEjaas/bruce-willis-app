@@ -30,6 +30,5 @@ export function getWithExpiry(key: string) {
     if (typeof window !== "undefined") localStorage.removeItem(key)
     return null
   }
-  console.log(typeof item.value)
   return item.value
 }

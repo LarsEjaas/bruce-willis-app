@@ -314,7 +314,6 @@ const MovieDetails = ({
   id,
 }: MovieDetailsProps) => {
   const { t } = useTranslation()
-  console.log(movieDetails, movieDetailedData)
   return (
     <>
       {movieDetails.backdrop_path && (
