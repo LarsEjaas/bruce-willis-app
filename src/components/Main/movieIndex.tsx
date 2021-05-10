@@ -6,7 +6,7 @@ const MoviePin = styled.div`
   width: 40px;
   height: 2px;
   padding: 3px;
-  outline: 1px solid #fff3;
+  outline: 1px solid #ffffff4d;
   outline-offset: -3px;
   float: right;
   cursor: pointer;

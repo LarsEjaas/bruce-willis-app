@@ -48,7 +48,7 @@ const GlobalStyle = createGlobalStyle`
                       linear-gradient(86.84deg,rgba(255,255,255,0.25) 42.32%,rgba(255,255,255,0.0025) 84.88%), 
                       radial-gradient(67.75% 67.75% at 47.57% 44.42%,rgba(32,21,21,0.2) 0%,rgba(32,21,21,1) 230%);
   --background1:      #080705;
-  --background2:      linear-gradient(180deg, #48403E 0%, #2D2725 100%);
+  --background2:      linear-gradient(180deg,#584e4b 0%,hsl(15deg 10% 18%) 100%);
   --box-shadow-primary: 0 6.2px 3.6px rgb(17 15 13 / 12%), 
                         0 17.4px 10px rgb(17 15 13 / 18%), 
                         0 36.6px 24.1px rgb(17 15 13 / 23%), 
